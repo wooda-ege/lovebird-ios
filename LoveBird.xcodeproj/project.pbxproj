@@ -17,9 +17,13 @@
 		4A0396A02A0FA61A00EB062D /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A0396992A0FA61A00EB062D /* HomeView.swift */; };
 		4A0396A12A0FA61A00EB062D /* Home.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A03969A2A0FA61A00EB062D /* Home.swift */; };
 		4A0396A42A0FA68100EB062D /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = 4A0396A32A0FA68100EB062D /* ComposableArchitecture */; };
+		A0E83505901348E67E5231F5 /* Pods_LoveBird.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 212E893A725E4BE7E73B96EB /* Pods_LoveBird.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1F72EB125740F5145C2ECE5E /* Pods-LoveBird.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LoveBird.debug.xcconfig"; path = "Target Support Files/Pods-LoveBird/Pods-LoveBird.debug.xcconfig"; sourceTree = "<group>"; };
+		212E893A725E4BE7E73B96EB /* Pods_LoveBird.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LoveBird.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		30556E224283EEA95E9817D2 /* Pods-LoveBird.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LoveBird.release.xcconfig"; path = "Target Support Files/Pods-LoveBird/Pods-LoveBird.release.xcconfig"; sourceTree = "<group>"; };
 		4A03967F2A0FA5B600EB062D /* LoveBird.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LoveBird.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4A0396822A0FA5B600EB062D /* LoveBirdApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoveBirdApp.swift; sourceTree = "<group>"; };
 		4A0396862A0FA5B800EB062D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -38,6 +42,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4A0396A42A0FA68100EB062D /* ComposableArchitecture in Frameworks */,
+				A0E83505901348E67E5231F5 /* Pods_LoveBird.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -49,6 +54,8 @@
 			children = (
 				4A0396812A0FA5B600EB062D /* LoveBird */,
 				4A0396802A0FA5B600EB062D /* Products */,
+				D7CA53FAC36EEFD98CB4B011 /* Pods */,
+				BF6E410E5BBC3F57980C8846 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -116,6 +123,24 @@
 			path = Home;
 			sourceTree = "<group>";
 		};
+		BF6E410E5BBC3F57980C8846 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				212E893A725E4BE7E73B96EB /* Pods_LoveBird.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		D7CA53FAC36EEFD98CB4B011 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				1F72EB125740F5145C2ECE5E /* Pods-LoveBird.debug.xcconfig */,
+				30556E224283EEA95E9817D2 /* Pods-LoveBird.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -123,9 +148,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 4A03968D2A0FA5B800EB062D /* Build configuration list for PBXNativeTarget "LoveBird" */;
 			buildPhases = (
+				B37984E55B7B6605DD10B3CB /* [CP] Check Pods Manifest.lock */,
 				4A03967B2A0FA5B600EB062D /* Sources */,
 				4A03967C2A0FA5B600EB062D /* Frameworks */,
 				4A03967D2A0FA5B600EB062D /* Resources */,
+				07DA7CF3B1C7E5319C54E3B6 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -186,6 +213,48 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		07DA7CF3B1C7E5319C54E3B6 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-LoveBird/Pods-LoveBird-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-LoveBird/Pods-LoveBird-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-LoveBird/Pods-LoveBird-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		B37984E55B7B6605DD10B3CB /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-LoveBird-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		4A03967B2A0FA5B600EB062D /* Sources */ = {
@@ -321,6 +390,7 @@
 		};
 		4A03968E2A0FA5B800EB062D /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1F72EB125740F5145C2ECE5E /* Pods-LoveBird.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -349,6 +419,7 @@
 		};
 		4A03968F2A0FA5B800EB062D /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 30556E224283EEA95E9817D2 /* Pods-LoveBird.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
