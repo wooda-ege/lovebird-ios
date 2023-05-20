@@ -10,14 +10,20 @@
 		4A0396832A0FA5B600EB062D /* LoveBirdApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A0396822A0FA5B600EB062D /* LoveBirdApp.swift */; };
 		4A0396872A0FA5B800EB062D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4A0396862A0FA5B800EB062D /* Assets.xcassets */; };
 		4A03968A2A0FA5B800EB062D /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4A0396892A0FA5B800EB062D /* Preview Assets.xcassets */; };
-		4A03969B2A0FA61A00EB062D /* Onboarding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A0396922A0FA61A00EB062D /* Onboarding.swift */; };
+		4A03969B2A0FA61A00EB062D /* OnboardingCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A0396922A0FA61A00EB062D /* OnboardingCore.swift */; };
 		4A03969C2A0FA61A00EB062D /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A0396932A0FA61A00EB062D /* OnboardingView.swift */; };
 		4A03969E2A0FA61A00EB062D /* RootCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A0396962A0FA61A00EB062D /* RootCore.swift */; };
 		4A03969F2A0FA61A00EB062D /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A0396972A0FA61A00EB062D /* RootView.swift */; };
 		4A0396A02A0FA61A00EB062D /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A0396992A0FA61A00EB062D /* HomeView.swift */; };
-		4A0396A12A0FA61A00EB062D /* Home.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A03969A2A0FA61A00EB062D /* Home.swift */; };
+		4A0396A12A0FA61A00EB062D /* HomeCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A03969A2A0FA61A00EB062D /* HomeCore.swift */; };
 		4A0396A42A0FA68100EB062D /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = 4A0396A32A0FA68100EB062D /* ComposableArchitecture */; };
+		4AB2DB2A2A18FBE3003EFD95 /* Pretendard-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 4AB2DB272A18FBE3003EFD95 /* Pretendard-Regular.otf */; };
+		4AB2DB2B2A18FBE3003EFD95 /* Pretendard-ExtraBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 4AB2DB282A18FBE3003EFD95 /* Pretendard-ExtraBold.otf */; };
+		4AB2DB2C2A18FBE3003EFD95 /* Pretendard-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 4AB2DB292A18FBE3003EFD95 /* Pretendard-Bold.otf */; };
 		4ACCB9722A18DE7E009F1E22 /* R.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ACCB9712A18DE7E009F1E22 /* R.generated.swift */; };
+		4ACCB9782A18F0A6009F1E22 /* UIScreen+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ACCB9772A18F0A6009F1E22 /* UIScreen+Extension.swift */; };
+		4ACCB97E2A18F3C8009F1E22 /* OnboardingNicknameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ACCB97D2A18F3C8009F1E22 /* OnboardingNicknameView.swift */; };
+		4ACCB98A2A18F7ED009F1E22 /* Font+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ACCB9892A18F7ED009F1E22 /* Font+Extension.swift */; };
 		A0E83505901348E67E5231F5 /* Pods_LoveBird.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 212E893A725E4BE7E73B96EB /* Pods_LoveBird.framework */; };
 /* End PBXBuildFile section */
 
@@ -29,13 +35,20 @@
 		4A0396822A0FA5B600EB062D /* LoveBirdApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoveBirdApp.swift; sourceTree = "<group>"; };
 		4A0396862A0FA5B800EB062D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		4A0396892A0FA5B800EB062D /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		4A0396922A0FA61A00EB062D /* Onboarding.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Onboarding.swift; sourceTree = "<group>"; };
+		4A0396922A0FA61A00EB062D /* OnboardingCore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnboardingCore.swift; sourceTree = "<group>"; };
 		4A0396932A0FA61A00EB062D /* OnboardingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 		4A0396962A0FA61A00EB062D /* RootCore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RootCore.swift; sourceTree = "<group>"; };
 		4A0396972A0FA61A00EB062D /* RootView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
 		4A0396992A0FA61A00EB062D /* HomeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
-		4A03969A2A0FA61A00EB062D /* Home.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Home.swift; sourceTree = "<group>"; };
+		4A03969A2A0FA61A00EB062D /* HomeCore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeCore.swift; sourceTree = "<group>"; };
+		4AB2DB272A18FBE3003EFD95 /* Pretendard-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Regular.otf"; sourceTree = "<group>"; };
+		4AB2DB282A18FBE3003EFD95 /* Pretendard-ExtraBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-ExtraBold.otf"; sourceTree = "<group>"; };
+		4AB2DB292A18FBE3003EFD95 /* Pretendard-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Bold.otf"; sourceTree = "<group>"; };
 		4ACCB9712A18DE7E009F1E22 /* R.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = R.generated.swift; sourceTree = SOURCE_ROOT; };
+		4ACCB9772A18F0A6009F1E22 /* UIScreen+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIScreen+Extension.swift"; sourceTree = "<group>"; };
+		4ACCB97D2A18F3C8009F1E22 /* OnboardingNicknameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingNicknameView.swift; sourceTree = "<group>"; };
+		4ACCB9892A18F7ED009F1E22 /* Font+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Font+Extension.swift"; sourceTree = "<group>"; };
+		4ACCB98B2A18F935009F1E22 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -72,6 +85,7 @@
 		4A0396812A0FA5B600EB062D /* LoveBird */ = {
 			isa = PBXGroup;
 			children = (
+				4ACCB98B2A18F935009F1E22 /* Info.plist */,
 				4A3F1FB02A18D15B009856F1 /* Resources */,
 				4A0396902A0FA5E900EB062D /* Sources */,
 				4A0396882A0FA5B800EB062D /* Preview Content */,
@@ -90,8 +104,8 @@
 		4A0396902A0FA5E900EB062D /* Sources */ = {
 			isa = PBXGroup;
 			children = (
-				4A0396982A0FA61A00EB062D /* Home */,
-				4A0396912A0FA61A00EB062D /* Onboarding */,
+				4ACCB9762A18F094009F1E22 /* Extension */,
+				4ACCB9732A18F004009F1E22 /* Componentes */,
 				4A0396942A0FA61A00EB062D /* Root */,
 			);
 			path = Sources;
@@ -100,8 +114,9 @@
 		4A0396912A0FA61A00EB062D /* Onboarding */ = {
 			isa = PBXGroup;
 			children = (
-				4A0396922A0FA61A00EB062D /* Onboarding.swift */,
+				4A0396922A0FA61A00EB062D /* OnboardingCore.swift */,
 				4A0396932A0FA61A00EB062D /* OnboardingView.swift */,
+				4ACCB97D2A18F3C8009F1E22 /* OnboardingNicknameView.swift */,
 			);
 			path = Onboarding;
 			sourceTree = "<group>";
@@ -109,6 +124,8 @@
 		4A0396942A0FA61A00EB062D /* Root */ = {
 			isa = PBXGroup;
 			children = (
+				4A0396982A0FA61A00EB062D /* Home */,
+				4A0396912A0FA61A00EB062D /* Onboarding */,
 				4A0396822A0FA5B600EB062D /* LoveBirdApp.swift */,
 				4A0396962A0FA61A00EB062D /* RootCore.swift */,
 				4A0396972A0FA61A00EB062D /* RootView.swift */,
@@ -120,7 +137,7 @@
 			isa = PBXGroup;
 			children = (
 				4A0396992A0FA61A00EB062D /* HomeView.swift */,
-				4A03969A2A0FA61A00EB062D /* Home.swift */,
+				4A03969A2A0FA61A00EB062D /* HomeCore.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -128,10 +145,37 @@
 		4A3F1FB02A18D15B009856F1 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				4ACCB97F2A18F7BF009F1E22 /* Font */,
 				4ACCB9712A18DE7E009F1E22 /* R.generated.swift */,
 				4A0396862A0FA5B800EB062D /* Assets.xcassets */,
 			);
 			path = Resources;
+			sourceTree = "<group>";
+		};
+		4ACCB9732A18F004009F1E22 /* Componentes */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Componentes;
+			sourceTree = "<group>";
+		};
+		4ACCB9762A18F094009F1E22 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				4ACCB9772A18F0A6009F1E22 /* UIScreen+Extension.swift */,
+				4ACCB9892A18F7ED009F1E22 /* Font+Extension.swift */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
+		4ACCB97F2A18F7BF009F1E22 /* Font */ = {
+			isa = PBXGroup;
+			children = (
+				4AB2DB292A18FBE3003EFD95 /* Pretendard-Bold.otf */,
+				4AB2DB282A18FBE3003EFD95 /* Pretendard-ExtraBold.otf */,
+				4AB2DB272A18FBE3003EFD95 /* Pretendard-Regular.otf */,
+			);
+			path = Font;
 			sourceTree = "<group>";
 		};
 		BF6E410E5BBC3F57980C8846 /* Frameworks */ = {
@@ -219,6 +263,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				4A03968A2A0FA5B800EB062D /* Preview Assets.xcassets in Resources */,
+				4AB2DB2C2A18FBE3003EFD95 /* Pretendard-Bold.otf in Resources */,
+				4AB2DB2A2A18FBE3003EFD95 /* Pretendard-Regular.otf in Resources */,
+				4AB2DB2B2A18FBE3003EFD95 /* Pretendard-ExtraBold.otf in Resources */,
 				4A0396872A0FA5B800EB062D /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -293,14 +340,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4A03969B2A0FA61A00EB062D /* Onboarding.swift in Sources */,
+				4A03969B2A0FA61A00EB062D /* OnboardingCore.swift in Sources */,
 				4A03969C2A0FA61A00EB062D /* OnboardingView.swift in Sources */,
-				4A0396A12A0FA61A00EB062D /* Home.swift in Sources */,
+				4A0396A12A0FA61A00EB062D /* HomeCore.swift in Sources */,
 				4ACCB9722A18DE7E009F1E22 /* R.generated.swift in Sources */,
 				4A03969F2A0FA61A00EB062D /* RootView.swift in Sources */,
+				4ACCB97E2A18F3C8009F1E22 /* OnboardingNicknameView.swift in Sources */,
+				4ACCB9782A18F0A6009F1E22 /* UIScreen+Extension.swift in Sources */,
 				4A0396A02A0FA61A00EB062D /* HomeView.swift in Sources */,
 				4A0396832A0FA5B600EB062D /* LoveBirdApp.swift in Sources */,
 				4A03969E2A0FA61A00EB062D /* RootCore.swift in Sources */,
+				4ACCB98A2A18F7ED009F1E22 /* Font+Extension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -433,6 +483,7 @@
 				DEVELOPMENT_TEAM = 79K7D639YK;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = LoveBird/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -463,6 +514,7 @@
 				DEVELOPMENT_TEAM = 79K7D639YK;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = LoveBird/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

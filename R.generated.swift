@@ -12,23 +12,101 @@ let R = _R(bundle: Bundle(for: BundleFinder.self))
 struct _R {
   let bundle: Foundation.Bundle
   var color: color { .init(bundle: bundle) }
+  var image: image { .init(bundle: bundle) }
+  var font: font { .init(bundle: bundle) }
+  var file: file { .init(bundle: bundle) }
 
   func color(bundle: Foundation.Bundle) -> color {
     .init(bundle: bundle)
   }
+  func image(bundle: Foundation.Bundle) -> image {
+    .init(bundle: bundle)
+  }
+  func font(bundle: Foundation.Bundle) -> font {
+    .init(bundle: bundle)
+  }
+  func file(bundle: Foundation.Bundle) -> file {
+    .init(bundle: bundle)
+  }
   func validate() throws {
-
+    try self.font.validate()
   }
 
   struct project {
     let developmentRegion = "en"
   }
 
-  /// This `_R.color` struct is generated, and contains static references to 1 colors.
+  /// This `_R.color` struct is generated, and contains static references to 5 colors.
   struct color {
     let bundle: Foundation.Bundle
 
     /// Color `AccentColor`.
     var accentColor: RswiftResources.ColorResource { .init(name: "AccentColor", path: [], bundle: bundle) }
+
+    /// Color `Color`.
+    var color: RswiftResources.ColorResource { .init(name: "Color", path: [], bundle: bundle) }
+
+    /// Color `Gray156`.
+    var gray156: RswiftResources.ColorResource { .init(name: "Gray156", path: [], bundle: bundle) }
+
+    /// Color `Green100`.
+    var green100: RswiftResources.ColorResource { .init(name: "Green100", path: [], bundle: bundle) }
+
+    /// Color `Green200`.
+    var green200: RswiftResources.ColorResource { .init(name: "Green200", path: [], bundle: bundle) }
+  }
+
+  /// This `_R.image` struct is generated, and contains static references to 4 images.
+  struct image {
+    let bundle: Foundation.Bundle
+
+    /// Image `ic_round_navigate_next`.
+    var ic_round_navigate_next: RswiftResources.ImageResource { .init(name: "ic_round_navigate_next", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `ic_round_navigate_next_inactive`.
+    var ic_round_navigate_next_inactive: RswiftResources.ImageResource { .init(name: "ic_round_navigate_next_inactive", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `ic_round_navigate_previous`.
+    var ic_round_navigate_previous: RswiftResources.ImageResource { .init(name: "ic_round_navigate_previous", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `ic_round_navigate_previous_inactive`.
+    var ic_round_navigate_previous_inactive: RswiftResources.ImageResource { .init(name: "ic_round_navigate_previous_inactive", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+  }
+
+  /// This `_R.font` struct is generated, and contains static references to 3 fonts.
+  struct font: Sequence {
+    let bundle: Foundation.Bundle
+
+    /// Font `Pretendard-Bold`.
+    var pretendardBold: RswiftResources.FontResource { .init(name: "Pretendard-Bold", bundle: bundle, filename: "Pretendard-Bold.otf") }
+
+    /// Font `Pretendard-ExtraBold`.
+    var pretendardExtraBold: RswiftResources.FontResource { .init(name: "Pretendard-ExtraBold", bundle: bundle, filename: "Pretendard-ExtraBold.otf") }
+
+    /// Font `Pretendard-Regular`.
+    var pretendardRegular: RswiftResources.FontResource { .init(name: "Pretendard-Regular", bundle: bundle, filename: "Pretendard-Regular.otf") }
+
+    func makeIterator() -> IndexingIterator<[RswiftResources.FontResource]> {
+      [pretendardBold, pretendardExtraBold, pretendardRegular].makeIterator()
+    }
+    func validate() throws {
+      for font in self {
+        if !font.canBeLoaded() { throw RswiftResources.ValidationError("[R.swift] Font '\(font.name)' could not be loaded, is '\(font.filename)' added to the UIAppFonts array in this targets Info.plist?") }
+      }
+    }
+  }
+
+  /// This `_R.file` struct is generated, and contains static references to 3 resource files.
+  struct file {
+    let bundle: Foundation.Bundle
+
+    /// Resource file `Pretendard-Bold.otf`.
+    var pretendardBoldOtf: RswiftResources.FileResource { .init(name: "Pretendard-Bold", pathExtension: "otf", bundle: bundle, locale: LocaleReference.none) }
+
+    /// Resource file `Pretendard-ExtraBold.otf`.
+    var pretendardExtraBoldOtf: RswiftResources.FileResource { .init(name: "Pretendard-ExtraBold", pathExtension: "otf", bundle: bundle, locale: LocaleReference.none) }
+
+    /// Resource file `Pretendard-Regular.otf`.
+    var pretendardRegularOtf: RswiftResources.FileResource { .init(name: "Pretendard-Regular", pathExtension: "otf", bundle: bundle, locale: LocaleReference.none) }
   }
 }

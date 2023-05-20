@@ -9,5 +9,6 @@ target 'LoveBird' do
   pod 'SwiftLint'
   pod 'Kingfisher'
   pod 'R.swift'
+  pod 'SwiftUIPager'
 
 end
