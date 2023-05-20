@@ -28,6 +28,7 @@ struct RootView: View {
             }
         }
         .navigationViewStyle(.stack)
+        .preferredColorScheme(.light)
     }
 }
 
