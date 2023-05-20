@@ -17,7 +17,7 @@
 		4A0396A02A0FA61A00EB062D /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A0396992A0FA61A00EB062D /* HomeView.swift */; };
 		4A0396A12A0FA61A00EB062D /* Home.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A03969A2A0FA61A00EB062D /* Home.swift */; };
 		4A0396A42A0FA68100EB062D /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = 4A0396A32A0FA68100EB062D /* ComposableArchitecture */; };
-		4ADA64B82A18D56900A83F74 /* R.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ADA64B72A18D56900A83F74 /* R.generated.swift */; };
+		4ACCB9722A18DE7E009F1E22 /* R.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ACCB9712A18DE7E009F1E22 /* R.generated.swift */; };
 		A0E83505901348E67E5231F5 /* Pods_LoveBird.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 212E893A725E4BE7E73B96EB /* Pods_LoveBird.framework */; };
 /* End PBXBuildFile section */
 
@@ -35,7 +35,7 @@
 		4A0396972A0FA61A00EB062D /* RootView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
 		4A0396992A0FA61A00EB062D /* HomeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		4A03969A2A0FA61A00EB062D /* Home.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Home.swift; sourceTree = "<group>"; };
-		4ADA64B72A18D56900A83F74 /* R.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = R.generated.swift; sourceTree = "<group>"; };
+		4ACCB9712A18DE7E009F1E22 /* R.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = R.generated.swift; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -128,7 +128,7 @@
 		4A3F1FB02A18D15B009856F1 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				4ADA64B72A18D56900A83F74 /* R.generated.swift */,
+				4ACCB9712A18DE7E009F1E22 /* R.generated.swift */,
 				4A0396862A0FA5B800EB062D /* Assets.xcassets */,
 			);
 			path = Resources;
@@ -163,7 +163,7 @@
 				4A03967C2A0FA5B600EB062D /* Frameworks */,
 				4A03967D2A0FA5B600EB062D /* Resources */,
 				07DA7CF3B1C7E5319C54E3B6 /* [CP] Embed Pods Frameworks */,
-				4A3F1FAF2A17ADB5009856F1 /* ShellScript */,
+				4A3F1FAF2A17ADB5009856F1 /* Run Script */,
 			);
 			buildRules = (
 			);
@@ -243,7 +243,7 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-LoveBird/Pods-LoveBird-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		4A3F1FAF2A17ADB5009856F1 /* ShellScript */ = {
+		4A3F1FAF2A17ADB5009856F1 /* Run Script */ = {
 			isa = PBXShellScriptBuildPhase;
 			alwaysOutOfDate = 1;
 			buildActionMask = 12;
@@ -254,10 +254,11 @@
 			inputPaths = (
 				"$TEMP_DIR/rswift-lastrun",
 			);
+			name = "Run Script";
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				$SRCROOT/R.generated.swift,
+				"--output $SRCROOT/R.generated.swift",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -295,7 +296,7 @@
 				4A03969B2A0FA61A00EB062D /* Onboarding.swift in Sources */,
 				4A03969C2A0FA61A00EB062D /* OnboardingView.swift in Sources */,
 				4A0396A12A0FA61A00EB062D /* Home.swift in Sources */,
-				4ADA64B82A18D56900A83F74 /* R.generated.swift in Sources */,
+				4ACCB9722A18DE7E009F1E22 /* R.generated.swift in Sources */,
 				4A03969F2A0FA61A00EB062D /* RootView.swift in Sources */,
 				4A0396A02A0FA61A00EB062D /* HomeView.swift in Sources */,
 				4A0396832A0FA5B600EB062D /* LoveBirdApp.swift in Sources */,
