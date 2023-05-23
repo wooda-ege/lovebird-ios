@@ -18,8 +18,17 @@
 		4A0396A12A0FA61A00EB062D /* HomeCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A03969A2A0FA61A00EB062D /* HomeCore.swift */; };
 		4A0396A42A0FA68100EB062D /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = 4A0396A32A0FA68100EB062D /* ComposableArchitecture */; };
 		4AB2DB2A2A18FBE3003EFD95 /* Pretendard-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 4AB2DB272A18FBE3003EFD95 /* Pretendard-Regular.otf */; };
-		4AB2DB2B2A18FBE3003EFD95 /* Pretendard-ExtraBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 4AB2DB282A18FBE3003EFD95 /* Pretendard-ExtraBold.otf */; };
 		4AB2DB2C2A18FBE3003EFD95 /* Pretendard-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 4AB2DB292A18FBE3003EFD95 /* Pretendard-Bold.otf */; };
+		4AB2DB2E2A19A24D003EFD95 /* View+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AB2DB2D2A19A24D003EFD95 /* View+Extension.swift */; };
+		4AB2DB312A19A282003EFD95 /* TextFieldClearButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AB2DB302A19A282003EFD95 /* TextFieldClearButton.swift */; };
+		4AB2DB342A19A2C1003EFD95 /* TextFieldState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AB2DB332A19A2C1003EFD95 /* TextFieldState.swift */; };
+		4AB2DB362A19AE4F003EFD95 /* KeyboardResponder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AB2DB352A19AE4F003EFD95 /* KeyboardResponder.swift */; };
+		4AB2DB3A2A19B3F4003EFD95 /* OnboardingBirthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AB2DB392A19B3F4003EFD95 /* OnboardingBirthView.swift */; };
+		4AB2DB3C2A19B9F4003EFD95 /* BottomSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AB2DB3B2A19B9F4003EFD95 /* BottomSheetView.swift */; };
+		4AB2DB3E2A1A2EA4003EFD95 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AB2DB3D2A1A2EA4003EFD95 /* ContentView.swift */; };
+		4AB2DB402A1A2EF3003EFD95 /* CustomPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AB2DB3F2A1A2EF3003EFD95 /* CustomPickerView.swift */; };
+		4AB2DB442A1A3290003EFD95 /* Pretendard-SemiBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 4AB2DB432A1A3290003EFD95 /* Pretendard-SemiBold.otf */; };
+		4AB2DB462A1A3366003EFD95 /* UIApplication+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AB2DB452A1A3366003EFD95 /* UIApplication+Extension.swift */; };
 		4ACCB9722A18DE7E009F1E22 /* R.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ACCB9712A18DE7E009F1E22 /* R.generated.swift */; };
 		4ACCB9782A18F0A6009F1E22 /* UIScreen+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ACCB9772A18F0A6009F1E22 /* UIScreen+Extension.swift */; };
 		4ACCB97E2A18F3C8009F1E22 /* OnboardingNicknameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ACCB97D2A18F3C8009F1E22 /* OnboardingNicknameView.swift */; };
@@ -42,8 +51,17 @@
 		4A0396992A0FA61A00EB062D /* HomeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		4A03969A2A0FA61A00EB062D /* HomeCore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeCore.swift; sourceTree = "<group>"; };
 		4AB2DB272A18FBE3003EFD95 /* Pretendard-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Regular.otf"; sourceTree = "<group>"; };
-		4AB2DB282A18FBE3003EFD95 /* Pretendard-ExtraBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-ExtraBold.otf"; sourceTree = "<group>"; };
 		4AB2DB292A18FBE3003EFD95 /* Pretendard-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Bold.otf"; sourceTree = "<group>"; };
+		4AB2DB2D2A19A24D003EFD95 /* View+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Extension.swift"; sourceTree = "<group>"; };
+		4AB2DB302A19A282003EFD95 /* TextFieldClearButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldClearButton.swift; sourceTree = "<group>"; };
+		4AB2DB332A19A2C1003EFD95 /* TextFieldState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldState.swift; sourceTree = "<group>"; };
+		4AB2DB352A19AE4F003EFD95 /* KeyboardResponder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardResponder.swift; sourceTree = "<group>"; };
+		4AB2DB392A19B3F4003EFD95 /* OnboardingBirthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingBirthView.swift; sourceTree = "<group>"; };
+		4AB2DB3B2A19B9F4003EFD95 /* BottomSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetView.swift; sourceTree = "<group>"; };
+		4AB2DB3D2A1A2EA4003EFD95 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		4AB2DB3F2A1A2EF3003EFD95 /* CustomPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPickerView.swift; sourceTree = "<group>"; };
+		4AB2DB432A1A3290003EFD95 /* Pretendard-SemiBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-SemiBold.otf"; sourceTree = "<group>"; };
+		4AB2DB452A1A3366003EFD95 /* UIApplication+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+Extension.swift"; sourceTree = "<group>"; };
 		4ACCB9712A18DE7E009F1E22 /* R.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = R.generated.swift; sourceTree = SOURCE_ROOT; };
 		4ACCB9772A18F0A6009F1E22 /* UIScreen+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIScreen+Extension.swift"; sourceTree = "<group>"; };
 		4ACCB97D2A18F3C8009F1E22 /* OnboardingNicknameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingNicknameView.swift; sourceTree = "<group>"; };
@@ -104,8 +122,9 @@
 		4A0396902A0FA5E900EB062D /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				4AB2DB2F2A19A26B003EFD95 /* Util */,
 				4ACCB9762A18F094009F1E22 /* Extension */,
-				4ACCB9732A18F004009F1E22 /* Componentes */,
+				4ACCB9732A18F004009F1E22 /* Components */,
 				4A0396942A0FA61A00EB062D /* Root */,
 			);
 			path = Sources;
@@ -114,9 +133,12 @@
 		4A0396912A0FA61A00EB062D /* Onboarding */ = {
 			isa = PBXGroup;
 			children = (
+				4ACCB97D2A18F3C8009F1E22 /* OnboardingNicknameView.swift */,
+				4AB2DB3D2A1A2EA4003EFD95 /* ContentView.swift */,
+				4AB2DB332A19A2C1003EFD95 /* TextFieldState.swift */,
 				4A0396922A0FA61A00EB062D /* OnboardingCore.swift */,
 				4A0396932A0FA61A00EB062D /* OnboardingView.swift */,
-				4ACCB97D2A18F3C8009F1E22 /* OnboardingNicknameView.swift */,
+				4AB2DB392A19B3F4003EFD95 /* OnboardingBirthView.swift */,
 			);
 			path = Onboarding;
 			sourceTree = "<group>";
@@ -152,11 +174,22 @@
 			path = Resources;
 			sourceTree = "<group>";
 		};
-		4ACCB9732A18F004009F1E22 /* Componentes */ = {
+		4AB2DB2F2A19A26B003EFD95 /* Util */ = {
 			isa = PBXGroup;
 			children = (
+				4AB2DB302A19A282003EFD95 /* TextFieldClearButton.swift */,
+				4AB2DB352A19AE4F003EFD95 /* KeyboardResponder.swift */,
 			);
-			path = Componentes;
+			path = Util;
+			sourceTree = "<group>";
+		};
+		4ACCB9732A18F004009F1E22 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				4AB2DB3B2A19B9F4003EFD95 /* BottomSheetView.swift */,
+				4AB2DB3F2A1A2EF3003EFD95 /* CustomPickerView.swift */,
+			);
+			path = Components;
 			sourceTree = "<group>";
 		};
 		4ACCB9762A18F094009F1E22 /* Extension */ = {
@@ -164,6 +197,8 @@
 			children = (
 				4ACCB9772A18F0A6009F1E22 /* UIScreen+Extension.swift */,
 				4ACCB9892A18F7ED009F1E22 /* Font+Extension.swift */,
+				4AB2DB2D2A19A24D003EFD95 /* View+Extension.swift */,
+				4AB2DB452A1A3366003EFD95 /* UIApplication+Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -171,8 +206,8 @@
 		4ACCB97F2A18F7BF009F1E22 /* Font */ = {
 			isa = PBXGroup;
 			children = (
+				4AB2DB432A1A3290003EFD95 /* Pretendard-SemiBold.otf */,
 				4AB2DB292A18FBE3003EFD95 /* Pretendard-Bold.otf */,
-				4AB2DB282A18FBE3003EFD95 /* Pretendard-ExtraBold.otf */,
 				4AB2DB272A18FBE3003EFD95 /* Pretendard-Regular.otf */,
 			);
 			path = Font;
@@ -265,7 +300,7 @@
 				4A03968A2A0FA5B800EB062D /* Preview Assets.xcassets in Resources */,
 				4AB2DB2C2A18FBE3003EFD95 /* Pretendard-Bold.otf in Resources */,
 				4AB2DB2A2A18FBE3003EFD95 /* Pretendard-Regular.otf in Resources */,
-				4AB2DB2B2A18FBE3003EFD95 /* Pretendard-ExtraBold.otf in Resources */,
+				4AB2DB442A1A3290003EFD95 /* Pretendard-SemiBold.otf in Resources */,
 				4A0396872A0FA5B800EB062D /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -341,15 +376,24 @@
 			buildActionMask = 2147483647;
 			files = (
 				4A03969B2A0FA61A00EB062D /* OnboardingCore.swift in Sources */,
+				4AB2DB342A19A2C1003EFD95 /* TextFieldState.swift in Sources */,
+				4AB2DB402A1A2EF3003EFD95 /* CustomPickerView.swift in Sources */,
 				4A03969C2A0FA61A00EB062D /* OnboardingView.swift in Sources */,
 				4A0396A12A0FA61A00EB062D /* HomeCore.swift in Sources */,
 				4ACCB9722A18DE7E009F1E22 /* R.generated.swift in Sources */,
 				4A03969F2A0FA61A00EB062D /* RootView.swift in Sources */,
 				4ACCB97E2A18F3C8009F1E22 /* OnboardingNicknameView.swift in Sources */,
 				4ACCB9782A18F0A6009F1E22 /* UIScreen+Extension.swift in Sources */,
+				4AB2DB362A19AE4F003EFD95 /* KeyboardResponder.swift in Sources */,
 				4A0396A02A0FA61A00EB062D /* HomeView.swift in Sources */,
 				4A0396832A0FA5B600EB062D /* LoveBirdApp.swift in Sources */,
+				4AB2DB3C2A19B9F4003EFD95 /* BottomSheetView.swift in Sources */,
+				4AB2DB3A2A19B3F4003EFD95 /* OnboardingBirthView.swift in Sources */,
+				4AB2DB462A1A3366003EFD95 /* UIApplication+Extension.swift in Sources */,
+				4AB2DB312A19A282003EFD95 /* TextFieldClearButton.swift in Sources */,
+				4AB2DB3E2A1A2EA4003EFD95 /* ContentView.swift in Sources */,
 				4A03969E2A0FA61A00EB062D /* RootCore.swift in Sources */,
+				4AB2DB2E2A19A24D003EFD95 /* View+Extension.swift in Sources */,
 				4ACCB98A2A18F7ED009F1E22 /* Font+Extension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

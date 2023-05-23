@@ -10,16 +10,16 @@ import ComposableArchitecture
 struct Root: ReducerProtocol {
     enum State: Equatable {
         case home(HomeCore.State)
-        case onboarding(OnboardingCore.State)
+        case onboarding(Onboarding.State)
         
         init() {
 //            self = .home(Home.State())
-            self = .onboarding(OnboardingCore.State())
+            self = .onboarding(Onboarding.State())
         }
     }
     enum Action: Equatable {
         case home(HomeCore.Action)
-        case onboarding(OnboardingCore.Action) 
+        case onboarding(Onboarding.Action) 
     }
     
     var body: some ReducerProtocol<State, Action> {
@@ -29,7 +29,7 @@ struct Root: ReducerProtocol {
                 state = .home(HomeCore.State())
                 return .none
             case .onboarding:
-                state = .onboarding(OnboardingCore.State())
+                state = .onboarding(Onboarding.State())
                 return .none
             }
         }
@@ -37,7 +37,7 @@ struct Root: ReducerProtocol {
             HomeCore()
         }
         .ifCaseLet(/State.onboarding, action: /Action.onboarding) {
-            OnboardingCore()
+            Onboarding()
         }
     }
     

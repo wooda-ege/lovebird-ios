@@ -11,39 +11,54 @@ import SwiftUIPager
 import Foundation
 
 struct OnboardingView: View {
-    let store: StoreOf<OnboardingCore>
-    @StateObject var page: Page = .first()
+    let store: StoreOf<Onboarding>
+    
+    struct ViewState: Equatable, Sendable {
+        var page: Page
+        
+        init(state: Onboarding.State) {
+            self.page = state.page
+        }
+    }
     
     var body: some View {
-        VStack {
-            HStack {
-                Image(page.index == 0 ? R.image.ic_round_navigate_previous : R.image.ic_round_navigate_previous_inactive)
-                    .offset(x: 16)
-                Spacer()
+        WithViewStore(self.store, observe: ViewState.init) { viewStore in
+            VStack {
                 HStack {
-                    Circle()
-                        .frame(width: 10, height: 10)
-                        .foregroundColor(Color(R.color.green200))
-                    Circle()
-                        .frame(width: 10, height: 10)
-                        .foregroundColor(Color(R.color.green100))
+                    Button { viewStore.send(.previousTapped) } label: {
+                        Image(viewStore.page.index == 0 ? R.image.ic_round_navigate_previous : R.image.ic_round_navigate_previous_inactive)
+                            .offset(x: 16)
+                    }
+                    Spacer()
+                    HStack {
+                        Circle()
+                            .frame(width: 10, height: 10)
+                            .foregroundColor(Color(R.color.green200))
+                        Circle()
+                            .frame(width: 10, height: 10)
+                            .foregroundColor(Color(R.color.green100))
+                    }
+                    Spacer()
+                    Button { viewStore.send(.nextTapped) } label: {
+                        Image(viewStore.page.index == 1 ? R.image.ic_round_navigate_next : R.image.ic_round_navigate_next_inactive)
+                            .offset(x: -16)
+                    }
                 }
-                Spacer()
-                Image(page.index == 1 ? R.image.ic_round_navigate_next : R.image.ic_round_navigate_next_inactive)
-                    .offset(x: -16)
-            }
-            .frame(width: UIScreen.width, height: 44)
-            
-            Pager(page: page, data: [1, 2], id: \.self) { page in
-                if page == 1 {
-                    OnboardingNicknameView()
-                        .frame(maxWidth: .infinity, maxHeight: .infinity)
-                } else {
-                    OnboardingNicknameView()
-                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .frame(width: UIScreen.width, height: 44)
+                
+                Pager(page: viewStore.page, data: [0, 1], id: \.self) { page in
+                    if page == 0 {
+                        OnboardingNicknameView(store: self.store)
+                            .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    } else {
+                        OnboardingBirthView()
+                            .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    }
                 }
+                .allowsDragging(false)
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .edgesIgnoringSafeArea(.bottom)
             }
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
     }
 }

@@ -36,7 +36,7 @@ struct _R {
     let developmentRegion = "en"
   }
 
-  /// This `_R.color` struct is generated, and contains static references to 5 colors.
+  /// This `_R.color` struct is generated, and contains static references to 9 colors.
   struct color {
     let bundle: Foundation.Bundle
 
@@ -46,14 +46,26 @@ struct _R {
     /// Color `Color`.
     var color: RswiftResources.ColorResource { .init(name: "Color", path: [], bundle: bundle) }
 
+    /// Color `Error`.
+    var error: RswiftResources.ColorResource { .init(name: "Error", path: [], bundle: bundle) }
+
     /// Color `Gray156`.
     var gray156: RswiftResources.ColorResource { .init(name: "Gray156", path: [], bundle: bundle) }
+
+    /// Color `Gray214`.
+    var gray214: RswiftResources.ColorResource { .init(name: "Gray214", path: [], bundle: bundle) }
+
+    /// Color `Gray61`.
+    var gray61: RswiftResources.ColorResource { .init(name: "Gray61", path: [], bundle: bundle) }
 
     /// Color `Green100`.
     var green100: RswiftResources.ColorResource { .init(name: "Green100", path: [], bundle: bundle) }
 
     /// Color `Green200`.
     var green200: RswiftResources.ColorResource { .init(name: "Green200", path: [], bundle: bundle) }
+
+    /// Color `Primary`.
+    var primary: RswiftResources.ColorResource { .init(name: "Primary", path: [], bundle: bundle) }
   }
 
   /// This `_R.image` struct is generated, and contains static references to 4 images.
@@ -80,14 +92,14 @@ struct _R {
     /// Font `Pretendard-Bold`.
     var pretendardBold: RswiftResources.FontResource { .init(name: "Pretendard-Bold", bundle: bundle, filename: "Pretendard-Bold.otf") }
 
-    /// Font `Pretendard-ExtraBold`.
-    var pretendardExtraBold: RswiftResources.FontResource { .init(name: "Pretendard-ExtraBold", bundle: bundle, filename: "Pretendard-ExtraBold.otf") }
-
     /// Font `Pretendard-Regular`.
     var pretendardRegular: RswiftResources.FontResource { .init(name: "Pretendard-Regular", bundle: bundle, filename: "Pretendard-Regular.otf") }
 
+    /// Font `Pretendard-SemiBold`.
+    var pretendardSemiBold: RswiftResources.FontResource { .init(name: "Pretendard-SemiBold", bundle: bundle, filename: "Pretendard-SemiBold.otf") }
+
     func makeIterator() -> IndexingIterator<[RswiftResources.FontResource]> {
-      [pretendardBold, pretendardExtraBold, pretendardRegular].makeIterator()
+      [pretendardBold, pretendardRegular, pretendardSemiBold].makeIterator()
     }
     func validate() throws {
       for font in self {
@@ -103,10 +115,10 @@ struct _R {
     /// Resource file `Pretendard-Bold.otf`.
     var pretendardBoldOtf: RswiftResources.FileResource { .init(name: "Pretendard-Bold", pathExtension: "otf", bundle: bundle, locale: LocaleReference.none) }
 
-    /// Resource file `Pretendard-ExtraBold.otf`.
-    var pretendardExtraBoldOtf: RswiftResources.FileResource { .init(name: "Pretendard-ExtraBold", pathExtension: "otf", bundle: bundle, locale: LocaleReference.none) }
-
     /// Resource file `Pretendard-Regular.otf`.
     var pretendardRegularOtf: RswiftResources.FileResource { .init(name: "Pretendard-Regular", pathExtension: "otf", bundle: bundle, locale: LocaleReference.none) }
+
+    /// Resource file `Pretendard-SemiBold.otf`.
+    var pretendardSemiBoldOtf: RswiftResources.FileResource { .init(name: "Pretendard-SemiBold", pathExtension: "otf", bundle: bundle, locale: LocaleReference.none) }
   }
 }
