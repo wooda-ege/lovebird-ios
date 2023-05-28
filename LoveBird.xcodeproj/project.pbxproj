@@ -29,10 +29,25 @@
 		4AB2DB402A1A2EF3003EFD95 /* CustomPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AB2DB3F2A1A2EF3003EFD95 /* CustomPickerView.swift */; };
 		4AB2DB442A1A3290003EFD95 /* Pretendard-SemiBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 4AB2DB432A1A3290003EFD95 /* Pretendard-SemiBold.otf */; };
 		4AB2DB462A1A3366003EFD95 /* UIApplication+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AB2DB452A1A3366003EFD95 /* UIApplication+Extension.swift */; };
+		4AB2DB492A1E6601003EFD95 /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AB2DB482A1E6601003EFD95 /* MainTabView.swift */; };
+		4AB2DB4D2A1F8651003EFD95 /* HomeItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AB2DB4C2A1F8651003EFD95 /* HomeItem.swift */; };
+		4AB2DB4F2A1FA977003EFD95 /* ReversedScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AB2DB4E2A1FA977003EFD95 /* ReversedScrollView.swift */; };
+		4AB2DB512A1FAAA5003EFD95 /* Line.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AB2DB502A1FAAA5003EFD95 /* Line.swift */; };
 		4ACCB9722A18DE7E009F1E22 /* R.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ACCB9712A18DE7E009F1E22 /* R.generated.swift */; };
 		4ACCB9782A18F0A6009F1E22 /* UIScreen+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ACCB9772A18F0A6009F1E22 /* UIScreen+Extension.swift */; };
 		4ACCB97E2A18F3C8009F1E22 /* OnboardingNicknameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ACCB97D2A18F3C8009F1E22 /* OnboardingNicknameView.swift */; };
 		4ACCB98A2A18F7ED009F1E22 /* Font+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ACCB9892A18F7ED009F1E22 /* Font+Extension.swift */; };
+		4AE5CB492A20FF1D0016C0B4 /* HomeLeftLineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AE5CB482A20FF1D0016C0B4 /* HomeLeftLineView.swift */; };
+		4AE5CB4B2A2102800016C0B4 /* HomeContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AE5CB4A2A2102800016C0B4 /* HomeContentView.swift */; };
+		4AE5CB4E2A21B1180016C0B4 /* Diary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AE5CB4D2A21B1180016C0B4 /* Diary.swift */; };
+		4AE5CB502A21C0B10016C0B4 /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AE5CB4F2A21C0B10016C0B4 /* UIImage+Extension.swift */; };
+		4AE5CB542A21CA880016C0B4 /* MainTabCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AE5CB532A21CA880016C0B4 /* MainTabCore.swift */; };
+		4AE5CB582A232E3F0016C0B4 /* DiaryCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AE5CB572A232E3F0016C0B4 /* DiaryCore.swift */; };
+		4AE5CB5A2A232E490016C0B4 /* DiaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AE5CB592A232E490016C0B4 /* DiaryView.swift */; };
+		4AE5CB5C2A232EFC0016C0B4 /* MyPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AE5CB5B2A232EFC0016C0B4 /* MyPageView.swift */; };
+		4AE5CB5E2A232F6C0016C0B4 /* MyPageCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AE5CB5D2A232F6C0016C0B4 /* MyPageCore.swift */; };
+		4AE5CB612A232FCA0016C0B4 /* CalanderCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AE5CB602A232FCA0016C0B4 /* CalanderCore.swift */; };
+		4AE5CB632A232FDB0016C0B4 /* CalanderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AE5CB622A232FDB0016C0B4 /* CalanderView.swift */; };
 		A0E83505901348E67E5231F5 /* Pods_LoveBird.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 212E893A725E4BE7E73B96EB /* Pods_LoveBird.framework */; };
 /* End PBXBuildFile section */
 
@@ -62,11 +77,26 @@
 		4AB2DB3F2A1A2EF3003EFD95 /* CustomPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPickerView.swift; sourceTree = "<group>"; };
 		4AB2DB432A1A3290003EFD95 /* Pretendard-SemiBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-SemiBold.otf"; sourceTree = "<group>"; };
 		4AB2DB452A1A3366003EFD95 /* UIApplication+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+Extension.swift"; sourceTree = "<group>"; };
+		4AB2DB482A1E6601003EFD95 /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
+		4AB2DB4C2A1F8651003EFD95 /* HomeItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeItem.swift; sourceTree = "<group>"; };
+		4AB2DB4E2A1FA977003EFD95 /* ReversedScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReversedScrollView.swift; sourceTree = "<group>"; };
+		4AB2DB502A1FAAA5003EFD95 /* Line.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Line.swift; sourceTree = "<group>"; };
 		4ACCB9712A18DE7E009F1E22 /* R.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = R.generated.swift; sourceTree = SOURCE_ROOT; };
 		4ACCB9772A18F0A6009F1E22 /* UIScreen+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIScreen+Extension.swift"; sourceTree = "<group>"; };
 		4ACCB97D2A18F3C8009F1E22 /* OnboardingNicknameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingNicknameView.swift; sourceTree = "<group>"; };
 		4ACCB9892A18F7ED009F1E22 /* Font+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Font+Extension.swift"; sourceTree = "<group>"; };
 		4ACCB98B2A18F935009F1E22 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		4AE5CB482A20FF1D0016C0B4 /* HomeLeftLineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeLeftLineView.swift; sourceTree = "<group>"; };
+		4AE5CB4A2A2102800016C0B4 /* HomeContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeContentView.swift; sourceTree = "<group>"; };
+		4AE5CB4D2A21B1180016C0B4 /* Diary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Diary.swift; sourceTree = "<group>"; };
+		4AE5CB4F2A21C0B10016C0B4 /* UIImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
+		4AE5CB532A21CA880016C0B4 /* MainTabCore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabCore.swift; sourceTree = "<group>"; };
+		4AE5CB572A232E3F0016C0B4 /* DiaryCore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryCore.swift; sourceTree = "<group>"; };
+		4AE5CB592A232E490016C0B4 /* DiaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryView.swift; sourceTree = "<group>"; };
+		4AE5CB5B2A232EFC0016C0B4 /* MyPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageView.swift; sourceTree = "<group>"; };
+		4AE5CB5D2A232F6C0016C0B4 /* MyPageCore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageCore.swift; sourceTree = "<group>"; };
+		4AE5CB602A232FCA0016C0B4 /* CalanderCore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalanderCore.swift; sourceTree = "<group>"; };
+		4AE5CB622A232FDB0016C0B4 /* CalanderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalanderView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -122,6 +152,7 @@
 		4A0396902A0FA5E900EB062D /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				4AE5CB4C2A21B1070016C0B4 /* Model */,
 				4AB2DB2F2A19A26B003EFD95 /* Util */,
 				4ACCB9762A18F094009F1E22 /* Extension */,
 				4ACCB9732A18F004009F1E22 /* Components */,
@@ -146,6 +177,10 @@
 		4A0396942A0FA61A00EB062D /* Root */ = {
 			isa = PBXGroup;
 			children = (
+				4AE5CB5F2A232FC10016C0B4 /* Calander */,
+				4AE5CB562A232E330016C0B4 /* MyPage */,
+				4AE5CB552A232E250016C0B4 /* Diary */,
+				4AB2DB472A1E65F8003EFD95 /* Main */,
 				4A0396982A0FA61A00EB062D /* Home */,
 				4A0396912A0FA61A00EB062D /* Onboarding */,
 				4A0396822A0FA5B600EB062D /* LoveBirdApp.swift */,
@@ -160,6 +195,9 @@
 			children = (
 				4A0396992A0FA61A00EB062D /* HomeView.swift */,
 				4A03969A2A0FA61A00EB062D /* HomeCore.swift */,
+				4AB2DB4C2A1F8651003EFD95 /* HomeItem.swift */,
+				4AE5CB482A20FF1D0016C0B4 /* HomeLeftLineView.swift */,
+				4AE5CB4A2A2102800016C0B4 /* HomeContentView.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -183,11 +221,23 @@
 			path = Util;
 			sourceTree = "<group>";
 		};
+		4AB2DB472A1E65F8003EFD95 /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				4AB2DB482A1E6601003EFD95 /* MainTabView.swift */,
+				4AE5CB532A21CA880016C0B4 /* MainTabCore.swift */,
+			);
+			name = Main;
+			path = "ㅡ먀ㅜ";
+			sourceTree = "<group>";
+		};
 		4ACCB9732A18F004009F1E22 /* Components */ = {
 			isa = PBXGroup;
 			children = (
 				4AB2DB3B2A19B9F4003EFD95 /* BottomSheetView.swift */,
 				4AB2DB3F2A1A2EF3003EFD95 /* CustomPickerView.swift */,
+				4AB2DB4E2A1FA977003EFD95 /* ReversedScrollView.swift */,
+				4AB2DB502A1FAAA5003EFD95 /* Line.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -199,6 +249,7 @@
 				4ACCB9892A18F7ED009F1E22 /* Font+Extension.swift */,
 				4AB2DB2D2A19A24D003EFD95 /* View+Extension.swift */,
 				4AB2DB452A1A3366003EFD95 /* UIApplication+Extension.swift */,
+				4AE5CB4F2A21C0B10016C0B4 /* UIImage+Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -211,6 +262,41 @@
 				4AB2DB272A18FBE3003EFD95 /* Pretendard-Regular.otf */,
 			);
 			path = Font;
+			sourceTree = "<group>";
+		};
+		4AE5CB4C2A21B1070016C0B4 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				4AE5CB4D2A21B1180016C0B4 /* Diary.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		4AE5CB552A232E250016C0B4 /* Diary */ = {
+			isa = PBXGroup;
+			children = (
+				4AE5CB572A232E3F0016C0B4 /* DiaryCore.swift */,
+				4AE5CB592A232E490016C0B4 /* DiaryView.swift */,
+			);
+			path = Diary;
+			sourceTree = "<group>";
+		};
+		4AE5CB562A232E330016C0B4 /* MyPage */ = {
+			isa = PBXGroup;
+			children = (
+				4AE5CB5B2A232EFC0016C0B4 /* MyPageView.swift */,
+				4AE5CB5D2A232F6C0016C0B4 /* MyPageCore.swift */,
+			);
+			path = MyPage;
+			sourceTree = "<group>";
+		};
+		4AE5CB5F2A232FC10016C0B4 /* Calander */ = {
+			isa = PBXGroup;
+			children = (
+				4AE5CB602A232FCA0016C0B4 /* CalanderCore.swift */,
+				4AE5CB622A232FDB0016C0B4 /* CalanderView.swift */,
+			);
+			path = Calander;
 			sourceTree = "<group>";
 		};
 		BF6E410E5BBC3F57980C8846 /* Frameworks */ = {
@@ -376,16 +462,28 @@
 			buildActionMask = 2147483647;
 			files = (
 				4A03969B2A0FA61A00EB062D /* OnboardingCore.swift in Sources */,
+				4AB2DB4D2A1F8651003EFD95 /* HomeItem.swift in Sources */,
 				4AB2DB342A19A2C1003EFD95 /* TextFieldState.swift in Sources */,
 				4AB2DB402A1A2EF3003EFD95 /* CustomPickerView.swift in Sources */,
+				4AE5CB502A21C0B10016C0B4 /* UIImage+Extension.swift in Sources */,
 				4A03969C2A0FA61A00EB062D /* OnboardingView.swift in Sources */,
 				4A0396A12A0FA61A00EB062D /* HomeCore.swift in Sources */,
 				4ACCB9722A18DE7E009F1E22 /* R.generated.swift in Sources */,
 				4A03969F2A0FA61A00EB062D /* RootView.swift in Sources */,
+				4AE5CB5C2A232EFC0016C0B4 /* MyPageView.swift in Sources */,
+				4AE5CB542A21CA880016C0B4 /* MainTabCore.swift in Sources */,
 				4ACCB97E2A18F3C8009F1E22 /* OnboardingNicknameView.swift in Sources */,
+				4AE5CB5E2A232F6C0016C0B4 /* MyPageCore.swift in Sources */,
 				4ACCB9782A18F0A6009F1E22 /* UIScreen+Extension.swift in Sources */,
 				4AB2DB362A19AE4F003EFD95 /* KeyboardResponder.swift in Sources */,
+				4AE5CB632A232FDB0016C0B4 /* CalanderView.swift in Sources */,
 				4A0396A02A0FA61A00EB062D /* HomeView.swift in Sources */,
+				4AB2DB492A1E6601003EFD95 /* MainTabView.swift in Sources */,
+				4AE5CB4B2A2102800016C0B4 /* HomeContentView.swift in Sources */,
+				4AE5CB582A232E3F0016C0B4 /* DiaryCore.swift in Sources */,
+				4AE5CB4E2A21B1180016C0B4 /* Diary.swift in Sources */,
+				4AE5CB612A232FCA0016C0B4 /* CalanderCore.swift in Sources */,
+				4AB2DB4F2A1FA977003EFD95 /* ReversedScrollView.swift in Sources */,
 				4A0396832A0FA5B600EB062D /* LoveBirdApp.swift in Sources */,
 				4AB2DB3C2A19B9F4003EFD95 /* BottomSheetView.swift in Sources */,
 				4AB2DB3A2A19B3F4003EFD95 /* OnboardingBirthView.swift in Sources */,
@@ -393,7 +491,10 @@
 				4AB2DB312A19A282003EFD95 /* TextFieldClearButton.swift in Sources */,
 				4AB2DB3E2A1A2EA4003EFD95 /* ContentView.swift in Sources */,
 				4A03969E2A0FA61A00EB062D /* RootCore.swift in Sources */,
+				4AB2DB512A1FAAA5003EFD95 /* Line.swift in Sources */,
 				4AB2DB2E2A19A24D003EFD95 /* View+Extension.swift in Sources */,
+				4AE5CB492A20FF1D0016C0B4 /* HomeLeftLineView.swift in Sources */,
+				4AE5CB5A2A232E490016C0B4 /* DiaryView.swift in Sources */,
 				4ACCB98A2A18F7ED009F1E22 /* Font+Extension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

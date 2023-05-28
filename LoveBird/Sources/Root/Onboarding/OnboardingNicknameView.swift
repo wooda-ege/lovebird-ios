@@ -10,7 +10,7 @@ import ComposableArchitecture
 
 struct OnboardingNicknameView: View {
     
-    let store: StoreOf<Onboarding>
+    let store: StoreOf<OnboardingCore>
     @State private var name: String = ""
     @State private var state: TextFieldState = .none
     @FocusState private var isNameFieldFocused: Bool
@@ -76,6 +76,6 @@ struct OnboardingNicknameView: View {
 
 struct OnboardingNicknameView_Previews: PreviewProvider {
     static var previews: some View {
-        OnboardingNicknameView(store: Store(initialState: Onboarding.State(), reducer: Onboarding()))
+        OnboardingNicknameView(store: Store(initialState: OnboardingCore.State(), reducer: OnboardingCore()))
     }
 }

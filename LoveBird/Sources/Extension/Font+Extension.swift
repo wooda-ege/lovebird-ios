@@ -14,7 +14,7 @@ extension Font {
         case semiBold = "SemiBold"
     }
     
-    static func pretendard(size: CGFloat, weight: PretendardWeight) -> Font {
+    static func pretendard(size: CGFloat, weight: PretendardWeight = .regular) -> Font {
         return Font.custom("Pretendard-\(weight.rawValue)", size: size)
     }
 }

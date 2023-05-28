@@ -36,7 +36,7 @@ struct _R {
     let developmentRegion = "en"
   }
 
-  /// This `_R.color` struct is generated, and contains static references to 9 colors.
+  /// This `_R.color` struct is generated, and contains static references to 10 colors.
   struct color {
     let bundle: Foundation.Bundle
 
@@ -55,6 +55,9 @@ struct _R {
     /// Color `Gray214`.
     var gray214: RswiftResources.ColorResource { .init(name: "Gray214", path: [], bundle: bundle) }
 
+    /// Color `Gray244`.
+    var gray244: RswiftResources.ColorResource { .init(name: "Gray244", path: [], bundle: bundle) }
+
     /// Color `Gray61`.
     var gray61: RswiftResources.ColorResource { .init(name: "Gray61", path: [], bundle: bundle) }
 
@@ -68,21 +71,48 @@ struct _R {
     var primary: RswiftResources.ColorResource { .init(name: "Primary", path: [], bundle: bundle) }
   }
 
-  /// This `_R.image` struct is generated, and contains static references to 4 images.
+  /// This `_R.image` struct is generated, and contains static references to 13 images.
   struct image {
     let bundle: Foundation.Bundle
 
-    /// Image `ic_round_navigate_next`.
-    var ic_round_navigate_next: RswiftResources.ImageResource { .init(name: "ic_round_navigate_next", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+    /// Image `ic_calendar`.
+    var ic_calendar: RswiftResources.ImageResource { .init(name: "ic_calendar", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
-    /// Image `ic_round_navigate_next_inactive`.
-    var ic_round_navigate_next_inactive: RswiftResources.ImageResource { .init(name: "ic_round_navigate_next_inactive", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+    /// Image `ic_list_bulleted`.
+    var ic_list_bulleted: RswiftResources.ImageResource { .init(name: "ic_list_bulleted", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
-    /// Image `ic_round_navigate_previous`.
-    var ic_round_navigate_previous: RswiftResources.ImageResource { .init(name: "ic_round_navigate_previous", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+    /// Image `ic_navigate_next`.
+    var ic_navigate_next: RswiftResources.ImageResource { .init(name: "ic_navigate_next", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
-    /// Image `ic_round_navigate_previous_inactive`.
-    var ic_round_navigate_previous_inactive: RswiftResources.ImageResource { .init(name: "ic_round_navigate_previous_inactive", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+    /// Image `ic_navigate_next_active`.
+    var ic_navigate_next_active: RswiftResources.ImageResource { .init(name: "ic_navigate_next_active", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `ic_navigate_next_inactive`.
+    var ic_navigate_next_inactive: RswiftResources.ImageResource { .init(name: "ic_navigate_next_inactive", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `ic_navigate_previous_active`.
+    var ic_navigate_previous_active: RswiftResources.ImageResource { .init(name: "ic_navigate_previous_active", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `ic_navigate_previous_inactive`.
+    var ic_navigate_previous_inactive: RswiftResources.ImageResource { .init(name: "ic_navigate_previous_inactive", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `ic_note`.
+    var ic_note: RswiftResources.ImageResource { .init(name: "ic_note", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `ic_notification`.
+    var ic_notification: RswiftResources.ImageResource { .init(name: "ic_notification", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `ic_person`.
+    var ic_person: RswiftResources.ImageResource { .init(name: "ic_person", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `ic_place`.
+    var ic_place: RswiftResources.ImageResource { .init(name: "ic_place", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `ic_search`.
+    var ic_search: RswiftResources.ImageResource { .init(name: "ic_search", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `ic_timeline`.
+    var ic_timeline: RswiftResources.ImageResource { .init(name: "ic_timeline", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
   }
 
   /// This `_R.font` struct is generated, and contains static references to 3 fonts.

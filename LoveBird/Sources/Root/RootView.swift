@@ -9,31 +9,24 @@ import ComposableArchitecture
 import SwiftUI
 
 struct RootView: View {
-    let store = Store(
-        initialState: Root.State(),
-        reducer: Root()._printChanges()
-    )
-    
+    let store: StoreOf<RootCore>
+
     var body: some View {
-        SwitchStore(self.store) {
-            CaseLet(state: /Root.State.home, action: Root.Action.home) { store in
-                NavigationView {
-                    HomeView(store: store)
-                }
-            }
-            CaseLet(state: /Root.State.onboarding, action: Root.Action.onboarding) { store in
-                NavigationView {
-                    OnboardingView(store: store)
-                }
+        WithViewStore(self.store) { viewStore in
+            if !viewStore.isOnboarding {
+                OnboardingView(store: Store(initialState: OnboardingCore.State(), reducer: OnboardingCore()._printChanges()))
+            } else {
+                MainTabView(store: Store(
+                    initialState: MainTabCore.State(),
+                    reducer: MainTabCore()._printChanges()
+                ))
             }
         }
-        .navigationViewStyle(.stack)
-        .preferredColorScheme(.light)
     }
 }
 
 struct RootView_Previews: PreviewProvider {
     static var previews: some View {
-        RootView()
+        RootView(store: Store(initialState: RootCore.State(), reducer: RootCore()._printChanges()))
     }
 }

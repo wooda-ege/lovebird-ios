@@ -1,23 +1,26 @@
 //
-//  RootCore.swift
-//  wooda
+//  DiaryCore.swift
+//  LoveBird
 //
-//  Created by 황득연 on 2023/05/06.
+//  Created by 황득연 on 2023/05/28.
 //
 
 import ComposableArchitecture
 
-struct RootCore: ReducerProtocol {
+struct DiaryCore: ReducerProtocol {
+    
     struct State: Equatable {
-        var isOnboarding = true
     }
+    
     enum Action: Equatable {
     }
     
     var body: some ReducerProtocol<State, Action> {
         Reduce { state, action in
-            return .none
+            switch action {
+            default:
+                return .none
+            }
         }
     }
-    
 }

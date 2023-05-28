@@ -6,12 +6,18 @@
 //
 
 import SwiftUI
+import ComposableArchitecture
 
 @main
 struct LoveBirdApp: App {
     var body: some Scene {
+        
         WindowGroup {
-            RootView()
+            RootView(store: Store(
+                initialState: RootCore.State(),
+                reducer: RootCore()._printChanges()
+            ))
+            .preferredColorScheme(.light)
         }
     }
 }

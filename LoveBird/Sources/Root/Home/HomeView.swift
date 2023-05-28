@@ -10,14 +10,76 @@ import SwiftUI
 
 struct HomeView: View {
     let store: StoreOf<HomeCore>
-
+    
+    enum ViewAction {
+      case alertDismissed
+      case emailChanged(String)
+      case loginButtonTapped
+      case passwordChanged(String)
+      case twoFactorDismissed
+    }
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        WithViewStore(self.store) { viewStore in
+            VStack {
+                HStack(alignment: .center) {
+                    Rectangle()
+                        .fill(Color(R.color.primary))
+                        .frame(width: 24, height: 24)
+                    Spacer()
+                    HStack(spacing: 16) {
+                        Button { viewStore.send(.searchTapped) } label: {
+                            Image(R.image.ic_search)
+                        }
+                        Button { viewStore.send(.searchTapped) } label: {
+                            Image(R.image.ic_list_bulleted)
+                        }
+                        Button { viewStore.send(.searchTapped) } label: {
+                            Image(R.image.ic_notification)
+                        }
+                    }
+                }
+                .frame(width: UIScreen.width - 32, height: 44)
+                Spacer()
+                ZStack {
+                    HStack {
+                        GeometryReader { proxy in
+                            ZStack {
+                                Line()
+                                    .stroke(style: StrokeStyle(lineWidth: 1, dash: [2]))
+                                    .frame(maxWidth: 1, maxHeight: .infinity)
+                                    .foregroundColor(Color(R.color.primary))
+                                    .padding(.leading, 22)
+                                VStack(alignment: .leading) {
+                                    Rectangle()
+                                        .fill(Color(R.color.primary))
+                                        .frame(width: 2, height: min(UIScreen.height, max(0, proxy.frame(in: .global).origin.y + viewStore.state.offsetY)))
+                                        .padding(.leading, 21)
+                                    Spacer()
+                                }
+                            }
+                        }
+                        Spacer()
+                    }
+                    ReversedScrollView { point in
+                        viewStore.send(.offsetYChanged(point.y))
+                    } content: {
+                        LazyVGrid(columns: [GridItem(.flexible())], spacing: 0) {
+                            ForEach(viewStore.diarys) { diary in
+                                HomeItem(store: self.store, diary: diary)
+                            }
+                            .animation(.easeInOut, value: viewStore.diarys)
+                        }
+                    }
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                }
+            }
+        }
     }
 }
 
-struct HomeView_Previews: PreviewProvider {
-    static var previews: some View {
-        HomeView(store: Store(initialState: HomeCore.State(), reducer: HomeCore()))
-    }
-}
+//struct HomeView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        HomeView(store: Store(initialState: Home.State(), reducer: Home()))
+//    }
+//}

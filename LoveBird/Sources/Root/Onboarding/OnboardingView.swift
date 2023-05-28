@@ -11,22 +11,18 @@ import SwiftUIPager
 import Foundation
 
 struct OnboardingView: View {
-    let store: StoreOf<Onboarding>
+    let store: StoreOf<OnboardingCore>
     
-    struct ViewState: Equatable, Sendable {
-        var page: Page
-        
-        init(state: Onboarding.State) {
-            self.page = state.page
-        }
+    init(store: StoreOf<OnboardingCore>) {
+        self.store = store
     }
     
     var body: some View {
-        WithViewStore(self.store, observe: ViewState.init) { viewStore in
+        WithViewStore(self.store) { viewStore in
             VStack {
                 HStack {
                     Button { viewStore.send(.previousTapped) } label: {
-                        Image(viewStore.page.index == 0 ? R.image.ic_round_navigate_previous : R.image.ic_round_navigate_previous_inactive)
+                        Image(viewStore.page.index == 0 ? R.image.ic_navigate_previous_active : R.image.ic_navigate_previous_inactive)
                             .offset(x: 16)
                     }
                     Spacer()
@@ -40,7 +36,7 @@ struct OnboardingView: View {
                     }
                     Spacer()
                     Button { viewStore.send(.nextTapped) } label: {
-                        Image(viewStore.page.index == 1 ? R.image.ic_round_navigate_next : R.image.ic_round_navigate_next_inactive)
+                        Image(viewStore.page.index == 1 ? R.image.ic_navigate_next_active : R.image.ic_navigate_next_inactive)
                             .offset(x: -16)
                     }
                 }
