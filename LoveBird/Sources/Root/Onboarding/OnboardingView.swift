@@ -35,7 +35,10 @@ struct OnboardingView: View {
                             .foregroundColor(Color(R.color.green100))
                     }
                     Spacer()
-                    Button { viewStore.send(.nextTapped) } label: {
+                    Button {
+                        viewStore.send(.nextTapped)
+                        self.hideKeyboard()
+                    } label: {
                         Image(viewStore.page.index == 1 ? R.image.ic_navigate_next_active : R.image.ic_navigate_next_inactive)
                             .offset(x: -16)
                     }

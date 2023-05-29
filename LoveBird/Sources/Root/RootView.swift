@@ -12,21 +12,17 @@ struct RootView: View {
     let store: StoreOf<RootCore>
 
     var body: some View {
-        WithViewStore(self.store) { viewStore in
-            if !viewStore.isOnboarding {
-                OnboardingView(store: Store(initialState: OnboardingCore.State(), reducer: OnboardingCore()._printChanges()))
-            } else {
-                MainTabView(store: Store(
-                    initialState: MainTabCore.State(),
-                    reducer: MainTabCore()._printChanges()
-                ))
+        SwitchStore(self.store) { state in
+            switch state {
+            case .onboarding:
+                CaseLet(/RootCore.State.onboarding, action: RootCore.Action.onboarding) { store in
+                    OnboardingView(store: store)
+                }
+            case .mainTab:
+                CaseLet(/RootCore.State.mainTab, action: RootCore.Action.mainTab) { store in
+                    MainTabView(store: store)
+                }
             }
         }
-    }
-}
-
-struct RootView_Previews: PreviewProvider {
-    static var previews: some View {
-        RootView(store: Store(initialState: RootCore.State(), reducer: RootCore()._printChanges()))
     }
 }

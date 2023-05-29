@@ -26,6 +26,10 @@ extension View {
                 HalfSheetHelper(content: content(), isShown: isShown)
             )
     }
+    
+    func hideKeyboard() {
+        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+    }
 }
 
 struct HalfSheetHelper<Content: View>: UIViewControllerRepresentable {
