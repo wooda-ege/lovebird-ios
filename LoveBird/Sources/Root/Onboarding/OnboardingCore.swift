@@ -7,15 +7,17 @@
 
 import ComposableArchitecture
 import SwiftUIPager
+import Foundation
 
 struct OnboardingCore: ReducerProtocol {
     struct State: Equatable {
         var page: Page = .first()
         var nickname: String = ""
         var textFieldState: TextFieldState = .none
-        var year: String = ""
-        var month: String = ""
-        var day: String = ""
+        var showBottomSheet = false
+        var year: Int = Calendar.year
+        var month: Int = Calendar.month
+        var day: Int = Calendar.day
     }
     
     enum Action: Equatable {
@@ -23,11 +25,15 @@ struct OnboardingCore: ReducerProtocol {
         case previousTapped
         case nextButtonTapped
         case textFieldStateChanged(TextFieldState)
-        case yearSelected(String)
-        case monthSelected(String)
-        case daySelected(String)
+        case yearSelected(Int)
+        case monthSelected(Int)
+        case daySelected(Int)
         case nicknameEdited(String)
         case doneButtonTapped
+        case showBottomSheet
+        case hideBottomSheet
+        case dateInitialied
+        case none
     }
     
     var body: some ReducerProtocol<State, Action> {
@@ -36,14 +42,11 @@ struct OnboardingCore: ReducerProtocol {
             case .nextTapped, .nextButtonTapped:
                 guard state.page.index == 0, state.textFieldState == .correct else { return .none }
                 state.page.update(.next)
-                return .none
             case .textFieldStateChanged(let textFieldState):
                 state.textFieldState = textFieldState
-                return .none
             case .previousTapped:
                 guard state.page.index == 1 else { return .none }
                 state.page.update(.previous)
-                return .none
             case .nicknameEdited(let nickname):
                 state.nickname = nickname
                 if nickname.isNicknameValid {
@@ -51,19 +54,26 @@ struct OnboardingCore: ReducerProtocol {
                 } else {
                     state.textFieldState = .error
                 }
-                return .none
             case .yearSelected(let year):
                 state.year = year
-                return .none
             case .monthSelected(let month):
                 state.month = month
-                return .none
             case .daySelected(let day):
                 state.day = day
-                return .none
+            case .showBottomSheet:
+                state.showBottomSheet = true
+            case .hideBottomSheet:
+                state.showBottomSheet = false
+            case .dateInitialied:
+                state.year = Calendar.year
+                state.month = Calendar.month
+                state.day = Calendar.day
             case .doneButtonTapped:
-                return .none
+                break
+            case .none:
+                break
             }
+            return .none
         }
     }
 }

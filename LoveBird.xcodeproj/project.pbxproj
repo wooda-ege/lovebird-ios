@@ -49,6 +49,7 @@
 		4AE5CB612A232FCA0016C0B4 /* CalanderCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AE5CB602A232FCA0016C0B4 /* CalanderCore.swift */; };
 		4AE5CB632A232FDB0016C0B4 /* CalanderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AE5CB622A232FDB0016C0B4 /* CalanderView.swift */; };
 		4AE5CB672A2348190016C0B4 /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AE5CB662A2348190016C0B4 /* String+Extension.swift */; };
+		4AE5CB6B2A2469D00016C0B4 /* Calendar+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AE5CB6A2A2469D00016C0B4 /* Calendar+Extension.swift */; };
 		A0E83505901348E67E5231F5 /* Pods_LoveBird.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 212E893A725E4BE7E73B96EB /* Pods_LoveBird.framework */; };
 /* End PBXBuildFile section */
 
@@ -99,6 +100,7 @@
 		4AE5CB602A232FCA0016C0B4 /* CalanderCore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalanderCore.swift; sourceTree = "<group>"; };
 		4AE5CB622A232FDB0016C0B4 /* CalanderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalanderView.swift; sourceTree = "<group>"; };
 		4AE5CB662A2348190016C0B4 /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
+		4AE5CB6A2A2469D00016C0B4 /* Calendar+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Calendar+Extension.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -253,6 +255,7 @@
 				4AB2DB452A1A3366003EFD95 /* UIApplication+Extension.swift */,
 				4AE5CB4F2A21C0B10016C0B4 /* UIImage+Extension.swift */,
 				4AE5CB662A2348190016C0B4 /* String+Extension.swift */,
+				4AE5CB6A2A2469D00016C0B4 /* Calendar+Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -489,6 +492,7 @@
 				4AB2DB4F2A1FA977003EFD95 /* ReversedScrollView.swift in Sources */,
 				4A0396832A0FA5B600EB062D /* LoveBirdApp.swift in Sources */,
 				4AB2DB3C2A19B9F4003EFD95 /* BottomSheetView.swift in Sources */,
+				4AE5CB6B2A2469D00016C0B4 /* Calendar+Extension.swift in Sources */,
 				4AB2DB3A2A19B3F4003EFD95 /* OnboardingBirthView.swift in Sources */,
 				4AB2DB462A1A3366003EFD95 /* UIApplication+Extension.swift in Sources */,
 				4AB2DB312A19A282003EFD95 /* TextFieldClearButton.swift in Sources */,

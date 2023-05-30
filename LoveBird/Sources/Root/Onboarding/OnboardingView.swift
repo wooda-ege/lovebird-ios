@@ -50,7 +50,7 @@ struct OnboardingView: View {
                         OnboardingNicknameView(store: self.store)
                             .frame(maxWidth: .infinity, maxHeight: .infinity)
                     } else {
-                        OnboardingBirthView()
+                        OnboardingBirthView(store: self.store)
                             .frame(maxWidth: .infinity, maxHeight: .infinity)
                     }
                 }

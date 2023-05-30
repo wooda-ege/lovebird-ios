@@ -32,21 +32,14 @@ struct HomeCore: ReducerProtocol {
                 if let idx = state.diarys.firstIndex(where: { $0.id == diary.id }) {
                     state.diarys[idx].type.toggle()
                 }
-                return .none
             case .diaryTapped(let diary):
-                return .none
-            case .searchTapped:
-                return .none
-            case .listTapped:
-                return .none
-            case .notificationTapped:
-                return .none
+                return .none //TODO: 득연 - Navigation
             case .offsetYChanged(let y):
                 if y >= 0 { state.offsetY = y }
-                return .none
             default:
-                return .none
+                break
             }
+            return .none
         }
     }
 }
