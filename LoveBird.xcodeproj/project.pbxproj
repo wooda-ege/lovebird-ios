@@ -17,13 +17,15 @@
 		4A0396A02A0FA61A00EB062D /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A0396992A0FA61A00EB062D /* HomeView.swift */; };
 		4A0396A12A0FA61A00EB062D /* HomeCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A03969A2A0FA61A00EB062D /* HomeCore.swift */; };
 		4A0396A42A0FA68100EB062D /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = 4A0396A32A0FA68100EB062D /* ComposableArchitecture */; };
+		4A1DDF1C2A2C11D700B3A72B /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 4A1DDF1B2A2C11D700B3A72B /* Localizable.strings */; };
+		4A1DDF1E2A2C338100B3A72B /* TouchableStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A1DDF1D2A2C338100B3A72B /* TouchableStack.swift */; };
 		4AB2DB2A2A18FBE3003EFD95 /* Pretendard-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 4AB2DB272A18FBE3003EFD95 /* Pretendard-Regular.otf */; };
 		4AB2DB2C2A18FBE3003EFD95 /* Pretendard-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 4AB2DB292A18FBE3003EFD95 /* Pretendard-Bold.otf */; };
 		4AB2DB2E2A19A24D003EFD95 /* View+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AB2DB2D2A19A24D003EFD95 /* View+Extension.swift */; };
 		4AB2DB312A19A282003EFD95 /* TextFieldClearButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AB2DB302A19A282003EFD95 /* TextFieldClearButton.swift */; };
 		4AB2DB342A19A2C1003EFD95 /* TextFieldState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AB2DB332A19A2C1003EFD95 /* TextFieldState.swift */; };
 		4AB2DB362A19AE4F003EFD95 /* KeyboardResponder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AB2DB352A19AE4F003EFD95 /* KeyboardResponder.swift */; };
-		4AB2DB3A2A19B3F4003EFD95 /* OnboardingBirthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AB2DB392A19B3F4003EFD95 /* OnboardingBirthView.swift */; };
+		4AB2DB3A2A19B3F4003EFD95 /* OnboardingDateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AB2DB392A19B3F4003EFD95 /* OnboardingDateView.swift */; };
 		4AB2DB3C2A19B9F4003EFD95 /* BottomSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AB2DB3B2A19B9F4003EFD95 /* BottomSheetView.swift */; };
 		4AB2DB3E2A1A2EA4003EFD95 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AB2DB3D2A1A2EA4003EFD95 /* ContentView.swift */; };
 		4AB2DB402A1A2EF3003EFD95 /* CustomPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AB2DB3F2A1A2EF3003EFD95 /* CustomPickerView.swift */; };
@@ -50,6 +52,7 @@
 		4AE5CB632A232FDB0016C0B4 /* CalanderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AE5CB622A232FDB0016C0B4 /* CalanderView.swift */; };
 		4AE5CB672A2348190016C0B4 /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AE5CB662A2348190016C0B4 /* String+Extension.swift */; };
 		4AE5CB6B2A2469D00016C0B4 /* Calendar+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AE5CB6A2A2469D00016C0B4 /* Calendar+Extension.swift */; };
+		4AE5CB702A261E520016C0B4 /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AE5CB6F2A261E520016C0B4 /* APIClient.swift */; };
 		A0E83505901348E67E5231F5 /* Pods_LoveBird.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 212E893A725E4BE7E73B96EB /* Pods_LoveBird.framework */; };
 /* End PBXBuildFile section */
 
@@ -67,13 +70,15 @@
 		4A0396972A0FA61A00EB062D /* RootView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
 		4A0396992A0FA61A00EB062D /* HomeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		4A03969A2A0FA61A00EB062D /* HomeCore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeCore.swift; sourceTree = "<group>"; };
+		4A1DDF1B2A2C11D700B3A72B /* Localizable.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
+		4A1DDF1D2A2C338100B3A72B /* TouchableStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TouchableStack.swift; sourceTree = "<group>"; };
 		4AB2DB272A18FBE3003EFD95 /* Pretendard-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Regular.otf"; sourceTree = "<group>"; };
 		4AB2DB292A18FBE3003EFD95 /* Pretendard-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Bold.otf"; sourceTree = "<group>"; };
 		4AB2DB2D2A19A24D003EFD95 /* View+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Extension.swift"; sourceTree = "<group>"; };
 		4AB2DB302A19A282003EFD95 /* TextFieldClearButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldClearButton.swift; sourceTree = "<group>"; };
 		4AB2DB332A19A2C1003EFD95 /* TextFieldState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldState.swift; sourceTree = "<group>"; };
 		4AB2DB352A19AE4F003EFD95 /* KeyboardResponder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardResponder.swift; sourceTree = "<group>"; };
-		4AB2DB392A19B3F4003EFD95 /* OnboardingBirthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingBirthView.swift; sourceTree = "<group>"; };
+		4AB2DB392A19B3F4003EFD95 /* OnboardingDateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingDateView.swift; sourceTree = "<group>"; };
 		4AB2DB3B2A19B9F4003EFD95 /* BottomSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetView.swift; sourceTree = "<group>"; };
 		4AB2DB3D2A1A2EA4003EFD95 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		4AB2DB3F2A1A2EF3003EFD95 /* CustomPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPickerView.swift; sourceTree = "<group>"; };
@@ -101,6 +106,7 @@
 		4AE5CB622A232FDB0016C0B4 /* CalanderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalanderView.swift; sourceTree = "<group>"; };
 		4AE5CB662A2348190016C0B4 /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
 		4AE5CB6A2A2469D00016C0B4 /* Calendar+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Calendar+Extension.swift"; sourceTree = "<group>"; };
+		4AE5CB6F2A261E520016C0B4 /* APIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClient.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -156,6 +162,8 @@
 		4A0396902A0FA5E900EB062D /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				4A1DDF1A2A2C104200B3A72B /* ViewModifier */,
+				4AE5CB6C2A261A100016C0B4 /* Network */,
 				4AE5CB4C2A21B1070016C0B4 /* Model */,
 				4AB2DB2F2A19A26B003EFD95 /* Util */,
 				4ACCB9762A18F094009F1E22 /* Extension */,
@@ -173,7 +181,7 @@
 				4AB2DB332A19A2C1003EFD95 /* TextFieldState.swift */,
 				4A0396922A0FA61A00EB062D /* OnboardingCore.swift */,
 				4A0396932A0FA61A00EB062D /* OnboardingView.swift */,
-				4AB2DB392A19B3F4003EFD95 /* OnboardingBirthView.swift */,
+				4AB2DB392A19B3F4003EFD95 /* OnboardingDateView.swift */,
 			);
 			path = Onboarding;
 			sourceTree = "<group>";
@@ -206,12 +214,21 @@
 			path = Home;
 			sourceTree = "<group>";
 		};
+		4A1DDF1A2A2C104200B3A72B /* ViewModifier */ = {
+			isa = PBXGroup;
+			children = (
+				4AB2DB302A19A282003EFD95 /* TextFieldClearButton.swift */,
+			);
+			path = ViewModifier;
+			sourceTree = "<group>";
+		};
 		4A3F1FB02A18D15B009856F1 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
 				4ACCB97F2A18F7BF009F1E22 /* Font */,
 				4ACCB9712A18DE7E009F1E22 /* R.generated.swift */,
 				4A0396862A0FA5B800EB062D /* Assets.xcassets */,
+				4A1DDF1B2A2C11D700B3A72B /* Localizable.strings */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -219,7 +236,6 @@
 		4AB2DB2F2A19A26B003EFD95 /* Util */ = {
 			isa = PBXGroup;
 			children = (
-				4AB2DB302A19A282003EFD95 /* TextFieldClearButton.swift */,
 				4AB2DB352A19AE4F003EFD95 /* KeyboardResponder.swift */,
 			);
 			path = Util;
@@ -242,6 +258,7 @@
 				4AB2DB3F2A1A2EF3003EFD95 /* CustomPickerView.swift */,
 				4AB2DB4E2A1FA977003EFD95 /* ReversedScrollView.swift */,
 				4AB2DB502A1FAAA5003EFD95 /* Line.swift */,
+				4A1DDF1D2A2C338100B3A72B /* TouchableStack.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -303,6 +320,14 @@
 				4AE5CB622A232FDB0016C0B4 /* CalanderView.swift */,
 			);
 			path = Calander;
+			sourceTree = "<group>";
+		};
+		4AE5CB6C2A261A100016C0B4 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				4AE5CB6F2A261E520016C0B4 /* APIClient.swift */,
+			);
+			path = Network;
 			sourceTree = "<group>";
 		};
 		BF6E410E5BBC3F57980C8846 /* Frameworks */ = {
@@ -390,6 +415,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4A03968A2A0FA5B800EB062D /* Preview Assets.xcassets in Resources */,
+				4A1DDF1C2A2C11D700B3A72B /* Localizable.strings in Resources */,
 				4AB2DB2C2A18FBE3003EFD95 /* Pretendard-Bold.otf in Resources */,
 				4AB2DB2A2A18FBE3003EFD95 /* Pretendard-Regular.otf in Resources */,
 				4AB2DB442A1A3290003EFD95 /* Pretendard-SemiBold.otf in Resources */,
@@ -493,14 +519,16 @@
 				4A0396832A0FA5B600EB062D /* LoveBirdApp.swift in Sources */,
 				4AB2DB3C2A19B9F4003EFD95 /* BottomSheetView.swift in Sources */,
 				4AE5CB6B2A2469D00016C0B4 /* Calendar+Extension.swift in Sources */,
-				4AB2DB3A2A19B3F4003EFD95 /* OnboardingBirthView.swift in Sources */,
+				4AB2DB3A2A19B3F4003EFD95 /* OnboardingDateView.swift in Sources */,
 				4AB2DB462A1A3366003EFD95 /* UIApplication+Extension.swift in Sources */,
 				4AB2DB312A19A282003EFD95 /* TextFieldClearButton.swift in Sources */,
 				4AE5CB672A2348190016C0B4 /* String+Extension.swift in Sources */,
 				4AB2DB3E2A1A2EA4003EFD95 /* ContentView.swift in Sources */,
 				4A03969E2A0FA61A00EB062D /* RootCore.swift in Sources */,
+				4A1DDF1E2A2C338100B3A72B /* TouchableStack.swift in Sources */,
 				4AB2DB512A1FAAA5003EFD95 /* Line.swift in Sources */,
 				4AB2DB2E2A19A24D003EFD95 /* View+Extension.swift in Sources */,
+				4AE5CB702A261E520016C0B4 /* APIClient.swift in Sources */,
 				4AE5CB492A20FF1D0016C0B4 /* HomeLeftLineView.swift in Sources */,
 				4AE5CB5A2A232E490016C0B4 /* DiaryView.swift in Sources */,
 				4ACCB98A2A18F7ED009F1E22 /* Font+Extension.swift in Sources */,

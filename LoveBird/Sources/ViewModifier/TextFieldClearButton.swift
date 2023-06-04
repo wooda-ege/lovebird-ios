@@ -13,11 +13,11 @@ struct TextFieldClearButton: ViewModifier {
     func body(content: Content) -> some View {
         content
             .overlay {
-                if !fieldText.isEmpty {
+                if self.fieldText.isNotEmpty {
                     HStack {
                         Spacer()
                         Button {
-                            fieldText = ""
+                            self.fieldText = ""
                         } label: {
                             Image(systemName: "multiply.circle.fill")
                         }

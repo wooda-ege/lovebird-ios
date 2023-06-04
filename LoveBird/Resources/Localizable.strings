@@ -1,0 +1,19 @@
+/* 
+  Localizable.strings
+  LoveBird
+
+  Created by 황득연 on 2023/06/04.
+  
+*/
+
+"common_confirm" = "확인";
+"common_next" = "다음";
+"main_tab_home" = "홈";
+"main_tab_calendar" = "캘린더";
+"main_tab_note" = "일기 작성";
+"main_tab_my_page" = "마이페이지";
+"onboarding_nickname_title" = "당신의 애칭을 알려주세요";
+"onboarding_nickname_description" = "애칭이 없다면 이름 또는 별명을 알려주셔도 좋아요";
+"onboarding_date_title" = "연인과 사랑을 시작한 날짜를 알려주세요";
+"onboarding_date_description" = "러브버드가 기념일을 계산해서 알려드릴게요";
+"onboarding_date_initial" = "초기화";

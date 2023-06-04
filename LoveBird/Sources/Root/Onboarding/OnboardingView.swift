@@ -22,10 +22,14 @@ struct OnboardingView: View {
             VStack {
                 HStack {
                     Button { viewStore.send(.previousTapped) } label: {
-                        Image(viewStore.page.index == 0 ? R.image.ic_navigate_previous_active : R.image.ic_navigate_previous_inactive)
+                        Image(viewStore.page.index == 0
+                                  ? R.image.ic_navigate_previous_active
+                                  : R.image.ic_navigate_previous_inactive)
                             .offset(x: 16)
                     }
+                    
                     Spacer()
+                    
                     HStack {
                         Circle()
                             .frame(width: 10, height: 10)
@@ -34,12 +38,16 @@ struct OnboardingView: View {
                             .frame(width: 10, height: 10)
                             .foregroundColor(Color(R.color.green100))
                     }
+                    
                     Spacer()
+                    
                     Button {
                         viewStore.send(.nextTapped)
                         self.hideKeyboard()
                     } label: {
-                        Image(viewStore.page.index == 1 ? R.image.ic_navigate_next_active : R.image.ic_navigate_next_inactive)
+                        Image(viewStore.page.index == 1
+                                  ? R.image.ic_navigate_next_active
+                                  : R.image.ic_navigate_next_inactive)
                             .offset(x: -16)
                     }
                 }
@@ -50,7 +58,7 @@ struct OnboardingView: View {
                         OnboardingNicknameView(store: self.store)
                             .frame(maxWidth: .infinity, maxHeight: .infinity)
                     } else {
-                        OnboardingBirthView(store: self.store)
+                        OnboardingDateView(store: self.store)
                             .frame(maxWidth: .infinity, maxHeight: .infinity)
                     }
                 }

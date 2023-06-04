@@ -35,7 +35,7 @@ struct HomeCore: ReducerProtocol {
             case .diaryTapped(let diary):
                 return .none //TODO: 득연 - Navigation
             case .offsetYChanged(let y):
-                if y >= 0 { state.offsetY = y }
+                state.offsetY = y
             default:
                 break
             }

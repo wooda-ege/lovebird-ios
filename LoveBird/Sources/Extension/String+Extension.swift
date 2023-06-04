@@ -13,5 +13,9 @@ extension String {
         let predicate = NSPredicate(format:"SELF MATCHES %@", regEx)
         return predicate.evaluate(with: self)
     }
+    
+    var isNotEmpty: Bool {
+        return !self.isEmpty
+    }
 }
 

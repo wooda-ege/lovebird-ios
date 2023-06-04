@@ -25,17 +25,15 @@ struct ReversedScrollView<Content: View>: View {
                         Color.clear.preference(
                             key: OffsetPreferenceKey.self,
                             value: proxy.frame(
-                                in: .named("ScrollViewOrigin")
+                                in: .global
                             ).origin
                         )
                     }
-                    .frame(width: 0, height: 0)
                     Spacer()
                     self.content
                 }
                 .frame(minHeight: proxy.size.height)
             }
-            .coordinateSpace(name: "ScrollViewOrigin")
             .onPreferenceChange(OffsetPreferenceKey.self,
                                 perform: onOffsetChanged)
         }

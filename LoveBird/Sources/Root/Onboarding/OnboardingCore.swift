@@ -33,8 +33,11 @@ struct OnboardingCore: ReducerProtocol {
         case showBottomSheet
         case hideBottomSheet
         case dateInitialied
+        case signUpResponse(TaskResult<ResponseExample>)
         case none
     }
+    
+    @Dependency(\.apiClient) var apiClient
     
     var body: some ReducerProtocol<State, Action> {
         Reduce { state, action in
@@ -69,8 +72,15 @@ struct OnboardingCore: ReducerProtocol {
                 state.month = Calendar.month
                 state.day = Calendar.day
             case .doneButtonTapped:
+                return .task { [email = state.year, month = state.month] in
+                        .signUpResponse(
+                            await TaskResult {
+                                try await self.apiClient.signUp()
+                            }
+                        )
+                }
                 break
-            case .none:
+            default:
                 break
             }
             return .none

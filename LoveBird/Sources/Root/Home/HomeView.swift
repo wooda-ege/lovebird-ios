@@ -39,23 +39,32 @@ struct HomeView: View {
                         }
                     }
                 }
-                .frame(width: UIScreen.width - 32, height: 44)
+                .frame(height: 44)
+                .padding([.leading, .trailing], 16)
+                
                 Spacer()
+                
                 ZStack(alignment: .leading) {
                     Line()
                         .stroke(style: StrokeStyle(lineWidth: 1, dash: [2]))
                         .frame(maxWidth: 1, maxHeight: .infinity)
                         .foregroundColor(Color(R.color.primary))
                         .padding(.leading, 22)
+                    
                     VStack(alignment: .leading) {
                         GeometryReader { proxy in
                             Rectangle()
                                 .fill(Color(R.color.primary))
-                                .frame(width: 2, height: min(UIScreen.height, max(0, proxy.frame(in: .global).origin.y + viewStore.state.offsetY)))
+                                .frame(width: 2, height: min(
+                                    UIScreen.height,
+                                    max(0, proxy.frame(in: .global).origin.y + viewStore.state.offsetY))
+                                )
                                 .padding(.leading, 21)
+                            
+                            Spacer()
                         }
-                        Spacer()
                     }
+                    
                     ReversedScrollView { point in
                         viewStore.send(.offsetYChanged(point.y))
                     } content: {

@@ -11,11 +11,21 @@ let R = _R(bundle: Bundle(for: BundleFinder.self))
 
 struct _R {
   let bundle: Foundation.Bundle
+  var string: string { .init(bundle: bundle, preferredLanguages: nil, locale: nil) }
   var color: color { .init(bundle: bundle) }
   var image: image { .init(bundle: bundle) }
   var font: font { .init(bundle: bundle) }
   var file: file { .init(bundle: bundle) }
 
+  func string(bundle: Foundation.Bundle) -> string {
+    .init(bundle: bundle, preferredLanguages: nil, locale: nil)
+  }
+  func string(locale: Foundation.Locale) -> string {
+    .init(bundle: bundle, preferredLanguages: nil, locale: locale)
+  }
+  func string(preferredLanguages: [String], locale: Locale? = nil) -> string {
+    .init(bundle: bundle, preferredLanguages: preferredLanguages, locale: locale)
+  }
   func color(bundle: Foundation.Bundle) -> color {
     .init(bundle: bundle)
   }
@@ -34,6 +44,79 @@ struct _R {
 
   struct project {
     let developmentRegion = "en"
+  }
+
+  /// This `_R.string` struct is generated, and contains static references to 1 localization tables.
+  struct string {
+    let bundle: Foundation.Bundle
+    let preferredLanguages: [String]?
+    let locale: Locale?
+    var localizable: localizable { .init(source: .init(bundle: bundle, tableName: "Localizable", preferredLanguages: preferredLanguages, locale: locale)) }
+
+    func localizable(preferredLanguages: [String]) -> localizable {
+      .init(source: .init(bundle: bundle, tableName: "Localizable", preferredLanguages: preferredLanguages, locale: locale))
+    }
+
+
+    /// This `_R.string.localizable` struct is generated, and contains static references to 11 localization keys.
+    struct localizable {
+      let source: RswiftResources.StringResource.Source
+
+      /// Value: 확인
+      ///
+      /// Key: common_confirm
+      var common_confirm: RswiftResources.StringResource { .init(key: "common_confirm", tableName: "Localizable", source: source, developmentValue: nil, comment: nil) }
+
+      /// Value: 다음
+      ///
+      /// Key: common_next
+      var common_next: RswiftResources.StringResource { .init(key: "common_next", tableName: "Localizable", source: source, developmentValue: nil, comment: nil) }
+
+      /// Value: 캘린더
+      ///
+      /// Key: main_tab_calendar
+      var main_tab_calendar: RswiftResources.StringResource { .init(key: "main_tab_calendar", tableName: "Localizable", source: source, developmentValue: nil, comment: nil) }
+
+      /// Value: 홈
+      ///
+      /// Key: main_tab_home
+      var main_tab_home: RswiftResources.StringResource { .init(key: "main_tab_home", tableName: "Localizable", source: source, developmentValue: nil, comment: nil) }
+
+      /// Value: 마이페이지
+      ///
+      /// Key: main_tab_my_page
+      var main_tab_my_page: RswiftResources.StringResource { .init(key: "main_tab_my_page", tableName: "Localizable", source: source, developmentValue: nil, comment: nil) }
+
+      /// Value: 일기 작성
+      ///
+      /// Key: main_tab_note
+      var main_tab_note: RswiftResources.StringResource { .init(key: "main_tab_note", tableName: "Localizable", source: source, developmentValue: nil, comment: nil) }
+
+      /// Value: 러브버드가 기념일을 계산해서 알려드릴게요
+      ///
+      /// Key: onboarding_date_description
+      var onboarding_date_description: RswiftResources.StringResource { .init(key: "onboarding_date_description", tableName: "Localizable", source: source, developmentValue: nil, comment: nil) }
+
+      /// Value: 초기화
+      ///
+      /// Key: onboarding_date_initial
+      var onboarding_date_initial: RswiftResources.StringResource { .init(key: "onboarding_date_initial", tableName: "Localizable", source: source, developmentValue: nil, comment: nil) }
+
+      /// Value: 연인과 사랑을 시작한 날짜를 알려주세요
+      ///
+      /// Key: onboarding_date_title
+      var onboarding_date_title: RswiftResources.StringResource { .init(key: "onboarding_date_title", tableName: "Localizable", source: source, developmentValue: nil, comment: nil) }
+
+      /// Value: 애칭이 없다면 이름 또는 별명을 알려주셔도 좋아요
+      ///
+      /// Key: onboarding_nickname_description
+      var onboarding_nickname_description: RswiftResources.StringResource { .init(key: "onboarding_nickname_description", tableName: "Localizable", source: source, developmentValue: nil, comment: nil) }
+
+      /// Value: 당신의 애칭을 알려주세요
+      ///
+      /// Key: onboarding_nickname_title
+      var onboarding_nickname_title: RswiftResources.StringResource { .init(key: "onboarding_nickname_title", tableName: "Localizable", source: source, developmentValue: nil, comment: nil) }
+    }
   }
 
   /// This `_R.color` struct is generated, and contains static references to 10 colors.

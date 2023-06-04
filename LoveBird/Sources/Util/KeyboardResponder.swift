@@ -13,11 +13,11 @@ class KeyboardResponder: ObservableObject {
     var cancellable: AnyCancellable?
 
     init() {
-        cancellable = NotificationCenter.default.publisher(for: UIResponder.keyboardWillShowNotification)
+        self.cancellable = NotificationCenter.default.publisher(for: UIResponder.keyboardWillShowNotification)
             .map { $0.keyboardHeight }
             .merge(with: NotificationCenter.default.publisher(for: UIResponder.keyboardWillHideNotification)
                         .map { _ in CGFloat(0) })
-            .assign(to: \.currentHeight, on: self)
+            .assign(to: \Self.currentHeight, on: self)
     }
 }
 

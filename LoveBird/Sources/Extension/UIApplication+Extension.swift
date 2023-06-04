@@ -12,9 +12,4 @@ extension UIApplication {
         let scene = Self.shared.connectedScenes.first as? UIWindowScene
         return scene?.windows.first?.safeAreaInsets ?? .zero
     }
-    
-    static func hideKeyboard() {
-        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
-    }
-
 }

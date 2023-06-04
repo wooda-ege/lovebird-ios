@@ -24,28 +24,35 @@ struct MainTabView: View {
                     HomeView(store: self.store.scope(state: \.home!, action: MainTabCore.Action.home))
                         .tabItem {
                             Image(R.image.ic_timeline)
-                            Text("홈")
+                            
+                            Text(R.string.localizable.main_tab_home)
                                 .font(.pretendard(size: 12))
                         }
                         .tag(MainTabCore.Tab.home)
+                    
                     CalanderView(store: self.store.scope(state: \.calander!, action: MainTabCore.Action.calander))
                         .tabItem {
                             Image(R.image.ic_calendar)
-                            Text("캘린더")
+                            
+                            Text(R.string.localizable.main_tab_calendar)
                                 .font(.pretendard(size: 12))
                         }
                         .tag(MainTabCore.Tab.canlander)
+                    
                     DiaryView(store: self.store.scope(state: \.diary!, action: MainTabCore.Action.diary))
                         .tabItem {
                             Image(R.image.ic_note)
-                            Text("일기 작성")
+                            
+                            Text(R.string.localizable.main_tab_note)
                                 .font(.pretendard(size: 12))
                         }
                         .tag(MainTabCore.Tab.diary)
+                    
                     MyPageView(store: self.store.scope(state: \.myPage!, action: MainTabCore.Action.myPage))
                         .tabItem {
                             Image(R.image.ic_person)
-                            Text("마이페이지")
+                            
+                            Text(R.string.localizable.main_tab_my_page)
                                 .font(.pretendard(size: 12))
                         }
                         .tag(MainTabCore.Tab.myPage)
@@ -53,7 +60,7 @@ struct MainTabView: View {
                 .onAppear {
                     let appearance = UITabBarAppearance()
                     appearance.backgroundColor = .white
-                    appearance.shadowImage = UIImage.showdowImage
+                    appearance.shadowImage = UIImage.shadowImage
                     UITabBar.appearance().scrollEdgeAppearance = appearance
                 }
             }

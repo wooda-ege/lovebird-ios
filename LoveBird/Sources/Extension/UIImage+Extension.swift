@@ -8,7 +8,7 @@
 import UIKit
 
 extension UIImage {
-    static var showdowImage: UIImage {
+    static var shadowImage: UIImage {
         let gradientLayer = CAGradientLayer()
         gradientLayer.frame = CGRect( x: 0, y: 0, width: UIScreen.width, height: 8)
         gradientLayer.colors = [

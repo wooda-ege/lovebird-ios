@@ -18,18 +18,22 @@ struct OnboardingNicknameView: View {
         WithViewStore(self.store) { viewStore in
             VStack {
                 Spacer().frame(height: 24)
-                Text("당신의 애칭을 알려주세요")
+                
+                Text(R.string.localizable.onboarding_nickname_title)
                     .font(.pretendard(size: 20, weight: .bold))
                     .foregroundColor(.black)
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(.leading, 16)
-                Text("애칭이 없다면 이름 또는 별명을 알려주셔도 좋아요")
+                
+                Text(R.string.localizable.onboarding_nickname_description)
                     .font(.pretendard(size: 16, weight: .regular))
                     .foregroundColor(Color(R.color.gray156))
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(.top, 12)
                     .padding(.leading, 16)
+                
                 Spacer().frame(height: 48)
+                
                 TextField("ex. 러버", text: viewStore.binding(get: \.nickname, send: OnboardingCore.Action.nicknameEdited))
                     .font(.pretendard(size: 18, weight: .regular))
                     .foregroundColor(.black)
@@ -47,22 +51,23 @@ struct OnboardingNicknameView: View {
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(.top, 10)
                     .padding(.leading, 16)
+                
                 Spacer()
+                
                 Button {
                     viewStore.send(.nextTapped)
                     self.hideKeyboard()
                 } label: {
-                    ZStack {
-                        Text("다음")
+                    TouchableStack {
+                        Text(R.string.localizable.common_next)
                             .font(.pretendard(size: 16, weight: .semiBold))
-                        Rectangle()
-                            .fill(Color.clear)
+                            .foregroundColor(.white)
                     }
                 }
-                .frame(width: UIScreen.width - 32, height: 56)
+                .frame(height: 56)
                 .background(viewStore.textFieldState == .correct ? .black : Color(R.color.gray214))
                 .cornerRadius(12)
-                .foregroundColor(.white)
+                .padding(.horizontal, 16)
                 .padding(.bottom, keyboard.currentHeight == 0 ? 20 + UIApplication.edgeInsets.bottom : keyboard.currentHeight + 20)
             }
             .background(.white)
@@ -74,9 +79,6 @@ struct OnboardingNicknameView: View {
                     viewStore.send(.textFieldStateChanged(newValue ? .editing : .none))
                 }
             }
-//            .onChange(of: viewStore.nickname) { newValue in
-//                viewStore.textFieldState = newValue.count >= 2 ? .correct : .editing
-//            }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(.white)
         }

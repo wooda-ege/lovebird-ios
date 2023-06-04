@@ -52,16 +52,12 @@ struct BottomSheetView<Content: View>: View {
             .animation(.interactiveSpring(), value: isOpen)
             .gesture(
                 DragGesture().updating(self.$translation) { value, state, _ in
-                    if value.translation.height < 0 {
-                        return
-                    }
+                    if value.translation.height < 0 { return }
                     state = value.translation.height
                 }.onEnded { value in
                     let snapDistance = self.maxHeight * 0.5
-                    guard abs(value.translation.height) > snapDistance else {
-                        return
-                    }
-                    self.isOpen = value.translation.height < 0
+                    guard abs(value.translation.height) > snapDistance else { return }
+                    self.isOpen = false
                 }
             )
         }

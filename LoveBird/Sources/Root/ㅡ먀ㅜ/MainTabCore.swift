@@ -48,5 +48,14 @@ struct MainTabCore: ReducerProtocol {
         .ifLet(\.home, action: /Action.home) {
             HomeCore()
         }
+        .ifLet(\.calander, action: /Action.calander) {
+            CalanderCore()
+        }
+        .ifLet(\.diary, action: /Action.diary) {
+            DiaryCore()
+        }
+        .ifLet(\.myPage, action: /Action.myPage) {
+            MyPageCore()
+        }
     }
 }

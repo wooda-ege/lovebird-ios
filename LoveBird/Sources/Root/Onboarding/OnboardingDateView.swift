@@ -1,5 +1,5 @@
 //
-//  OnboardingBirthView.swift
+//  OnboardingDateView.swift
 //  LoveBird
 //
 //  Created by 황득연 on 2023/05/21.
@@ -8,7 +8,7 @@
 import SwiftUI
 import ComposableArchitecture
 
-struct OnboardingBirthView: View {
+struct OnboardingDateView: View {
     
     let store: StoreOf<OnboardingCore>
 
@@ -17,12 +17,12 @@ struct OnboardingBirthView: View {
             ZStack {
                 VStack {
                     Spacer().frame(height: 24)
-                    Text("연인과 사랑을 시작한 날짜를 알려주세요")
+                    Text(R.string.localizable.onboarding_date_title)
                         .font(.pretendard(size: 20, weight: .bold))
                         .foregroundColor(.black)
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .padding(.leading, 16)
-                    Text("러브버드가 기념일을 계산해서 알려드릴게요")
+                    Text(R.string.localizable.onboarding_date_description)
                         .font(.pretendard(size: 16, weight: .regular))
                         .foregroundColor(Color(R.color.gray156))
                         .frame(maxWidth: .infinity, alignment: .leading)
@@ -30,6 +30,7 @@ struct OnboardingBirthView: View {
                         .padding(.leading, 16)
                     Spacer()
                         .frame(height: 48)
+                   
                     HStack(alignment: .center, spacing: 8) {
                         Text(String(viewStore.year))
                             .font(.pretendard(size: 18))
@@ -44,26 +45,28 @@ struct OnboardingBirthView: View {
                         Text(String(viewStore.day))
                             .font(.pretendard(size: 18))
                     }
+                    .frame(width: UIScreen.width - 32, height: 56)
+                    .contentShape(Rectangle())
+                    .roundedBackground(cornerRadius: 12, color: Color(R.color.primary))
                     .onTapGesture {
                         viewStore.send(.showBottomSheet)
                     }
-                    .frame(width: UIScreen.width - 32, height: 56)
-                    .roundedBackground(cornerRadius: 12, color: Color(R.color.primary))
+                    
                     Spacer()
+                        
                     Button(action: {
                         viewStore.send(.doneButtonTapped)
                     }) {
-                        ZStack {
-                            Text("다음")
+                        TouchableStack {
+                            Text(R.string.localizable.common_next)
                                 .font(.pretendard(size: 16, weight: .semiBold))
-                            Rectangle()
-                                .fill(Color.clear)
+                                .foregroundColor(.white)
                         }
                     }
-                    .frame(width: UIScreen.width - 32, height: 56)
+                    .frame(height: 56)
                     .background(.black)
                     .cornerRadius(12)
-                    .foregroundColor(.white)
+                    .padding(.horizontal, 16)
                     .padding(.bottom, 20 + UIApplication.edgeInsets.bottom)
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -72,18 +75,19 @@ struct OnboardingBirthView: View {
                 if viewStore.showBottomSheet {
                     BottomSheetView(isOpen: viewStore.binding(
                         get: \.showBottomSheet,
-                        send: .none
+                        send: .hideBottomSheet
                     )) {
                         VStack {
                             CustomPickerView(
                                 year: viewStore.binding(get: \.year, send: OnboardingCore.Action.yearSelected),
                                 month: viewStore.binding(get: \.month, send: OnboardingCore.Action.monthSelected),
                                 day: viewStore.binding(get: \.day, send: OnboardingCore.Action.daySelected))
+                            
                             HStack(spacing: 8) {
                                 Button(action: {
                                     viewStore.send(.dateInitialied)
                                 }) {
-                                    Text("초기화")
+                                    Text(R.string.localizable.onboarding_date_initial)
                                         .font(.pretendard(size: 16, weight: .semiBold))
                                         .frame(maxWidth: .infinity, maxHeight: 56)
                                         .background(Color(R.color.gray214))
@@ -93,7 +97,7 @@ struct OnboardingBirthView: View {
                                 Button(action: {
                                     viewStore.send(.hideBottomSheet)
                                 }) {
-                                    Text("확인")
+                                    Text(R.string.localizable.common_next)
                                         .font(.pretendard(size: 16, weight: .semiBold))
                                         .frame(maxWidth: .infinity, maxHeight: 56)
                                         .background(.black)
