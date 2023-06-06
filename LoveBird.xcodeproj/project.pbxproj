@@ -10,6 +10,11 @@
 		4263E1BC2A2F3372008B402B /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4263E1BB2A2F3372008B402B /* CustomButton.swift */; };
 		4263E1BE2A2F33DB008B402B /* ResignKeyboardOnDragGesture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4263E1BD2A2F33DB008B402B /* ResignKeyboardOnDragGesture.swift */; };
 		4263E1C02A2F3419008B402B /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4263E1BF2A2F3419008B402B /* ImagePicker.swift */; };
+		4263E1C22A2F34B7008B402B /* KakaoMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4263E1C12A2F34B7008B402B /* KakaoMap.swift */; };
+		4263E1C42A2F34E8008B402B /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4263E1C32A2F34E8008B402B /* NetworkManager.swift */; };
+		4263E1C62A2F3500008B402B /* SearchPlaceAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4263E1C52A2F3500008B402B /* SearchPlaceAPI.swift */; };
+		4263E1C82A2F3522008B402B /* SearchPlaceCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4263E1C72A2F3522008B402B /* SearchPlaceCore.swift */; };
+		4263E1CD2A2F3563008B402B /* SearchPlaceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4263E1CC2A2F3563008B402B /* SearchPlaceView.swift */; };
 		4A0396832A0FA5B600EB062D /* LoveBirdApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A0396822A0FA5B600EB062D /* LoveBirdApp.swift */; };
 		4A0396872A0FA5B800EB062D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4A0396862A0FA5B800EB062D /* Assets.xcassets */; };
 		4A03968A2A0FA5B800EB062D /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4A0396892A0FA5B800EB062D /* Preview Assets.xcassets */; };
@@ -66,6 +71,11 @@
 		4263E1BB2A2F3372008B402B /* CustomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
 		4263E1BD2A2F33DB008B402B /* ResignKeyboardOnDragGesture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResignKeyboardOnDragGesture.swift; sourceTree = "<group>"; };
 		4263E1BF2A2F3419008B402B /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
+		4263E1C12A2F34B7008B402B /* KakaoMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KakaoMap.swift; sourceTree = "<group>"; };
+		4263E1C32A2F34E8008B402B /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
+		4263E1C52A2F3500008B402B /* SearchPlaceAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchPlaceAPI.swift; sourceTree = "<group>"; };
+		4263E1C72A2F3522008B402B /* SearchPlaceCore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchPlaceCore.swift; sourceTree = "<group>"; };
+		4263E1CC2A2F3563008B402B /* SearchPlaceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchPlaceView.swift; sourceTree = "<group>"; };
 		4A03967F2A0FA5B600EB062D /* LoveBird.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LoveBird.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4A0396822A0FA5B600EB062D /* LoveBirdApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoveBirdApp.swift; sourceTree = "<group>"; };
 		4A0396862A0FA5B800EB062D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -128,6 +138,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4263E1CB2A2F3550008B402B /* Place */ = {
+			isa = PBXGroup;
+			children = (
+				4263E1C72A2F3522008B402B /* SearchPlaceCore.swift */,
+				4263E1CC2A2F3563008B402B /* SearchPlaceView.swift */,
+			);
+			path = Place;
+			sourceTree = "<group>";
+		};
 		4A0396762A0FA5B600EB062D = {
 			isa = PBXGroup;
 			children = (
@@ -195,6 +214,7 @@
 		4A0396942A0FA61A00EB062D /* Root */ = {
 			isa = PBXGroup;
 			children = (
+				4263E1CB2A2F3550008B402B /* Place */,
 				4AE5CB5F2A232FC10016C0B4 /* Calander */,
 				4AE5CB562A232E330016C0B4 /* MyPage */,
 				4AE5CB552A232E250016C0B4 /* Diary */,
@@ -300,6 +320,7 @@
 			isa = PBXGroup;
 			children = (
 				4AE5CB4D2A21B1180016C0B4 /* Diary.swift */,
+				4263E1C12A2F34B7008B402B /* KakaoMap.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -335,6 +356,8 @@
 			isa = PBXGroup;
 			children = (
 				4AE5CB6F2A261E520016C0B4 /* APIClient.swift */,
+				4263E1C32A2F34E8008B402B /* NetworkManager.swift */,
+				4263E1C52A2F3500008B402B /* SearchPlaceAPI.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -505,6 +528,8 @@
 				4A03969B2A0FA61A00EB062D /* OnboardingCore.swift in Sources */,
 				4AB2DB4D2A1F8651003EFD95 /* HomeItem.swift in Sources */,
 				4AB2DB342A19A2C1003EFD95 /* TextFieldState.swift in Sources */,
+				4263E1C22A2F34B7008B402B /* KakaoMap.swift in Sources */,
+				4263E1C42A2F34E8008B402B /* NetworkManager.swift in Sources */,
 				4263E1C02A2F3419008B402B /* ImagePicker.swift in Sources */,
 				4AB2DB402A1A2EF3003EFD95 /* CustomPickerView.swift in Sources */,
 				4263E1BC2A2F3372008B402B /* CustomButton.swift in Sources */,
@@ -519,6 +544,7 @@
 				4ACCB97E2A18F3C8009F1E22 /* OnboardingNicknameView.swift in Sources */,
 				4AE5CB5E2A232F6C0016C0B4 /* MyPageCore.swift in Sources */,
 				4ACCB9782A18F0A6009F1E22 /* UIScreen+Extension.swift in Sources */,
+				4263E1C62A2F3500008B402B /* SearchPlaceAPI.swift in Sources */,
 				4AB2DB362A19AE4F003EFD95 /* KeyboardResponder.swift in Sources */,
 				4AE5CB632A232FDB0016C0B4 /* CalanderView.swift in Sources */,
 				4A0396A02A0FA61A00EB062D /* HomeView.swift in Sources */,
@@ -527,6 +553,8 @@
 				4AE5CB582A232E3F0016C0B4 /* DiaryCore.swift in Sources */,
 				4AE5CB4E2A21B1180016C0B4 /* Diary.swift in Sources */,
 				4AE5CB612A232FCA0016C0B4 /* CalanderCore.swift in Sources */,
+				4263E1CD2A2F3563008B402B /* SearchPlaceView.swift in Sources */,
+				4263E1C82A2F3522008B402B /* SearchPlaceCore.swift in Sources */,
 				4AB2DB4F2A1FA977003EFD95 /* ReversedScrollView.swift in Sources */,
 				4A0396832A0FA5B600EB062D /* LoveBirdApp.swift in Sources */,
 				4AB2DB3C2A19B9F4003EFD95 /* BottomSheetView.swift in Sources */,

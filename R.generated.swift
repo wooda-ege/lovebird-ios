@@ -154,9 +154,15 @@ struct _R {
     var primary: RswiftResources.ColorResource { .init(name: "Primary", path: [], bundle: bundle) }
   }
 
-  /// This `_R.image` struct is generated, and contains static references to 13 images.
+  /// This `_R.image` struct is generated, and contains static references to 17 images.
   struct image {
     let bundle: Foundation.Bundle
+
+    /// Image `back`.
+    var back: RswiftResources.ImageResource { .init(name: "back", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `flower`.
+    var flower: RswiftResources.ImageResource { .init(name: "flower", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
     /// Image `ic_calendar`.
     var ic_calendar: RswiftResources.ImageResource { .init(name: "ic_calendar", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
@@ -196,6 +202,12 @@ struct _R {
 
     /// Image `ic_timeline`.
     var ic_timeline: RswiftResources.ImageResource { .init(name: "ic_timeline", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `map`.
+    var map: RswiftResources.ImageResource { .init(name: "map", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `photo`.
+    var photo: RswiftResources.ImageResource { .init(name: "photo", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
   }
 
   /// This `_R.font` struct is generated, and contains static references to 3 fonts.
