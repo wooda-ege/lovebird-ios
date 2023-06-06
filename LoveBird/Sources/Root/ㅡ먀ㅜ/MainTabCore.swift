@@ -28,7 +28,7 @@ struct MainTabCore: ReducerProtocol {
         case tabSelected(Tab)
         case home(HomeCore.Action)
         case calander(CalanderCore.Action)
-        case diary(DiaryCore.Action)
+        case diary(DiaryCore.DiaryCoreAction)
         case myPage(MyPageCore.Action)
     }
     
