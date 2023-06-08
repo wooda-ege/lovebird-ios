@@ -31,7 +31,10 @@ struct SearchPlaceView: View {
           .background(Color(uiColor: .secondarySystemBackground))
           .cornerRadius(10)
           .navigationTitle("장소 선택")
-          .navigationBarItems(leading: BackButton(), trailing: CompleteButton())
+          .navigationBarItems(leading: BackButton(), trailing: CompleteButton()
+            .onTapGesture {
+                SearchPlaceCore.SearchPlaceAction.completeButtonTapped
+            })
           .navigationBarBackButtonHidden(true)
       }
       List(viewStore.placeList, id:\.id) { place in

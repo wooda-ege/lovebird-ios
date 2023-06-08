@@ -16,12 +16,12 @@ struct DiaryCore: ReducerProtocol {
     var text: String = ""
   }
   
-  enum DiaryCoreAction: Equatable {
-    case titleLabelTapped(String)
-    case selectPlaceLabelTapped
-    case textDidEditting(String)
-    case changeTextEmpty
-  }
+    enum DiaryCoreAction: Equatable {
+        case titleLabelTapped(String)
+        case selectPlaceLabelTapped
+        case textDidEditting(String)
+        case changeTextEmpty
+    }
   
   var body: some ReducerProtocol<State, DiaryCoreAction> {
     Reduce<State, Action> { state, action in
@@ -36,7 +36,6 @@ struct DiaryCore: ReducerProtocol {
         return .none
       case .changeTextEmpty:
         state.text = ""
-          
       default:
         break
       }
