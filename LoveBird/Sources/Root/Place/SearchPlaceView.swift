@@ -11,7 +11,6 @@ import SwiftUI
 struct SearchPlaceView: View {
   let store: StoreOf<SearchPlaceCore>
   @Environment(\.presentationMode) var presentationMode
-//  @Binding var placeSelection: String
   
   enum Constant {
     static let placeholder = " 장소, 주소를 입력해주세요."
@@ -33,7 +32,7 @@ struct SearchPlaceView: View {
           .navigationTitle("장소 선택")
           .navigationBarItems(leading: BackButton(), trailing: CompleteButton()
             .onTapGesture {
-                SearchPlaceCore.SearchPlaceAction.completeButtonTapped
+                viewStore.send(.completeButtonTapped)
             })
           .navigationBarBackButtonHidden(true)
       }

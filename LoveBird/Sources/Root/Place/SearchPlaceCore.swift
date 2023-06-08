@@ -29,16 +29,11 @@ struct SearchPlaceCore: ReducerProtocol {
                 state.searchTerm = searchTerm
                 return .none
             case .selectPlace(let place):
-                // 여기서 DiaryCore의 place랑 바인딩
                 state.placeSelection = place
                 return .none
             case .changePlaceInfo(let placeInfo):
                 state.placeList = placeInfo
                 return .none
-            case .completeButtonTapped:
-                NavigationLink(destination: HomeView(store: Store(initialState: HomeCore.State(), reducer: HomeCore()))) {
-                    
-                }
             default:
                 break
             }

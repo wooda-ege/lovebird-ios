@@ -21,6 +21,7 @@ struct MainTabCore: ReducerProtocol {
         var home: HomeCore.State? = HomeCore.State()
         var calander: CalanderCore.State? = CalanderCore.State()
         var diary: DiaryCore.State? = DiaryCore.State()
+        var search: SearchPlaceCore.State? = SearchPlaceCore.State()
         var myPage: MyPageCore.State? = MyPageCore.State()
     }
     
@@ -29,6 +30,7 @@ struct MainTabCore: ReducerProtocol {
         case home(HomeCore.Action)
         case calander(CalanderCore.Action)
         case diary(DiaryCore.DiaryCoreAction)
+        case search(SearchPlaceCore.SearchPlaceAction)
         case myPage(MyPageCore.Action)
     }
     
@@ -39,6 +41,12 @@ struct MainTabCore: ReducerProtocol {
                 state.selectedTab = tab
                 return .none
             case .home(.emptyDiaryTapped):
+                state.selectedTab = .diary
+                return .none
+            case .diary(.completeButtonTapped):
+                state.selectedTab = .home
+                return .none
+            case .search(.completeButtonTapped):
                 state.selectedTab = .diary
                 return .none
             default:

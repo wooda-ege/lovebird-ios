@@ -12,6 +12,7 @@ struct DiaryCore: ReducerProtocol {
   struct State: Equatable {
     var title: String = ""
     var place: String = "장소 선택"
+     var subState: SearchPlaceCore.State = .init()
     var isPresented = false
     var text: String = ""
   }
@@ -21,6 +22,8 @@ struct DiaryCore: ReducerProtocol {
         case selectPlaceLabelTapped
         case textDidEditting(String)
         case changeTextEmpty
+        case completeButtonTapped
+        case subAction(SearchPlaceCore.SearchPlaceAction)
     }
   
   var body: some ReducerProtocol<State, DiaryCoreAction> {
@@ -36,6 +39,8 @@ struct DiaryCore: ReducerProtocol {
         return .none
       case .changeTextEmpty:
         state.text = ""
+      case .subAction(.selectPlace(let place)):
+          state.place = state.subState.placeSelection
       default:
         break
       }
@@ -43,4 +48,3 @@ struct DiaryCore: ReducerProtocol {
     }
   }
 }
-

@@ -38,10 +38,14 @@ struct DiaryView: View {
           .frame(height: 44)
           .navigationBarTitleDisplayMode(.inline)
           .navigationTitle("일기 쓰기")
-          .navigationBarItems(trailing: CompleteButton())
+          .navigationBarItems(trailing:
+                                Button("완료") {
+                                  print("완료 버튼 눌렀습니동동동동")
+              viewStore.send(.completeButtonTapped(diary))
+                                })
           .navigationBarBackButtonHidden(true)
           
-          NavigationLink(destination: SearchPlaceView(store: Store(initialState: SearchPlaceCore.State(), reducer: SearchPlaceCore()))
+            NavigationLink(destination: SearchPlaceView(store: Store(initialState: SearchPlaceCore.State(), reducer: SearchPlaceCore()))
             .padding(.top, 20)
             .padding(.bottom, 10)
             .padding(.leading, 15)
