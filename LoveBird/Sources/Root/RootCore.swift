@@ -12,8 +12,8 @@ struct RootCore: ReducerProtocol {
         case onboarding(OnboardingCore.State)
         case mainTab(MainTabCore.State)
         
-        init() { self = .onboarding(OnboardingCore.State())}
-//        init() { self = .mainTab(MainTabCore.State())}
+//        init() { self = .onboarding(OnboardingCore.State())}
+        init() { self = .mainTab(MainTabCore.State())}
     }
     enum Action: Equatable {
         case onboarding(OnboardingCore.Action)

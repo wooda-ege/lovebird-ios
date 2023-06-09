@@ -10,14 +10,16 @@ import SwiftUI
 
 struct DiaryCore: ReducerProtocol {
   struct State: Equatable {
+    var searchPlace: SearchPlaceCore.State? = SearchPlaceCore.State()
     var title: String = ""
     var place: String = "장소 선택"
     var isPresented = false
     var text: String = ""
-      var image: Image? = nil
+    var image: Image? = nil
   }
   
     enum DiaryCoreAction: Equatable {
+        case searchPlace(SearchPlaceCore.Action)
         case titleLabelTapped(String)
         case selectPlaceLabelTapped
         case textDidEditting(String)
@@ -41,10 +43,15 @@ struct DiaryCore: ReducerProtocol {
       case .completeButtonTapped:
           state.title = ""
           state.text = ""
+      case .searchPlace(.completeButtonTapped(let place)):
+          state.place = place
       default:
         break
       }
       return .none
+    }
+    .ifLet(\.searchPlace, action: /DiaryCore.Action.searchPlace) {
+        SearchPlaceCore()
     }
   }
 }

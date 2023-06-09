@@ -46,12 +46,13 @@ struct DiaryView: View {
                     })
                     .navigationBarBackButtonHidden(true)
                     
-                    NavigationLink(destination: SearchPlaceView(store: Store(initialState: SearchPlaceCore.State(), reducer: SearchPlaceCore()), placeSelection: $place)
-                        .padding(.top, 20)
-                        .padding(.bottom, 10)
-                        .padding(.leading, 15)
-                        .padding(.trailing, 15)
-                    ) {
+                    NavigationLink(destination: IfLetStore(self.store.scope(state: \.searchPlace, action: DiaryCore.Action.searchPlace)) {
+                        SearchPlaceView(store: $0)
+                            .padding(.top, 20)
+                            .padding(.bottom, 10)
+                            .padding(.leading, 15)
+                            .padding(.trailing, 15)
+                    }) {
                         ZStack(alignment: .center) {
                             if place == placeholder {
                                 CustomButton(title: place)
@@ -66,6 +67,8 @@ struct DiaryView: View {
                             }
                         }
                     }
+                    .navigationTitle("New Game")
+//                    .navigationBarItems(trailing: Button("Logout") { viewStore.send(.logoutButtonTapped) })
                     
                     ZStack(alignment: .topLeading) {
                         let placeholder: String = "내용을 입력해 주세요."
