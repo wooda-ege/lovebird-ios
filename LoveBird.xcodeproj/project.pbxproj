@@ -15,6 +15,7 @@
 		4263E1C62A2F3500008B402B /* SearchPlaceAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4263E1C52A2F3500008B402B /* SearchPlaceAPI.swift */; };
 		4263E1C82A2F3522008B402B /* SearchPlaceCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4263E1C72A2F3522008B402B /* SearchPlaceCore.swift */; };
 		4263E1CD2A2F3563008B402B /* SearchPlaceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4263E1CC2A2F3563008B402B /* SearchPlaceView.swift */; };
+		42EA6F872A332C8E00DDC1D0 /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42EA6F862A332C8E00DDC1D0 /* UIColor+Extension.swift */; };
 		4A0396832A0FA5B600EB062D /* LoveBirdApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A0396822A0FA5B600EB062D /* LoveBirdApp.swift */; };
 		4A0396872A0FA5B800EB062D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4A0396862A0FA5B800EB062D /* Assets.xcassets */; };
 		4A03968A2A0FA5B800EB062D /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4A0396892A0FA5B800EB062D /* Preview Assets.xcassets */; };
@@ -76,6 +77,7 @@
 		4263E1C52A2F3500008B402B /* SearchPlaceAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchPlaceAPI.swift; sourceTree = "<group>"; };
 		4263E1C72A2F3522008B402B /* SearchPlaceCore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchPlaceCore.swift; sourceTree = "<group>"; };
 		4263E1CC2A2F3563008B402B /* SearchPlaceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchPlaceView.swift; sourceTree = "<group>"; };
+		42EA6F862A332C8E00DDC1D0 /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
 		4A03967F2A0FA5B600EB062D /* LoveBird.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LoveBird.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4A0396822A0FA5B600EB062D /* LoveBirdApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoveBirdApp.swift; sourceTree = "<group>"; };
 		4A0396862A0FA5B800EB062D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -302,6 +304,7 @@
 				4AE5CB4F2A21C0B10016C0B4 /* UIImage+Extension.swift */,
 				4AE5CB662A2348190016C0B4 /* String+Extension.swift */,
 				4AE5CB6A2A2469D00016C0B4 /* Calendar+Extension.swift */,
+				42EA6F862A332C8E00DDC1D0 /* UIColor+Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -564,6 +567,7 @@
 				4AB2DB312A19A282003EFD95 /* TextFieldClearButton.swift in Sources */,
 				4AE5CB672A2348190016C0B4 /* String+Extension.swift in Sources */,
 				4AB2DB3E2A1A2EA4003EFD95 /* ContentView.swift in Sources */,
+				42EA6F872A332C8E00DDC1D0 /* UIColor+Extension.swift in Sources */,
 				4A03969E2A0FA61A00EB062D /* RootCore.swift in Sources */,
 				4A1DDF1E2A2C338100B3A72B /* TouchableStack.swift in Sources */,
 				4AB2DB512A1FAAA5003EFD95 /* Line.swift in Sources */,

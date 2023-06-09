@@ -37,8 +37,8 @@ struct CustomButton: View {
 }
 
 struct CompleteButton: View {
-  @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
-  
+    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+    
   var body: some View {
     Button("완료") {
       print("완료 버튼 눌렀습니동")
