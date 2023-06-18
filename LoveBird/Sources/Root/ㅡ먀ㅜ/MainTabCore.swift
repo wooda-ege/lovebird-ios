@@ -9,53 +9,53 @@ import Foundation
 import ComposableArchitecture
 
 struct MainTabCore: ReducerProtocol {
-    enum Tab {
-        case home
-        case canlander
-        case diary
-        case myPage
+  enum Tab {
+    case home
+    case canlander
+    case diary
+    case myPage
+  }
+  
+  struct State: Equatable {
+    var selectedTab = Tab.home
+    var home: HomeCore.State? = HomeCore.State()
+    var calander: CalanderCore.State? = CalanderCore.State()
+    var diary: DiaryCore.State? = DiaryCore.State()
+    var myPage: MyPageCore.State? = MyPageCore.State()
+  }
+  
+  enum Action: Equatable {
+    case tabSelected(Tab)
+    case home(HomeCore.Action)
+    case calander(CalanderCore.Action)
+    case diary(DiaryCore.Action)
+    case myPage(MyPageCore.Action)
+  }
+  
+  var body: some ReducerProtocol<State, Action> {
+    Reduce { state, action in
+      switch action {
+      case .tabSelected(let tab):
+        state.selectedTab = tab
+        return .none
+      case .home(.emptyDiaryTapped):
+        state.selectedTab = .diary
+        return .none
+      default:
+        return .none
+      }
     }
-    
-    struct State: Equatable {
-        var selectedTab = Tab.home
-        var home: HomeCore.State? = HomeCore.State()
-        var calander: CalanderCore.State? = CalanderCore.State()
-        var diary: DiaryCore.State? = DiaryCore.State()
-        var myPage: MyPageCore.State? = MyPageCore.State()
+    .ifLet(\.home, action: /Action.home) {
+      HomeCore()
     }
-    
-    enum Action: Equatable {
-        case tabSelected(Tab)
-        case home(HomeCore.Action)
-        case calander(CalanderCore.Action)
-        case diary(DiaryCore.Action)
-        case myPage(MyPageCore.Action)
+    .ifLet(\.calander, action: /Action.calander) {
+      CalanderCore()
     }
-    
-    var body: some ReducerProtocol<State, Action> {
-        Reduce { state, action in
-            switch action {
-            case .tabSelected(let tab):
-                state.selectedTab = tab
-                return .none
-            case .home(.emptyDiaryTapped):
-                state.selectedTab = .diary
-                return .none
-            default:
-                return .none
-            }
-        }
-        .ifLet(\.home, action: /Action.home) {
-            HomeCore()
-        }
-        .ifLet(\.calander, action: /Action.calander) {
-            CalanderCore()
-        }
-        .ifLet(\.diary, action: /Action.diary) {
-            DiaryCore()
-        }
-        .ifLet(\.myPage, action: /Action.myPage) {
-            MyPageCore()
-        }
+    .ifLet(\.diary, action: /Action.diary) {
+      DiaryCore()
     }
+    .ifLet(\.myPage, action: /Action.myPage) {
+      MyPageCore()
+    }
+  }
 }

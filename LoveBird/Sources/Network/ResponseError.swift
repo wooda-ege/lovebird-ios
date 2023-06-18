@@ -9,10 +9,10 @@ import Foundation
 
 // TODO: 차후에 서버와 토의 예정
 enum ResponseError: Error {
-    case decode
-    case invalidURL
-    case noResponse
-    case unauthorized
-    case unexpectedStatusCode
-    case unknown
+  case decode
+  case invalidURL
+  case noResponse
+  case unauthorized
+  case unexpectedStatusCode
+  case unknown
 }

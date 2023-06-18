@@ -6,7 +6,7 @@
 //
 
 struct SignUpRequest: Encodable {
-    let nickname: String
-    let firstDate: String
-    let gender: String? = nil
+  let nickname: String
+  let firstDate: String
+  let gender: String? = nil
 }

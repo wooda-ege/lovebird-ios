@@ -6,5 +6,5 @@
 //
 
 struct DiaryRequest: Encodable {
-    let diaryId: Int
+  let diaryId: Int
 }

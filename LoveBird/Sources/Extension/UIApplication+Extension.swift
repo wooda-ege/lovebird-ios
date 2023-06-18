@@ -8,8 +8,8 @@
 import UIKit
 
 extension UIApplication {
-    static var edgeInsets: UIEdgeInsets {
-        let scene = Self.shared.connectedScenes.first as? UIWindowScene
-        return scene?.windows.first?.safeAreaInsets ?? .zero
-    }
+  static var edgeInsets: UIEdgeInsets {
+    let scene = Self.shared.connectedScenes.first as? UIWindowScene
+    return scene?.windows.first?.safeAreaInsets ?? .zero
+  }
 }

@@ -6,5 +6,5 @@
 //
 
 struct SignUpResponse: Decodable, Equatable, Sendable {
-    let id: Int
+  let id: Int
 }

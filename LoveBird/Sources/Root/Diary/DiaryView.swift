@@ -9,13 +9,13 @@ import ComposableArchitecture
 import SwiftUI
 
 struct DiaryView: View {
-    let store: StoreOf<DiaryCore>
-
-    var body: some View {
-        WithViewStore(self.store) { viewStore in
-            Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
-        }
+  let store: StoreOf<DiaryCore>
+  
+  var body: some View {
+    WithViewStore(self.store) { viewStore in
+      Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
     }
+  }
 }
 
 //struct DiaryView_Previews: PreviewProvider {

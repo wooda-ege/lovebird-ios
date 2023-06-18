@@ -8,13 +8,13 @@
 import SwiftUI
 
 extension Font {
-    enum PretendardWeight: String {
-        case bold = "Bold"
-        case regular = "Regular"
-        case semiBold = "SemiBold"
-    }
-    
-    static func pretendard(size: CGFloat, weight: PretendardWeight = .regular) -> Font {
-        return Font.custom("Pretendard-\(weight.rawValue)", size: size)
-    }
+  enum PretendardWeight: String {
+    case bold = "Bold"
+    case regular = "Regular"
+    case semiBold = "SemiBold"
+  }
+  
+  static func pretendard(size: CGFloat, weight: PretendardWeight = .regular) -> Font {
+    return Font.custom("Pretendard-\(weight.rawValue)", size: size)
+  }
 }
