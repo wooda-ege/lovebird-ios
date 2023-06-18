@@ -12,24 +12,25 @@ struct RootCore: ReducerProtocol {
         case onboarding(OnboardingCore.State)
         case mainTab(MainTabCore.State)
         
-        init() { self = .onboarding(OnboardingCore.State())}
-//        init() { self = .mainTab(MainTabCore.State())}
+        init() {
+//            self = .onboarding(OnboardingCore.State())}
+       self = .mainTab(MainTabCore.State())}
     }
     enum Action: Equatable {
         case onboarding(OnboardingCore.Action)
         case mainTab(MainTabCore.Action)
     }
     
+    @Dependency(\.userData) var userData
+
     var body: some ReducerProtocol<State, Action> {
         Reduce { state, action in
             switch action {
-            case .onboarding(.doneButtonTapped):
-                state = .mainTab(MainTabCore.State())
             case .onboarding(.signUpResponse(.success(let reponse))):
-                // TODO: 득연
-                break
+                self.userData.store(key: .userId, value: reponse)
+                state = .mainTab(MainTabCore.State())
             case .onboarding(.signUpResponse(.failure(let error))):
-                // TODO: 득연
+                // TODO: error시 정의할 것.
                 break
             default:
                 break

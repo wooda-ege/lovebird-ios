@@ -33,7 +33,7 @@ struct OnboardingCore: ReducerProtocol {
         case showBottomSheet
         case hideBottomSheet
         case dateInitialied
-        case signUpResponse(TaskResult<ResponseExample>)
+        case signUpResponse(TaskResult<SignUpResponse>)
         case none
     }
     
@@ -72,14 +72,16 @@ struct OnboardingCore: ReducerProtocol {
                 state.month = Calendar.month
                 state.day = Calendar.day
             case .doneButtonTapped:
-                return .task { [email = state.year, month = state.month] in
+                return .task { [nickname = state.nickname, year = state.year, month = state.month, day = state.day] in
                         .signUpResponse(
                             await TaskResult {
-                                try await self.apiClient.signUp()
+                                try await self.apiClient.request(.signUp(.init(
+                                    nickname: nickname,
+                                    firstDate: "\(year)-\(month)-\(day)")
+                                ))
                             }
                         )
                 }
-                break
             default:
                 break
             }
