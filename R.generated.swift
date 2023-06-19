@@ -168,6 +168,12 @@ struct _R {
       var onboarding_date_title: RswiftResources.StringResource { .init(key: "onboarding_date_title", tableName: "Localizable", source: source, developmentValue: "연인과 사랑을 시작한 날짜를 알려주세요", comment: nil) }
 
       /// en translation: 애칭이 없다면 이름 또는 별명을 알려주셔도 좋아요
+      /// Value: 사용 가능한 애칭이에요
+      ///
+      /// Key: onboarding_nickname_correct
+      var onboarding_nickname_correct: RswiftResources.StringResource { .init(key: "onboarding_nickname_correct", tableName: "Localizable", source: source, developmentValue: nil, comment: nil) }
+
+      /// Value: 애칭이 없다면 이름 또는 별명을 알려주셔도 좋아요
       ///
       /// Key: onboarding_nickname_description
       ///
@@ -175,6 +181,17 @@ struct _R {
       var onboarding_nickname_description: RswiftResources.StringResource { .init(key: "onboarding_nickname_description", tableName: "Localizable", source: source, developmentValue: "애칭이 없다면 이름 또는 별명을 알려주셔도 좋아요", comment: nil) }
 
       /// en translation: 당신의 애칭을 알려주세요
+      /// Value: 한글 또는 영어 2-20글자 이내로 입력해 주세요
+      ///
+      /// Key: onboarding_nickname_edit
+      var onboarding_nickname_edit: RswiftResources.StringResource { .init(key: "onboarding_nickname_edit", tableName: "Localizable", source: source, developmentValue: nil, comment: nil) }
+
+      /// Value: 잘못된 형식의 애칭이에요
+      ///
+      /// Key: onboarding_nickname_error
+      var onboarding_nickname_error: RswiftResources.StringResource { .init(key: "onboarding_nickname_error", tableName: "Localizable", source: source, developmentValue: nil, comment: nil) }
+
+      /// Value: 당신의 애칭을 알려주세요
       ///
       /// Key: onboarding_nickname_title
       ///
@@ -334,4 +351,3 @@ struct _R {
     /// Resource file `Pretendard-SemiBold.otf`.
     var pretendardSemiBoldOtf: RswiftResources.FileResource { .init(name: "Pretendard-SemiBold", pathExtension: "otf", bundle: bundle, locale: LocaleReference.none) }
   }
-}

@@ -48,7 +48,7 @@ struct BottomSheetView<Content: View>: View {
       .cornerRadius(16)
       .shadow(color: .black.opacity(0.08), radius: 16)
       .frame(height: geometry.size.height, alignment: .bottom)
-      .offset(y: max(self.isOpen ? 0 + translation : geometry.size.height / 3, translation))
+      .offset(y: max(self.isOpen ? 0 + self.translation : geometry.size.height / 3, self.translation))
       .animation(.interactiveSpring(), value: isOpen)
       .gesture(
         DragGesture().updating(self.$translation) { value, state, _ in

@@ -9,9 +9,19 @@ import ComposableArchitecture
 import SwiftUIPager
 import Foundation
 
+typealias OnboardingState = OnboardingCore.State
+
 struct OnboardingCore: ReducerProtocol {
+  
+  enum Constant {
+    static let nicknamePageIdx = 0
+    static let maxNicknameLength = 20
+    static let minNicknameLength = 2
+  }
+  
   struct State: Equatable {
     var page: Page = .first()
+    var pageIdx: Int = Constant.nicknamePageIdx
     var nickname: String = ""
     var textFieldState: TextFieldState = .none
     var showBottomSheet = false
@@ -43,17 +53,19 @@ struct OnboardingCore: ReducerProtocol {
     Reduce { state, action in
       switch action {
       case .nextTapped, .nextButtonTapped:
-        guard state.page.index == 0, state.textFieldState == .correct else { return .none }
+        guard state.page.isNickname, state.textFieldState == .correct else { return .none }
         state.page.update(.next)
+        state.pageIdx = 1
       case .textFieldStateChanged(let textFieldState):
         state.textFieldState = textFieldState
       case .previousTapped:
-        guard state.page.index == 1 else { return .none }
+        guard !state.page.isNickname else { return .none }
+        state.pageIdx = 0
         state.page.update(.previous)
       case .nicknameEdited(let nickname):
-        state.nickname = nickname
+        state.nickname = String(nickname.prefix(20))
         if nickname.isNicknameValid {
-          state.textFieldState = nickname.count >= 2 ? .correct : .editing
+          state.textFieldState = nickname.count >= Constant.minNicknameLength ? .correct : .editing
         } else {
           state.textFieldState = .error
         }
@@ -91,7 +103,7 @@ struct OnboardingCore: ReducerProtocol {
 }
 
 extension Page: Equatable {
-  public static func == (lhs: SwiftUIPager.Page, rhs: SwiftUIPager.Page) -> Bool {
+  public static func == (lhs: Page, rhs: Page) -> Bool {
     lhs.index == rhs.index
   }
 }

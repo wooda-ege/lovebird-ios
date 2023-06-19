@@ -14,6 +14,9 @@
 "main_tab_my_page" = "마이페이지";
 "onboarding_nickname_title" = "당신의 애칭을 알려주세요";
 "onboarding_nickname_description" = "애칭이 없다면 이름 또는 별명을 알려주셔도 좋아요";
+"onboarding_nickname_correct" = "사용 가능한 애칭이에요";
+"onboarding_nickname_edit" = "한글 또는 영어 2-20글자 이내로 입력해 주세요";
+"onboarding_nickname_error" = "잘못된 형식의 애칭이에요";
 "onboarding_date_title" = "연인과 사랑을 시작한 날짜를 알려주세요";
 "onboarding_date_description" = "러브버드가 기념일을 계산해서 알려드릴게요";
 "onboarding_date_initial" = "초기화";

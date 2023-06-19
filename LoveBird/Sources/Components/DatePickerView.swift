@@ -7,12 +7,11 @@
 
 import SwiftUI
 import UIKit
+import ComposableArchitecture
 
-struct CustomPickerView: UIViewRepresentable {
+struct DatePickerView: UIViewRepresentable {
   
-  @Binding var year: Int
-  @Binding var month: Int
-  @Binding var day: Int
+  @ObservedObject var viewStore: ViewStore<OnboardingState, OnboardingCore.Action>
   let fromYear = 1950
   
   func makeCoordinator() -> Coordinator {
@@ -27,15 +26,16 @@ struct CustomPickerView: UIViewRepresentable {
   }
   
   func updateUIView(_ uiView: UIPickerView, context: Context) {
-    uiView.selectRow(self.year - self.fromYear, inComponent: 0, animated: false)
-    uiView.selectRow(self.month - 1, inComponent: 1, animated: false)
-    uiView.selectRow(self.day - 1, inComponent: 2, animated: false)
+    uiView.selectRow(self.viewStore.year - self.fromYear, inComponent: 0, animated: false)
+    uiView.selectRow(self.viewStore.month - 1, inComponent: 1, animated: false)
+    uiView.selectRow(self.viewStore.day - 1, inComponent: 2, animated: false)
+    uiView.reloadAllComponents()
   }
   
-  class Coordinator: NSObject, UIPickerViewDataSource, UIPickerViewDelegate {
-    var parent: CustomPickerView
+  final class Coordinator: NSObject, UIPickerViewDataSource, UIPickerViewDelegate {
+    var parent: DatePickerView
     
-    init(_ parent: CustomPickerView) {
+    init(_ parent: DatePickerView) {
       self.parent = parent
     }
     
@@ -48,15 +48,19 @@ struct CustomPickerView: UIViewRepresentable {
       case 0:
         return Calendar.year - self.parent.fromYear + 1 // 1950부터 현재 연도까지
       case 1:
-        let months = Calendar.calculateMonths(in: self.parent.year)
+        let months = Calendar.calculateMonths(in: self.parent.viewStore.year)
         // Ex) 2022년 12월인 상태에서 연도를 2023년으로 바꿀 때 현재가 6월인 경우 month값이 변화한다.
-        if months < self.parent.month { self.parent.month = months }
+        if months < self.parent.viewStore.month {
+          self.parent.viewStore.send(.monthSelected(months))
+        }
         return months
       case 2:
-        let days = Calendar.calculateDays(in: self.parent.month, year: self.parent.year)
+        let days = Calendar.calculateDays(in: self.parent.viewStore.month, year: self.parent.viewStore.year)
         // Ex) 12월 31일인 상태에서 월을 11월으로 바꿀 때 days가 30으로 변화하기 때문에
         // 자연스럽게 선택 일이 30일로 맞춰진다.
-        if days < self.parent.day { self.parent.day = days }
+        if days < self.parent.viewStore.day {
+          self.parent.viewStore.send(.daySelected(days))
+        }
         return days
       default:
         fatalError("Invalid component")
@@ -79,21 +83,14 @@ struct CustomPickerView: UIViewRepresentable {
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
       switch component {
       case 0:
-        self.parent.year = self.parent.fromYear + row
+        self.parent.viewStore.send(.yearSelected(self.parent.fromYear + row))
       case 1:
-        self.parent.month = 1 + row
+        self.parent.viewStore.send(.monthSelected(1 + row))
       case 2:
-        self.parent.day = 1 + row
+        self.parent.viewStore.send(.daySelected(1 + row))
       default:
         break
       }
-      self.refresh(pickerView)
-    }
-    
-    private func refresh(_ pickerView: UIPickerView) {
-      pickerView.reloadComponent(1)
-      pickerView.reloadComponent(1)
-      pickerView.reloadComponent(2)
     }
   }
 }
