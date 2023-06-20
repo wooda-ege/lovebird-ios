@@ -10,19 +10,19 @@ import Foundation
 import ComposableArchitecture
 
 struct MyPageCore: ReducerProtocol {
-    
-    struct State: Equatable {
+  
+  struct State: Equatable {
+  }
+  
+  enum Action: Equatable {
+  }
+  
+  var body: some ReducerProtocol<State, Action> {
+    Reduce { state, action in
+      switch action {
+      default:
+        return .none
+      }
     }
-    
-    enum Action: Equatable {
-    }
-    
-    var body: some ReducerProtocol<State, Action> {
-        Reduce { state, action in
-            switch action {
-            default:
-                return .none
-            }
-        }
-    }
+  }
 }

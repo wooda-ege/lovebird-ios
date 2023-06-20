@@ -9,13 +9,13 @@ import ComposableArchitecture
 import SwiftUI
 
 struct CalanderView: View {
-    let store: StoreOf<CalanderCore>
-    
-    var body: some View {
-        WithViewStore(self.store) { viewStore in
-            Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
-        }
+  let store: StoreOf<CalanderCore>
+  
+  var body: some View {
+    WithViewStore(self.store) { viewStore in
+      Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
     }
+  }
 }
 
 //struct CalanderView_Previews: PreviewProvider {
