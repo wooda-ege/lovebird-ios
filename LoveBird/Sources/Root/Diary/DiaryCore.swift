@@ -14,15 +14,15 @@ struct DiaryCore: ReducerProtocol {
     var place: String = "장소 선택"
     var isPresented = false
     var text: String = ""
-      var image: Image? = nil
+    var image: Image? = nil
   }
   
     enum DiaryCoreAction: Equatable {
-        case titleLabelTapped(String)
-        case selectPlaceLabelTapped
-        case textDidEditting(String)
-        case changeTextEmpty
-        case completeButtonTapped
+      case titleLabelTapped(String)
+      case selectPlaceLabelTapped
+      case textDidEditting(String)
+      case changeTextEmpty
+      case completeButtonTapped
     }
   
   var body: some ReducerProtocol<State, DiaryCoreAction> {

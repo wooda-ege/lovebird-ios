@@ -8,16 +8,20 @@
 import UIKit
 
 extension UIApplication {
-    static var edgeInsets: UIEdgeInsets {
-        let scene = Self.shared.connectedScenes.first as? UIWindowScene
-        return scene?.windows.first?.safeAreaInsets ?? .zero
-    }
+  static var edgeInsets: UIEdgeInsets {
+    let scene = Self.shared.connectedScenes.first as? UIWindowScene
+    return scene?.windows.first?.safeAreaInsets ?? .zero
+  }
+  static var edgeInsets: UIEdgeInsets {
+    let scene = Self.shared.connectedScenes.first as? UIWindowScene
+    return scene?.windows.first?.safeAreaInsets ?? .zero
+  }
     
-    func endEditing(_ force: Bool) {
-        self.windows
-            .filter{$0.isKeyWindow}
-            .first?
-            .endEditing(force)
-    }
+  func endEditing(_ force: Bool) {
+    self.windows
+      .filter{$0.isKeyWindow}
+      .first?
+      .endEditing(force)
+  }
 }
 

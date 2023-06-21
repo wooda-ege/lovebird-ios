@@ -8,20 +8,20 @@
 import SwiftUI
 
 struct TouchableStack<Content: View>: View {
-    let content: Content
-
-    init(@ViewBuilder content: () -> Content) {
-        self.content = content()
+  let content: Content
+  
+  init(@ViewBuilder content: () -> Content) {
+    self.content = content()
+  }
+  
+  var body: some View {
+    ZStack {
+      self.content
+      
+      Rectangle()
+        .fill(Color.clear)
     }
-    
-    var body: some View {
-        ZStack {
-            self.content
-
-            Rectangle()
-                .fill(Color.clear)
-        }
-    }
+  }
 }
 
 //struct TouchableStack_Previews: PreviewProvider {
