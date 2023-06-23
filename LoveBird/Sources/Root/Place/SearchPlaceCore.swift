@@ -10,7 +10,7 @@ import SwiftUI
 
 struct SearchPlaceCore: ReducerProtocol {
     struct State: Equatable {
-//        var placeSelection: String = ""
+        var placeName: String = ""
         var placeList: [PlaceInfo] = []
         var searchTerm: String = ""
     }
@@ -19,7 +19,8 @@ struct SearchPlaceCore: ReducerProtocol {
         case textFieldDidEditting(String)
         case selectPlace
         case changePlaceInfo([PlaceInfo])
-        case completeButtonTapped
+        case completeButtonTapped(String)
+        case placeNameEdited(String)
     }
     
     var body: some ReducerProtocol<State, SearchPlaceAction> {
@@ -27,14 +28,13 @@ struct SearchPlaceCore: ReducerProtocol {
             switch action {
             case .textFieldDidEditting(let searchTerm):
                 state.searchTerm = searchTerm
-                return .none
             case .completeButtonTapped:
                 state.placeList = []
                 state.searchTerm = ""
-                return .none
             case .changePlaceInfo(let placeInfo):
                 state.placeList = placeInfo
-                return .none
+            case .placeNameEdited(let placeName):
+                state.placeName = placeName
             default:
                 break
             }

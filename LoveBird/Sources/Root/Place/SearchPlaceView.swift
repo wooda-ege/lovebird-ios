@@ -10,7 +10,7 @@ import SwiftUI
 
 struct SearchPlaceView: View {
   let store: StoreOf<SearchPlaceCore>
-  @Binding var placeSelection: String // 신전떡볶이
+//  @Binding var placeSelection: String // 신전떡볶이
   @Environment(\.presentationMode) var presentationMode
   
   enum Constant {
@@ -33,7 +33,7 @@ struct SearchPlaceView: View {
                     .navigationTitle("장소 선택")
                     .navigationBarItems(leading: BackButton(), trailing: CompleteButton()
                         .onTapGesture {
-                            viewStore.send(.completeButtonTapped)
+                            viewStore.send(.completeButtonTapped(viewStore.placeName))
                             Constant.placeholder = " 장소, 주소를 입력해주세요."
                         })
                     .navigationBarBackButtonHidden(true)
@@ -41,9 +41,9 @@ struct SearchPlaceView: View {
             
             List(viewStore.placeList, id:\.id) { place in
                 PlaceView(place: place.placeName) {
-                    placeSelection = place.placeName
                     Constant.placeholder = place.placeName
-                    viewStore.send(.completeButtonTapped)
+                    viewStore.send(.placeNameEdited(place.placeName))
+                    viewStore.send(.completeButtonTapped(viewStore.placeName))
                 }
             }
             .listStyle(.plain)
