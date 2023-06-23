@@ -9,6 +9,19 @@ import ComposableArchitecture
 import SwiftUI
 
 struct DiaryCore: ReducerProtocol {
+  
+  struct State: Equatable {
+  }
+  
+  enum Action: Equatable {
+  }
+  
+  var body: some ReducerProtocol<State, Action> {
+    Reduce { state, action in
+      switch action {
+      default:
+        return .none
+      }
   struct State: Equatable {
     var searchPlace: SearchPlaceCore.State? = SearchPlaceCore.State()
     var title: String = ""

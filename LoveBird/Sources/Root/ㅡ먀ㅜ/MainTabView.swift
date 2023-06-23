@@ -10,62 +10,62 @@ import SwiftUI
 import ComposableArchitecture
 
 struct MainTabView: View {
-    let store: StoreOf<MainTabCore>
-    
-    var body: some View {
-        WithViewStore(self.store) { viewStore in
-            NavigationView {
-                TabView(
-                    selection: viewStore.binding(
-                        get: \.selectedTab,
-                        send: MainTabCore.Action.tabSelected
-                    )
-                ) {
-                    HomeView(store: self.store.scope(state: \.home!, action: MainTabCore.Action.home))
-                        .tabItem {
-                            Image(R.image.ic_timeline)
-                            
-                            Text(R.string.localizable.main_tab_home)
-                                .font(.pretendard(size: 12))
-                        }
-                        .tag(MainTabCore.Tab.home)
-                    
-                    CalanderView(store: self.store.scope(state: \.calander!, action: MainTabCore.Action.calander))
-                        .tabItem {
-                            Image(R.image.ic_calendar)
-                            
-                            Text(R.string.localizable.main_tab_calendar)
-                                .font(.pretendard(size: 12))
-                        }
-                        .tag(MainTabCore.Tab.canlander)
-                    
-                    DiaryView(store: self.store.scope(state: \.diary!, action: MainTabCore.Action.diary))
-                        .tabItem {
-                            Image(R.image.ic_note)
-                            
-                            Text(R.string.localizable.main_tab_note)
-                                .font(.pretendard(size: 12))
-                        }
-                        .tag(MainTabCore.Tab.diary)
-                    
-                    MyPageView(store: self.store.scope(state: \.myPage!, action: MainTabCore.Action.myPage))
-                        .tabItem {
-                            Image(R.image.ic_person)
-                            
-                            Text(R.string.localizable.main_tab_my_page)
-                                .font(.pretendard(size: 12))
-                        }
-                        .tag(MainTabCore.Tab.myPage)
-                }
-                .onAppear {
-                    let appearance = UITabBarAppearance()
-                    appearance.backgroundColor = .white
-                    appearance.shadowImage = UIImage.shadowImage
-                    UITabBar.appearance().scrollEdgeAppearance = appearance
-                }
+  let store: StoreOf<MainTabCore>
+  
+  var body: some View {
+    WithViewStore(self.store) { viewStore in
+      NavigationView {
+        TabView(
+          selection: viewStore.binding(
+            get: \.selectedTab,
+            send: MainTabCore.Action.tabSelected
+          )
+        ) {
+          HomeView(store: self.store.scope(state: \.home!, action: MainTabCore.Action.home))
+            .tabItem {
+              Image(R.image.ic_timeline)
+              
+              Text(R.string.localizable.main_tab_home)
+                .font(.pretendard(size: 12))
             }
+            .tag(MainTabCore.Tab.home)
+          
+          CalanderView(store: self.store.scope(state: \.calander!, action: MainTabCore.Action.calander))
+            .tabItem {
+              Image(R.image.ic_calendar)
+              
+              Text(R.string.localizable.main_tab_calendar)
+                .font(.pretendard(size: 12))
+            }
+            .tag(MainTabCore.Tab.canlander)
+          
+          DiaryView(store: self.store.scope(state: \.diary!, action: MainTabCore.Action.diary))
+            .tabItem {
+              Image(R.image.ic_note)
+              
+              Text(R.string.localizable.main_tab_note)
+                .font(.pretendard(size: 12))
+            }
+            .tag(MainTabCore.Tab.diary)
+          
+          MyPageView(store: self.store.scope(state: \.myPage!, action: MainTabCore.Action.myPage))
+            .tabItem {
+              Image(R.image.ic_person)
+              
+              Text(R.string.localizable.main_tab_my_page)
+                .font(.pretendard(size: 12))
+            }
+            .tag(MainTabCore.Tab.myPage)
         }
+        .onAppear {
+          let appearance = UITabBarAppearance()
+          appearance.backgroundColor = .white
+          appearance.shadowImage = UIImage.shadowImage
+          UITabBar.appearance().scrollEdgeAppearance = appearance
+        }
+      }
     }
+  }
 }
 
 

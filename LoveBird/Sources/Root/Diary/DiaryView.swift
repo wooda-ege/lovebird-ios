@@ -106,6 +106,7 @@ struct DiaryView: View {
         }
         .padding(.top, 5)
     }
+  }
 }
 
 //struct WritingDiaryView_Previews: PreviewProvider {
