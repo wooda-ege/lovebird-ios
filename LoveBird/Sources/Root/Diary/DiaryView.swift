@@ -10,99 +10,84 @@ import _PhotosUI_SwiftUI
 import ComposableArchitecture
 
 struct DiaryView: View {
-    let store: StoreOf<DiaryCore>
-    @State var image: Image? = nil
-    @State var place: String = "장소 선택"
-    
-    init(store: StoreOf<DiaryCore>) {
-        self.store = store
+  let store: StoreOf<DiaryCore>
+  @State var image: Image? = nil
+  @State var place: String = "장소 선택"
+  
+  init(store: StoreOf<DiaryCore>) {
+    self.store = store
+  }
+  
+  
+  var body: some View {
+    WithViewStore(self.store) { viewStore in
+      NavigationView {
+        VStack {
+          TextField("제목", text: viewStore.binding(get: \.title, send: DiaryCore.DiaryCoreAction.titleLabelTapped)
+          )
+          .padding([.top, .bottom], 10)
+          .padding(.leading, 15)
+          .frame(height: 44)
+          .background(Color(uiColor: .secondarySystemBackground))
+          .textFieldStyle(.plain)
+          .cornerRadius(10)
+          .navigationBarTitleDisplayMode(.inline)
+          .navigationTitle("일기 쓰기")
+          .navigationBarItems(trailing:
+                                Button("완료") {
+            image = nil
+            place = "장소 선택"
+            
+            viewStore.send(.completeButtonTapped)
+          })
+          
+          NavigationLink(destination: SearchPlaceView(store: Store(initialState: SearchPlaceCore.State(), reducer: SearchPlaceCore()), placeSelection: $place)
+            .padding(.top, 20)
+            .padding(.bottom, 10)
+            .padding([.leading, .trailing], 15)
+          ) {
+            ZStack(alignment: .center) {
+              place == "장소 선택" ? CustomButton(title: place)
+                .foregroundColor(.gray)
+                .padding(.top, 5)
+                .padding(.bottom, 8) : CustomButton(title: place)
+                .foregroundColor(.black)
+                .padding(.top, 5)
+                .padding(.bottom, 8)
+            }
+          }
+          
+          ZStack(alignment: .topLeading) {
+            TextEditor(text: viewStore.binding(get: \.text, send: DiaryCore.DiaryCoreAction.textDidEditting))
+              .foregroundColor(.black)
+              .colorMultiply(Color(uiColor: .secondarySystemBackground))
+              .foregroundColor(.black)
+              .frame(height: 342)
+              .lineSpacing(5)
+              .cornerRadius(10)
+            
+            if viewStore.state.text.isEmpty {
+              Text(R.string.localizable.diary_edit_text)
+                .foregroundColor(.gray)
+                .padding(.top, 10)
+                .padding(.leading, 10)
+            }
+          }
+          ImagePickerView(image: $image)
+            .padding(.top, 10)
+          
+          Spacer()
+        }
+        .navigationBarBackButtonHidden(true)
+        .padding(.top, 10)
+        .padding([.trailing, .leading], 16)
+      }
+      .onAppear {
         UITextView.appearance().textContainerInset =
         UIEdgeInsets(top: 10, left: 5, bottom: 5, right: 5)
+      }
     }
-    
-    var body: some View {
-        WithViewStore(self.store) { viewStore in
-            NavigationView {
-                VStack {
-                    let placeholder: String = "장소 선택"
-                    
-                    TextField("제목", text: viewStore.binding(get: \.title, send: DiaryCore.DiaryCoreAction.titleLabelTapped)
-                    )
-                    .padding(.top, 10)
-                    .padding(.bottom, 10)
-                    .padding(.leading, 15)
-                    .background(Color(uiColor: .secondarySystemBackground))
-                    .textFieldStyle(.plain)
-                    .cornerRadius(10)
-                    .frame(height: 44)
-                    .navigationBarTitleDisplayMode(.inline)
-                    .navigationTitle("일기 쓰기")
-                    .navigationBarItems(trailing:
-                                            Button("완료") {
-                        print("완료 버튼 눌렀습니동동동동")
-                        viewStore.send(.completeButtonTapped)
-                        image = nil
-                        place = placeholder
-                    })
-                    .navigationBarBackButtonHidden(true)
-                    
-                    NavigationLink(destination: SearchPlaceView(store: Store(initialState: SearchPlaceCore.State(), reducer: SearchPlaceCore()), placeSelection: $place)
-                        .padding(.top, 20)
-                        .padding(.bottom, 10)
-                        .padding(.leading, 15)
-                        .padding(.trailing, 15)
-                    ) {
-                        ZStack(alignment: .center) {
-                            if place == placeholder {
-                                CustomButton(title: place)
-                                    .foregroundColor(.gray)
-                                    .padding(.top, 5)
-                                    .padding(.bottom, 8)
-                            } else {
-                                CustomButton(title: place)
-                                    .foregroundColor(.black)
-                                    .padding(.top, 5)
-                                    .padding(.bottom, 8)
-                            }
-                        }
-                    }
-                    
-                    ZStack(alignment: .topLeading) {
-                        let placeholder: String = "내용을 입력해 주세요."
-                        
-                        TextEditor(text: viewStore.binding(get: \.text, send: DiaryCore.DiaryCoreAction.textDidEditting))
-                            .foregroundColor(.black)
-                            .frame(height: 342)
-                            .lineSpacing(5)
-                            .cornerRadius(10)
-                            .colorMultiply(Color(uiColor: .secondarySystemBackground))
-                        //          .scrollContentBackground(.hidden)
-                        //              .onTapGesture {
-                        //                if viewStore.state.text == placeholder {
-                        //                  viewStore.send(.changeTextEmpty)
-                        //                }
-                        //              }
-                            .foregroundColor(.black)
-                        
-                        if viewStore.state.text.isEmpty {
-                            Text(placeholder)
-                                .foregroundColor(.gray)
-                                .padding(.top, 10)
-                                .padding(.leading, 10)
-                        }
-                    }
-                    ImagePickerView(image: $image)
-                        .padding(.top, 10)
-                    
-                    Spacer()
-                }
-                .padding(.top, 10)
-                .padding(.trailing, 16)
-                .padding(.leading, 16)
-            }
-        }
-        .padding(.top, 5)
-    }
+    .padding(.top, 5)
   }
 }
 

@@ -32,7 +32,7 @@ struct APIClient {
   }
   
   private func performRequest(_ endpoint: APIEndpoint) async throws -> (Data, HTTPURLResponse) {
-    let url = URL(string: Config.baseURL + endpoint.path)!
+    let url = URL(string: Place.baseURL + endpoint.path)!
     var urlRequest = URLRequest(url: url)
     urlRequest.httpMethod = endpoint.method.rawValue
     // TODO: 득연 - 차후에 토큰 등이 들어갈 예정

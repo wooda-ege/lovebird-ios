@@ -17,13 +17,13 @@ struct DiaryCore: ReducerProtocol {
     var image: Image? = nil
   }
   
-    enum DiaryCoreAction: Equatable {
-      case titleLabelTapped(String)
-      case selectPlaceLabelTapped
-      case textDidEditting(String)
-      case changeTextEmpty
-      case completeButtonTapped
-    }
+  enum DiaryCoreAction: Equatable {
+    case titleLabelTapped(String)
+    case selectPlaceLabelTapped
+    case textDidEditting(String)
+    case changeTextEmpty
+    case completeButtonTapped
+  }
   
   var body: some ReducerProtocol<State, DiaryCoreAction> {
     Reduce<State, Action> { state, action in
@@ -39,8 +39,8 @@ struct DiaryCore: ReducerProtocol {
       case .changeTextEmpty:
         state.text = ""
       case .completeButtonTapped:
-          state.title = ""
-          state.text = ""
+        state.title = ""
+        state.text = ""
       default:
         break
       }

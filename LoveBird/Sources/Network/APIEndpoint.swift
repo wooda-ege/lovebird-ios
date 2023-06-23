@@ -14,12 +14,15 @@ enum APIEndpoint {
   
   case signUp(_ request: SignUpRequest)
   case fetchDiary(_ request: DiaryRequest)
+  case searchPlace(_ request: PlaceRequest)
   
   var method: HTTPMethod {
     switch self {
     case .signUp:
       return .post
     case .fetchDiary:
+      return .get
+    case .searchPlace:
       return .get
     }
   }
@@ -30,6 +33,8 @@ enum APIEndpoint {
       return "members"
     case .fetchDiary(let id):
       return "members/\(id)"
+    case .searchPlace(let searchTerm):
+      return "query=\(searchTerm)"
     }
   }
   
@@ -38,6 +43,8 @@ enum APIEndpoint {
     case .signUp(let request):
       return request
     case .fetchDiary(let request):
+      return request
+    case .searchPlace(let request):
       return request
     }
   }

@@ -19,7 +19,7 @@ struct CustomButton: View {
       
       HStack {
         Label {
-           Text(title)
+          Text(title)
         } icon : {
           Image("map")
             .resizable()
@@ -27,7 +27,7 @@ struct CustomButton: View {
             .frame(
               width: 15,
               height: 15)
-          }
+        }
         
         Spacer()
       }
@@ -37,8 +37,8 @@ struct CustomButton: View {
 }
 
 struct CompleteButton: View {
-    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
-    
+  @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+  
   var body: some View {
     Button("완료") {
       print("완료 버튼 눌렀습니동")
@@ -57,8 +57,8 @@ struct BackButton: View {
       self.presentationMode.wrappedValue.dismiss()
     }) {
       Image("back")
-          .resizable()
-          .frame(width: 10, height: 15)
+        .resizable()
+        .frame(width: 10, height: 15)
     }
   }
 }
