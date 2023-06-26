@@ -44,7 +44,6 @@ extension ImagePicker {
 }
 
 struct ImagePickerView: View {
-  
   @State var showImagePicker = false
   @State var selectedUIImage: UIImage?
   @Binding var image: Image?

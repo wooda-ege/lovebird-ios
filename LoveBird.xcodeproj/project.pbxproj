@@ -7,16 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		4263E1BC2A2F3372008B402B /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4263E1BB2A2F3372008B402B /* CustomButton.swift */; };
+		4263E1BC2A2F3372008B402B /* DiarySelectPlaceButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4263E1BB2A2F3372008B402B /* DiarySelectPlaceButton.swift */; };
 		4263E1BE2A2F33DB008B402B /* ResignKeyboardOnDragGesture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4263E1BD2A2F33DB008B402B /* ResignKeyboardOnDragGesture.swift */; };
 		4263E1C02A2F3419008B402B /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4263E1BF2A2F3419008B402B /* ImagePicker.swift */; };
-		4263E1C22A2F34B7008B402B /* KakaoMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4263E1C12A2F34B7008B402B /* KakaoMap.swift */; };
 		4263E1C82A2F3522008B402B /* SearchPlaceCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4263E1C72A2F3522008B402B /* SearchPlaceCore.swift */; };
 		4263E1CD2A2F3563008B402B /* SearchPlaceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4263E1CC2A2F3563008B402B /* SearchPlaceView.swift */; };
 		42E064112A45B5A000B9EAC3 /* PlaceRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42E064102A45B5A000B9EAC3 /* PlaceRequest.swift */; };
 		42E064122A45BF3800B9EAC3 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 42E064142A45BF3800B9EAC3 /* Localizable.strings */; };
 		42E064162A45C11600B9EAC3 /* SearchPlaceResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42E064152A45C11600B9EAC3 /* SearchPlaceResponse.swift */; };
-		42EA6F872A332C8E00DDC1D0 /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42EA6F862A332C8E00DDC1D0 /* UIColor+Extension.swift */; };
+		42E4D5842A4C701A00F4FA42 /* DiarySelectCalenderButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42E4D5832A4C701A00F4FA42 /* DiarySelectCalenderButton.swift */; };
 		4A0396832A0FA5B600EB062D /* LoveBirdApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A0396822A0FA5B600EB062D /* LoveBirdApp.swift */; };
 		4A0396872A0FA5B800EB062D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4A0396862A0FA5B800EB062D /* Assets.xcassets */; };
 		4A03968A2A0FA5B800EB062D /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4A0396892A0FA5B800EB062D /* Preview Assets.xcassets */; };
@@ -77,10 +76,9 @@
 		1F72EB125740F5145C2ECE5E /* Pods-LoveBird.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LoveBird.debug.xcconfig"; path = "Target Support Files/Pods-LoveBird/Pods-LoveBird.debug.xcconfig"; sourceTree = "<group>"; };
 		212E893A725E4BE7E73B96EB /* Pods_LoveBird.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LoveBird.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		30556E224283EEA95E9817D2 /* Pods-LoveBird.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LoveBird.release.xcconfig"; path = "Target Support Files/Pods-LoveBird/Pods-LoveBird.release.xcconfig"; sourceTree = "<group>"; };
-		4263E1BB2A2F3372008B402B /* CustomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
+		4263E1BB2A2F3372008B402B /* DiarySelectPlaceButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiarySelectPlaceButton.swift; sourceTree = "<group>"; };
 		4263E1BD2A2F33DB008B402B /* ResignKeyboardOnDragGesture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResignKeyboardOnDragGesture.swift; sourceTree = "<group>"; };
 		4263E1BF2A2F3419008B402B /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
-		4263E1C12A2F34B7008B402B /* KakaoMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KakaoMap.swift; sourceTree = "<group>"; };
 		4263E1C32A2F34E8008B402B /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		4263E1C52A2F3500008B402B /* SearchPlaceAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchPlaceAPI.swift; sourceTree = "<group>"; };
 		4263E1C72A2F3522008B402B /* SearchPlaceCore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchPlaceCore.swift; sourceTree = "<group>"; };
@@ -88,7 +86,7 @@
 		42E064102A45B5A000B9EAC3 /* PlaceRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceRequest.swift; sourceTree = "<group>"; };
 		42E064132A45BF3800B9EAC3 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		42E064152A45C11600B9EAC3 /* SearchPlaceResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchPlaceResponse.swift; sourceTree = "<group>"; };
-		42EA6F862A332C8E00DDC1D0 /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
+		42E4D5832A4C701A00F4FA42 /* DiarySelectCalenderButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiarySelectCalenderButton.swift; sourceTree = "<group>"; };
 		4A03967F2A0FA5B600EB062D /* LoveBird.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LoveBird.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4A0396822A0FA5B600EB062D /* LoveBirdApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoveBirdApp.swift; sourceTree = "<group>"; };
 		4A0396862A0FA5B800EB062D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -338,7 +336,8 @@
 				4AB2DB4E2A1FA977003EFD95 /* ReversedScrollView.swift */,
 				4AB2DB502A1FAAA5003EFD95 /* Line.swift */,
 				4A1DDF1D2A2C338100B3A72B /* TouchableStack.swift */,
-				4263E1BB2A2F3372008B402B /* CustomButton.swift */,
+				4263E1BB2A2F3372008B402B /* DiarySelectPlaceButton.swift */,
+				42E4D5832A4C701A00F4FA42 /* DiarySelectCalenderButton.swift */,
 				4263E1BD2A2F33DB008B402B /* ResignKeyboardOnDragGesture.swift */,
 				4263E1BF2A2F3419008B402B /* ImagePicker.swift */,
 			);
@@ -355,7 +354,6 @@
 				4AE5CB4F2A21C0B10016C0B4 /* UIImage+Extension.swift */,
 				4AE5CB662A2348190016C0B4 /* String+Extension.swift */,
 				4AE5CB6A2A2469D00016C0B4 /* Calendar+Extension.swift */,
-				42EA6F862A332C8E00DDC1D0 /* UIColor+Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -374,7 +372,6 @@
 			isa = PBXGroup;
 			children = (
 				4AE5CB4D2A21B1180016C0B4 /* Diary.swift */,
-				4263E1C12A2F34B7008B402B /* KakaoMap.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -585,10 +582,9 @@
 				4A03969B2A0FA61A00EB062D /* OnboardingCore.swift in Sources */,
 				4AB2DB4D2A1F8651003EFD95 /* HomeItem.swift in Sources */,
 				4AB2DB342A19A2C1003EFD95 /* TextFieldState.swift in Sources */,
-				4263E1C22A2F34B7008B402B /* KakaoMap.swift in Sources */,
 				4263E1C02A2F3419008B402B /* ImagePicker.swift in Sources */,
 				4AB2DB402A1A2EF3003EFD95 /* CustomPickerView.swift in Sources */,
-				4263E1BC2A2F3372008B402B /* CustomButton.swift in Sources */,
+				4263E1BC2A2F3372008B402B /* DiarySelectPlaceButton.swift in Sources */,
 				4A1DDF2C2A2F38E800B3A72B /* DiaryRequest.swift in Sources */,
 				4AE5CB502A21C0B10016C0B4 /* UIImage+Extension.swift in Sources */,
 				4A03969C2A0FA61A00EB062D /* OnboardingView.swift in Sources */,
@@ -622,12 +618,12 @@
 				4AE5CB6B2A2469D00016C0B4 /* Calendar+Extension.swift in Sources */,
 				4AB2DB3A2A19B3F4003EFD95 /* OnboardingDateView.swift in Sources */,
 				4AB2DB462A1A3366003EFD95 /* UIApplication+Extension.swift in Sources */,
+				42E4D5842A4C701A00F4FA42 /* DiarySelectCalenderButton.swift in Sources */,
 				4AB2DB312A19A282003EFD95 /* TextFieldClearButton.swift in Sources */,
 				4A1DDF2E2A2F3D3600B3A72B /* NetworkResponse.swift in Sources */,
 				4AE5CB672A2348190016C0B4 /* String+Extension.swift in Sources */,
 				4AD937E12A3F0DFD0093BD8D /* Config.swift in Sources */,
 				4AB2DB3E2A1A2EA4003EFD95 /* ContentView.swift in Sources */,
-				42EA6F872A332C8E00DDC1D0 /* UIColor+Extension.swift in Sources */,
 				4A03969E2A0FA61A00EB062D /* RootCore.swift in Sources */,
 				4A1DDF1E2A2C338100B3A72B /* TouchableStack.swift in Sources */,
 				4AB2DB512A1FAAA5003EFD95 /* Line.swift in Sources */,

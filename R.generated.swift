@@ -58,7 +58,7 @@ struct _R {
     }
 
 
-    /// This `_R.string.localizable` struct is generated, and contains static references to 12 localization keys.
+    /// This `_R.string.localizable` struct is generated, and contains static references to 17 localization keys.
     struct localizable {
       let source: RswiftResources.StringResource.Source
 
@@ -76,12 +76,47 @@ struct _R {
       /// Locales: en
       var common_next: RswiftResources.StringResource { .init(key: "common_next", tableName: "Localizable", source: source, developmentValue: "다음", comment: nil) }
 
+      /// en translation: 완료
+      ///
+      /// Key: complete_text
+      ///
+      /// Locales: en
+      var complete_text: RswiftResources.StringResource { .init(key: "complete_text", tableName: "Localizable", source: source, developmentValue: "완료", comment: nil) }
+
       /// en translation: 내용을 입력하세요
       ///
       /// Key: diary_edit_text
       ///
       /// Locales: en
       var diary_edit_text: RswiftResources.StringResource { .init(key: "diary_edit_text", tableName: "Localizable", source: source, developmentValue: "내용을 입력하세요", comment: nil) }
+
+      /// en translation: 일기 쓰기
+      ///
+      /// Key: diary_note
+      ///
+      /// Locales: en
+      var diary_note: RswiftResources.StringResource { .init(key: "diary_note", tableName: "Localizable", source: source, developmentValue: "일기 쓰기", comment: nil) }
+
+      /// en translation:  장소, 주소를 입력해주세요
+      ///
+      /// Key: diary_place_address_title
+      ///
+      /// Locales: en
+      var diary_place_address_title: RswiftResources.StringResource { .init(key: "diary_place_address_title", tableName: "Localizable", source: source, developmentValue: " 장소, 주소를 입력해주세요", comment: nil) }
+
+      /// en translation: 장소 선택
+      ///
+      /// Key: diary_select_place
+      ///
+      /// Locales: en
+      var diary_select_place: RswiftResources.StringResource { .init(key: "diary_select_place", tableName: "Localizable", source: source, developmentValue: "장소 선택", comment: nil) }
+
+      /// en translation: 제목
+      ///
+      /// Key: diary_title
+      ///
+      /// Locales: en
+      var diary_title: RswiftResources.StringResource { .init(key: "diary_title", tableName: "Localizable", source: source, developmentValue: "제목", comment: nil) }
 
       /// en translation: 캘린더
       ///
@@ -148,7 +183,7 @@ struct _R {
     }
   }
 
-  /// This `_R.color` struct is generated, and contains static references to 10 colors.
+  /// This `_R.color` struct is generated, and contains static references to 13 colors.
   struct color {
     let bundle: Foundation.Bundle
 
@@ -161,11 +196,20 @@ struct _R {
     /// Color `Error`.
     var error: RswiftResources.ColorResource { .init(name: "Error", path: [], bundle: bundle) }
 
+    /// Color `Gray115`.
+    var gray115: RswiftResources.ColorResource { .init(name: "Gray115", path: [], bundle: bundle) }
+
+    /// Color `Gray122`.
+    var gray122: RswiftResources.ColorResource { .init(name: "Gray122", path: [], bundle: bundle) }
+
     /// Color `Gray156`.
     var gray156: RswiftResources.ColorResource { .init(name: "Gray156", path: [], bundle: bundle) }
 
     /// Color `Gray214`.
     var gray214: RswiftResources.ColorResource { .init(name: "Gray214", path: [], bundle: bundle) }
+
+    /// Color `Gray231`.
+    var gray231: RswiftResources.ColorResource { .init(name: "Gray231", path: [], bundle: bundle) }
 
     /// Color `Gray244`.
     var gray244: RswiftResources.ColorResource { .init(name: "Gray244", path: [], bundle: bundle) }
@@ -183,21 +227,24 @@ struct _R {
     var primary: RswiftResources.ColorResource { .init(name: "Primary", path: [], bundle: bundle) }
   }
 
-  /// This `_R.image` struct is generated, and contains static references to 17 images.
+  /// This `_R.image` struct is generated, and contains static references to 16 images.
   struct image {
     let bundle: Foundation.Bundle
 
-    /// Image `back`.
-    var back: RswiftResources.ImageResource { .init(name: "back", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
-
-    /// Image `flower`.
-    var flower: RswiftResources.ImageResource { .init(name: "flower", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+    /// Image `ic_back`.
+    var ic_back: RswiftResources.ImageResource { .init(name: "ic_back", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
     /// Image `ic_calendar`.
     var ic_calendar: RswiftResources.ImageResource { .init(name: "ic_calendar", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
+    /// Image `ic_flower`.
+    var ic_flower: RswiftResources.ImageResource { .init(name: "ic_flower", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
     /// Image `ic_list_bulleted`.
     var ic_list_bulleted: RswiftResources.ImageResource { .init(name: "ic_list_bulleted", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `ic_map`.
+    var ic_map: RswiftResources.ImageResource { .init(name: "ic_map", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
     /// Image `ic_navigate_next`.
     var ic_navigate_next: RswiftResources.ImageResource { .init(name: "ic_navigate_next", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
@@ -231,12 +278,6 @@ struct _R {
 
     /// Image `ic_timeline`.
     var ic_timeline: RswiftResources.ImageResource { .init(name: "ic_timeline", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
-
-    /// Image `map`.
-    var map: RswiftResources.ImageResource { .init(name: "map", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
-
-    /// Image `photo`.
-    var photo: RswiftResources.ImageResource { .init(name: "photo", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
   }
 
   /// This `_R.font` struct is generated, and contains static references to 3 fonts.

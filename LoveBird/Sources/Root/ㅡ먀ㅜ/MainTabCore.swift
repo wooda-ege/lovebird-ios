@@ -30,7 +30,7 @@ struct MainTabCore: ReducerProtocol {
     case home(HomeCore.Action)
     case calander(CalanderCore.Action)
     case diary(DiaryCore.Action)
-    case search(SearchPlaceCore.SearchPlaceAction)
+    case search(SearchPlaceCore.Action)
     case myPage(MyPageCore.Action)
   }
   

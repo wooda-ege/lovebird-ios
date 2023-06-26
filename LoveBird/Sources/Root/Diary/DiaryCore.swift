@@ -11,13 +11,13 @@ import SwiftUI
 struct DiaryCore: ReducerProtocol {
   struct State: Equatable {
     var title: String = ""
-    var place: String = "장소 선택"
+    var place: String = String(resource: R.string.localizable.diary_select_place)
     var isPresented = false
     var text: String = ""
     var image: Image? = nil
   }
   
-  enum DiaryCoreAction: Equatable {
+  enum Action: Equatable {
     case titleLabelTapped(String)
     case selectPlaceLabelTapped
     case textDidEditting(String)
@@ -25,7 +25,7 @@ struct DiaryCore: ReducerProtocol {
     case completeButtonTapped
   }
   
-  var body: some ReducerProtocol<State, DiaryCoreAction> {
+  var body: some ReducerProtocol<State, Action> {
     Reduce<State, Action> { state, action in
       switch action {
       case .titleLabelTapped(let title):
@@ -39,6 +39,8 @@ struct DiaryCore: ReducerProtocol {
       case .changeTextEmpty:
         state.text = ""
       case .completeButtonTapped:
+        state.image = nil
+        state.place = String(resource: R.string.localizable.diary_select_place)
         state.title = ""
         state.text = ""
       default:

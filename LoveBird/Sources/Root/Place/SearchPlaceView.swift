@@ -11,35 +11,33 @@ import Combine
 
 struct SearchPlaceView: View {
   let store: StoreOf<SearchPlaceCore>
-  @Binding var placeSelection: String
   @Environment(\.presentationMode) var presentationMode
-//
+  
   enum Constant {
-    static var placeholder = " 장소, 주소를 입력해주세요."
+    static var placeholder = String(resource: R.string.localizable.diary_place_address_title)
   }
   
   var body: some View {
     WithViewStore(self.store) { viewStore in
       HStack(spacing: 10) {
-        TextField(Constant.placeholder, text: viewStore.binding(get: \.searchTerm, send: SearchPlaceCore.SearchPlaceAction.textFieldDidEditting))
+        TextField(Constant.placeholder, text: viewStore.binding(get: \.searchTerm, send: SearchPlaceCore.Action.textFieldDidEditting))
           .keyboardType(.webSearch)
           .padding(.top, 10)
           .padding(.leading, 12)
           .padding(.bottom, 10)
-          .background(Color(uiColor: .secondarySystemBackground))
+          .background(Color(R.color.gray231))
           .cornerRadius(10)
-          .navigationTitle("장소 선택")
+          .navigationTitle(String(resource: R.string.localizable.diary_select_place))
           .navigationBarItems(leading: BackButton(), trailing: CompleteButton()
             .onTapGesture {
               viewStore.send(.completeButtonTapped)
-              Constant.placeholder = " 장소, 주소를 입력해주세요."
+              Constant.placeholder = String(resource: R.string.localizable.diary_place_address_title)
             })
           .navigationBarBackButtonHidden(true)
       }
       
       List(viewStore.placeList, id:\.id) { place in
         Button {
-          placeSelection = place.placeName
           Constant.placeholder = place.placeName
           viewStore.send(.completeButtonTapped)
         } label: {
@@ -48,7 +46,7 @@ struct SearchPlaceView: View {
               .padding(.bottom, 2)
             Text(place.addressName)
               .font(.caption)
-              .foregroundColor(.gray)
+              .foregroundColor(Color(R.color.gray115))
           }
         }
       }
