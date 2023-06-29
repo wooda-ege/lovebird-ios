@@ -19,6 +19,9 @@
 		42E4D5892A4DBB2E00F4FA42 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42E4D5882A4DBB2E00F4FA42 /* LoginView.swift */; };
 		42E4D58B2A4DBB3500F4FA42 /* LoginCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42E4D58A2A4DBB3500F4FA42 /* LoginCore.swift */; };
 		42E4D58D2A4DD3D600F4FA42 /* SplashView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42E4D58C2A4DD3D600F4FA42 /* SplashView.swift */; };
+		42E4D59A2A4DECE800F4FA42 /* GmarketSansMedium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 42E4D5972A4DECE700F4FA42 /* GmarketSansMedium.otf */; };
+		42E4D59B2A4DECE800F4FA42 /* GmarketSansBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 42E4D5982A4DECE800F4FA42 /* GmarketSansBold.otf */; };
+		42E4D59C2A4DECE800F4FA42 /* GmarketSansLight.otf in Resources */ = {isa = PBXBuildFile; fileRef = 42E4D5992A4DECE800F4FA42 /* GmarketSansLight.otf */; };
 		4A0396832A0FA5B600EB062D /* LoveBirdApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A0396822A0FA5B600EB062D /* LoveBirdApp.swift */; };
 		4A0396872A0FA5B800EB062D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4A0396862A0FA5B800EB062D /* Assets.xcassets */; };
 		4A03968A2A0FA5B800EB062D /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4A0396892A0FA5B800EB062D /* Preview Assets.xcassets */; };
@@ -93,6 +96,9 @@
 		42E4D5882A4DBB2E00F4FA42 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		42E4D58A2A4DBB3500F4FA42 /* LoginCore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginCore.swift; sourceTree = "<group>"; };
 		42E4D58C2A4DD3D600F4FA42 /* SplashView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashView.swift; sourceTree = "<group>"; };
+		42E4D5972A4DECE700F4FA42 /* GmarketSansMedium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = GmarketSansMedium.otf; sourceTree = "<group>"; };
+		42E4D5982A4DECE800F4FA42 /* GmarketSansBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = GmarketSansBold.otf; sourceTree = "<group>"; };
+		42E4D5992A4DECE800F4FA42 /* GmarketSansLight.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = GmarketSansLight.otf; sourceTree = "<group>"; };
 		4A03967F2A0FA5B600EB062D /* LoveBird.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LoveBird.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4A0396822A0FA5B600EB062D /* LoveBirdApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoveBirdApp.swift; sourceTree = "<group>"; };
 		4A0396862A0FA5B800EB062D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -378,6 +384,9 @@
 		4ACCB97F2A18F7BF009F1E22 /* Font */ = {
 			isa = PBXGroup;
 			children = (
+				42E4D5982A4DECE800F4FA42 /* GmarketSansBold.otf */,
+				42E4D5992A4DECE800F4FA42 /* GmarketSansLight.otf */,
+				42E4D5972A4DECE700F4FA42 /* GmarketSansMedium.otf */,
 				4AB2DB432A1A3290003EFD95 /* Pretendard-SemiBold.otf */,
 				4AB2DB292A18FBE3003EFD95 /* Pretendard-Bold.otf */,
 				4AB2DB272A18FBE3003EFD95 /* Pretendard-Regular.otf */,
@@ -520,8 +529,11 @@
 				4A03968A2A0FA5B800EB062D /* Preview Assets.xcassets in Resources */,
 				42E064122A45BF3800B9EAC3 /* Localizable.strings in Resources */,
 				4AB2DB2C2A18FBE3003EFD95 /* Pretendard-Bold.otf in Resources */,
+				42E4D59B2A4DECE800F4FA42 /* GmarketSansBold.otf in Resources */,
+				42E4D59C2A4DECE800F4FA42 /* GmarketSansLight.otf in Resources */,
 				4AB2DB2A2A18FBE3003EFD95 /* Pretendard-Regular.otf in Resources */,
 				4AB2DB442A1A3290003EFD95 /* Pretendard-SemiBold.otf in Resources */,
+				42E4D59A2A4DECE800F4FA42 /* GmarketSansMedium.otf in Resources */,
 				4A0396872A0FA5B800EB062D /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

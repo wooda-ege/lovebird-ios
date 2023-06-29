@@ -13,20 +13,25 @@ struct SplashView: View {
   var body: some View {
     ZStack {
       if self.isActive {
-        ZStack(alignment: .center) {
-          Image(R.image.img_backHeart)
-            .resizable()
-            .scaledToFit()
-          Image(R.image.img_frontHeart)
-            .resizable()
-            .scaledToFit()
-            .foregroundColor(Color(R.color.secondary))
-          Image(R.image.img_lovebird)
-            .resizable()
-            .frame(width: 136, height: 38)
+        VStack {
+          ZStack(alignment: .center) {
+            Image(R.image.img_backHeart)
+              .resizable()
+              .scaledToFit()
+            
+            HStack(alignment: .center) {
+              Spacer()
+              Text("러브")
+                .foregroundColor(Color(R.color.green100))
+              Text("버드")
+                .foregroundColor(Color(R.color.secondary))
+              Spacer()
+            }
+            .font(.custom(R.font.gmarketSansBold, size: 38))
+          }
         }
       } else {
-        
+        LoginView()
       }
     }
     .onAppear {

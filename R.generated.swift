@@ -183,7 +183,7 @@ struct _R {
     }
   }
 
-  /// This `_R.color` struct is generated, and contains static references to 20 colors.
+  /// This `_R.color` struct is generated, and contains static references to 21 colors.
   struct color {
     let bundle: Foundation.Bundle
 
@@ -241,6 +241,9 @@ struct _R {
     /// Color `Green100`.
     var green100: RswiftResources.ColorResource { .init(name: "Green100", path: [], bundle: bundle) }
 
+    /// Color `Pink255`.
+    var pink255: RswiftResources.ColorResource { .init(name: "Pink255", path: [], bundle: bundle) }
+
     /// Color `Primary`.
     var primary: RswiftResources.ColorResource { .init(name: "Primary", path: [], bundle: bundle) }
 
@@ -248,7 +251,7 @@ struct _R {
     var secondary: RswiftResources.ColorResource { .init(name: "Secondary", path: [], bundle: bundle) }
   }
 
-  /// This `_R.image` struct is generated, and contains static references to 22 images.
+  /// This `_R.image` struct is generated, and contains static references to 20 images.
   struct image {
     let bundle: Foundation.Bundle
 
@@ -303,25 +306,28 @@ struct _R {
     /// Image `img_backHeart`.
     var img_backHeart: RswiftResources.ImageResource { .init(name: "img_backHeart", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
-    /// Image `img_frontHeart`.
-    var img_frontHeart: RswiftResources.ImageResource { .init(name: "img_frontHeart", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
-
     /// Image `img_googleLogin`.
     var img_googleLogin: RswiftResources.ImageResource { .init(name: "img_googleLogin", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
     /// Image `img_kakaoLogin`.
     var img_kakaoLogin: RswiftResources.ImageResource { .init(name: "img_kakaoLogin", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
-    /// Image `img_lovebird`.
-    var img_lovebird: RswiftResources.ImageResource { .init(name: "img_lovebird", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
-
     /// Image `img_naverLogin`.
     var img_naverLogin: RswiftResources.ImageResource { .init(name: "img_naverLogin", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
   }
 
-  /// This `_R.font` struct is generated, and contains static references to 3 fonts.
+  /// This `_R.font` struct is generated, and contains static references to 6 fonts.
   struct font: Sequence {
     let bundle: Foundation.Bundle
+
+    /// Font `GmarketSansBold`.
+    var gmarketSansBold: RswiftResources.FontResource { .init(name: "GmarketSansBold", bundle: bundle, filename: "GmarketSansBold.otf") }
+
+    /// Font `GmarketSansLight`.
+    var gmarketSansLight: RswiftResources.FontResource { .init(name: "GmarketSansLight", bundle: bundle, filename: "GmarketSansLight.otf") }
+
+    /// Font `GmarketSansMedium`.
+    var gmarketSansMedium: RswiftResources.FontResource { .init(name: "GmarketSansMedium", bundle: bundle, filename: "GmarketSansMedium.otf") }
 
     /// Font `Pretendard-Bold`.
     var pretendardBold: RswiftResources.FontResource { .init(name: "Pretendard-Bold", bundle: bundle, filename: "Pretendard-Bold.otf") }
@@ -333,7 +339,7 @@ struct _R {
     var pretendardSemiBold: RswiftResources.FontResource { .init(name: "Pretendard-SemiBold", bundle: bundle, filename: "Pretendard-SemiBold.otf") }
 
     func makeIterator() -> IndexingIterator<[RswiftResources.FontResource]> {
-      [pretendardBold, pretendardRegular, pretendardSemiBold].makeIterator()
+      [gmarketSansBold, gmarketSansLight, gmarketSansMedium, pretendardBold, pretendardRegular, pretendardSemiBold].makeIterator()
     }
     func validate() throws {
       for font in self {
@@ -342,9 +348,18 @@ struct _R {
     }
   }
 
-  /// This `_R.file` struct is generated, and contains static references to 3 resource files.
+  /// This `_R.file` struct is generated, and contains static references to 6 resource files.
   struct file {
     let bundle: Foundation.Bundle
+
+    /// Resource file `GmarketSansBold.otf`.
+    var gmarketSansBoldOtf: RswiftResources.FileResource { .init(name: "GmarketSansBold", pathExtension: "otf", bundle: bundle, locale: LocaleReference.none) }
+
+    /// Resource file `GmarketSansLight.otf`.
+    var gmarketSansLightOtf: RswiftResources.FileResource { .init(name: "GmarketSansLight", pathExtension: "otf", bundle: bundle, locale: LocaleReference.none) }
+
+    /// Resource file `GmarketSansMedium.otf`.
+    var gmarketSansMediumOtf: RswiftResources.FileResource { .init(name: "GmarketSansMedium", pathExtension: "otf", bundle: bundle, locale: LocaleReference.none) }
 
     /// Resource file `Pretendard-Bold.otf`.
     var pretendardBoldOtf: RswiftResources.FileResource { .init(name: "Pretendard-Bold", pathExtension: "otf", bundle: bundle, locale: LocaleReference.none) }

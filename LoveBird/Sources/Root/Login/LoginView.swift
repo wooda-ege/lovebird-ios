@@ -12,27 +12,25 @@ struct LoginView: View {
     VStack {
       HStack {
         Text("함께 쌓는 추억 다이어리")
+          .font(.custom(R.font.pretendardBold, size: 32))
           .multilineTextAlignment(.leading)
           .frame(width: 180, height: 88)
+          .foregroundColor(Color(R.color.gray04))
         Spacer()
       }
-      .font(.pretendard(size: 32))
-      .foregroundColor(Color(R.color.gray05))
       .padding(.top, 60)
       .padding(.leading, 40)
 
       HStack(alignment: .center) {
         Text("러브")
-          .font(.pretendard(size: 40))
           .foregroundColor(Color(R.color.green100))
         Text("버드")
-          .font(.pretendard(size: 40))
           .foregroundColor(Color(R.color.secondary))
-        
         Spacer()
       }
-      .padding(.top, 95)
-      .padding(.bottom, 100)
+      .font(.custom(R.font.gmarketSansBold, size: 38))
+      .padding(.top, 96)
+      .padding(.bottom, 108)
       .padding(.horizontal, 112)
       
       Image(R.image.img_kakaoLogin)
@@ -51,7 +49,7 @@ struct LoginView: View {
       Text("로그인 문의")
         .foregroundColor(Color(R.color.gray09))
         .font(.pretendard(size: 14))
-        .padding(.top, 17)
+        .padding(.top, 24)
       Spacer()
     }
   }
