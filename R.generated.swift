@@ -248,7 +248,7 @@ struct _R {
     var secondary: RswiftResources.ColorResource { .init(name: "Secondary", path: [], bundle: bundle) }
   }
 
-  /// This `_R.image` struct is generated, and contains static references to 15 images.
+  /// This `_R.image` struct is generated, and contains static references to 22 images.
   struct image {
     let bundle: Foundation.Bundle
 
@@ -296,6 +296,27 @@ struct _R {
 
     /// Image `ic_timeline`.
     var ic_timeline: RswiftResources.ImageResource { .init(name: "ic_timeline", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `img_appleLogin`.
+    var img_appleLogin: RswiftResources.ImageResource { .init(name: "img_appleLogin", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `img_backHeart`.
+    var img_backHeart: RswiftResources.ImageResource { .init(name: "img_backHeart", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `img_frontHeart`.
+    var img_frontHeart: RswiftResources.ImageResource { .init(name: "img_frontHeart", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `img_googleLogin`.
+    var img_googleLogin: RswiftResources.ImageResource { .init(name: "img_googleLogin", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `img_kakaoLogin`.
+    var img_kakaoLogin: RswiftResources.ImageResource { .init(name: "img_kakaoLogin", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `img_lovebird`.
+    var img_lovebird: RswiftResources.ImageResource { .init(name: "img_lovebird", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `img_naverLogin`.
+    var img_naverLogin: RswiftResources.ImageResource { .init(name: "img_naverLogin", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
   }
 
   /// This `_R.font` struct is generated, and contains static references to 3 fonts.

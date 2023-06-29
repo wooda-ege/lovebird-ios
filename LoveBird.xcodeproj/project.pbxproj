@@ -16,6 +16,9 @@
 		42E064122A45BF3800B9EAC3 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 42E064142A45BF3800B9EAC3 /* Localizable.strings */; };
 		42E064162A45C11600B9EAC3 /* SearchPlaceResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42E064152A45C11600B9EAC3 /* SearchPlaceResponse.swift */; };
 		42E4D5842A4C701A00F4FA42 /* DiarySelectCalenderButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42E4D5832A4C701A00F4FA42 /* DiarySelectCalenderButton.swift */; };
+		42E4D5892A4DBB2E00F4FA42 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42E4D5882A4DBB2E00F4FA42 /* LoginView.swift */; };
+		42E4D58B2A4DBB3500F4FA42 /* LoginCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42E4D58A2A4DBB3500F4FA42 /* LoginCore.swift */; };
+		42E4D58D2A4DD3D600F4FA42 /* SplashView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42E4D58C2A4DD3D600F4FA42 /* SplashView.swift */; };
 		4A0396832A0FA5B600EB062D /* LoveBirdApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A0396822A0FA5B600EB062D /* LoveBirdApp.swift */; };
 		4A0396872A0FA5B800EB062D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4A0396862A0FA5B800EB062D /* Assets.xcassets */; };
 		4A03968A2A0FA5B800EB062D /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4A0396892A0FA5B800EB062D /* Preview Assets.xcassets */; };
@@ -87,6 +90,9 @@
 		42E064132A45BF3800B9EAC3 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		42E064152A45C11600B9EAC3 /* SearchPlaceResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchPlaceResponse.swift; sourceTree = "<group>"; };
 		42E4D5832A4C701A00F4FA42 /* DiarySelectCalenderButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiarySelectCalenderButton.swift; sourceTree = "<group>"; };
+		42E4D5882A4DBB2E00F4FA42 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		42E4D58A2A4DBB3500F4FA42 /* LoginCore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginCore.swift; sourceTree = "<group>"; };
+		42E4D58C2A4DD3D600F4FA42 /* SplashView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashView.swift; sourceTree = "<group>"; };
 		4A03967F2A0FA5B600EB062D /* LoveBird.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LoveBird.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4A0396822A0FA5B600EB062D /* LoveBirdApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoveBirdApp.swift; sourceTree = "<group>"; };
 		4A0396862A0FA5B800EB062D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -174,6 +180,15 @@
 			name = "Recovered References";
 			sourceTree = "<group>";
 		};
+		42E4D5872A4DBB1700F4FA42 /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				42E4D5882A4DBB2E00F4FA42 /* LoginView.swift */,
+				42E4D58A2A4DBB3500F4FA42 /* LoginCore.swift */,
+			);
+			path = Login;
+			sourceTree = "<group>";
+		};
 		4A0396762A0FA5B600EB062D = {
 			isa = PBXGroup;
 			children = (
@@ -234,6 +249,7 @@
 			children = (
 				4ACCB97D2A18F3C8009F1E22 /* OnboardingNicknameView.swift */,
 				4AB2DB3D2A1A2EA4003EFD95 /* ContentView.swift */,
+				42E4D58C2A4DD3D600F4FA42 /* SplashView.swift */,
 				4AB2DB332A19A2C1003EFD95 /* TextFieldState.swift */,
 				4A0396922A0FA61A00EB062D /* OnboardingCore.swift */,
 				4A0396932A0FA61A00EB062D /* OnboardingView.swift */,
@@ -245,6 +261,7 @@
 		4A0396942A0FA61A00EB062D /* Root */ = {
 			isa = PBXGroup;
 			children = (
+				42E4D5872A4DBB1700F4FA42 /* Login */,
 				4263E1CB2A2F3550008B402B /* Place */,
 				4AE5CB5F2A232FC10016C0B4 /* Calander */,
 				4AE5CB562A232E330016C0B4 /* MyPage */,
@@ -601,6 +618,7 @@
 				4AB2DB362A19AE4F003EFD95 /* KeyboardResponder.swift in Sources */,
 				4AE5CB632A232FDB0016C0B4 /* CalanderView.swift in Sources */,
 				42E064112A45B5A000B9EAC3 /* PlaceRequest.swift in Sources */,
+				42E4D5892A4DBB2E00F4FA42 /* LoginView.swift in Sources */,
 				4A0396A02A0FA61A00EB062D /* HomeView.swift in Sources */,
 				4AB2DB492A1E6601003EFD95 /* MainTabView.swift in Sources */,
 				4AE5CB4B2A2102800016C0B4 /* HomeContentView.swift in Sources */,
@@ -632,6 +650,8 @@
 				4AE5CB702A261E520016C0B4 /* APIClient.swift in Sources */,
 				4AE5CB492A20FF1D0016C0B4 /* HomeLeftLineView.swift in Sources */,
 				4A1DDF222A2C7CC700B3A72B /* SignUpRequest.swift in Sources */,
+				42E4D58B2A4DBB3500F4FA42 /* LoginCore.swift in Sources */,
+				42E4D58D2A4DD3D600F4FA42 /* SplashView.swift in Sources */,
 				4AE5CB5A2A232E490016C0B4 /* DiaryView.swift in Sources */,
 				4ACCB98A2A18F7ED009F1E22 /* Font+Extension.swift in Sources */,
 			);
