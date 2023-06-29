@@ -38,7 +38,7 @@ struct HomeItem: View {
           .foregroundColor(Color.black)
           .font(.pretendard(size: 16, weight: .regular))
         Text(String(diary.year))
-          .foregroundColor(Color(R.color.gray156))
+          .foregroundColor(Color(R.color.gray07))
           .font(.pretendard(size: 8, weight: .bold))
         Spacer()
       }

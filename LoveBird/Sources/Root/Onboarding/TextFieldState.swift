@@ -19,11 +19,11 @@ enum TextFieldState {
     case .correct:
       return Color(R.color.primary)
     case .editing:
-      return Color(R.color.gray61)
+      return Color(R.color.gray10)
     case .duplicate, .error:
       return Color(R.color.error)
     case .none:
-      return Color(R.color.gray214)
+      return Color(R.color.gray05)
     }
   }
   

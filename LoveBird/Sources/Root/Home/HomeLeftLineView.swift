@@ -40,7 +40,7 @@ struct HomeLeftLineView: View {
             .fill(Color(R.color.primary))
             .frame(width: 6, height: 6)
         }
-        .background(Color.white)
+        .background(.white)
         .padding(.top, 39)
       }
     case .following:
@@ -48,7 +48,7 @@ struct HomeLeftLineView: View {
         Circle()
           .stroke(Color(R.color.primary), lineWidth: 1)
           .frame(width: 8, height: 8)
-          .background(Color.white)
+          .background(.white)
           .padding(.top, 41)
         Spacer()
       }

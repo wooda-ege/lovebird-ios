@@ -27,7 +27,7 @@ struct OnboardingNicknameView: View {
         
         Text(R.string.localizable.onboarding_nickname_description)
           .font(.pretendard(size: 16, weight: .regular))
-          .foregroundColor(Color(R.color.gray156))
+          .foregroundColor(Color(R.color.gray07))
           .frame(maxWidth: .infinity, alignment: .leading)
           .padding(.top, 12)
           .padding(.leading, 16)
@@ -65,7 +65,7 @@ struct OnboardingNicknameView: View {
           }
         }
         .frame(height: 56)
-        .background(viewStore.textFieldState == .correct ? .black : Color(R.color.gray214))
+        .background(viewStore.textFieldState == .correct ? .black : Color(R.color.gray05))
         .cornerRadius(12)
         .padding(.horizontal, 16)
         .padding(.bottom, keyboard.currentHeight == 0 ? 20 + UIApplication.edgeInsets.bottom : keyboard.currentHeight + 20)

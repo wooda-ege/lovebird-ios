@@ -21,7 +21,7 @@ struct ContentView: View {
         .ignoresSafeArea()
         .preferredColorScheme(.light)
       Rectangle()
-        .fill(.white.opacity(1))
+        .fill(.white).opacity(1)
         .cornerRadius(30)
         .frame(width: 300, height: 350)
       VStack {
