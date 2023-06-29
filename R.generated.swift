@@ -58,68 +58,132 @@ struct _R {
     }
 
 
-    /// This `_R.string.localizable` struct is generated, and contains static references to 11 localization keys.
+    /// This `_R.string.localizable` struct is generated, and contains static references to 17 localization keys.
     struct localizable {
       let source: RswiftResources.StringResource.Source
 
-      /// Value: 확인
+      /// en translation: 확인
       ///
       /// Key: common_confirm
-      var common_confirm: RswiftResources.StringResource { .init(key: "common_confirm", tableName: "Localizable", source: source, developmentValue: nil, comment: nil) }
+      ///
+      /// Locales: en
+      var common_confirm: RswiftResources.StringResource { .init(key: "common_confirm", tableName: "Localizable", source: source, developmentValue: "확인", comment: nil) }
 
-      /// Value: 다음
+      /// en translation: 다음
       ///
       /// Key: common_next
-      var common_next: RswiftResources.StringResource { .init(key: "common_next", tableName: "Localizable", source: source, developmentValue: nil, comment: nil) }
+      ///
+      /// Locales: en
+      var common_next: RswiftResources.StringResource { .init(key: "common_next", tableName: "Localizable", source: source, developmentValue: "다음", comment: nil) }
 
-      /// Value: 캘린더
+      /// en translation: 완료
+      ///
+      /// Key: complete_text
+      ///
+      /// Locales: en
+      var complete_text: RswiftResources.StringResource { .init(key: "complete_text", tableName: "Localizable", source: source, developmentValue: "완료", comment: nil) }
+
+      /// en translation: 내용을 입력하세요
+      ///
+      /// Key: diary_edit_text
+      ///
+      /// Locales: en
+      var diary_edit_text: RswiftResources.StringResource { .init(key: "diary_edit_text", tableName: "Localizable", source: source, developmentValue: "내용을 입력하세요", comment: nil) }
+
+      /// en translation: 일기 쓰기
+      ///
+      /// Key: diary_note
+      ///
+      /// Locales: en
+      var diary_note: RswiftResources.StringResource { .init(key: "diary_note", tableName: "Localizable", source: source, developmentValue: "일기 쓰기", comment: nil) }
+
+      /// en translation:  장소, 주소를 입력해주세요
+      ///
+      /// Key: diary_place_address_title
+      ///
+      /// Locales: en
+      var diary_place_address_title: RswiftResources.StringResource { .init(key: "diary_place_address_title", tableName: "Localizable", source: source, developmentValue: " 장소, 주소를 입력해주세요", comment: nil) }
+
+      /// en translation: 장소 선택
+      ///
+      /// Key: diary_select_place
+      ///
+      /// Locales: en
+      var diary_select_place: RswiftResources.StringResource { .init(key: "diary_select_place", tableName: "Localizable", source: source, developmentValue: "장소 선택", comment: nil) }
+
+      /// en translation: 제목
+      ///
+      /// Key: diary_title
+      ///
+      /// Locales: en
+      var diary_title: RswiftResources.StringResource { .init(key: "diary_title", tableName: "Localizable", source: source, developmentValue: "제목", comment: nil) }
+
+      /// en translation: 캘린더
       ///
       /// Key: main_tab_calendar
-      var main_tab_calendar: RswiftResources.StringResource { .init(key: "main_tab_calendar", tableName: "Localizable", source: source, developmentValue: nil, comment: nil) }
+      ///
+      /// Locales: en
+      var main_tab_calendar: RswiftResources.StringResource { .init(key: "main_tab_calendar", tableName: "Localizable", source: source, developmentValue: "캘린더", comment: nil) }
 
-      /// Value: 홈
+      /// en translation: 홈
       ///
       /// Key: main_tab_home
-      var main_tab_home: RswiftResources.StringResource { .init(key: "main_tab_home", tableName: "Localizable", source: source, developmentValue: nil, comment: nil) }
+      ///
+      /// Locales: en
+      var main_tab_home: RswiftResources.StringResource { .init(key: "main_tab_home", tableName: "Localizable", source: source, developmentValue: "홈", comment: nil) }
 
-      /// Value: 마이페이지
+      /// en translation: 마이페이지
       ///
       /// Key: main_tab_my_page
-      var main_tab_my_page: RswiftResources.StringResource { .init(key: "main_tab_my_page", tableName: "Localizable", source: source, developmentValue: nil, comment: nil) }
+      ///
+      /// Locales: en
+      var main_tab_my_page: RswiftResources.StringResource { .init(key: "main_tab_my_page", tableName: "Localizable", source: source, developmentValue: "마이페이지", comment: nil) }
 
-      /// Value: 일기 작성
+      /// en translation: 일기 작성
       ///
       /// Key: main_tab_note
-      var main_tab_note: RswiftResources.StringResource { .init(key: "main_tab_note", tableName: "Localizable", source: source, developmentValue: nil, comment: nil) }
+      ///
+      /// Locales: en
+      var main_tab_note: RswiftResources.StringResource { .init(key: "main_tab_note", tableName: "Localizable", source: source, developmentValue: "일기 작성", comment: nil) }
 
-      /// Value: 러브버드가 기념일을 계산해서 알려드릴게요
+      /// en translation: 러브버드가 기념일을 계산해서 알려드릴게요
       ///
       /// Key: onboarding_date_description
-      var onboarding_date_description: RswiftResources.StringResource { .init(key: "onboarding_date_description", tableName: "Localizable", source: source, developmentValue: nil, comment: nil) }
+      ///
+      /// Locales: en
+      var onboarding_date_description: RswiftResources.StringResource { .init(key: "onboarding_date_description", tableName: "Localizable", source: source, developmentValue: "러브버드가 기념일을 계산해서 알려드릴게요", comment: nil) }
 
-      /// Value: 초기화
+      /// en translation: 초기화
       ///
       /// Key: onboarding_date_initial
-      var onboarding_date_initial: RswiftResources.StringResource { .init(key: "onboarding_date_initial", tableName: "Localizable", source: source, developmentValue: nil, comment: nil) }
+      ///
+      /// Locales: en
+      var onboarding_date_initial: RswiftResources.StringResource { .init(key: "onboarding_date_initial", tableName: "Localizable", source: source, developmentValue: "초기화", comment: nil) }
 
-      /// Value: 연인과 사랑을 시작한 날짜를 알려주세요
+      /// en translation: 연인과 사랑을 시작한 날짜를 알려주세요
       ///
       /// Key: onboarding_date_title
-      var onboarding_date_title: RswiftResources.StringResource { .init(key: "onboarding_date_title", tableName: "Localizable", source: source, developmentValue: nil, comment: nil) }
+      ///
+      /// Locales: en
+      var onboarding_date_title: RswiftResources.StringResource { .init(key: "onboarding_date_title", tableName: "Localizable", source: source, developmentValue: "연인과 사랑을 시작한 날짜를 알려주세요", comment: nil) }
 
-      /// Value: 애칭이 없다면 이름 또는 별명을 알려주셔도 좋아요
+      /// en translation: 애칭이 없다면 이름 또는 별명을 알려주셔도 좋아요
       ///
       /// Key: onboarding_nickname_description
-      var onboarding_nickname_description: RswiftResources.StringResource { .init(key: "onboarding_nickname_description", tableName: "Localizable", source: source, developmentValue: nil, comment: nil) }
+      ///
+      /// Locales: en
+      var onboarding_nickname_description: RswiftResources.StringResource { .init(key: "onboarding_nickname_description", tableName: "Localizable", source: source, developmentValue: "애칭이 없다면 이름 또는 별명을 알려주셔도 좋아요", comment: nil) }
 
-      /// Value: 당신의 애칭을 알려주세요
+      /// en translation: 당신의 애칭을 알려주세요
       ///
       /// Key: onboarding_nickname_title
-      var onboarding_nickname_title: RswiftResources.StringResource { .init(key: "onboarding_nickname_title", tableName: "Localizable", source: source, developmentValue: nil, comment: nil) }
+      ///
+      /// Locales: en
+      var onboarding_nickname_title: RswiftResources.StringResource { .init(key: "onboarding_nickname_title", tableName: "Localizable", source: source, developmentValue: "당신의 애칭을 알려주세요", comment: nil) }
     }
   }
 
-  /// This `_R.color` struct is generated, and contains static references to 11 colors.
+  /// This `_R.color` struct is generated, and contains static references to 13 colors.
   struct color {
     let bundle: Foundation.Bundle
 
@@ -132,14 +196,20 @@ struct _R {
     /// Color `Error`.
     var error: RswiftResources.ColorResource { .init(name: "Error", path: [], bundle: bundle) }
 
+    /// Color `Gray115`.
+    var gray115: RswiftResources.ColorResource { .init(name: "Gray115", path: [], bundle: bundle) }
+
+    /// Color `Gray122`.
+    var gray122: RswiftResources.ColorResource { .init(name: "Gray122", path: [], bundle: bundle) }
+
     /// Color `Gray156`.
     var gray156: RswiftResources.ColorResource { .init(name: "Gray156", path: [], bundle: bundle) }
 
-    /// Color `Gray200`.
-    var gray200: RswiftResources.ColorResource { .init(name: "Gray200", path: [], bundle: bundle) }
-
     /// Color `Gray214`.
     var gray214: RswiftResources.ColorResource { .init(name: "Gray214", path: [], bundle: bundle) }
+
+    /// Color `Gray231`.
+    var gray231: RswiftResources.ColorResource { .init(name: "Gray231", path: [], bundle: bundle) }
 
     /// Color `Gray244`.
     var gray244: RswiftResources.ColorResource { .init(name: "Gray244", path: [], bundle: bundle) }
@@ -157,15 +227,21 @@ struct _R {
     var primary: RswiftResources.ColorResource { .init(name: "Primary", path: [], bundle: bundle) }
   }
 
-  /// This `_R.image` struct is generated, and contains static references to 13 images.
+  /// This `_R.image` struct is generated, and contains static references to 15 images.
   struct image {
     let bundle: Foundation.Bundle
+
+    /// Image `ic_back`.
+    var ic_back: RswiftResources.ImageResource { .init(name: "ic_back", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
     /// Image `ic_calendar`.
     var ic_calendar: RswiftResources.ImageResource { .init(name: "ic_calendar", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
     /// Image `ic_list_bulleted`.
     var ic_list_bulleted: RswiftResources.ImageResource { .init(name: "ic_list_bulleted", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `ic_map`.
+    var ic_map: RswiftResources.ImageResource { .init(name: "ic_map", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
     /// Image `ic_navigate_next`.
     var ic_navigate_next: RswiftResources.ImageResource { .init(name: "ic_navigate_next", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }

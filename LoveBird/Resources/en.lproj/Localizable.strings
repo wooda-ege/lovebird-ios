@@ -17,3 +17,9 @@
 "onboarding_date_title" = "연인과 사랑을 시작한 날짜를 알려주세요";
 "onboarding_date_description" = "러브버드가 기념일을 계산해서 알려드릴게요";
 "onboarding_date_initial" = "초기화";
+"diary_edit_text" = "내용을 입력하세요";
+"complete_text"= "완료";
+"diary_select_place" = "장소 선택";
+"diary_place_address_title" = " 장소, 주소를 입력해주세요";
+"diary_note" = "일기 쓰기";
+"diary_title" = "제목";
