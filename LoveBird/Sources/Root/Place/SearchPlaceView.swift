@@ -22,9 +22,8 @@ struct SearchPlaceView: View {
       HStack(spacing: 10) {
         TextField(Constant.placeholder, text: viewStore.binding(get: \.searchTerm, send: SearchPlaceCore.Action.textFieldDidEditting))
           .keyboardType(.webSearch)
-          .padding(.top, 10)
+          .padding(.vertical, 10)
           .padding(.leading, 12)
-          .padding(.bottom, 10)
           .background(Color(R.color.gray231))
           .cornerRadius(10)
           .navigationTitle(String(resource: R.string.localizable.diary_select_place))

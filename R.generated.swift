@@ -227,7 +227,7 @@ struct _R {
     var primary: RswiftResources.ColorResource { .init(name: "Primary", path: [], bundle: bundle) }
   }
 
-  /// This `_R.image` struct is generated, and contains static references to 16 images.
+  /// This `_R.image` struct is generated, and contains static references to 15 images.
   struct image {
     let bundle: Foundation.Bundle
 
@@ -236,9 +236,6 @@ struct _R {
 
     /// Image `ic_calendar`.
     var ic_calendar: RswiftResources.ImageResource { .init(name: "ic_calendar", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
-
-    /// Image `ic_flower`.
-    var ic_flower: RswiftResources.ImageResource { .init(name: "ic_flower", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
     /// Image `ic_list_bulleted`.
     var ic_list_bulleted: RswiftResources.ImageResource { .init(name: "ic_list_bulleted", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }

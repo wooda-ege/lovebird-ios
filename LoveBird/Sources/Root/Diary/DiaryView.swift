@@ -36,7 +36,7 @@ struct DiaryView: View {
               RoundedRectangle(cornerRadius: 10)
                 .stroke(Color.clear)
             )
-            .padding([.top, .bottom], 10)
+            .padding(.vertical, 10)
             .padding(.leading, 15)
             .frame(height: 44)
             .background(Color(R.color.gray231))
@@ -51,7 +51,7 @@ struct DiaryView: View {
             NavigationLink(destination: SearchPlaceView(store: Store(initialState: SearchPlaceCore.State(), reducer: SearchPlaceCore()))
               .padding(.top, 20)
               .padding(.bottom, 10)
-              .padding([.leading, .trailing], 15)
+              .padding(.horizontal, 15)
             ) {
               ZStack(alignment: .center) {
                 viewStore.place == String(resource: R.string.localizable.diary_select_place) ? DiarySelectPlaceButton(title: viewStore.place)
@@ -85,7 +85,7 @@ struct DiaryView: View {
           }
           .navigationBarBackButtonHidden(true)
           .padding(.top, 10)
-          .padding([.leading, .trailing], 16)
+          .padding(.horizontal, 16)
         }
       }
       .padding(.bottom, keyboardResponder.currentHeight == 0 ? 0 : keyboardResponder.currentHeight + 524 - UIScreen.main.bounds.height)

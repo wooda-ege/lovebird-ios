@@ -16,9 +16,10 @@ struct DiarySelectPlaceButton: View {
       RoundedRectangle(cornerRadius: 10)
         .foregroundColor(Color(R.color.gray231))
         .background(.white)
-        .frame(width: .infinity,
-               height: 44,
-               alignment: .leading
+        .frame(
+          width: .infinity,
+          height: 44,
+          alignment: .leading
         )
       
       HStack {
