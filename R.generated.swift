@@ -183,48 +183,69 @@ struct _R {
     }
   }
 
-  /// This `_R.color` struct is generated, and contains static references to 13 colors.
+  /// This `_R.color` struct is generated, and contains static references to 20 colors.
   struct color {
     let bundle: Foundation.Bundle
 
     /// Color `AccentColor`.
     var accentColor: RswiftResources.ColorResource { .init(name: "AccentColor", path: [], bundle: bundle) }
 
-    /// Color `Color`.
-    var color: RswiftResources.ColorResource { .init(name: "Color", path: [], bundle: bundle) }
-
     /// Color `Error`.
     var error: RswiftResources.ColorResource { .init(name: "Error", path: [], bundle: bundle) }
+
+    /// Color `Gray01`.
+    var gray01: RswiftResources.ColorResource { .init(name: "Gray01", path: [], bundle: bundle) }
+
+    /// Color `Gray02`.
+    var gray02: RswiftResources.ColorResource { .init(name: "Gray02", path: [], bundle: bundle) }
+
+    /// Color `Gray03`.
+    var gray03: RswiftResources.ColorResource { .init(name: "Gray03", path: [], bundle: bundle) }
+
+    /// Color `Gray04`.
+    var gray04: RswiftResources.ColorResource { .init(name: "Gray04", path: [], bundle: bundle) }
+
+    /// Color `Gray05`.
+    var gray05: RswiftResources.ColorResource { .init(name: "Gray05", path: [], bundle: bundle) }
+
+    /// Color `Gray06`.
+    var gray06: RswiftResources.ColorResource { .init(name: "Gray06", path: [], bundle: bundle) }
+
+    /// Color `Gray07`.
+    var gray07: RswiftResources.ColorResource { .init(name: "Gray07", path: [], bundle: bundle) }
+
+    /// Color `Gray08`.
+    var gray08: RswiftResources.ColorResource { .init(name: "Gray08", path: [], bundle: bundle) }
+
+    /// Color `Gray09`.
+    var gray09: RswiftResources.ColorResource { .init(name: "Gray09", path: [], bundle: bundle) }
+
+    /// Color `Gray10`.
+    var gray10: RswiftResources.ColorResource { .init(name: "Gray10", path: [], bundle: bundle) }
+
+    /// Color `Gray11`.
+    var gray11: RswiftResources.ColorResource { .init(name: "Gray11", path: [], bundle: bundle) }
 
     /// Color `Gray115`.
     var gray115: RswiftResources.ColorResource { .init(name: "Gray115", path: [], bundle: bundle) }
 
+    /// Color `Gray12`.
+    var gray12: RswiftResources.ColorResource { .init(name: "Gray12", path: [], bundle: bundle) }
+
     /// Color `Gray122`.
     var gray122: RswiftResources.ColorResource { .init(name: "Gray122", path: [], bundle: bundle) }
-
-    /// Color `Gray156`.
-    var gray156: RswiftResources.ColorResource { .init(name: "Gray156", path: [], bundle: bundle) }
-
-    /// Color `Gray214`.
-    var gray214: RswiftResources.ColorResource { .init(name: "Gray214", path: [], bundle: bundle) }
 
     /// Color `Gray231`.
     var gray231: RswiftResources.ColorResource { .init(name: "Gray231", path: [], bundle: bundle) }
 
-    /// Color `Gray244`.
-    var gray244: RswiftResources.ColorResource { .init(name: "Gray244", path: [], bundle: bundle) }
-
-    /// Color `Gray61`.
-    var gray61: RswiftResources.ColorResource { .init(name: "Gray61", path: [], bundle: bundle) }
-
     /// Color `Green100`.
     var green100: RswiftResources.ColorResource { .init(name: "Green100", path: [], bundle: bundle) }
 
-    /// Color `Green200`.
-    var green200: RswiftResources.ColorResource { .init(name: "Green200", path: [], bundle: bundle) }
-
     /// Color `Primary`.
     var primary: RswiftResources.ColorResource { .init(name: "Primary", path: [], bundle: bundle) }
+
+    /// Color `Secondary`.
+    var secondary: RswiftResources.ColorResource { .init(name: "Secondary", path: [], bundle: bundle) }
   }
 
   /// This `_R.image` struct is generated, and contains static references to 15 images.

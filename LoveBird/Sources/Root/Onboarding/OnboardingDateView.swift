@@ -24,7 +24,7 @@ struct OnboardingDateView: View {
             .padding(.leading, 16)
           Text(R.string.localizable.onboarding_date_description)
             .font(.pretendard(size: 16, weight: .regular))
-            .foregroundColor(Color(R.color.gray156))
+            .foregroundColor(Color(R.color.gray07))
             .frame(maxWidth: .infinity, alignment: .leading)
             .padding(.top, 12)
             .padding(.leading, 16)
@@ -36,12 +36,12 @@ struct OnboardingDateView: View {
               .font(.pretendard(size: 18))
             Text("/")
               .font(.pretendard(size: 18))
-              .foregroundColor(Color(R.color.gray214))
+              .foregroundColor(Color(R.color.gray05))
             Text(String(viewStore.month))
               .font(.pretendard(size: 18))
             Text("/")
               .font(.pretendard(size: 18))
-              .foregroundColor(Color(R.color.gray214))
+              .foregroundColor(Color(R.color.gray05))
             Text(String(viewStore.day))
               .font(.pretendard(size: 18))
           }
@@ -90,7 +90,7 @@ struct OnboardingDateView: View {
                   Text(R.string.localizable.onboarding_date_initial)
                     .font(.pretendard(size: 16, weight: .semiBold))
                     .frame(maxWidth: .infinity, maxHeight: 56)
-                    .background(Color(R.color.gray214))
+                    .background(Color(R.color.gray05))
                     .cornerRadius(12)
                 }
                 

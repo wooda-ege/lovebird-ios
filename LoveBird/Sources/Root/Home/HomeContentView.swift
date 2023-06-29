@@ -45,7 +45,7 @@ struct HomeContentView: View {
               .padding(20)
             Spacer()
           }
-          .background(self.diary.type == .unfold ? .white : Color(R.color.gray244))
+          .background(self.diary.type == .unfold ? .white : Color(R.color.gray03))
           .onTapGesture {
             viewStore.send(.diaryTitleTapped(self.diary))
           }
@@ -58,10 +58,10 @@ struct HomeContentView: View {
               Text(diary.location)
                 .lineLimit(1)
                 .font(.pretendard(size: 14))
-                .foregroundColor(Color(R.color.gray156))
+                .foregroundColor(Color(R.color.gray07))
               Spacer()
             }
-            .background(Color(R.color.gray244))
+            .background(Color(R.color.gray03))
             .cornerRadius(4)
             .padding(20)
             
@@ -98,7 +98,7 @@ struct HomeContentView: View {
           HStack(alignment: .top) {
             VStack {
               Text(diary.title)
-                .foregroundColor(Color(R.color.gray214))
+                .foregroundColor(Color(R.color.gray05))
                 .font(.pretendard(size: 18, weight: .bold))
                 .padding(.leading, 2)
                 .padding(.top, 36)

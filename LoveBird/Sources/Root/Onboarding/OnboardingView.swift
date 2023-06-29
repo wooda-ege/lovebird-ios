@@ -33,7 +33,7 @@ struct OnboardingView: View {
           HStack {
             Circle()
               .frame(width: 10, height: 10)
-              .foregroundColor(Color(R.color.green200))
+              .foregroundColor(Color(R.color.primary))
             Circle()
               .frame(width: 10, height: 10)
               .foregroundColor(Color(R.color.green100))
