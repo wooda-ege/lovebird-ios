@@ -15,10 +15,11 @@ enum APIEndpoint {
   case signUp(_ request: SignUpRequest)
   case fetchDiary(_ request: DiaryRequest)
   case searchPlace(_ request: PlaceRequest)
+  case addSchedule(_ request: AddScheduleRequest)
   
   var method: HTTPMethod {
     switch self {
-    case .signUp:
+    case .signUp, .addSchedule:
       return .post
     case .fetchDiary:
       return .get
@@ -35,12 +36,14 @@ enum APIEndpoint {
       return "members/\(id)"
     case .searchPlace(let searchTerm):
       return "query=\(searchTerm)"
+    case .addSchedule:
+      return "calendar"
     }
   }
   
   var requestBody: Encodable? {
     switch self {
-    case .signUp(let request):
+    case .signUp(let request as Encodable), .addSchedule(let request as Encodable):
       return request
     case .fetchDiary(let request):
       return request

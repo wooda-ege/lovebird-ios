@@ -1,7 +1,7 @@
 PODS:
-  - Kingfisher (7.6.2)
+  - Kingfisher (7.8.1)
   - R.swift (7.3.2)
-  - SwiftLint (0.51.0)
+  - SwiftLint (0.52.3)
   - SwiftUIPager (2.5.0)
 
 DEPENDENCIES:
@@ -18,11 +18,11 @@ SPEC REPOS:
     - SwiftUIPager
 
 SPEC CHECKSUMS:
-  Kingfisher: 6c5449c6450c5239166510ba04afe374a98afc4f
+  Kingfisher: 63f677311d36a3473f6b978584f8a3845d023dc5
   R.swift: 0af0d882f49f03711415cb4e5215daa977d8a480
-  SwiftLint: 1b7561918a19e23bfed960e40759086e70f4dba5
+  SwiftLint: 76ec9c62ad369cff2937474cb34c9af3fa270b7b
   SwiftUIPager: b314d8923bef0bde743c904bb74fcc7a05fd3422
 
 PODFILE CHECKSUM: b36667ba564453504e54dec5aa5cac4e7684dc49
 
-COCOAPODS: 1.12.1
+COCOAPODS: 1.11.3

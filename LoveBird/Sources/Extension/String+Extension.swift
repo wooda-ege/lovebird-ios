@@ -17,5 +17,9 @@ extension String {
   var isNotEmpty: Bool {
     return !self.isEmpty
   }
+
+  var isWeekend: Bool {
+    return self == "일" || self == "토"
+  }
 }
 

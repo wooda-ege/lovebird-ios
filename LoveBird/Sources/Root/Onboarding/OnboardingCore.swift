@@ -10,6 +10,7 @@ import SwiftUIPager
 import Foundation
 
 typealias OnboardingState = OnboardingCore.State
+typealias OnboardingAction = OnboardingCore.Action
 
 struct OnboardingCore: ReducerProtocol {
   
@@ -25,9 +26,9 @@ struct OnboardingCore: ReducerProtocol {
     var nickname: String = ""
     var textFieldState: TextFieldState = .none
     var showBottomSheet = false
-    var year: Int = Calendar.year
-    var month: Int = Calendar.month
-    var day: Int = Calendar.day
+    var year: Int = Date().year
+    var month: Int = Date().month
+    var day: Int = Date().day
   }
   
   enum Action: Equatable {
@@ -80,9 +81,9 @@ struct OnboardingCore: ReducerProtocol {
       case .hideBottomSheet:
         state.showBottomSheet = false
       case .dateInitialied:
-        state.year = Calendar.year
-        state.month = Calendar.month
-        state.day = Calendar.day
+        state.year = Date().year
+        state.month = Date().month
+        state.day = Date().day
       case .doneButtonTapped:
         return .task { [nickname = state.nickname, year = state.year, month = state.month, day = state.day] in
             .signUpResponse(

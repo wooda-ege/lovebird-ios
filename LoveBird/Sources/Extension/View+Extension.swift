@@ -9,8 +9,8 @@ import SwiftUI
 import UIKit
 
 extension View {
-  func showClearButton(_ text: Binding<String>) -> some View {
-    self.modifier(TextFieldClearButton(fieldText: text))
+  func showClearButton(_ text: Binding<String>, trailingPadding: CGFloat = 18) -> some View {
+    self.modifier(TextFieldClearButton(fieldText: text, trailingPadding: trailingPadding))
   }
   
   func roundedBackground(cornerRadius: Int, color: Color) -> some View {

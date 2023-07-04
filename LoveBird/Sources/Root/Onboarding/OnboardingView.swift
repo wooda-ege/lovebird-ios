@@ -11,11 +11,8 @@ import SwiftUIPager
 import Foundation
 
 struct OnboardingView: View {
-  let store: StoreOf<OnboardingCore>
   
-  init(store: StoreOf<OnboardingCore>) {
-    self.store = store
-  }
+  let store: StoreOf<OnboardingCore>
   
   var body: some View {
     WithViewStore(self.store) { viewStore in

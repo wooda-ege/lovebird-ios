@@ -13,8 +13,8 @@ struct RootCore: ReducerProtocol {
     case mainTab(MainTabCore.State)
     
     init() {
-                  self = .onboarding(OnboardingCore.State())}
-//      self = .mainTab(MainTabCore.State())}
+//                  self = .onboarding(OnboardingCore.State())}
+      self = .mainTab(MainTabCore.State())}
   }
   enum Action: Equatable {
     case onboarding(OnboardingCore.Action)

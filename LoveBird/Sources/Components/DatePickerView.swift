@@ -13,6 +13,7 @@ struct DatePickerView: UIViewRepresentable {
   
   @ObservedObject var viewStore: ViewStore<OnboardingState, OnboardingCore.Action>
   let fromYear = 1950
+  let today = Date()
   
   func makeCoordinator() -> Coordinator {
     Coordinator(self)
@@ -46,16 +47,16 @@ struct DatePickerView: UIViewRepresentable {
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
       switch component {
       case 0:
-        return Calendar.year - self.parent.fromYear + 1 // 1950부터 현재 연도까지
+        return self.parent.today.year - self.parent.fromYear + 1 // 1950부터 현재 연도까지
       case 1:
-        let months = Calendar.calculateMonths(in: self.parent.viewStore.year)
+        let months = Date.with(year: self.parent.viewStore.year).calculateMonths
         // Ex) 2022년 12월인 상태에서 연도를 2023년으로 바꿀 때 현재가 6월인 경우 month값이 변화한다.
         if months < self.parent.viewStore.month {
           self.parent.viewStore.send(.monthSelected(months))
         }
         return months
       case 2:
-        let days = Calendar.calculateDays(in: self.parent.viewStore.month, year: self.parent.viewStore.year)
+        let days = Date.with(year: self.parent.viewStore.year, month: self.parent.viewStore.month).calculateDaysInOnBoarding
         // Ex) 12월 31일인 상태에서 월을 11월으로 바꿀 때 days가 30으로 변화하기 때문에
         // 자연스럽게 선택 일이 30일로 맞춰진다.
         if days < self.parent.viewStore.day {

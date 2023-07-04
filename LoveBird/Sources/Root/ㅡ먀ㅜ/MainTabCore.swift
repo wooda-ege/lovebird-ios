@@ -19,7 +19,7 @@ struct MainTabCore: ReducerProtocol {
   struct State: Equatable {
     var selectedTab = Tab.home
     var home: HomeCore.State? = HomeCore.State()
-    var calander: CalanderCore.State? = CalanderCore.State()
+    var calander: CalendarCore.State? = CalendarCore.State()
     var diary: DiaryCore.State? = DiaryCore.State()
     var search: SearchPlaceCore.State? = SearchPlaceCore.State()
     var myPage: MyPageCore.State? = MyPageCore.State()
@@ -28,7 +28,7 @@ struct MainTabCore: ReducerProtocol {
   enum Action: Equatable {
     case tabSelected(Tab)
     case home(HomeCore.Action)
-    case calander(CalanderCore.Action)
+    case calander(CalendarCore.Action)
     case diary(DiaryCore.Action)
     case search(SearchPlaceCore.Action)
     case myPage(MyPageCore.Action)
@@ -57,7 +57,7 @@ struct MainTabCore: ReducerProtocol {
       HomeCore()
     }
     .ifLet(\.calander, action: /Action.calander) {
-      CalanderCore()
+      CalendarCore()
     }
     .ifLet(\.diary, action: /Action.diary) {
       DiaryCore()

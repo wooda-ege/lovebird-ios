@@ -8,6 +8,10 @@
 
 "common_confirm" = "확인";
 "common_next" = "다음";
+"common_complete" = "완료";
+"color_primary" = "그린";
+"color_secondary" = "핑크";
+"color_gray" = "그레이";
 "main_tab_home" = "홈";
 "main_tab_calendar" = "캘린더";
 "main_tab_note" = "일기 작성";
@@ -26,3 +30,12 @@
 "diary_place_address_title" = " 장소, 주소를 입력해주세요";
 "diary_note" = "일기 쓰기";
 "diary_title" = "제목";
+"add_schedule_title" = "일정 추가";
+"add_schedule_title_placeholder" = "일정 제목을 입력해 주세요";
+"add_schedule_color" = "일정 컬러";
+"add_schedule_end_date" = "종료일 설정";
+"add_schedule_time" = "시간 설정";
+"add_schedule_start_time" = "시작 시간";
+"add_schedule_end_time" = "종료 시간";
+"add_schedule_alarm" = "알림 설정";
+"add_schedule_memo" = "메모";

@@ -72,7 +72,7 @@ struct OnboardingDateView: View {
         .background(.white)
         
         if viewStore.showBottomSheet {
-          BottomSheetView(isOpen: viewStore.binding(get: \.showBottomSheet,send: .hideBottomSheet)) {
+          BottomSheetView(isOpen: viewStore.binding(get: \.showBottomSheet, send: .hideBottomSheet)) {
             VStack {
               DatePickerView(viewStore: viewStore)
               

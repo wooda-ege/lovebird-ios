@@ -30,7 +30,7 @@ struct MainTabView: View {
             }
             .tag(MainTabCore.Tab.home)
           
-          CalanderView(store: self.store.scope(state: \.calander!, action: MainTabCore.Action.calander))
+          CalendarView(store: self.store.scope(state: \.calander!, action: MainTabCore.Action.calander))
             .tabItem {
               Image(R.image.ic_calendar)
               
