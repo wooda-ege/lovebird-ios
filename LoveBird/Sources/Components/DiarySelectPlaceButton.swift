@@ -63,7 +63,7 @@ struct BackButton: View {
     }) {
       Image(R.image.ic_back)
         .resizable()
-        .frame(width: 17, height: 22)
+        .frame(width: 24, height: 24)
     }
   }
 }

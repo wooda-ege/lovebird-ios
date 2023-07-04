@@ -1,14 +1,14 @@
 //
-//  OnboardingDateView.swift
+//  OnboardingBirthDateView.swift
 //  LoveBird
 //
-//  Created by 황득연 on 2023/05/21.
+//  Created by 이예은 on 2023/07/03.
 //
 
 import SwiftUI
 import ComposableArchitecture
 
-struct OnboardingDateView: View {
+struct OnboardingBirthDateView: View {
   
   let store: StoreOf<OnboardingCore>
   
@@ -17,12 +17,12 @@ struct OnboardingDateView: View {
       ZStack {
         VStack {
           Spacer().frame(height: 24)
-          Text(R.string.localizable.onboarding_date_title)
+          Text(R.string.localizable.onboarding_birthdate_title)
             .font(.pretendard(size: 20, weight: .bold))
             .foregroundColor(.black)
             .frame(maxWidth: .infinity, alignment: .leading)
             .padding(.leading, 16)
-          Text(R.string.localizable.onboarding_date_description)
+          Text(R.string.localizable.onboarding_birthdate_description)
             .font(.pretendard(size: 16, weight: .regular))
             .foregroundColor(Color(R.color.gray07))
             .frame(maxWidth: .infinity, alignment: .leading)
@@ -116,8 +116,9 @@ struct OnboardingDateView: View {
   }
 }
 
-//struct OnboardingBirthView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        OnboardingBirthView()
-//    }
-//}
+struct OnboardingBirthDateView_Previews: PreviewProvider {
+    static var previews: some View {
+        OnboardingBirthDateView(store: Store(initialState: OnboardingCore.State(), reducer: OnboardingCore()))
+    }
+}
+

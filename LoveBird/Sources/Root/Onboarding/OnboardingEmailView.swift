@@ -1,17 +1,17 @@
 //
-//  OnboardingNicknameView.swift
+//  OnboardingEmailView.swift
 //  LoveBird
 //
-//  Created by 황득연 on 2023/05/20.
+//  Created by 이예은 on 2023/06/30.
 //
 
 import SwiftUI
 import ComposableArchitecture
 
-struct OnboardingNicknameView: View {
+struct OnboardingEmailView: View {
   
   let store: StoreOf<OnboardingCore>
-  @FocusState private var isNameFieldFocused: Bool
+  @FocusState private var isEmailFieldFocused: Bool
   @StateObject private var keyboard = KeyboardResponder()
   
   var body: some View {
@@ -19,13 +19,13 @@ struct OnboardingNicknameView: View {
       VStack {
         Spacer().frame(height: 24)
         
-        Text(R.string.localizable.onboarding_nickname_title)
+        Text(R.string.localizable.onboarding_email_title)
           .font(.pretendard(size: 20, weight: .bold))
           .foregroundColor(.black)
           .frame(maxWidth: .infinity, alignment: .leading)
           .padding(.leading, 16)
-        
-        Text(R.string.localizable.onboarding_nickname_description)
+
+        Text(R.string.localizable.onboarding_email_description)
           .font(.pretendard(size: 16, weight: .regular))
           .foregroundColor(Color(R.color.gray07))
           .frame(maxWidth: .infinity, alignment: .leading)
@@ -34,14 +34,14 @@ struct OnboardingNicknameView: View {
         
         Spacer().frame(height: 48)
         
-        TextField("ex. 러버", text: viewStore.binding(get: \.nickname, send: OnboardingCore.Action.nicknameEdited))
+        TextField("love@bird.com", text: viewStore.binding(get: \.email, send: OnboardingCore.Action.emailEdited))
           .font(.pretendard(size: 18, weight: .regular))
           .foregroundColor(.black)
           .padding(.vertical, 15)
           .padding(.leading, 16)
           .padding(.trailing, 48)
-          .focused($isNameFieldFocused)
-          .showClearButton(viewStore.binding(get: \.nickname, send: OnboardingCore.Action.nicknameEdited))
+          .focused($isEmailFieldFocused)
+          .showClearButton(viewStore.binding(get: \.email, send: OnboardingCore.Action.emailEdited))
           .frame(width: UIScreen.width - 32)
           .roundedBackground(cornerRadius: 12, color: viewStore.textFieldState.color)
         
@@ -65,16 +65,16 @@ struct OnboardingNicknameView: View {
           }
         }
         .frame(height: 56)
-        .background(viewStore.textFieldState == .nicknameCorrect ? .black : Color(R.color.gray05))
+        .background(viewStore.textFieldState == .emailCorrect ? .black : Color(R.color.gray05))
         .cornerRadius(12)
         .padding(.horizontal, 16)
         .padding(.bottom, keyboard.currentHeight == 0 ? 20 + UIApplication.edgeInsets.bottom : keyboard.currentHeight + 20)
       }
       .background(.white)
       .onTapGesture {
-        self.isNameFieldFocused = false
+        self.isEmailFieldFocused = false
       }
-      .onChange(of: isNameFieldFocused) { newValue in
+      .onChange(of: isEmailFieldFocused) { newValue in
         if viewStore.nickname.isEmpty {
           viewStore.send(.textFieldStateChanged(newValue ? .editing : .none))
         }
@@ -85,8 +85,9 @@ struct OnboardingNicknameView: View {
   }
 }
 
-struct OnboardingNicknameView_Previews: PreviewProvider {
+struct OnboardingEmailView_Previews: PreviewProvider {
   static var previews: some View {
-    OnboardingNicknameView(store: Store(initialState: OnboardingCore.State(), reducer: OnboardingCore()))
+    OnboardingEmailView(store: Store(initialState: OnboardingCore.State(), reducer: OnboardingCore()))
   }
 }
+

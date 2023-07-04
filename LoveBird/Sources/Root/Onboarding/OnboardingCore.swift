@@ -18,6 +18,7 @@ struct OnboardingCore: ReducerProtocol {
     var year: Int = Calendar.year
     var month: Int = Calendar.month
     var day: Int = Calendar.day
+    var email: String = ""
   }
   
   enum Action: Equatable {
@@ -29,6 +30,7 @@ struct OnboardingCore: ReducerProtocol {
     case monthSelected(Int)
     case daySelected(Int)
     case nicknameEdited(String)
+    case emailEdited(String)
     case doneButtonTapped
     case showBottomSheet
     case hideBottomSheet
@@ -43,7 +45,7 @@ struct OnboardingCore: ReducerProtocol {
     Reduce { state, action in
       switch action {
       case .nextTapped, .nextButtonTapped:
-        guard state.page.index == 0, state.textFieldState == .correct else { return .none }
+        guard state.page.index == 0, state.textFieldState == .emailCorrect else { return .none }
         state.page.update(.next)
       case .textFieldStateChanged(let textFieldState):
         state.textFieldState = textFieldState
@@ -53,9 +55,16 @@ struct OnboardingCore: ReducerProtocol {
       case .nicknameEdited(let nickname):
         state.nickname = nickname
         if nickname.isNicknameValid {
-          state.textFieldState = nickname.count >= 2 ? .correct : .editing
+          state.textFieldState = nickname.count >= 2 ? .nicknameCorrect : .editing
         } else {
           state.textFieldState = .error
+        }
+      case .emailEdited(let email):
+        state.email = email
+        if email.isEmailValid {
+          state.textFieldState = email.count >= 2 ? .emailCorrect : .editing
+        } else {
+          state.textFieldState = .emailError
         }
       case .yearSelected(let year):
         state.year = year

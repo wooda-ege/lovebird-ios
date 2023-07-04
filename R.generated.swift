@@ -58,7 +58,7 @@ struct _R {
     }
 
 
-    /// This `_R.string.localizable` struct is generated, and contains static references to 17 localization keys.
+    /// This `_R.string.localizable` struct is generated, and contains static references to 32 localization keys.
     struct localizable {
       let source: RswiftResources.StringResource.Source
 
@@ -146,6 +146,20 @@ struct _R {
       /// Locales: en
       var main_tab_note: RswiftResources.StringResource { .init(key: "main_tab_note", tableName: "Localizable", source: source, developmentValue: "일기 작성", comment: nil) }
 
+      /// en translation: 러브버드가 잊지않고 챙겨드릴게요
+      ///
+      /// Key: onboarding_birthdate_description
+      ///
+      /// Locales: en
+      var onboarding_birthdate_description: RswiftResources.StringResource { .init(key: "onboarding_birthdate_description", tableName: "Localizable", source: source, developmentValue: "러브버드가 잊지않고 챙겨드릴게요", comment: nil) }
+
+      /// en translation: 생년월일을 알려주세요
+      ///
+      /// Key: onboarding_birthdate_title
+      ///
+      /// Locales: en
+      var onboarding_birthdate_title: RswiftResources.StringResource { .init(key: "onboarding_birthdate_title", tableName: "Localizable", source: source, developmentValue: "생년월일을 알려주세요", comment: nil) }
+
       /// en translation: 러브버드가 기념일을 계산해서 알려드릴게요
       ///
       /// Key: onboarding_date_description
@@ -167,6 +181,83 @@ struct _R {
       /// Locales: en
       var onboarding_date_title: RswiftResources.StringResource { .init(key: "onboarding_date_title", tableName: "Localizable", source: source, developmentValue: "연인과 사랑을 시작한 날짜를 알려주세요", comment: nil) }
 
+      /// en translation: 서비스 관련 안내 및 계정 구분을 위해 사용돼요!
+      ///
+      /// Key: onboarding_email_description
+      ///
+      /// Locales: en
+      var onboarding_email_description: RswiftResources.StringResource { .init(key: "onboarding_email_description", tableName: "Localizable", source: source, developmentValue: "서비스 관련 안내 및 계정 구분을 위해 사용돼요!", comment: nil) }
+
+      /// en translation: 러브버드에서 사용할 이메일을 알려주세요
+      ///
+      /// Key: onboarding_email_title
+      ///
+      /// Locales: en
+      var onboarding_email_title: RswiftResources.StringResource { .init(key: "onboarding_email_title", tableName: "Localizable", source: source, developmentValue: "러브버드에서 사용할 이메일을 알려주세요", comment: nil) }
+
+      /// en translation: 원하시지 않는다면 비공개를 선택하실 수 있어요
+      ///
+      /// Key: onboarding_gender_description
+      ///
+      /// Locales: en
+      var onboarding_gender_description: RswiftResources.StringResource { .init(key: "onboarding_gender_description", tableName: "Localizable", source: source, developmentValue: "원하시지 않는다면 비공개를 선택하실 수 있어요", comment: nil) }
+
+      /// en translation: 여성
+      ///
+      /// Key: onboarding_gender_female
+      ///
+      /// Locales: en
+      var onboarding_gender_female: RswiftResources.StringResource { .init(key: "onboarding_gender_female", tableName: "Localizable", source: source, developmentValue: "여성", comment: nil) }
+
+      /// en translation: 남성
+      ///
+      /// Key: onboarding_gender_male
+      ///
+      /// Locales: en
+      var onboarding_gender_male: RswiftResources.StringResource { .init(key: "onboarding_gender_male", tableName: "Localizable", source: source, developmentValue: "남성", comment: nil) }
+
+      /// en translation: 비공개
+      ///
+      /// Key: onboarding_gender_private
+      ///
+      /// Locales: en
+      var onboarding_gender_private: RswiftResources.StringResource { .init(key: "onboarding_gender_private", tableName: "Localizable", source: source, developmentValue: "비공개", comment: nil) }
+
+      /// en translation: 당신의 성별을 알려주세요
+      ///
+      /// Key: onboarding_gender_title
+      ///
+      /// Locales: en
+      var onboarding_gender_title: RswiftResources.StringResource { .init(key: "onboarding_gender_title", tableName: "Localizable", source: source, developmentValue: "당신의 성별을 알려주세요", comment: nil) }
+
+      /// en translation: 초대코드를 공유해 연인과 러브버드를 연결하세요
+      ///
+      /// Key: onboarding_invitation_description
+      ///
+      /// Locales: en
+      var onboarding_invitation_description: RswiftResources.StringResource { .init(key: "onboarding_invitation_description", tableName: "Localizable", source: source, developmentValue: "초대코드를 공유해 연인과 러브버드를 연결하세요", comment: nil) }
+
+      /// en translation: 초대코드 입력
+      ///
+      /// Key: onboarding_invitation_input
+      ///
+      /// Locales: en
+      var onboarding_invitation_input: RswiftResources.StringResource { .init(key: "onboarding_invitation_input", tableName: "Localizable", source: source, developmentValue: "초대코드 입력", comment: nil) }
+
+      /// en translation: 전달받은 초대코드가 있으신가요?
+      ///
+      /// Key: onboarding_invitation_question
+      ///
+      /// Locales: en
+      var onboarding_invitation_question: RswiftResources.StringResource { .init(key: "onboarding_invitation_question", tableName: "Localizable", source: source, developmentValue: "전달받은 초대코드가 있으신가요?", comment: nil) }
+
+      /// en translation: 러브버드를 연인에게 보내보세요
+      ///
+      /// Key: onboarding_invitation_title
+      ///
+      /// Locales: en
+      var onboarding_invitation_title: RswiftResources.StringResource { .init(key: "onboarding_invitation_title", tableName: "Localizable", source: source, developmentValue: "러브버드를 연인에게 보내보세요", comment: nil) }
+
       /// en translation: 애칭이 없다면 이름 또는 별명을 알려주셔도 좋아요
       ///
       /// Key: onboarding_nickname_description
@@ -180,6 +271,20 @@ struct _R {
       ///
       /// Locales: en
       var onboarding_nickname_title: RswiftResources.StringResource { .init(key: "onboarding_nickname_title", tableName: "Localizable", source: source, developmentValue: "당신의 애칭을 알려주세요", comment: nil) }
+
+      /// en translation: 설정하신 프로필 이미지는 상대 러버가 볼 수 있어요
+      ///
+      /// Key: onboarding_profile_description
+      ///
+      /// Locales: en
+      var onboarding_profile_description: RswiftResources.StringResource { .init(key: "onboarding_profile_description", tableName: "Localizable", source: source, developmentValue: "설정하신 프로필 이미지는 상대 러버가 볼 수 있어요", comment: nil) }
+
+      /// en translation: 프로필 이미지를 설정해주세요
+      ///
+      /// Key: onboarding_profile_title
+      ///
+      /// Locales: en
+      var onboarding_profile_title: RswiftResources.StringResource { .init(key: "onboarding_profile_title", tableName: "Localizable", source: source, developmentValue: "프로필 이미지를 설정해주세요", comment: nil) }
     }
   }
 
@@ -251,7 +356,7 @@ struct _R {
     var secondary: RswiftResources.ColorResource { .init(name: "Secondary", path: [], bundle: bundle) }
   }
 
-  /// This `_R.image` struct is generated, and contains static references to 20 images.
+  /// This `_R.image` struct is generated, and contains static references to 21 images.
   struct image {
     let bundle: Foundation.Bundle
 
@@ -293,6 +398,9 @@ struct _R {
 
     /// Image `ic_place`.
     var ic_place: RswiftResources.ImageResource { .init(name: "ic_place", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `ic_profile`.
+    var ic_profile: RswiftResources.ImageResource { .init(name: "ic_profile", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
     /// Image `ic_search`.
     var ic_search: RswiftResources.ImageResource { .init(name: "ic_search", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }

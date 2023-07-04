@@ -59,16 +59,17 @@ struct ImagePickerView: View {
       if let image = image {
         image
           .resizable()
-          .cornerRadius(32)
-          .frame(width: 124, height: 124)
+          .cornerRadius(10)
+          .frame(width: 80, height: 80)
       } else {
         Button {
           showImagePicker.toggle()
         } label: {
-          Image(R.image.ic_profile)
+          Image(systemName: "plus.viewfinder")
             .resizable()
             .aspectRatio(contentMode: .fit)
-            .frame(width: 124, height: 124)
+            .foregroundColor(Color(uiColor: .secondarySystemBackground))
+            .frame(width: 80, height: 80)
         }
         .sheet(isPresented: $showImagePicker, onDismiss: {
           loadImage()

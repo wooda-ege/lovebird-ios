@@ -8,19 +8,21 @@
 import SwiftUI
 
 enum TextFieldState {
-  case correct
+  case nicknameCorrect
+  case emailCorrect
   case duplicate
   case editing
   case error
+  case emailError
   case none
   
   var color: Color {
     switch self {
-    case .correct:
+    case .nicknameCorrect, .emailCorrect:
       return Color(R.color.primary)
     case .editing:
       return Color(R.color.gray10)
-    case .duplicate, .error:
+    case .duplicate, .error, .emailError:
       return Color(R.color.error)
     case .none:
       return Color(R.color.gray05)
@@ -29,12 +31,16 @@ enum TextFieldState {
   
   var description: String {
     switch self {
-    case .correct:
+    case .nicknameCorrect:
       return "사용 가능한 애칭이에요"
+    case .emailCorrect:
+      return "올바른 형식의 이메일이에요"
     case .editing:
       return "한글 또는 영어로 2글자 이상 포함해야 해요"
     case .duplicate:
       return "중복된 애칭이에요"
+    case .emailError:
+      return "love@bird.com와 같은 형식으로 입력해 주세요"
     case .error:
       return "형식이 잘못됐어요"
     case .none:

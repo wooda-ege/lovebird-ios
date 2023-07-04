@@ -12,6 +12,7 @@ import ComposableArchitecture
 struct DiaryView: View {
   let store: StoreOf<DiaryCore>
   @StateObject private var keyboardResponder = KeyboardResponder()
+  
   init(store: StoreOf<DiaryCore>) {
     self.store = store
   }
