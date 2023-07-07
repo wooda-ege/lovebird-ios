@@ -28,7 +28,7 @@ struct LoginView: View {
           .foregroundColor(Color(R.color.secondary))
         Spacer()
       }
-      .font(.custom(R.font.gmarketSansBold, size: 38))
+      .font(.custom(R.font.gmarketSansBold, size: 31))
       .padding(.top, 96)
       .padding(.bottom, 108)
       .padding(.horizontal, 112)

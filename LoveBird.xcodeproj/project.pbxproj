@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		425F25B32A543B7200A333A5 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 425F25B22A543B7200A333A5 /* FirebaseAnalytics */; };
+		425F25B52A543B7200A333A5 /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 425F25B42A543B7200A333A5 /* FirebaseMessaging */; };
+		425F25B92A543E9000A333A5 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 425F25B82A543E9000A333A5 /* GoogleService-Info.plist */; };
 		4263E1BC2A2F3372008B402B /* DiarySelectPlaceButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4263E1BB2A2F3372008B402B /* DiarySelectPlaceButton.swift */; };
 		4263E1BE2A2F33DB008B402B /* ResignKeyboardOnDragGesture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4263E1BD2A2F33DB008B402B /* ResignKeyboardOnDragGesture.swift */; };
 		4263E1C02A2F3419008B402B /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4263E1BF2A2F3419008B402B /* ImagePicker.swift */; };
@@ -88,6 +91,7 @@
 		212E893A725E4BE7E73B96EB /* Pods_LoveBird.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LoveBird.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		30556E224283EEA95E9817D2 /* Pods-LoveBird.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LoveBird.release.xcconfig"; path = "Target Support Files/Pods-LoveBird/Pods-LoveBird.release.xcconfig"; sourceTree = "<group>"; };
 		425F25B02A54380F00A333A5 /* LoveBird.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = LoveBird.entitlements; sourceTree = "<group>"; };
+		425F25B82A543E9000A333A5 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../Downloads/구성파일/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		4263E1BB2A2F3372008B402B /* DiarySelectPlaceButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiarySelectPlaceButton.swift; sourceTree = "<group>"; };
 		4263E1BD2A2F33DB008B402B /* ResignKeyboardOnDragGesture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResignKeyboardOnDragGesture.swift; sourceTree = "<group>"; };
 		4263E1BF2A2F3419008B402B /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
@@ -171,8 +175,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				425F25B52A543B7200A333A5 /* FirebaseMessaging in Frameworks */,
 				4A0396A42A0FA68100EB062D /* ComposableArchitecture in Frameworks */,
 				A0E83505901348E67E5231F5 /* Pods_LoveBird.framework in Frameworks */,
+				425F25B32A543B7200A333A5 /* FirebaseAnalytics in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -232,6 +238,7 @@
 			children = (
 				425F25B02A54380F00A333A5 /* LoveBird.entitlements */,
 				4ACCB98B2A18F935009F1E22 /* Info.plist */,
+				425F25B82A543E9000A333A5 /* GoogleService-Info.plist */,
 				4A3F1FB02A18D15B009856F1 /* Resources */,
 				4A0396902A0FA5E900EB062D /* Sources */,
 				4A0396882A0FA5B800EB062D /* Preview Content */,
@@ -497,6 +504,8 @@
 			name = LoveBird;
 			packageProductDependencies = (
 				4A0396A32A0FA68100EB062D /* ComposableArchitecture */,
+				425F25B22A543B7200A333A5 /* FirebaseAnalytics */,
+				425F25B42A543B7200A333A5 /* FirebaseMessaging */,
 			);
 			productName = LoveBird;
 			productReference = 4A03967F2A0FA5B600EB062D /* LoveBird.app */;
@@ -528,6 +537,7 @@
 			mainGroup = 4A0396762A0FA5B600EB062D;
 			packageReferences = (
 				4A0396A22A0FA68100EB062D /* XCRemoteSwiftPackageReference "swift-composable-architecture" */,
+				425F25B12A543B7200A333A5 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 			);
 			productRefGroup = 4A0396802A0FA5B600EB062D /* Products */;
 			projectDirPath = "";
@@ -550,6 +560,7 @@
 				42E4D59C2A4DECE800F4FA42 /* GmarketSansLight.otf in Resources */,
 				4AB2DB2A2A18FBE3003EFD95 /* Pretendard-Regular.otf in Resources */,
 				4AB2DB442A1A3290003EFD95 /* Pretendard-SemiBold.otf in Resources */,
+				425F25B92A543E9000A333A5 /* GoogleService-Info.plist in Resources */,
 				42E4D59A2A4DECE800F4FA42 /* GmarketSansMedium.otf in Resources */,
 				4A0396872A0FA5B800EB062D /* Assets.xcassets in Resources */,
 			);
@@ -829,7 +840,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"LoveBird/Preview Content\"";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = CR94SSTVK4;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = LoveBird/Info.plist;
@@ -843,7 +854,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.prography.LoveBird;
+				PRODUCT_BUNDLE_IDENTIFIER = com.lovebird.apps;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -861,7 +872,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"LoveBird/Preview Content\"";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = CR94SSTVK4;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = LoveBird/Info.plist;
@@ -875,7 +886,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.prography.LoveBird;
+				PRODUCT_BUNDLE_IDENTIFIER = com.lovebird.apps;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -907,6 +918,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		425F25B12A543B7200A333A5 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 10.0.0;
+			};
+		};
 		4A0396A22A0FA68100EB062D /* XCRemoteSwiftPackageReference "swift-composable-architecture" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/pointfreeco/swift-composable-architecture";
@@ -918,6 +937,16 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		425F25B22A543B7200A333A5 /* FirebaseAnalytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 425F25B12A543B7200A333A5 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAnalytics;
+		};
+		425F25B42A543B7200A333A5 /* FirebaseMessaging */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 425F25B12A543B7200A333A5 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseMessaging;
+		};
 		4A0396A32A0FA68100EB062D /* ComposableArchitecture */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 4A0396A22A0FA68100EB062D /* XCRemoteSwiftPackageReference "swift-composable-architecture" */;

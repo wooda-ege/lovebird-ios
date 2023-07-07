@@ -2,19 +2,40 @@
 //  LoginCore.swift
 //  LoveBird
 //
-//  Created by 이예은 on 2023/06/29.
+//  Created by 이예은 on 2023/05/30.
 //
 
+import ComposableArchitecture
 import SwiftUI
 
-struct LoginCore: View {
-    var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+struct LoginCore: ReducerProtocol {
+  struct State: Equatable {
+  }
+  
+  enum Action: Equatable {
+    case kakaoLoginTapped
+    case naverLoginTapped
+    case appleLoginTapped
+    case googleLoginTapped
+  }
+  
+  
+  var body: some ReducerProtocol<State, Action> {
+    Reduce { state, action in
+      switch action {
+//      case .kakaoLoginTapped:
+//      case .naverLoginTapped:
+//      case .appleLoginTapped:
+//      case .googleLoginTapped:
+      default:
+        break
+      }
+      
+      return .none
     }
+  }
 }
 
-struct LoginCore_Previews: PreviewProvider {
-    static var previews: some View {
-        LoginCore()
-    }
-}
+
+
+

@@ -11,6 +11,9 @@ let R = _R(bundle: Bundle(for: BundleFinder.self))
 
 struct _R {
   let bundle: Foundation.Bundle
+
+  let entitlements = entitlements()
+
   var string: string { .init(bundle: bundle, preferredLanguages: nil, locale: nil) }
   var color: color { .init(bundle: bundle) }
   var image: image { .init(bundle: bundle) }
@@ -424,6 +427,11 @@ struct _R {
     var img_naverLogin: RswiftResources.ImageResource { .init(name: "img_naverLogin", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
   }
 
+  /// This `_R.entitlements` struct is generated, and contains static references to 0 properties.
+  struct entitlements {
+    let apsEnvironment: String = "development"
+  }
+
   /// This `_R.font` struct is generated, and contains static references to 6 fonts.
   struct font: Sequence {
     let bundle: Foundation.Bundle
@@ -456,7 +464,7 @@ struct _R {
     }
   }
 
-  /// This `_R.file` struct is generated, and contains static references to 6 resource files.
+  /// This `_R.file` struct is generated, and contains static references to 7 resource files.
   struct file {
     let bundle: Foundation.Bundle
 
@@ -468,6 +476,9 @@ struct _R {
 
     /// Resource file `GmarketSansMedium.otf`.
     var gmarketSansMediumOtf: RswiftResources.FileResource { .init(name: "GmarketSansMedium", pathExtension: "otf", bundle: bundle, locale: LocaleReference.none) }
+
+    /// Resource file `GoogleService-Info.plist`.
+    var googleServiceInfoPlist: RswiftResources.FileResource { .init(name: "GoogleService-Info", pathExtension: "plist", bundle: bundle, locale: LocaleReference.none) }
 
     /// Resource file `Pretendard-Bold.otf`.
     var pretendardBoldOtf: RswiftResources.FileResource { .init(name: "Pretendard-Bold", pathExtension: "otf", bundle: bundle, locale: LocaleReference.none) }
