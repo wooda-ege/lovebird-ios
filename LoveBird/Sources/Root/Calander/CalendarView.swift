@@ -13,24 +13,27 @@ struct CalendarView: View {
 
   var body: some View {
     WithViewStore(self.store) { viewStore in
-      VStack(spacing: 0) {
-        CalendarTabView(store: self.store)
+      ZStack(alignment: .topLeading) {
+        VStack(spacing: 16) {
+          CalendarTabView(store: self.store)
 
-        CalendarContentView(viewStore: viewStore)
+          CalendarContentView(store: self.store)
+        }
+
+        if viewStore.state.showCalendarPreview {
+          VStack {
+            CalendarPreviewTabView(viewStore: viewStore)
+
+            CalendarPreviewContentView(viewStore: viewStore)
+          }
+          .padding([.horizontal, .top], 12)
+          .padding(.bottom, 20)
+          .background(.white)
+          .cornerRadius(12)
+          .shadow(color: .black.opacity(0.16), radius: 8, x: 0, y: 4)
+          .offset(x: 16, y: 44)
+        }
       }
-//      NavigationLink(
-//        destination: IfLetStore(self.store.scope(state: \.addSchedule, action: CalendarAction.addSchedule)) {
-//
-//        },
-//        isActive: viewStore.binding(
-//          get: \.isGameActive,
-//          send: { .addSchedule }
-//        ),
-//        label: EmptyView()
-//      )
-//      .disabled(viewStore.isLetsPlayButtonDisabled)
-//      .navigationTitle("New Game")
-//      .navigationBarItems(trailing: Button("Logout") { viewStore.send(.logoutButtonTapped) })
     }
   }
 }

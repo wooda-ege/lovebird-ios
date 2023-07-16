@@ -15,16 +15,27 @@ struct CalendarCore: ReducerProtocol {
   
   struct State: Equatable {
     @PresentationState var scheduleAdd: ScheduleAddState?
+    @PresentationState var scheduleDetail: ScheduleDetailState?
     var today = Date()
+    // Key는 "0000-00-00" 포맷이다.
+    var schedules = [String: [Schedule]]()
+    var schedulesOfDay = [Schedule]()
     var currentDate = Date()
-    var isScheduleAddActive = false
+    var currentPreviewDate = Date()
+    var showCalendarPreview = false
   }
   
   enum Action: Equatable {
     case scheduleAdd(PresentationAction<ScheduleAddAction>)
+    case scheduleDetail(PresentationAction<ScheduleDetailAction>)
     case plusTapped
+    case toggleTapped
     case dayTapped(Date)
-    case popScheduleAdd
+    case previewDayTapped(Date)
+    case previewFollowingTapped
+    case previewNextTapped
+    case fetchSchedules
+    case scheduleTapped(Schedule)
   }
   
   var body: some ReducerProtocolOf<Self> {
@@ -32,17 +43,30 @@ struct CalendarCore: ReducerProtocol {
       switch action {
       case .plusTapped:
         state.scheduleAdd = ScheduleAddState()
+      case .toggleTapped:
+        state.currentPreviewDate = state.currentDate
+        state.showCalendarPreview = true
       case .dayTapped(let date):
         state.currentDate = date
+        state.schedulesOfDay = state.schedules[date.to(dateFormat: Date.Format.dictionKey)] ?? []
+      case .previewDayTapped(let date):
+        state.currentDate = date
+        state.showCalendarPreview = false
       case .scheduleAdd(.presented(.confirmTapped)):
         state.scheduleAdd = nil
       case .scheduleAdd(.presented(.backButtonTapped)):
         state.scheduleAdd = nil
-//        return .send(.popScheduleAdd)
-//      case .popScheduleAdd:
-//        if !state.isScheduleAddActive { return .none}
-//        state.scheduleAdd = nil
-//        state.isScheduleAddActive = false
+      case .previewFollowingTapped:
+        state.currentPreviewDate = state.currentPreviewDate.addMonths(by: -1)
+      case .previewNextTapped:
+        state.currentPreviewDate = state.currentPreviewDate.addMonths(by: 1)
+      case .scheduleTapped(let schedule):
+        state.scheduleDetail = ScheduleDetailState(schedule: schedule)
+
+        // MARK: - Network
+      case .fetchSchedules:
+        let schedule = Schedule.dummy
+        state.schedules = schedule.mapToDict()
       default:
         break
       }
@@ -50,6 +74,9 @@ struct CalendarCore: ReducerProtocol {
     }
     .ifLet(\.$scheduleAdd, action: /CalendarAction.scheduleAdd) {
       ScheduleAddCore()
+    }
+    .ifLet(\.$scheduleDetail, action: /CalendarAction.scheduleDetail) {
+      ScheduleDetailCore()
     }
   }
 }

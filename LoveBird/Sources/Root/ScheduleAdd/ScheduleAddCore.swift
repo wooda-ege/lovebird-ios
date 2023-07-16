@@ -16,20 +16,16 @@ struct ScheduleAddCore: ReducerProtocol {
 
     init() {}
 
-//    init(startDate: String) {
-//      var 
-//    }
-
-    init(scheduleDetail: ScheduleDetail) {
-      self.color = scheduleDetail.color
-      self.memo = scheduleDetail.memo
-      self.title = scheduleDetail.title
+    init(schedule: Schedule) {
+//      self.color = schedule.color
+      self.memo = schedule.memo
+      self.title = schedule.title
     }
 
     var title = ""
     var color: ScheduleColor = .secondary
     var startDate = Date()
-    var endDate = Date().add(to: 1)
+    var endDate = Date().addDays(by: 1)
     var startTime = ScheduleTime(hour: 2, minute: 0, meridiem: .pm)
     var endTime = ScheduleTime(hour: 8, minute: 0, meridiem: .pm)
     var alarmBefore = 0
@@ -100,7 +96,7 @@ struct ScheduleAddCore: ReducerProtocol {
       case .endDateToggleTapped:
         state.isEndDateActive = !state.isEndDateActive
         if state.isEndDateActive {
-          state.endDate = state.startDate.add(to: 1)
+          state.endDate = state.startDate.addDays(by: 1)
         } else {
           state.showDateBottomSheet = false
         }
@@ -126,12 +122,12 @@ struct ScheduleAddCore: ReducerProtocol {
         case .startDate:
           state.startDate = Date.with(year: year, month: state.month, day: state.day)
           if state.startDate.isLater(than: state.endDate) {
-            state.endDate = state.startDate.add(to: 1)
+            state.endDate = state.startDate.addDays(by: 1)
           }
         case .endDate:
           state.endDate = Date.with(year: year, month: state.month, day: state.day)
           if state.startDate.isLater(than: state.endDate) {
-            state.startDate = state.endDate.add(to: -1)
+            state.startDate = state.endDate.addDays(by: -1)
           }
         default:
           break
@@ -142,12 +138,12 @@ struct ScheduleAddCore: ReducerProtocol {
         case .startDate:
           state.startDate = Date.with(year: state.year, month: month, day: state.day)
           if state.startDate.isLater(than: state.endDate) {
-            state.endDate = state.startDate.add(to: 1)
+            state.endDate = state.startDate.addDays(by: 1)
           }
         case .endDate:
           state.endDate = Date.with(year: state.year, month: month, day: state.day)
           if state.startDate.isLater(than: state.endDate) {
-            state.startDate = state.endDate.add(to: -1)
+            state.startDate = state.endDate.addDays(by: -1)
           }
         default:
           break
@@ -158,12 +154,12 @@ struct ScheduleAddCore: ReducerProtocol {
         case .startDate:
           state.startDate = Date.with(year: state.year, month: state.month, day: day)
           if state.startDate.isLater(than: state.endDate) {
-            state.endDate = state.startDate.add(to: 1)
+            state.endDate = state.startDate.addDays(by: 1)
           }
         case .endDate:
           state.endDate = Date.with(year: state.year, month: state.month, day: day)
           if state.startDate.isLater(than: state.endDate) {
-            state.startDate = state.endDate.add(to: -1)
+            state.startDate = state.endDate.addDays(by: -1)
           }
         default:
           break
@@ -276,13 +272,13 @@ struct ScheduleAddCore: ReducerProtocol {
       state.startDate = Date()
       self.initializeDate(state: &state, date: state.startDate)
       if state.startDate.isLater(than: state.endDate) {
-        state.endDate = state.startDate.add(to: 1)
+        state.endDate = state.startDate.addDays(by: 1)
       }
     case .endDate:
-      state.endDate = Date().add(to: 1)
+      state.endDate = Date().addDays(by: 1)
       self.initializeDate(state: &state, date: state.startDate)
       if state.startTime.isLater(than: state.endTime) {
-        state.startDate = state.endDate.add(to: -1)
+        state.startDate = state.endDate.addDays(by: -1)
       }
     default:
       break

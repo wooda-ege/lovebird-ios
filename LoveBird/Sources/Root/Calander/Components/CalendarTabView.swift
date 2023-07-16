@@ -23,6 +23,9 @@ struct CalendarTabView: View {
           Image(R.image.ic_arrow_drop_down)
             .frame(width: 24, height: 24)
         }
+        .onTapGesture {
+          viewStore.send(.toggleTapped)
+        }
 
         Spacer()
 

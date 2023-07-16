@@ -86,7 +86,11 @@ extension Date {
     return Calendar.current.date(from: Calendar.current.dateComponents([.yearForWeekOfYear, .weekOfYear], from: self.firstDayOfMonth))!
   }
 
-  func add(to daysToAdd: Int) -> Self {
+  func addDays(by daysToAdd: Int) -> Self {
     return Calendar.current.date(byAdding: .day, value: daysToAdd, to: self)!
+  }
+
+  func addMonths(by monthsToAdd: Int) -> Self {
+    return Calendar.current.date(byAdding: .month, value: monthsToAdd, to: self)!
   }
 }

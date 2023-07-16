@@ -10,31 +10,62 @@ import SwiftUI
 
 struct CalendarScheduleView: View {
 
-  let viewStore: ViewStore<CalendarState, CalendarAction>
+  let store: StoreOf<CalendarCore>
 
   var body: some View {
-    HStack {
-      Text("\(self.viewStore.currentDate.month)월 \(self.viewStore.currentDate.day)일")
-        .font(.pretendard(size: 14, weight: .bold))
-        .foregroundColor(.black)
+    WithViewStore(self.store) { viewStore in
+      HStack {
+        Text("\(viewStore.currentDate.month)월 \(viewStore.currentDate.day)일")
+          .font(.pretendard(size: 14, weight: .bold))
+          .foregroundColor(.black)
 
-      Spacer()
+        Spacer()
+      }
+      .padding(.top, 24)
+
+      Spacer(minLength: 12)
+
+      VStack(alignment: .center, spacing: 8) {
+        if viewStore.schedulesOfDay.isEmpty {
+          Text("일정 없음")
+            .font(.pretendard(size: 16))
+            .multilineTextAlignment(.center)
+            .foregroundColor(Color(R.color.gray05))
+            .frame(width: 156, height: 40, alignment: .center)
+        } else {
+          ForEach(viewStore.schedulesOfDay, id: \.id) { schedule in
+            NavigationLinkStore(
+              self.store.scope(state: \.$scheduleDetail, action: CalendarAction.scheduleDetail)
+            ) {
+              viewStore.send(.scheduleTapped(schedule))
+            } destination: { store in
+              ScheduleDetailView(store: store)
+            } label: {
+              HStack(alignment: .center, spacing: 4) {
+                Rectangle()
+                  .fill(Color(R.color.secondary))
+                  .frame(width: 2)
+                  .frame(maxHeight: .infinity)
+                  .cornerRadius(1)
+
+                Text(schedule.title)
+                  .font(.pretendard(size: 14))
+                  .foregroundColor(.black)
+                  .padding(.horizontal, 16)
+                  .padding(.vertical, 12)
+                  .frame(maxWidth: .infinity, alignment: .leading)
+                  .background(.white)
+                  .cornerRadius(8)
+              }
+            }
+          }
+        }
+      }
+      .padding(16)
+      .frame(width: UIScreen.width - 32, alignment: .center)
+      .background(Color(R.color.gray03))
+      .cornerRadius(12)
     }
-    .padding(.top, 24)
-
-    Spacer(minLength: 12)
-
-    VStack(alignment: .center, spacing: 8) {
-      Text("일정 없음")
-        .font(.pretendard(size: 16))
-        .multilineTextAlignment(.center)
-        .foregroundColor(Color(R.color.gray05))
-        .frame(width: 156, height: 40, alignment: .center)
-    }
-    .padding(.vertical, 16)
-    .frame(width: UIScreen.width - 32, alignment: .center)
-    .background(Color(R.color.gray03))
-    .cornerRadius(12)
   }
 }
 

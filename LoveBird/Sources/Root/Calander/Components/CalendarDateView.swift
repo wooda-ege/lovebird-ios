@@ -32,14 +32,29 @@ struct CalendarDateView: View {
 
                 Spacer(minLength: 0)
               }
-              .padding([.top, .leading], 4)
 
               Spacer(minLength: 4)
 
-              VStack {
+              VStack(spacing: 2) {
+                if date.isThisMonth, let schedules = self.viewStore.state.schedules[date.date.to(dateFormat: Date.Format.dictionKey)] {
+                  ForEach(schedules, id: \.id) { schedule in
+                    VStack(alignment: .center) {
+                      Text(schedule.memo)
+                        .lineLimit(1)
+                        .font(.pretendard(size: 9, weight: .bold))
+                        .foregroundColor(.white)
+                    }
+                    .padding(.horizontal, 4)
+                    .padding(.vertical, 2)
+                    .background(Color(R.color.secondary))
+                    .cornerRadius(2)
+                  }
+                }
 
+                Spacer()
               }
             }
+            .padding([.top, .horizontal], 4)
             .frame(minWidth: 0, maxWidth: .infinity)
             .overlay(
               Rectangle()
@@ -54,6 +69,9 @@ struct CalendarDateView: View {
         }
         .frame(height: 72)
       }
+    }
+    .onAppear {
+      self.viewStore.send(.fetchSchedules)
     }
   }
 
@@ -79,7 +97,7 @@ struct CalendarDateView: View {
   private func dateString(currentDate: Date, week: Int, weekday: Int) -> CalendarDate {
     let firstDayOfWeek = currentDate.firstDayOfMonth
     let daysToAdd = week * 7 + weekday - firstDayOfWeek.weekday
-    let date = firstDayOfWeek.add(to: daysToAdd)
+    let date = firstDayOfWeek.addDays(by: daysToAdd)
     if date.month == currentDate.month {
       return .current(date: date)
     }

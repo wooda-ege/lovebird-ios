@@ -15,7 +15,7 @@ struct ScheduleAddStartDateView: View {
   var body: some View {
     ScheduleAddFocusedView(isFocused: self.viewStore.focusedType == .startDate) {
       Image(R.image.ic_calendar)
-      Text(self.viewStore.startDate.toYMDFormat)
+      Text(self.viewStore.startDate.to(dateFormat: Date.Format.YMD))
         .font(.pretendard(size: 18))
         .foregroundColor(.black)
         .frame(maxWidth: .infinity, alignment: .leading)

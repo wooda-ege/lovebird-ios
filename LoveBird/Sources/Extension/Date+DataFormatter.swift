@@ -12,12 +12,7 @@ extension Date {
   enum Format {
     static let `default` = "yyyy-MM-dd'T'HH:mm:ss"
     static let YMD = "yyyy년 M월 d일"
-  }
-
-  // MARK: - String Properties
-
-  var toYMDFormat: String {
-    return "\(self.year)년 \(self.month)월 \(self.day)일"
+    static let dictionKey = "yyyy-MM-dd"
   }
 
   // MARK: - Transform

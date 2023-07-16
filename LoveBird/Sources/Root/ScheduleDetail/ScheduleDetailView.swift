@@ -16,7 +16,7 @@ struct ScheduleDetailView: View {
     WithViewStore(self.store) { viewStore in
       VStack {
         CommonToolBar(
-          title: viewStore.detail.title,
+          title: "",
           backButtonTapped: { viewStore.send(.backButtonTapped) }
         ) {
           HStack(spacing: 16) {
@@ -39,12 +39,21 @@ struct ScheduleDetailView: View {
         ScrollView {
           VStack {
             ScheduleAddFocusedView() {
+              Text(viewStore.schedule.title)
+                .font(.pretendard(size: 16))
+                .foregroundColor(.black)
+
+              Spacer()
+            }
+
+            ScheduleAddFocusedView() {
               Circle()
-                .fill(viewStore.detail.color.color)
+              // FIXME: 득연
+                .fill(Color.red)
                 .frame(width: 12, height: 12)
                 .padding(6)
 
-              Text(viewStore.detail.color.description)
+              Text(viewStore.schedule.color.description)
                 .font(.pretendard(size: 16, weight: .bold))
                 .foregroundColor(.black)
 
@@ -52,27 +61,83 @@ struct ScheduleDetailView: View {
             }
 
             ScheduleAddFocusedView {
-              Image(R.image.ic_calendar)
-                .renderingMode(.template)
-                .foregroundColor(Color(R.color.primary))
+              VStack {
+                Image(R.image.ic_calendar)
+                  .renderingMode(.template)
+                  .foregroundColor(Color(R.color.primary))
 
-              Text(String.toScheduleDateWith(startDate: viewStore.detail.startDate, endDate: viewStore.detail.endDate))
+                Spacer()
+              }
 
-              Spacer()
-            }
+              let schedule = viewStore.schedule
+              if schedule.startDate == schedule.endDate {
+                Text(String.toScheduleDateWith(
+                  date: schedule.startDate,
+                  startTime: schedule.startTime,
+                  endTime: schedule.endTime
+                ))
+                .font(.pretendard(size: 16))
+                .foregroundColor(.black)
+                Spacer()
+              } else {
+                HStack(spacing: 8) {
+                  VStack(spacing: 4) {
+                    Text("시작 FIXME")
+                      .font(.pretendard(size: 12, weight: .bold))
+                      .foregroundColor(Color(R.color.gray06))
+                      .frame(maxWidth: .infinity, alignment: .leading)
 
-            ScheduleAddFocusedView {
-              HStack(alignment: .top) {
-                VStack(spacing: 12) {
-                  Text("메모")
+                    Text(String.toScheduleDateWith(
+                      date: schedule.startDate,
+                      startTime: nil,
+                      endTime: nil
+                    ))
                     .font(.pretendard(size: 16))
-                    .foregroundColor(Color(R.color.gray06))
                     .frame(maxWidth: .infinity, alignment: .leading)
 
-                  Text(viewStore.detail.memo)
+                    Text(schedule.startTime?.toScheduleTime() ?? "")
+                      .font(.pretendard(size: 16))
+                      .frame(maxWidth: .infinity, alignment: .leading)
+                  }
+                  .frame(maxWidth: .infinity)
+
+                  VStack(spacing: 4) {
+                    Text("종료 FIXME")
+                      .font(.pretendard(size: 12, weight: .bold))
+                      .foregroundColor(Color(R.color.gray06))
+                      .frame(maxWidth: .infinity, alignment: .leading)
+
+                    Text(String.toScheduleDateWith(
+                      date: schedule.endDate,
+                      startTime: nil,
+                      endTime: nil
+                    ))
                     .font(.pretendard(size: 16))
-                    .foregroundColor(.black)
-                    .frame(maxWidth: .infinity, minHeight: 200, alignment: .topLeading)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+
+                    Text(schedule.endTime?.toScheduleTime() ?? "")
+                      .font(.pretendard(size: 16))
+                      .frame(maxWidth: .infinity, alignment: .leading)
+                  }
+                  .frame(maxWidth: .infinity)
+                }
+              }
+            }
+
+            if viewStore.schedule.memo.isNotEmpty {
+              ScheduleAddFocusedView {
+                HStack(alignment: .top) {
+                  VStack(spacing: 12) {
+                    Text("메모")
+                      .font(.pretendard(size: 16))
+                      .foregroundColor(Color(R.color.gray06))
+                      .frame(maxWidth: .infinity, alignment: .leading)
+
+                    Text(viewStore.schedule.memo)
+                      .font(.pretendard(size: 16))
+                      .foregroundColor(.black)
+                      .frame(maxWidth: .infinity, minHeight: 200, alignment: .topLeading)
+                  }
                 }
               }
             }

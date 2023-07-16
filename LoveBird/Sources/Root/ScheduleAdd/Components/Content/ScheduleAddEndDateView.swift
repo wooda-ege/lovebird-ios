@@ -36,7 +36,7 @@ struct ScheduleAddEndDateView: View {
           HStack {
             Image(R.image.ic_calendar)
 
-            Text(self.viewStore.endDate.toYMDFormat)
+            Text(self.viewStore.endDate.to(dateFormat: Date.Format.YMD))
               .font(.pretendard(size: 18))
               .foregroundColor(.black)
               .frame(maxWidth: .infinity, alignment: .leading)

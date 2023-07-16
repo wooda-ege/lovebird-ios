@@ -10,22 +10,24 @@ import SwiftUI
 
 struct CalendarContentView: View {
 
-  let viewStore: ViewStore<CalendarState, CalendarAction>
+  let store: StoreOf<CalendarCore>
 
   var body: some View {
-    GeometryReader { geometry in
-      ScrollView(.vertical) {
-        VStack(spacing: 0) {
-          CalendarWeekdayView(viewStore: self.viewStore)
+    WithViewStore(self.store) { viewStore in
+      GeometryReader { geometry in
+        ScrollView(.vertical) {
+          VStack(spacing: 0) {
+            CalendarWeekdayView(viewStore: viewStore)
 
-          CalendarDateView(viewStore: self.viewStore)
+            CalendarDateView(viewStore: viewStore)
 
-          CalendarScheduleView(viewStore: self.viewStore)
+            CalendarScheduleView(store: self.store)
+          }
+          .padding(.horizontal, 16)
         }
-        .padding(.horizontal, 16)
+        .frame(width: geometry.size.width)
+        .frame(maxHeight: .infinity)
       }
-      .frame(width: geometry.size.width)
-      .frame(maxHeight: .infinity)
     }
   }
 }
