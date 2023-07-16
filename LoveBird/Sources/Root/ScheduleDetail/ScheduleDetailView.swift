@@ -13,7 +13,7 @@ struct ScheduleDetailView: View {
   let store: StoreOf<ScheduleDetailCore>
 
   var body: some View {
-    WithViewStore(self.store) { viewStore in
+    WithViewStore(self.store, observe: { $0 } ) { viewStore in
       VStack {
         CommonToolBar(
           title: "",
@@ -82,7 +82,7 @@ struct ScheduleDetailView: View {
               } else {
                 HStack(spacing: 8) {
                   VStack(spacing: 4) {
-                    Text("시작 FIXME")
+                    Text("시작")
                       .font(.pretendard(size: 12, weight: .bold))
                       .foregroundColor(Color(R.color.gray06))
                       .frame(maxWidth: .infinity, alignment: .leading)
@@ -102,7 +102,7 @@ struct ScheduleDetailView: View {
                   .frame(maxWidth: .infinity)
 
                   VStack(spacing: 4) {
-                    Text("종료 FIXME")
+                    Text("종료")
                       .font(.pretendard(size: 12, weight: .bold))
                       .foregroundColor(Color(R.color.gray06))
                       .frame(maxWidth: .infinity, alignment: .leading)
@@ -146,7 +146,6 @@ struct ScheduleDetailView: View {
         }
       }
       .navigationBarBackButtonHidden(true)
-
     }
   }
 }

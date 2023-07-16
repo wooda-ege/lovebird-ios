@@ -19,6 +19,9 @@ struct CalendarView: View {
 
           CalendarContentView(store: self.store)
         }
+        .onTapGesture {
+          viewStore.send(.hideCalendarPreview)
+        }
 
         if viewStore.state.showCalendarPreview {
           VStack {

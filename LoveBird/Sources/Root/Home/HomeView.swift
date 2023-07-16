@@ -27,21 +27,9 @@ struct HomeView: View {
             .fill(Color(R.color.primary))
             .frame(width: 24, height: 24)
           Spacer()
-          HStack(spacing: 16) {
-            Button { viewStore.send(.searchTapped) } label: {
-              Image(R.image.ic_search)
-                .changeColor(to: Color(R.color.primary))
-            }
-            Button { viewStore.send(.searchTapped) } label: {
-              Image(R.image.ic_list_bulleted)
-            }
-            Button { viewStore.send(.searchTapped) } label: {
-              Image(R.image.ic_notification)
-            }
-          }
         }
         .frame(height: 44)
-        .padding([.leading, .trailing], 16)
+        .padding(.horizontal, 16)
         
         Spacer()
         

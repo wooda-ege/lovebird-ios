@@ -18,8 +18,8 @@ struct ScheduleAddCore: ReducerProtocol {
 
     init(schedule: Schedule) {
 //      self.color = schedule.color
-      self.memo = schedule.memo
       self.title = schedule.title
+      self.memo = schedule.memo
     }
 
     var title = ""

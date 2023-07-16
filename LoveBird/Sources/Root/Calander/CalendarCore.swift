@@ -36,6 +36,7 @@ struct CalendarCore: ReducerProtocol {
     case previewNextTapped
     case fetchSchedules
     case scheduleTapped(Schedule)
+    case hideCalendarPreview
   }
   
   var body: some ReducerProtocolOf<Self> {
@@ -49,6 +50,7 @@ struct CalendarCore: ReducerProtocol {
       case .dayTapped(let date):
         state.currentDate = date
         state.schedulesOfDay = state.schedules[date.to(dateFormat: Date.Format.dictionKey)] ?? []
+        state.showCalendarPreview = false
       case .previewDayTapped(let date):
         state.currentDate = date
         state.showCalendarPreview = false
@@ -62,6 +64,9 @@ struct CalendarCore: ReducerProtocol {
         state.currentPreviewDate = state.currentPreviewDate.addMonths(by: 1)
       case .scheduleTapped(let schedule):
         state.scheduleDetail = ScheduleDetailState(schedule: schedule)
+        state.showCalendarPreview = false
+      case .hideCalendarPreview:
+        state.showCalendarPreview = false
 
         // MARK: - Network
       case .fetchSchedules:
