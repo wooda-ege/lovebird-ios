@@ -375,7 +375,7 @@ struct _R {
     var secondary: RswiftResources.ColorResource { .init(name: "Secondary", path: [], bundle: bundle) }
   }
 
-  /// This `_R.image` struct is generated, and contains static references to 20 images.
+  /// This `_R.image` struct is generated, and contains static references to 23 images.
   struct image {
     let bundle: Foundation.Bundle
 
@@ -390,6 +390,12 @@ struct _R {
 
     /// Image `ic_check_circle`.
     var ic_check_circle: RswiftResources.ImageResource { .init(name: "ic_check_circle", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `ic_delete`.
+    var ic_delete: RswiftResources.ImageResource { .init(name: "ic_delete", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `ic_edit`.
+    var ic_edit: RswiftResources.ImageResource { .init(name: "ic_edit", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
     /// Image `ic_filter_list`.
     var ic_filter_list: RswiftResources.ImageResource { .init(name: "ic_filter_list", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
@@ -421,6 +427,9 @@ struct _R {
     /// Image `ic_notification`.
     var ic_notification: RswiftResources.ImageResource { .init(name: "ic_notification", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
+    /// Image `ic_notification_primary`.
+    var ic_notification_primary: RswiftResources.ImageResource { .init(name: "ic_notification_primary", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
     /// Image `ic_person`.
     var ic_person: RswiftResources.ImageResource { .init(name: "ic_person", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
@@ -433,8 +442,8 @@ struct _R {
     /// Image `ic_search`.
     var ic_search: RswiftResources.ImageResource { .init(name: "ic_search", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
-    /// Image `ic_search_primary`.
-    var ic_search_primary: RswiftResources.ImageResource { .init(name: "ic_search_primary", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+    /// Image `ic_time_primary`.
+    var ic_time_primary: RswiftResources.ImageResource { .init(name: "ic_time_primary", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
     /// Image `ic_timeline`.
     var ic_timeline: RswiftResources.ImageResource { .init(name: "ic_timeline", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }

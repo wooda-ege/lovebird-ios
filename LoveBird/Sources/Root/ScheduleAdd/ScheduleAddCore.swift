@@ -12,8 +12,20 @@ typealias ScheduleAddState = ScheduleAddCore.State
 typealias ScheduleAddAction = ScheduleAddCore.Action
 
 struct ScheduleAddCore: ReducerProtocol {
-
   struct State: Equatable {
+
+    init() {}
+
+//    init(startDate: String) {
+//      var 
+//    }
+
+    init(scheduleDetail: ScheduleDetail) {
+      self.color = scheduleDetail.color
+      self.memo = scheduleDetail.memo
+      self.title = scheduleDetail.title
+    }
+
     var title = ""
     var color: ScheduleColor = .secondary
     var startDate = Date()
@@ -37,6 +49,9 @@ struct ScheduleAddCore: ReducerProtocol {
     var month = Date().month
     var day = Date().day
     var time = ScheduleTime(hour: 2, minute: 0, meridiem: .pm)
+
+    // ScheduleDetail
+    @PresentationState var scheduleDetail: ScheduleDetailState?
   }
 
 
@@ -71,11 +86,13 @@ struct ScheduleAddCore: ReducerProtocol {
     // Network
     case addScheduleResponse(TaskResult<AddScheduleResponse>)
 
+    // Navigation
+    case scheduleDetail(PresentationAction<ScheduleDetailAction>)
   }
 
   @Dependency(\.apiClient) var apiClient
 
-  var body: some ReducerProtocol<State, Action> {
+  var body: some ReducerProtocolOf<Self> {
     Reduce { state, action in
       switch action {
       case .contentTapped(let type):
@@ -213,35 +230,21 @@ struct ScheduleAddCore: ReducerProtocol {
         self.handleTimeInitialized(state: &state)
 
       // Network
-      case .confirmTapped:
-        return .task { [
-          title = state.title,
-          memo = state.memo,
-          startDate = state.startDate,
-          endDate = state.isEndDateActive ? state.endDate : nil,
-          startTime = state.isTimeActive ? state.startTime: nil,
-          endTime = state.isTimeActive ? state.endTime: nil
-        ] in
-            .addScheduleResponse(
-              await TaskResult {
-                try await self.apiClient.request(.addSchedule(.init(
-                  title: title,
-                  memo: memo,
-                  startDate: Date.dateFormat(date: startDate, time: startTime),
-                  endDate: Date.dateFormat(date: endDate, time: endTime)
-                )))
-              }
-            )
-
-        }
       case .addScheduleResponse(.success(let response)):
+//        state.scheduleDetail = ScheduleDetailState()
         print(response)
       case .addScheduleResponse(.failure(let error)):
+//        state.isScheduleDetailActive = true
+//        state.scheduleDetail = ScheduleDetailState()
         print(error)
+
       default:
         break
       }
       return .none
+    }
+    .ifLet(\.$scheduleDetail, action: /ScheduleAddAction.scheduleDetail) {
+      ScheduleDetailCore()
     }
   }
 

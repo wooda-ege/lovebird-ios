@@ -14,7 +14,7 @@ struct ScheduleAddFocusedView<Content: View>: View {
   let isFocused: Bool
   let content: Content
 
-  init(isFocused: Bool, @ViewBuilder content: () -> Content) {
+  init(isFocused: Bool = false, @ViewBuilder content: () -> Content) {
     self.isFocused = isFocused
     self.content = content()
   }

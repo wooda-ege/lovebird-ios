@@ -13,14 +13,20 @@ struct ScheduleAddView: View {
   let store: StoreOf<ScheduleAddCore>
 
   var body: some View {
-    WithViewStore(self.store) { viewStore in
+    WithViewStore(self.store, observe: { $0 }) { viewStore in
       ZStack {
         VStack {
           CommonToolBar(
             title: String(resource: R.string.localizable.add_schedule_title),
             backButtonTapped: { viewStore.send(.backButtonTapped) }
           ) {
-            Button { viewStore.send(.confirmTapped)} label: {
+            NavigationLinkStore(
+              self.store.scope(state: \.$scheduleDetail, action: ScheduleAddAction.scheduleDetail)
+            ) {
+              viewStore.send(.confirmTapped)
+            } destination: { store in
+              ScheduleDetailView(store: store)
+            } label: {
               Text(R.string.localizable.common_complete)
                 .foregroundColor(viewStore.title.isEmpty ? Color(R.color.green234) : Color(R.color.primary))
                 .font(.pretendard(size: 16, weight: .bold))
@@ -40,8 +46,6 @@ struct ScheduleAddView: View {
         ScheduleAddAlarmBottomSheetView(viewStore: viewStore)
       }
     }
-    //        .navigationTitle(String(resource: R.string.localizable.diary_select_place))
-    //        .navigationBarItems(leading: BackButton(), trailing: CompleteButton())
   }
 }
 

@@ -33,13 +33,15 @@ struct CommonToolBar<Content: View>: View {
 
       Text(self.title)
         .foregroundColor(.black)
+        .lineLimit(1)
         .font(.pretendard(size: 18, weight: .bold))
         .frame(maxWidth: .infinity)
 
       Spacer()
 
       if self.content == nil {
-        EmptyView()
+        Rectangle()
+          .frame(maxWidth: .infinity, alignment: .trailing)
       } else {
         self.content
           .frame(maxWidth: .infinity, alignment: .trailing)

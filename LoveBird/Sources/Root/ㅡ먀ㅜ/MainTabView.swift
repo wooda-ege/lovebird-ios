@@ -64,10 +64,10 @@ struct MainTabView: View {
           UITabBar.appearance().scrollEdgeAppearance = appearance
         }
       }
+      .navigationViewStyle(StackNavigationViewStyle())
     }
   }
 }
-
 
 // MARK: - Preview
 //

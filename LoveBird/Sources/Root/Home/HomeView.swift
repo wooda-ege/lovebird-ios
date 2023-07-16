@@ -29,7 +29,8 @@ struct HomeView: View {
           Spacer()
           HStack(spacing: 16) {
             Button { viewStore.send(.searchTapped) } label: {
-              Image(R.image.ic_search_primary)
+              Image(R.image.ic_search)
+                .changeColor(to: Color(R.color.primary))
             }
             Button { viewStore.send(.searchTapped) } label: {
               Image(R.image.ic_list_bulleted)

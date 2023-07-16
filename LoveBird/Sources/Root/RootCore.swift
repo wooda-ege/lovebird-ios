@@ -44,5 +44,4 @@ struct RootCore: ReducerProtocol {
       MainTabCore()
     }
   }
-  
 }

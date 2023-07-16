@@ -10,7 +10,6 @@ import ComposableArchitecture
 import Dependencies
 
 struct APIClient {
-  
   func request<T: Decodable>(_ endpoint: APIEndpoint) async throws -> T {
     do {
       let (data, httpResponse) = try await self.performRequest(endpoint)

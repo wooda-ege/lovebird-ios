@@ -13,7 +13,7 @@ struct CalendarTabView: View {
   let store: StoreOf<CalendarCore>
 
   var body: some View {
-    WithViewStore(self.store) { viewStore in
+    WithViewStore(self.store, observe: { $0 }) { viewStore in
       HStack(alignment: .center) {
         HStack(spacing: 0) {
           Text(String(viewStore.currentDate.year) + "." + String(viewStore.currentDate.month))
@@ -27,23 +27,15 @@ struct CalendarTabView: View {
         Spacer()
 
         HStack(spacing: 16) {
-          // TODO: 차후 업데이트에 넣을 예정
-          //            Button { viewStore.send(.searchTapped) } label: {
-          //              Image(R.image.ic_filter_list)
-          //            }
-          //            Button { viewStore.send(.searchTapped) } label: {
-          //              Image(R.image.ic_search)
-          //            }
-          NavigationLink(
-            destination: IfLetStore(
-              self.store.scope(state: \.addSchedule, action: CalendarAction.scheduleAdd)
-            ) {
-              ScheduleAddView(store: $0)
-            },
-            isActive: viewStore.binding(get: \.isScheduleAddActive, send: { $0 ? .plusTapped : .popScheduleAdd } )
+          NavigationLinkStore(
+            self.store.scope(state: \.$scheduleAdd, action: CalendarAction.scheduleAdd)
           ) {
-              Image(R.image.ic_plus)
-            }
+            viewStore.send(.plusTapped)
+          } destination: { store in
+            ScheduleAddView(store: store)
+          } label: {
+            Image(R.image.ic_plus)
+          }
         }
       }
       .frame(height: 44)
