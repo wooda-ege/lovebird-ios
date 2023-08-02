@@ -22,7 +22,7 @@ struct DiaryView: View {
         ScrollView {
           VStack {
             DiarySelectCalenderButton()
-            
+
             ZStack(alignment: .leading) {
               if viewStore.title.isEmpty {
                 Text(R.string.localizable.diary_title)

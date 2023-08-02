@@ -20,10 +20,10 @@ struct APIClient {
     }
   }
   
-  func requestRaw<T: Decodable>(_ endpoint: APIEndpoint) async throws -> NetworkResponse<T> {
+  func requestRaw(_ endpoint: APIEndpoint) async throws -> NetworkStatusResponse {
     do {
       let (data, httpResponse) = try await self.performRequest(endpoint)
-      let result = try self.processResponse(data, httpResponse) as NetworkResponse<T>
+      let result = try self.networkResponse(data, httpResponse)
       return result
     } catch {
       throw ResponseError.unknown
@@ -31,12 +31,11 @@ struct APIClient {
   }
   
   private func performRequest(_ endpoint: APIEndpoint) async throws -> (Data, HTTPURLResponse) {
-    let url = URL(string: Config.kakaoMapURL + endpoint.path)!
+    let url = URL(string: Config.baseURL + endpoint.path)!
     var urlRequest = URLRequest(url: url)
     urlRequest.httpMethod = endpoint.method.rawValue
-    // TODO: 득연 - 차후에 토큰 등이 들어갈 예정
-    //        request.allHTTPHeaderFields = endpoint.header
-    
+    urlRequest.setValue("eyJhbGciOiJIUzUxMiJ9.eyJpZCI6IjIxNDc0ODM2NDciLCJleHAiOjE3MjE4ODI0ODd9.SkY9QmDQZ9ICU7LCeAKOQ4TGuDQOEmmwjplFpgxPVubLvJsng_heZ38LCXpDdjQ6mqGhtje8E9_XtKNmtjn9gA", forHTTPHeaderField: "Authorization")
+
     if let body = endpoint.requestBody {
       urlRequest.httpBody = try JSONEncoder().encode(body)
     }
@@ -53,6 +52,21 @@ struct APIClient {
     switch httpResponse.statusCode {
     case 200...299:
       guard let result = try? JSONDecoder().decode(NetworkResponse<T>.self, from: data) else {
+        throw ResponseError.decode
+      }
+      return result
+    case 401:
+      // TODO: 예시. 차후에 논의해야 됨.
+      throw ResponseError.unauthorized
+    default:
+      throw ResponseError.unexpectedStatusCode
+    }
+  }
+
+  private func networkResponse(_ data: Data, _ httpResponse: HTTPURLResponse) throws -> NetworkStatusResponse {
+    switch httpResponse.statusCode {
+    case 200...299:
+      guard let result = try? JSONDecoder().decode(NetworkStatusResponse.self, from: data) else {
         throw ResponseError.decode
       }
       return result

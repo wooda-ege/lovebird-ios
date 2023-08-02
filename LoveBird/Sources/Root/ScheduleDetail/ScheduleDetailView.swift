@@ -13,7 +13,7 @@ struct ScheduleDetailView: View {
   let store: StoreOf<ScheduleDetailCore>
 
   var body: some View {
-    WithViewStore(self.store, observe: { $0 } ) { viewStore in
+    WithViewStore(self.store, observe: { $0 }) { viewStore in
       VStack {
         CommonToolBar(
           title: "",
@@ -48,29 +48,24 @@ struct ScheduleDetailView: View {
 
             ScheduleAddFocusedView() {
               Circle()
-              // FIXME: 득연
-                .fill(Color.red)
+                .fill(viewStore.schedule.color.toColor().color)
                 .frame(width: 12, height: 12)
                 .padding(6)
 
-              Text(viewStore.schedule.color.description)
-                .font(.pretendard(size: 16, weight: .bold))
+              Text(viewStore.schedule.color.toColor().description)
+                .font(.pretendard(size: 16))
                 .foregroundColor(.black)
 
               Spacer()
             }
 
             ScheduleAddFocusedView {
-              VStack {
-                Image(R.image.ic_calendar)
-                  .renderingMode(.template)
-                  .foregroundColor(Color(R.color.primary))
-
-                Spacer()
-              }
-
               let schedule = viewStore.schedule
               if schedule.startDate == schedule.endDate {
+                Image(R.image.ic_calendar)
+                  .changeColor(to: Color(R.color.primary))
+                  .changeSize(to: .init(width: 24, height: 24))
+
                 Text(String.toScheduleDateWith(
                   date: schedule.startDate,
                   startTime: schedule.startTime,
@@ -78,8 +73,17 @@ struct ScheduleDetailView: View {
                 ))
                 .font(.pretendard(size: 16))
                 .foregroundColor(.black)
+
                 Spacer()
               } else {
+                VStack {
+                  Image(R.image.ic_calendar)
+                    .changeColor(to: Color(R.color.primary))
+                    .changeSize(to: .init(width: 24, height: 24))
+
+                  Spacer()
+                }
+
                 HStack(spacing: 8) {
                   VStack(spacing: 4) {
                     Text("시작")

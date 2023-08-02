@@ -10,7 +10,7 @@ import SwiftUI
 
 struct HomeItem: View {
   
-  enum ContentType {
+  enum ContentType: Decodable {
     case empty
     case fold
     case initial

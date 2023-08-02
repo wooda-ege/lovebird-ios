@@ -27,7 +27,7 @@ struct CalendarView: View {
           VStack {
             CalendarPreviewTabView(viewStore: viewStore)
 
-            CalendarPreviewContentView(viewStore: viewStore)
+            CalendarPreviewContentView(store: self.store)
           }
           .padding([.horizontal, .top], 12)
           .padding(.bottom, 20)

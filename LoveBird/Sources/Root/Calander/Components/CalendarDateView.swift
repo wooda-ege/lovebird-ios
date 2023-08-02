@@ -36,7 +36,7 @@ struct CalendarDateView: View {
               Spacer(minLength: 4)
 
               VStack(spacing: 2) {
-                if date.isThisMonth, let schedules = self.viewStore.state.schedules[date.date.to(dateFormat: Date.Format.dictionKey)] {
+                if date.date.year == Date().year, date.isThisMonth, let schedules = self.viewStore.state.schedules[date.date.to(dateFormat: Date.Format.dictionKey)] {
                   ForEach(schedules, id: \.id) { schedule in
                     VStack(alignment: .center) {
                       Text(schedule.memo)
@@ -46,7 +46,7 @@ struct CalendarDateView: View {
                     }
                     .padding(.horizontal, 4)
                     .padding(.vertical, 2)
-                    .background(Color(R.color.secondary))
+                    .background(schedule.color.toColor().color)
                     .cornerRadius(2)
                   }
                 }

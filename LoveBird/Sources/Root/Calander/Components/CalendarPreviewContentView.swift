@@ -9,29 +9,35 @@ import ComposableArchitecture
 import SwiftUI
 
 struct CalendarPreviewContentView: View {
-  let viewStore: ViewStore<CalendarState, CalendarAction>
+  let store: StoreOf<CalendarCore>
 
   var body: some View {
-    VStack(alignment: .center, spacing: 0) {
-      let weekOfMonth = self.viewStore.currentPreviewDate.calculateWeekOfMonth
-      ForEach(0..<weekOfMonth, id: \.self) { week in
-        HStack(alignment: .center, spacing: 0) {
-          ForEach(1..<8) { weekday in
-            let date = self.dateString(currentDate: self.viewStore.currentPreviewDate, week: week, weekday: weekday)
-            VStack(alignment: .center) {
-              HStack(alignment: .center) {
-                Text(date.isThisMonth ? String(date.date.day) : "")
-                  .foregroundColor(.black)
-                  .font(.pretendard(
-                    size: 12,
-                    weight: date.date == self.viewStore.currentPreviewDate ? .bold : .regular
-                  ))
-                  .frame(width: 32, height: 32, alignment: .center)
-                  .background(self.dayBackground(date: date.date, currentDate: self.viewStore.state.currentDate))
+    WithViewStore(self.store) { viewStore in
+      VStack(alignment: .center, spacing: 0) {
+        let weekOfMonth = viewStore.currentPreviewDate.calculateWeekOfMonth
+        ForEach(0..<weekOfMonth, id: \.self) { week in
+          HStack(alignment: .center, spacing: 0) {
+            ForEach(1..<8) { weekday in
+              let date = self.dateString(currentDate: viewStore.currentPreviewDate, week: week, weekday: weekday)
+              VStack(alignment: .center) {
+                HStack(alignment: .center) {
+                  Text(date.isThisMonth ? String(date.date.day) : "")
+                    .foregroundColor(.black)
+                    .font(.pretendard(
+                      size: 12,
+                      weight: date.date == viewStore.currentPreviewDate ? .bold : .regular
+                    ))
+                    .frame(width: 32, height: 32, alignment: .center)
+                    .background(self.dayBackground(
+                      viewStore: viewStore,
+                      date: date.date,
+                      currentDate: viewStore.state.currentDate
+                    ))
+                }
               }
-            }
-            .onTapGesture {
-              self.viewStore.send(.previewDayTapped(date.date))
+              .onTapGesture {
+                viewStore.send(.previewDayTapped(date.date))
+              }
             }
           }
         }
@@ -39,9 +45,13 @@ struct CalendarPreviewContentView: View {
     }
   }
 
-  private func dayBackground(date: Date, currentDate: Date) -> some View {
+  private func dayBackground(
+    viewStore: ViewStore<CalendarState, CalendarAction>,
+    date: Date,
+    currentDate: Date
+  ) -> some View {
     Group {
-      if date == self.viewStore.currentPreviewDate, date.month == currentDate.month {
+      if date == viewStore.currentPreviewDate, date.month == currentDate.month {
         Circle().stroke(Color(R.color.secondary), lineWidth: 2)
       } else {
         EmptyView()

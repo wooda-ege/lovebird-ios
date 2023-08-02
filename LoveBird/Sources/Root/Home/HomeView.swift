@@ -67,6 +67,9 @@ struct HomeView: View {
           .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
       }
+      .onAppear {
+        viewStore.send(.loadData)
+      }
     }
   }
 }

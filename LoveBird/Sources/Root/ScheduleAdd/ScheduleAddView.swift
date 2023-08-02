@@ -13,7 +13,7 @@ struct ScheduleAddView: View {
   let store: StoreOf<ScheduleAddCore>
 
   var body: some View {
-    WithViewStore(self.store, observe: { $0 }) { viewStore in
+    WithViewStore(self.store) { viewStore in
       ZStack {
         VStack {
           CommonToolBar(

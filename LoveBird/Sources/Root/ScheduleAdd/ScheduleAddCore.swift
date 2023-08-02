@@ -20,6 +20,13 @@ struct ScheduleAddCore: ReducerProtocol {
 //      self.color = schedule.color
       self.title = schedule.title
       self.memo = schedule.memo
+      self.startDate = schedule.startDate.toDate()
+      self.endDate = schedule.startDate != schedule.endDate ? schedule.endDate.toDate() : schedule.startDate.toDate().addDays(by: 1)
+      self.isEndDateActive = schedule.startDate != schedule.endDate
+      self.isTimeActive = schedule.startTime != nil
+//      if let startTime = schedule.startTime , let endTime = schedule.endTime {
+//        self.startTime = startTime.toScheduleTime()
+//      }
     }
 
     var title = ""
@@ -91,6 +98,9 @@ struct ScheduleAddCore: ReducerProtocol {
   var body: some ReducerProtocolOf<Self> {
     Reduce { state, action in
       switch action {
+      case .confirmTapped:
+        break
+//        state.scheduleDetail = ScheduleDetailState(schedule: .init(id: 1, title: "", memo: "", startDate: "2023-07-01", endDate: "2023-07-01", startTime: "11:00", endTime: "22:00", color: "", alarm: ""))
       case .contentTapped(let type):
         self.handleContentTapped(state: &state, type: type)
       case .endDateToggleTapped:

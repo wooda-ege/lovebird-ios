@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 extension String {
   var isNicknameValid: Bool {
@@ -34,6 +35,27 @@ extension String {
     let components = self.components(separatedBy: ":")
     let meridiam = Int(components[0])! / 12 == 1 ? "오후" : "오전"
     return "\(meridiam) \((Int(components[0])! + 11) % 12 + 1):\(components[1])"
+  }
+
+  // "08:00" -> ScheduleTime(hour: 8, minute: 0, meridiem: .am)
+  func toTime() -> ScheduleTime {
+    let components = self.components(separatedBy: ":")
+    let meridiam = Int(components[0])! / 12 == 1 ? "오후" : "오전"
+    return .init(hour: (Int(components[0])! + 11) % 12 + 1, minute: Int(components[1])!, meridiem: Int(components[0])! / 12 == 1 ? .pm : .am)
+  }
+
+  // "PRIMARY" -> ScheduleColor(.primary)
+  func toColor() -> ScheduleColor {
+    switch self {
+    case "SECONDARY":
+      return .secondary
+    case "PRIMARY":
+      return .primary
+    case "GRAY":
+      return .gray
+    default:
+      return .none
+    }
   }
 
   static func toScheduleDateWith(

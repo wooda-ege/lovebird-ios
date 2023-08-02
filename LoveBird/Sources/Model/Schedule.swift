@@ -5,22 +5,25 @@
 //  Created by 황득연 on 2023/07/10.
 //
 
-struct Schedule: Equatable, Decodable {
+struct Schedule: Hashable, Decodable {
   let id: Int
+  let title: String
+  let memo: String
   let startDate: String
   let endDate: String
   let startTime: String?
   let endTime: String?
-  let title: String
-  let memo: String
-  let color: String = "Second"
+  let color: String
+  let alarm: String
 
   static let dummy: [Schedule] = [
-    .init(id: 1, startDate: "2023-07-02", endDate: "2023-07-03", startTime: "7:00", endTime: "21:00", title: "TestTitle1", memo: "TestMemo1"),
-    .init(id: 2, startDate: "2023-07-03", endDate: "2023-07-03", startTime: nil, endTime: nil, title: "TestTitle1", memo: "TestMemo1"),
-    .init(id: 3, startDate: "2023-07-05", endDate: "2023-07-05", startTime: "7:00", endTime: "21:00", title: "TestTitle2", memo: "TestMemo2"),
-    .init(id: 4, startDate: "2023-07-19", endDate: "2023-07-22", startTime: "7:00", endTime: "21:00", title: "TestTitle3", memo: "TestMemo")
+    .init(id: 1, title: "가", memo: "가나다라", startDate: "2023-07-16", endDate: "2023-07-17", startTime: "15:00", endTime: "17:00", color: "PRIMARY", alarm: "TYPE_G"),
+    .init(id: 10, title: "sk", memo: "가나다라11", startDate: "2023-07-16", endDate: "2023-07-17", startTime: "15:00", endTime: "17:00", color: "PRIMARY", alarm: "TYPE_G"),
+    .init(id: 2, title: "다", memo: "ㄴ댜ㅓ릴ㄷㄹㄴㄷㄹㄴㄷㄹㄴㄷㄹ", startDate: "2023-07-19", endDate: "2023-07-19", startTime: "15:00", endTime: "17:00", color: "SECONDARY", alarm: "TYPE_G"),
+    .init(id: 3, title: "다ㄴㄷ더", memo: "ㄴ댜ㅓ", startDate: "2023-07-19", endDate: "2023-07-19", startTime: nil, endTime: nil, color: "PRIMARY", alarm: "TYPE_A")
   ]
+
+  static let aDummy: Schedule = .init(id: 1, title: "가", memo: "가나다라", startDate: "2023-07-16", endDate: "2023-07-17", startTime: "15:00", endTime: "17:00", color: "PRIMARY", alarm: "TYPE_G")
 }
 
 extension Array<Schedule> {
@@ -30,8 +33,6 @@ extension Array<Schedule> {
       let dates = String.intervalDates(startDate: schedule.startDate, endDate: schedule.endDate)
       dates.forEach { dateOfRange in
         dict[dateOfRange] = dict[dateOfRange, default: []] + [schedule]
-        print("---------------")
-        print(dateOfRange)
       }
     }
     return dict

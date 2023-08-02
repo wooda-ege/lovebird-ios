@@ -54,8 +54,9 @@ struct CalendarCore: ReducerProtocol {
       case .previewDayTapped(let date):
         state.currentDate = date
         state.showCalendarPreview = false
-      case .scheduleAdd(.presented(.confirmTapped)):
-        state.scheduleAdd = nil
+        // TODO: 득연
+//      case .scheduleAdd(.presented(.confirmTapped)):
+//        state.scheduleAdd = nil
       case .scheduleAdd(.presented(.backButtonTapped)):
         state.scheduleAdd = nil
       case .previewFollowingTapped:
@@ -63,7 +64,7 @@ struct CalendarCore: ReducerProtocol {
       case .previewNextTapped:
         state.currentPreviewDate = state.currentPreviewDate.addMonths(by: 1)
       case .scheduleTapped(let schedule):
-        state.scheduleDetail = ScheduleDetailState(schedule: schedule)
+        state.scheduleDetail = ScheduleDetailState()
         state.showCalendarPreview = false
       case .hideCalendarPreview:
         state.showCalendarPreview = false

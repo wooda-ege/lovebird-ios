@@ -8,7 +8,7 @@
 import Foundation
 
 struct NetworkResponse<T> {
-  let status: Int
+  let status: String
   let message: String
   let data: T
   
@@ -22,14 +22,14 @@ struct NetworkResponse<T> {
 extension NetworkResponse: Decodable where T: Decodable {
   init(from decoder: Decoder) throws {
     let container = try decoder.container(keyedBy: CodingKeys.self)
-    self.status = try! container.decode(Int.self, forKey: .status)
-    self.message = try! container.decode(String.self, forKey: .message)
-    self.data = try! container.decode(T.self, forKey: .data)
+    self.status = try container.decode(String.self, forKey: .status)
+    self.message = try container.decode(String.self, forKey: .message)
+    self.data = try container.decode(T.self, forKey: .data)
   }
 }
 
-struct NetworkStatusResponse {
-  let status: Int
+struct NetworkStatusResponse: Equatable {
+  let status: String
   let message: String
   
   enum CodingKeys: String, CodingKey {
@@ -41,7 +41,7 @@ struct NetworkStatusResponse {
 extension NetworkStatusResponse: Decodable {
   init(from decoder: Decoder) throws {
     let container = try decoder.container(keyedBy: CodingKeys.self)
-    self.status = try! container.decode(Int.self, forKey: .status)
-    self.message = try! container.decode(String.self, forKey: .message)
+    self.status = try container.decode(String.self, forKey: .status)
+    self.message = try container.decode(String.self, forKey: .message)
   }
 }
