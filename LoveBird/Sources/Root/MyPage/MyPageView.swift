@@ -15,7 +15,7 @@ struct MyPageView: View {
   
   var body: some View {
     WithViewStore(self.store) { viewStore in
-      Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+      
     }
   }
 }

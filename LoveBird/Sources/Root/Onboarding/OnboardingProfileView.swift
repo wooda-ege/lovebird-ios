@@ -7,10 +7,11 @@
 
 import SwiftUI
 import ComposableArchitecture
+import UIKit
 
 struct OnboardingProfileView: View {
   let store: StoreOf<OnboardingCore>
-  let imagePickerView = ImagePickerView()
+  @State var image: UIImage?
   @StateObject private var keyboard = KeyboardResponder()
   
   var body: some View {
@@ -33,12 +34,13 @@ struct OnboardingProfileView: View {
         
         Spacer().frame(height: 48)
         
-        imagePickerView
+        ImagePickerView(selectedUIImage: $image)
           .padding(.horizontal, 126)
         
         Spacer()
         
         Button {
+          viewStore.send(.imageSelected(image))
           viewStore.send(.nextTapped)
         } label: {
           TouchableStack {
@@ -51,8 +53,8 @@ struct OnboardingProfileView: View {
         .background(.black)
         .cornerRadius(12)
         .padding(.horizontal, 16)
+        .padding(.bottom, 54)
         .background(.white)
-        
       }
     }
   }

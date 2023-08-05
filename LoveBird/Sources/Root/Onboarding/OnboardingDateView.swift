@@ -32,17 +32,17 @@ struct OnboardingDateView: View {
             .frame(height: 48)
           
           HStack(alignment: .center, spacing: 8) {
-            Text(String(viewStore.year))
+            Text(String(viewStore.firstdateYear))
               .font(.pretendard(size: 18))
             Text("/")
               .font(.pretendard(size: 18))
               .foregroundColor(Color(R.color.gray05))
-            Text(String(viewStore.month))
+            Text(String(viewStore.firstdateMonth))
               .font(.pretendard(size: 18))
             Text("/")
               .font(.pretendard(size: 18))
               .foregroundColor(Color(R.color.gray05))
-            Text(String(viewStore.day))
+            Text(String(viewStore.firstdateDay))
               .font(.pretendard(size: 18))
           }
           .frame(width: UIScreen.width - 32, height: 56)
@@ -55,7 +55,7 @@ struct OnboardingDateView: View {
           Spacer()
           
           Button(action: {
-            viewStore.send(.doneButtonTapped)
+            viewStore.send(.nextTapped)
           }) {
             TouchableStack {
               Text(R.string.localizable.common_next)
@@ -79,9 +79,9 @@ struct OnboardingDateView: View {
           )) {
             VStack {
               CustomPickerView(
-                year: viewStore.binding(get: \.year, send: OnboardingCore.Action.yearSelected),
-                month: viewStore.binding(get: \.month, send: OnboardingCore.Action.monthSelected),
-                day: viewStore.binding(get: \.day, send: OnboardingCore.Action.daySelected)
+                year: viewStore.binding(get: \.firstdateYear, send: OnboardingCore.Action.dateYearSelected),
+                month: viewStore.binding(get: \.firstdateMonth, send: OnboardingCore.Action.dateMonthSelected),
+                day: viewStore.binding(get: \.firstdateDay, send: OnboardingCore.Action.dateDaySelected)
               )
               
               HStack(spacing: 8) {
@@ -116,8 +116,8 @@ struct OnboardingDateView: View {
   }
 }
 
-//struct OnboardingBirthView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        OnboardingBirthView()
-//    }
-//}
+struct OnboardingDateView_Previews: PreviewProvider {
+    static var previews: some View {
+      OnboardingDateView(store: .init(initialState: OnboardingCore.State(), reducer: OnboardingCore()))
+    }
+}

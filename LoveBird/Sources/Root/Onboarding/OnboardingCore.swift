@@ -8,17 +8,36 @@
 import ComposableArchitecture
 import SwiftUIPager
 import Foundation
+import SwiftUI
+import UIKit
 
 struct OnboardingCore: ReducerProtocol {
   struct State: Equatable {
+    
+    init(accessToken: String, refreshToken: String) {
+      self.accessToken = accessToken
+      self.refreshToken = refreshToken
+    }
+    
+    let accessToken: String
+    let refreshToken: String
+    
     var page: Page = .first()
     var nickname: String = ""
     var textFieldState: TextFieldState = .none
+    var buttonClickState: ButtonClickState = .notClicked
     var showBottomSheet = false
-    var year: Int = Calendar.year
-    var month: Int = Calendar.month
-    var day: Int = Calendar.day
+    var gender = ""
+    var birthdateYear: Int = Calendar.year
+    var birthdateMonth: Int = Calendar.month
+    var birthdateDay: Int = Calendar.day
+    var firstdateYear: Int = Calendar.year
+    var firstdateMonth: Int = Calendar.month
+    var firstdateDay: Int = Calendar.day
     var email: String = ""
+    var invitationCode: String = "12akvow14"
+    var invitationInputCode: String = ""
+    var profileImage: UIImage?
   }
   
   enum Action: Equatable {
@@ -26,16 +45,23 @@ struct OnboardingCore: ReducerProtocol {
     case previousTapped
     case nextButtonTapped
     case textFieldStateChanged(TextFieldState)
-    case yearSelected(Int)
-    case monthSelected(Int)
-    case daySelected(Int)
+    case genderSelected(String)
+    case birthdateYearSelected(Int)
+    case birthdateMonthSelected(Int)
+    case birthdateDaySelected(Int)
+    case dateYearSelected(Int)
+    case dateMonthSelected(Int)
+    case dateDaySelected(Int)
     case nicknameEdited(String)
     case emailEdited(String)
+    case invitationcodeEdited(String)
     case doneButtonTapped
     case showBottomSheet
     case hideBottomSheet
     case dateInitialied
+    case birthdateInitialied
     case signUpResponse(TaskResult<SignUpResponse>)
+    case imageSelected(UIImage?)
     case none
   }
   
@@ -45,7 +71,9 @@ struct OnboardingCore: ReducerProtocol {
     Reduce { state, action in
       switch action {
       case .nextTapped, .nextButtonTapped:
-        guard state.page.index == 0, state.textFieldState == .emailCorrect else { return .none }
+        //        guard state.page.index == 0, state.textFieldState == .emailCorrect else {
+        //          return .none
+        //        }
         state.page.update(.next)
       case .textFieldStateChanged(let textFieldState):
         state.textFieldState = textFieldState
@@ -66,28 +94,42 @@ struct OnboardingCore: ReducerProtocol {
         } else {
           state.textFieldState = .emailError
         }
-      case .yearSelected(let year):
-        state.year = year
-      case .monthSelected(let month):
-        state.month = month
-      case .daySelected(let day):
-        state.day = day
+      case .invitationcodeEdited(let code):
+        state.invitationInputCode = code
+      case .genderSelected(let gender):
+        state.gender = gender
+        state.buttonClickState = .clicked
+      case .birthdateYearSelected(let year):
+        state.firstdateYear = year
+      case .birthdateMonthSelected(let month):
+        state.firstdateMonth = month
+      case .birthdateDaySelected(let day):
+        state.firstdateDay = day
+      case .dateYearSelected(let year):
+        state.firstdateYear = year
+      case .dateMonthSelected(let month):
+        state.firstdateMonth = month
+      case .dateDaySelected(let day):
+        state.firstdateDay = day
       case .showBottomSheet:
         state.showBottomSheet = true
       case .hideBottomSheet:
         state.showBottomSheet = false
+      case .birthdateInitialied:
+        state.birthdateYear = Calendar.year
+        state.birthdateMonth = Calendar.month
+        state.birthdateDay = Calendar.day
       case .dateInitialied:
-        state.year = Calendar.year
-        state.month = Calendar.month
-        state.day = Calendar.day
+        state.firstdateYear = Calendar.year
+        state.firstdateMonth = Calendar.month
+        state.firstdateDay = Calendar.day
+      case .imageSelected(let image):
+        state.profileImage = image
       case .doneButtonTapped:
-        return .task { [nickname = state.nickname, year = state.year, month = state.month, day = state.day] in
+        return .task { [image = state.profileImage, email = state.email, nickname = state.nickname, birthYear = state.birthdateYear, birthMonth = state.birthdateMonth, birthDay = state.birthdateDay, year = state.firstdateYear, month = state.firstdateMonth, day = state.firstdateDay, gender = state.gender] in
             .signUpResponse(
               await TaskResult {
-                try await self.apiClient.request(.signUp(.init(
-                  nickname: nickname,
-                  firstDate: "\(year)-\(month)-\(day)")
-                ))
+                try await self.apiClient.requestMultipartform(image: image, signUpRequest: .init(email: email, nickname: nickname, birthDay: "\(birthYear)-\(birthMonth)-\(birthDay)", firstDate: "\(year)-\(month)-\(day)", gender: gender, deviceToken: AppDelegate().appDeviceToken))
               }
             )
         }

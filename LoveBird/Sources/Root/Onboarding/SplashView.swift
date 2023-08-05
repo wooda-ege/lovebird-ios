@@ -31,7 +31,7 @@ struct SplashView: View {
           }
         }
       } else {
-        LoginView()
+//        LoginView()
       }
     }
     .onAppear {

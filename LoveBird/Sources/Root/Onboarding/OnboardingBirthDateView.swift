@@ -32,17 +32,17 @@ struct OnboardingBirthDateView: View {
             .frame(height: 48)
           
           HStack(alignment: .center, spacing: 8) {
-            Text(String(viewStore.year))
+            Text(String(viewStore.firstdateYear))
               .font(.pretendard(size: 18))
             Text("/")
               .font(.pretendard(size: 18))
               .foregroundColor(Color(R.color.gray05))
-            Text(String(viewStore.month))
+            Text(String(viewStore.firstdateMonth))
               .font(.pretendard(size: 18))
             Text("/")
               .font(.pretendard(size: 18))
               .foregroundColor(Color(R.color.gray05))
-            Text(String(viewStore.day))
+            Text(String(viewStore.firstdateDay))
               .font(.pretendard(size: 18))
           }
           .frame(width: UIScreen.width - 32, height: 56)
@@ -55,7 +55,7 @@ struct OnboardingBirthDateView: View {
           Spacer()
           
           Button(action: {
-            viewStore.send(.doneButtonTapped)
+            viewStore.send(.nextTapped)
           }) {
             TouchableStack {
               Text(R.string.localizable.common_next)
@@ -79,14 +79,14 @@ struct OnboardingBirthDateView: View {
           )) {
             VStack {
               CustomPickerView(
-                year: viewStore.binding(get: \.year, send: OnboardingCore.Action.yearSelected),
-                month: viewStore.binding(get: \.month, send: OnboardingCore.Action.monthSelected),
-                day: viewStore.binding(get: \.day, send: OnboardingCore.Action.daySelected)
+                year: viewStore.binding(get: \.birthdateYear, send: OnboardingCore.Action.birthdateYearSelected),
+                month: viewStore.binding(get: \.birthdateMonth, send: OnboardingCore.Action.birthdateMonthSelected),
+                day: viewStore.binding(get: \.birthdateDay, send: OnboardingCore.Action.birthdateDaySelected)
               )
               
               HStack(spacing: 8) {
                 Button(action: {
-                  viewStore.send(.dateInitialied)
+                  viewStore.send(.birthdateInitialied)
                 }) {
                   Text(R.string.localizable.onboarding_date_initial)
                     .font(.pretendard(size: 16, weight: .semiBold))

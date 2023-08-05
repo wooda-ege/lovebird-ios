@@ -46,7 +46,7 @@ extension ImagePicker {
 struct ImagePickerView: View {
   
   @State var showImagePicker = false
-  @State var selectedUIImage: UIImage?
+  @Binding var selectedUIImage: UIImage?
   @State var image: Image?
   
   func loadImage() {
@@ -83,9 +83,9 @@ struct ImagePickerView: View {
   }
 }
 
-struct ImageViewTester_Previews: PreviewProvider {
-  static var previews: some View {
-    ImagePickerView()
-  }
-}
+//struct ImageViewTester_Previews: PreviewProvider {
+//  static var previews: some View {
+//    ImagePickerView(, selectedUIImage: <#Binding<UIImage?>#>)
+//  }
+//}
 

@@ -53,12 +53,24 @@ struct OnboardingView: View {
         }
         .frame(width: UIScreen.width, height: 44)
         
-        Pager(page: viewStore.page, data: [0, 1], id: \.self) { page in
+        Pager(page: viewStore.page, data: [0, 1, 2, 3, 4, 5, 6], id: \.self) { page in
           if page == 0 {
+            OnboardingEmailView(store: self.store)
+              .frame(maxWidth: .infinity, maxHeight: .infinity)
+          } else if page == 1 {
             OnboardingNicknameView(store: self.store)
               .frame(maxWidth: .infinity, maxHeight: .infinity)
-          } else {
+          } else if page == 2 {
+            OnboardingProfileView(store: self.store)
+          } else if page == 3 {
+            OnboardingBirthDateView(store: self.store)
+          } else if page == 4 {
+            OnboardingGenderView(store: self.store)
+          } else if page == 5 {
             OnboardingDateView(store: self.store)
+              .frame(maxWidth: .infinity, maxHeight: .infinity)
+          } else if page == 6 {
+            OnboardingInvitationView(store: self.store)
               .frame(maxWidth: .infinity, maxHeight: .infinity)
           }
         }
@@ -70,8 +82,8 @@ struct OnboardingView: View {
   }
 }
 
-//struct OnboardingView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        OnboardingView(store: Store(initialState: Onboarding.State(), reducer: Onboarding()))
-//    }
-//}
+struct OnboardingView_Previews: PreviewProvider {
+    static var previews: some View {
+        OnboardingView(store: Store(initialState: OnboardingCore.State(), reducer: OnboardingCore()))
+    }
+}

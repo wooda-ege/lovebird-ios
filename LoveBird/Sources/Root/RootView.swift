@@ -22,6 +22,10 @@ struct RootView: View {
         CaseLet(/RootCore.State.mainTab, action: RootCore.Action.mainTab) { store in
           MainTabView(store: store)
         }
+      case .login:
+        CaseLet(/RootCore.State.login, action: RootCore.Action.login) { store in
+          LoginView(store: store)
+        }
       }
     }
   }

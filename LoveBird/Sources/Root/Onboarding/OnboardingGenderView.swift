@@ -34,30 +34,61 @@ struct OnboardingGenderView: View {
           
           VStack(alignment: .leading) {
             TouchableStack {
-              Text(R.string.localizable.onboarding_gender_female)
-                .font(.pretendard(size: 16, weight: .semiBold))
-                .foregroundColor(Color(R.color.gray07))
+              HStack {
+                Text(R.string.localizable.onboarding_gender_female)
+                  .font(.pretendard(size: 16, weight: .semiBold))
+                  .foregroundColor(Color(R.color.gray07))
+                  .padding(.leading, 36)
+                Spacer()
+                Button {
+                  viewStore.send(.genderSelected("female"))
+                } label: {
+                  viewStore.gender == "female" ? Image(R.image.ic_checkbox_on) : Image(R.image.ic_checkbox_off)
+                }
+                .padding(.trailing, 36)
+              }
             }
-            .background(Color(R.color.gray02))
             .frame(height: 56)
+            .background(viewStore.gender == "female" ? Color.white : Color(R.color.gray02))
             
             TouchableStack {
-              Text(R.string.localizable.onboarding_gender_male)
-                .font(.pretendard(size: 16, weight: .semiBold))
-                .foregroundColor(Color(R.color.gray07))
+              HStack {
+                Text(R.string.localizable.onboarding_gender_male)
+                  .font(.pretendard(size: 16, weight: .semiBold))
+                  .foregroundColor(Color(R.color.gray07))
+                  .padding(.leading, 36)
+                Spacer()
+                Button {
+                  viewStore.send(.genderSelected("male"))
+                } label: {
+                  viewStore.gender == "male" ? Image(R.image.ic_checkbox_on) : Image(R.image.ic_checkbox_off)
+                }
+                .padding(.trailing, 36)
+              }
             }
             .background(Color(R.color.gray02))
             .frame(height: 56)
+            .background(viewStore.gender == "male" ? Color.white : Color(R.color.gray02))
             
             TouchableStack {
-              Text(R.string.localizable.onboarding_gender_private)
-                .font(.pretendard(size: 16, weight: .semiBold))
-                .foregroundColor(Color(R.color.gray07))
+              HStack {
+                Text(R.string.localizable.onboarding_gender_private)
+                  .font(.pretendard(size: 16, weight: .semiBold))
+                  .foregroundColor(Color(R.color.gray07))
+                  .padding(.leading, 36)
+                Spacer()
+                Button {
+                  viewStore.send(.genderSelected("private"))
+                } label: {
+                  viewStore.gender == "private" ? Image(R.image.ic_checkbox_on) : Image(R.image.ic_checkbox_off)
+                }
+                .padding(.trailing, 36)
+              }
             }
             .background(Color(R.color.gray02))
             .frame(height: 56)
+            .background(viewStore.gender == "private" ? Color.white : Color(R.color.gray02))
           }
-//          .background(viewStore.textFieldState == .emailCorrect ? .black : Color(R.color.gray05))
           .cornerRadius(12)
           .padding(.horizontal, 16)
           
@@ -75,7 +106,7 @@ struct OnboardingGenderView: View {
             }
           }
           .frame(height: 56)
-          .background(viewStore.textFieldState == .emailCorrect ? .black : Color(R.color.gray05))
+          .background(viewStore.buttonClickState == .notClicked ? Color(R.color.gray05) : .black)
           .cornerRadius(12)
           .padding(.horizontal, 16)
           .padding(.bottom, 20 + UIApplication.edgeInsets.bottom)

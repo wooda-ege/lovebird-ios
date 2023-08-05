@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import UIKit
 import ComposableArchitecture
 
 struct OnboardingInvitationView: View {
@@ -13,6 +14,7 @@ struct OnboardingInvitationView: View {
   let store: StoreOf<OnboardingCore>
   @FocusState private var isEmailFieldFocused: Bool
   @StateObject private var keyboard = KeyboardResponder()
+  @State var showShare: Bool = false
   
   var body: some View {
     WithViewStore(self.store) { viewStore in
@@ -35,7 +37,7 @@ struct OnboardingInvitationView: View {
         Spacer().frame(height: 48)
     
         HStack {
-          Text("12akvow14")
+          Text(viewStore.invitationCode)
             .font(.pretendard(size: 16, weight: .semiBold))
             .foregroundColor(.black)
             .lineLimit(1)
@@ -51,11 +53,15 @@ struct OnboardingInvitationView: View {
           .frame(width: 48, height: 32)
           .cornerRadius(8)
           .padding(.trailing, 32)
+          .onTapGesture {
+            self.showShare = true
+          }
+          .sheet(isPresented: $showShare) {
+            ActivityViewController(activityItems: [viewStore.invitationCode])
+          }
         }
         .cornerRadius(12)
         .padding(.leading, 16)
-        .focused($isEmailFieldFocused)
-        .showClearButton(viewStore.binding(get: \.email, send: OnboardingCore.Action.emailEdited))
         .frame(height: 56)
         .frame(width: UIScreen.width - 32)
         .roundedBackground(cornerRadius: 12, color: Color(R.color.gray07))
@@ -67,33 +73,32 @@ struct OnboardingInvitationView: View {
         VStack(alignment: .leading) {
           Text(R.string.localizable.onboarding_invitation_question)
             .font(.pretendard(size: 14, weight: .regular))
-          TextField("초대코드 입력", text: viewStore.binding(get: \.email, send: OnboardingCore.Action.emailEdited))
+          TextField("초대코드 입력", text: viewStore.binding(get: \.invitationInputCode, send: OnboardingCore.Action.invitationcodeEdited)) // 이거 모임??
             .font(.pretendard(size: 18, weight: .regular))
             .foregroundColor(Color(R.color.gray07))
             .padding(.vertical, 15)
             .padding(.leading, 16)
             .padding(.trailing, 48)
             .focused($isEmailFieldFocused)
-            .showClearButton(viewStore.binding(get: \.email, send: OnboardingCore.Action.emailEdited))
+            .showClearButton(viewStore.binding(get: \.invitationInputCode, send: .none))
             .frame(width: UIScreen.width - 32)
             .roundedBackground(cornerRadius: 12, color: viewStore.textFieldState.color)
-
         }
         
         Spacer()
         
         Button {
-          viewStore.send(.nextTapped)
+          viewStore.send(.doneButtonTapped)
           self.hideKeyboard()
         } label: {
           TouchableStack {
-            Text(R.string.localizable.common_next)
+            Text(R.string.localizable.onboarding_invitation_connect)
               .font(.pretendard(size: 16, weight: .semiBold))
               .foregroundColor(.white)
           }
         }
         .frame(height: 56)
-        .background(viewStore.textFieldState == .emailCorrect ? .black : Color(R.color.gray05))
+        .background(.black)
         .cornerRadius(12)
         .padding(.horizontal, 16)
         .padding(.bottom, keyboard.currentHeight == 0 ? 20 + UIApplication.edgeInsets.bottom : keyboard.currentHeight + 20)
@@ -103,7 +108,7 @@ struct OnboardingInvitationView: View {
         self.isEmailFieldFocused = false
       }
       .onChange(of: isEmailFieldFocused) { newValue in
-        if viewStore.nickname.isEmpty {
+        if viewStore.invitationInputCode.isEmpty {
           viewStore.send(.textFieldStateChanged(newValue ? .editing : .none))
         }
       }
@@ -120,3 +125,25 @@ struct OnboardingInviteView_Previews: PreviewProvider {
 }
 
 
+struct ActivityViewController: UIViewControllerRepresentable {
+  var activityItems: [Any]
+  var applicationActivities: [UIActivity]? = nil
+  @Environment(\.presentationMode) var presentationMode
+  
+  func makeUIViewController(context: UIViewControllerRepresentableContext<ActivityViewController>
+  ) -> UIActivityViewController {
+    let controller = UIActivityViewController(
+      activityItems: activityItems,
+      applicationActivities: applicationActivities
+    )
+    controller.completionWithItemsHandler = { (activityType, completed, returnedItems, error) in
+      self.presentationMode.wrappedValue.dismiss()
+    }
+    return controller
+  }
+  
+  func updateUIViewController(
+    _ uiViewController: UIActivityViewController,
+    context: UIViewControllerRepresentableContext<ActivityViewController>
+  ) {}
+}

@@ -48,3 +48,8 @@ enum TextFieldState {
     }
   }
 }
+
+enum ButtonClickState {
+  case clicked
+  case notClicked
+}
