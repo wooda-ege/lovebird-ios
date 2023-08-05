@@ -61,7 +61,7 @@ struct _R {
     }
 
 
-    /// This `_R.string.localizable` struct is generated, and contains static references to 32 localization keys.
+    /// This `_R.string.localizable` struct is generated, and contains static references to 33 localization keys.
     struct localizable {
       let source: RswiftResources.StringResource.Source
 
@@ -233,6 +233,13 @@ struct _R {
       /// Locales: en
       var onboarding_gender_title: RswiftResources.StringResource { .init(key: "onboarding_gender_title", tableName: "Localizable", source: source, developmentValue: "당신의 성별을 알려주세요", comment: nil) }
 
+      /// en translation: 러브버드 연결
+      ///
+      /// Key: onboarding_invitation_connect
+      ///
+      /// Locales: en
+      var onboarding_invitation_connect: RswiftResources.StringResource { .init(key: "onboarding_invitation_connect", tableName: "Localizable", source: source, developmentValue: "러브버드 연결", comment: nil) }
+
       /// en translation: 초대코드를 공유해 연인과 러브버드를 연결하세요
       ///
       /// Key: onboarding_invitation_description
@@ -359,7 +366,7 @@ struct _R {
     var secondary: RswiftResources.ColorResource { .init(name: "Secondary", path: [], bundle: bundle) }
   }
 
-  /// This `_R.image` struct is generated, and contains static references to 21 images.
+  /// This `_R.image` struct is generated, and contains static references to 23 images.
   struct image {
     let bundle: Foundation.Bundle
 
@@ -368,6 +375,12 @@ struct _R {
 
     /// Image `ic_calendar`.
     var ic_calendar: RswiftResources.ImageResource { .init(name: "ic_calendar", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `ic_checkbox_off`.
+    var ic_checkbox_off: RswiftResources.ImageResource { .init(name: "ic_checkbox_off", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `ic_checkbox_on`.
+    var ic_checkbox_on: RswiftResources.ImageResource { .init(name: "ic_checkbox_on", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
     /// Image `ic_list_bulleted`.
     var ic_list_bulleted: RswiftResources.ImageResource { .init(name: "ic_list_bulleted", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
@@ -427,9 +440,13 @@ struct _R {
     var img_naverLogin: RswiftResources.ImageResource { .init(name: "img_naverLogin", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
   }
 
-  /// This `_R.entitlements` struct is generated, and contains static references to 0 properties.
+  /// This `_R.entitlements` struct is generated, and contains static references to 1 properties.
   struct entitlements {
     let apsEnvironment: String = "development"
+    let comAppleDeveloperApplesignin = comAppleDeveloperApplesignin()
+    struct comAppleDeveloperApplesignin {
+      let `default`: String = "Default"
+    }
   }
 
   /// This `_R.font` struct is generated, and contains static references to 6 fonts.

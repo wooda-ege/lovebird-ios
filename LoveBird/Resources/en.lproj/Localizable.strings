@@ -39,3 +39,4 @@
 "onboarding_invitation_description" = "초대코드를 공유해 연인과 러브버드를 연결하세요";
 "onboarding_invitation_question" = "전달받은 초대코드가 있으신가요?";
 "onboarding_invitation_input" = "초대코드 입력";
+"onboarding_invitation_connect" = "러브버드 연결";
