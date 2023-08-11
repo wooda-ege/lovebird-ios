@@ -13,7 +13,7 @@ struct ScheduleAddStartDateView: View {
   let viewStore: ViewStore<ScheduleAddState, ScheduleAddAction>
   
   var body: some View {
-    ScheduleAddFocusedView(isFocused: self.viewStore.focusedType == .startDate) {
+    ScheduleFocusedView(isFocused: self.viewStore.focusedType == .startDate) {
       Image(R.image.ic_calendar)
       Text(self.viewStore.startDate.to(dateFormat: Date.Format.YMD))
         .font(.pretendard(size: 18))

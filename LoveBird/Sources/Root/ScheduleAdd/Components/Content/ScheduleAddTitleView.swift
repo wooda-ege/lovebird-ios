@@ -14,7 +14,7 @@ struct ScheduleAddTitleView: View {
   let viewStore: ViewStore<ScheduleAddState, ScheduleAddAction>
 
   var body: some View {
-    ScheduleAddFocusedView(isFocused: self.viewStore.focusedType == .title) {
+    ScheduleFocusedView(isFocused: self.viewStore.focusedType == .title) {
       let textBinding = self.viewStore.binding(get: \.title, send: ScheduleAddAction.titleEdited)
       TextField(LocalizedStringKey(R.string.localizable.add_schedule_title_placeholder.value), text: textBinding)
         .font(.pretendard(size: 18))

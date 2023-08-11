@@ -21,7 +21,7 @@ struct ScheduleAddTimeView: View {
   }
 
   var body: some View {
-    ScheduleAddFocusedView(isFocused: self.viewStore.focusedType.isTime) {
+    ScheduleFocusedView(isFocused: self.viewStore.focusedType.isTime) {
       VStack(spacing: 16) {
         HStack {
           Text(R.string.localizable.add_schedule_time)
@@ -34,11 +34,18 @@ struct ScheduleAddTimeView: View {
 
         if self.viewStore.isTimeActive {
           HStack(spacing: 8) {
-            VStack(spacing: 8) {
-              Text(R.string.localizable.add_schedule_start_time)
-                .font(.pretendard(size: 14, weight: .bold))
-                .foregroundColor(Color(R.color.gray06))
-                .frame(maxWidth: .infinity, alignment: .leading)
+            VStack(alignment: .leading, spacing: 8) {
+              HStack(alignment: .bottom, spacing: 4) {
+                Text(R.string.localizable.add_schedule_start_time)
+                  .font(.pretendard(size: 14, weight: .bold))
+                  .foregroundColor(Color(R.color.gray06))
+
+                if self.viewStore.isEndDateActive {
+                  Text(self.viewStore.startDate.to(dateFormat: Date.Format.YMDDotted))
+                    .font(.pretendard(size: 12, weight: .bold))
+                    .foregroundColor(Color(R.color.secondary))
+                }
+              }
 
               Text(self.viewStore.startTime.format)
               .frame(maxWidth: .infinity, alignment: .leading)
@@ -51,11 +58,18 @@ struct ScheduleAddTimeView: View {
               self.viewStore.send(.contentTapped(.startTime))
             }
 
-            VStack(spacing: 8) {
-              Text(R.string.localizable.add_schedule_end_time)
-                .font(.pretendard(size: 14, weight: .bold))
-                .foregroundColor(Color(R.color.gray06))
-                .frame(maxWidth: .infinity, alignment: .leading)
+            VStack(alignment: .leading, spacing: 8) {
+              HStack(alignment: .bottom, spacing: 4) {
+                Text(R.string.localizable.add_schedule_end_time)
+                  .font(.pretendard(size: 14, weight: .bold))
+                  .foregroundColor(Color(R.color.gray06))
+
+                if self.viewStore.isEndDateActive {
+                  Text(self.viewStore.endDate.to(dateFormat: Date.Format.YMDDotted))
+                    .font(.pretendard(size: 12, weight: .bold))
+                    .foregroundColor(Color(R.color.secondary))
+                }
+              }
 
               Text(self.viewStore.endTime.format)
                 .frame(maxWidth: .infinity, alignment: .leading)

@@ -10,16 +10,11 @@ import SwiftUI
 
 struct HomeItem: View {
   
-  enum ContentType: Decodable {
+  enum ContentType: Decodable, Encodable, Sendable {
     case empty
-    case fold
+    case diary
     case initial
-    case unfold
     case anniversary
-    
-    mutating func toggle() {
-      self = self == .fold ? .unfold : .fold
-    }
   }
   
   let store: StoreOf<HomeCore>
@@ -28,22 +23,30 @@ struct HomeItem: View {
   var body: some View {
     HStack {
       Spacer(minLength: 16)
-      HomeLeftLineView(timeState: diary.timeState)
+
+      HomeLeftLineView(timeState: diary.timeState ?? .previous)
+
       Spacer(minLength: 11)
+
       VStack(alignment: .trailing) {
-        Text(String(diary.month))
+        Text(String(diary.memoryDate.month))
           .foregroundColor(Color.black)
           .font(.pretendard(size: 14, weight: .bold))
-        Text(String(diary.day))
+
+        Text(String(diary.memoryDate.day))
           .foregroundColor(Color.black)
           .font(.pretendard(size: 16, weight: .regular))
-        Text(String(diary.year))
+
+        Text(String(diary.memoryDate.year))
           .foregroundColor(Color(R.color.gray07))
           .font(.pretendard(size: 8, weight: .bold))
+
         Spacer()
       }
       .padding(.top, 20)
+
       Spacer(minLength: 12)
+      
       HomeContentView(store: self.store, diary: diary)
     }
   }

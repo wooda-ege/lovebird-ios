@@ -35,6 +35,7 @@ struct APIClient {
     var urlRequest = URLRequest(url: url)
     urlRequest.httpMethod = endpoint.method.rawValue
     urlRequest.setValue("eyJhbGciOiJIUzUxMiJ9.eyJpZCI6IjIxNDc0ODM2NDciLCJleHAiOjE3MjE4ODI0ODd9.SkY9QmDQZ9ICU7LCeAKOQ4TGuDQOEmmwjplFpgxPVubLvJsng_heZ38LCXpDdjQ6mqGhtje8E9_XtKNmtjn9gA", forHTTPHeaderField: "Authorization")
+    urlRequest.setValue("eyJhbGciOiJIUzUxMiJ9.eyJpZCI6IjIxNDc0ODM2NDciLCJleHAiOjE2OTE1NTYwODd9.k-eP6sIX0VFGWY_Lqt5iAl5ox-h54knkDhpfA8Mk75D22LYWNGQcjE-lRIU4v_RckRWtPi1ST-TP9__IH-nJ7Q", forHTTPHeaderField: "Authorization")
 
     if let body = endpoint.requestBody {
       urlRequest.httpBody = try JSONEncoder().encode(body)

@@ -37,6 +37,9 @@ struct CalendarView: View {
           .offset(x: 16, y: 44)
         }
       }
+      .onAppear {
+        viewStore.send(.loadData)
+      }
     }
   }
 }

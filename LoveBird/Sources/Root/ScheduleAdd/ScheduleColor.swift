@@ -7,10 +7,10 @@
 
 import SwiftUI
 
-enum ScheduleColor: CaseIterable {
-  case secondary
-  case primary
-  case gray
+enum ScheduleColor: String, Codable, CaseIterable {
+  case secondary = "SECONDARY"
+  case primary = "PRIMARY"
+  case gray = "GRAY"
   case none
 
   var description: String {

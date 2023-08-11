@@ -5,32 +5,58 @@
 //  Created by 황득연 on 2023/07/10.
 //
 
-struct Schedule: Hashable, Decodable {
+struct Schedule: Decodable, Equatable, Sendable {
   let id: Int
-  let title: String
-  let memo: String
+  let memberId: Int
   let startDate: String
-  let endDate: String
+  let endDate: String?
   let startTime: String?
   let endTime: String?
-  let color: String
-  let alarm: String
+  let title: String
+  let memo: String?
+  let color: ScheduleColor
+  let alarm: AlarmType?
 
-  static let dummy: [Schedule] = [
-    .init(id: 1, title: "가", memo: "가나다라", startDate: "2023-07-16", endDate: "2023-07-17", startTime: "15:00", endTime: "17:00", color: "PRIMARY", alarm: "TYPE_G"),
-    .init(id: 10, title: "sk", memo: "가나다라11", startDate: "2023-07-16", endDate: "2023-07-17", startTime: "15:00", endTime: "17:00", color: "PRIMARY", alarm: "TYPE_G"),
-    .init(id: 2, title: "다", memo: "ㄴ댜ㅓ릴ㄷㄹㄴㄷㄹㄴㄷㄹㄴㄷㄹ", startDate: "2023-07-19", endDate: "2023-07-19", startTime: "15:00", endTime: "17:00", color: "SECONDARY", alarm: "TYPE_G"),
-    .init(id: 3, title: "다ㄴㄷ더", memo: "ㄴ댜ㅓ", startDate: "2023-07-19", endDate: "2023-07-19", startTime: nil, endTime: nil, color: "PRIMARY", alarm: "TYPE_A")
-  ]
+  static let aDummy: Self = .init(id: 0, memberId: 0, startDate: "", endDate: "", startTime: "", endTime: "", title: "", memo: "", color: .primary, alarm: .none)
+}
 
-  static let aDummy: Schedule = .init(id: 1, title: "가", memo: "가나다라", startDate: "2023-07-16", endDate: "2023-07-17", startTime: "15:00", endTime: "17:00", color: "PRIMARY", alarm: "TYPE_G")
+enum AlarmType: String, Decodable, Equatable {
+  case typeA = "TYPE_A"
+  case typeB = "TYPE_B"
+  case typeC = "TYPE_C"
+  case typeD = "TYPE_D"
+  case typeE = "TYPE_E"
+  case typeF = "TYPE_F"
+  case typeG = "TYPE_G"
+  case none = "NONE"
+
+  var description: String {
+    switch self {
+    case .typeA:
+      return "5분 전"
+    case .typeB:
+      return "15분 전"
+    case .typeC:
+      return "30분 전"
+    case .typeD:
+      return "1시간 전"
+    case .typeE:
+      return "2시간 전"
+    case .typeF:
+      return "1일 전"
+    case .typeG:
+      return "2일 전"
+    case .none:
+      return "알림 없음"
+    }
+  }
 }
 
 extension Array<Schedule> {
   func mapToDict() -> [String: [Schedule]] {
     var dict = [String: [Schedule]]()
     self.forEach { schedule in
-      let dates = String.intervalDates(startDate: schedule.startDate, endDate: schedule.endDate)
+      let dates = String.intervalDates(startDate: schedule.startDate, endDate: schedule.endDate ?? schedule.startDate)
       dates.forEach { dateOfRange in
         dict[dateOfRange] = dict[dateOfRange, default: []] + [schedule]
       }
@@ -44,3 +70,4 @@ struct SchedulesOnDay: Equatable {
   let day: Int
   let schedules: [Schedule]
 }
+

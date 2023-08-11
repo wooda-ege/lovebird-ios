@@ -46,10 +46,10 @@ struct HomeView: View {
                 .fill(Color(R.color.primary))
                 .frame(width: 2, height: min(
                   UIScreen.height,
-                  max(0, proxy.frame(in: .global).origin.y + viewStore.state.offsetY))
+                  max(0, UIScreen.height - 550 + viewStore.state.offsetY))
                 )
                 .padding(.leading, 21)
-              
+
               Spacer()
             }
           }
@@ -58,10 +58,10 @@ struct HomeView: View {
             viewStore.send(.offsetYChanged(point.y))
           } content: {
             LazyVGrid(columns: [GridItem(.flexible())], spacing: 0) {
-              ForEach(viewStore.diarys) { diary in
+              ForEach(viewStore.diaries, id: \.id) { diary in
                 HomeItem(store: self.store, diary: diary)
               }
-              .animation(.easeInOut, value: viewStore.diarys)
+              .animation(.easeInOut, value: viewStore.diaries)
             }
           }
           .frame(maxWidth: .infinity, maxHeight: .infinity)

@@ -20,7 +20,7 @@ struct ScheduleAddMemoView: View {
   }
 
   var body: some View {
-    ScheduleAddFocusedView(isFocused: self.isFocused) {
+    ScheduleFocusedView(isFocused: self.isFocused) {
       VStack(spacing: 12) {
         Text("메모")
           .font(.pretendard(size: 16))

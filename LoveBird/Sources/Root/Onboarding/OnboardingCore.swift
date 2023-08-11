@@ -85,16 +85,17 @@ struct OnboardingCore: ReducerProtocol {
         state.month = Date().month
         state.day = Date().day
       case .doneButtonTapped:
-        return .task { [nickname = state.nickname, year = state.year, month = state.month, day = state.day] in
-            .signUpResponse(
-              await TaskResult {
-                try await self.apiClient.request(.signUp(.init(
-                  nickname: nickname,
-                  firstDate: "\(year)-\(month)-\(day)")
-                ))
-              }
-            )
-        }
+//        return .task { [nickname = state.nickname, year = state.year, month = state.month, day = state.day] in
+//            .signUpResponse(
+//              await TaskResult {
+//                try await self.apiClient.request(.signUp(.init(
+//                  nickname: nickname,
+//                  firstDate: "\(year)-\(month)-\(day)")
+//                ))
+//              }
+//            )
+//        }
+        break
       default:
         break
       }

@@ -21,7 +21,7 @@ struct ScheduleAddAlarmView: View {
   }
 
   var body: some View {
-    ScheduleAddFocusedView(isFocused: self.isFocused) {
+    ScheduleFocusedView(isFocused: self.isFocused) {
       VStack {
         HStack {
           Text(R.string.localizable.add_schedule_alarm)

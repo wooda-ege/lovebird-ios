@@ -38,28 +38,29 @@ struct ScheduleDetailView: View {
 
         ScrollView {
           VStack {
-            ScheduleAddFocusedView() {
+            ScheduleFocusedView() {
               Text(viewStore.schedule.title)
                 .font(.pretendard(size: 16))
+                .lineLimit(0)
                 .foregroundColor(.black)
 
               Spacer()
             }
 
-            ScheduleAddFocusedView() {
+            ScheduleFocusedView() {
               Circle()
-                .fill(viewStore.schedule.color.toColor().color)
+                .fill(viewStore.schedule.color.color)
                 .frame(width: 12, height: 12)
                 .padding(6)
 
-              Text(viewStore.schedule.color.toColor().description)
+              Text(viewStore.schedule.color.description)
                 .font(.pretendard(size: 16))
                 .foregroundColor(.black)
 
               Spacer()
             }
 
-            ScheduleAddFocusedView {
+            ScheduleFocusedView {
               let schedule = viewStore.schedule
               if schedule.startDate == schedule.endDate {
                 Image(R.image.ic_calendar)
@@ -72,6 +73,7 @@ struct ScheduleDetailView: View {
                   endTime: schedule.endTime
                 ))
                 .font(.pretendard(size: 16))
+                .lineLimit(0)
                 .foregroundColor(.black)
 
                 Spacer()
@@ -112,7 +114,7 @@ struct ScheduleDetailView: View {
                       .frame(maxWidth: .infinity, alignment: .leading)
 
                     Text(String.toScheduleDateWith(
-                      date: schedule.endDate,
+                      date: schedule.endDate ?? "",
                       startTime: nil,
                       endTime: nil
                     ))
@@ -128,8 +130,22 @@ struct ScheduleDetailView: View {
               }
             }
 
-            if viewStore.schedule.memo.isNotEmpty {
-              ScheduleAddFocusedView {
+            if let alarm = viewStore.schedule.alarm {
+              ScheduleFocusedView {
+                Image(R.image.ic_notification_primary)
+                  .changeColor(to: Color(R.color.primary))
+                  .changeSize(to: .init(width: 24, height: 24))
+
+                Text(alarm.description)
+                .font(.pretendard(size: 16))
+                .foregroundColor(.black)
+
+                Spacer()
+              }
+            }
+
+            if viewStore.schedule.memo != nil {
+              ScheduleFocusedView {
                 HStack(alignment: .top) {
                   VStack(spacing: 12) {
                     Text("메모")
@@ -137,7 +153,7 @@ struct ScheduleDetailView: View {
                       .foregroundColor(Color(R.color.gray06))
                       .frame(maxWidth: .infinity, alignment: .leading)
 
-                    Text(viewStore.schedule.memo)
+                    Text(viewStore.schedule.memo ?? "")
                       .font(.pretendard(size: 16))
                       .foregroundColor(.black)
                       .frame(maxWidth: .infinity, minHeight: 200, alignment: .topLeading)

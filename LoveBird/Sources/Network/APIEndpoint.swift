@@ -19,7 +19,7 @@ enum APIEndpoint {
   case fetchCalendars
   case fetchDiaries
   case fetchProfile
-  
+
   var method: HTTPMethod {
     switch self {
     case .signUp, .addSchedule:

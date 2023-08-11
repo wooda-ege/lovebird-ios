@@ -15,7 +15,11 @@ struct ScheduleDetailCore: ReducerProtocol {
 
   struct State: Equatable {
     @PresentationState var scheduleAdd: ScheduleAddState?
-    let schedule: Schedule = .aDummy
+    let schedule: Schedule
+
+    init(schedule: Schedule) {
+      self.schedule = schedule
+    }
   }
 
   enum Action: Equatable {

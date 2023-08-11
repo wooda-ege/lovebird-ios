@@ -19,9 +19,11 @@ struct ScheduleAddCore: ReducerProtocol {
     init(schedule: Schedule) {
 //      self.color = schedule.color
       self.title = schedule.title
-      self.memo = schedule.memo
+      self.memo = schedule.memo ?? ""
       self.startDate = schedule.startDate.toDate()
-      self.endDate = schedule.startDate != schedule.endDate ? schedule.endDate.toDate() : schedule.startDate.toDate().addDays(by: 1)
+      self.endDate = (schedule.startDate != schedule.endDate && schedule.endDate != nil)
+        ? schedule.endDate!.toDate()
+        : schedule.startDate.toDate().addDays(by: 1)
       self.isEndDateActive = schedule.startDate != schedule.endDate
       self.isTimeActive = schedule.startTime != nil
 //      if let startTime = schedule.startTime , let endTime = schedule.endTime {
@@ -98,9 +100,6 @@ struct ScheduleAddCore: ReducerProtocol {
   var body: some ReducerProtocolOf<Self> {
     Reduce { state, action in
       switch action {
-      case .confirmTapped:
-        break
-//        state.scheduleDetail = ScheduleDetailState(schedule: .init(id: 1, title: "", memo: "", startDate: "2023-07-01", endDate: "2023-07-01", startTime: "11:00", endTime: "22:00", color: "", alarm: ""))
       case .contentTapped(let type):
         self.handleContentTapped(state: &state, type: type)
       case .endDateToggleTapped:
@@ -236,14 +235,25 @@ struct ScheduleAddCore: ReducerProtocol {
         self.handleTimeInitialized(state: &state)
 
       // Network
-      case .addScheduleResponse(.success(let response)):
-//        state.scheduleDetail = ScheduleDetailState()
-        print(response)
-      case .addScheduleResponse(.failure(let error)):
-//        state.isScheduleDetailActive = true
-//        state.scheduleDetail = ScheduleDetailState()
-        print(error)
-
+      case .confirmTapped:
+        if state.title.isEmpty { break }
+        let request = AddScheduleRequest(
+          title: state.title,
+          memo: state.memo,
+          color: state.color,
+          alarm: state.alarm,
+          startDate: state.startDate.to(dateFormat: Date.Format.YMDDivided),
+          endDate: state.endDate.to(dateFormat: Date.Format.YMDDivided),
+          startTime: state.startTime.toHMS(),
+          endTime: state.endTime.toHMS()
+        )
+        return .task {
+            .addScheduleResponse(
+              await TaskResult {
+                try await self.apiClient.request(.addSchedule(request))
+              }
+            )
+        }
       default:
         break
       }

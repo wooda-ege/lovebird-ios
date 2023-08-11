@@ -18,12 +18,19 @@ struct ScheduleTime: Equatable {
   var minute: Int
   var meridiem: Meridiem
 
+  static let `default` = ScheduleTime(hour: 0, minute: 0, meridiem: .am)
+
   var format: String {
     let formatter = NumberFormatter()
     formatter.minimumIntegerDigits = 2
     let hour = String(describing: formatter.string(from: NSNumber(value: self.hour))!)
     let minute = String(describing: formatter.string(from: NSNumber(value: self.minute))!)
     return "\(self.meridiem.rawValue) \(hour):\(minute)"
+  }
+
+  func toHMS() -> String {
+    let plusHour = self.meridiem == .pm ? 12 : 0
+    return "\(self.hour + plusHour):\(self.minute):00"
   }
 
   func isLater(than time: ScheduleTime) -> Bool {

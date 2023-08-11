@@ -10,9 +10,10 @@ import Foundation
 extension Date {
 
   enum Format {
-    static let `default` = "yyyy-MM-dd'T'HH:mm:ss"
+    static let server = "yyyy-MM-dd'T'HH:mm:ss"
     static let YMD = "yyyy년 M월 d일"
-    static let dictionKey = "yyyy-MM-dd"
+    static let YMDDivided = "yyyy-MM-dd"
+    static let YMDDotted = "yyyy.MM.dd"
   }
 
   // MARK: - Transform
