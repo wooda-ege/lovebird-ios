@@ -14,7 +14,9 @@ typealias ScheduleAddAction = ScheduleAddCore.Action
 struct ScheduleAddCore: ReducerProtocol {
   struct State: Equatable {
 
-    init() {}
+    init(date: Date) {
+      self.startDate = date
+    }
 
     init(schedule: Schedule) {
 //      self.color = schedule.color

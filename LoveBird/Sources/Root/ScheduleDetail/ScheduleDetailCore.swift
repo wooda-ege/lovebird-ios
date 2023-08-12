@@ -33,7 +33,7 @@ struct ScheduleDetailCore: ReducerProtocol {
     Reduce { state, action in
       switch action {
       case .editTapped:
-        state.scheduleAdd = ScheduleAddState()
+        state.scheduleAdd = ScheduleAddState(schedule: state.schedule)
       case .deleteTapped:
         state.scheduleAdd = nil
       default:

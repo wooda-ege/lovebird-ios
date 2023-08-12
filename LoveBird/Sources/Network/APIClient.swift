@@ -24,12 +24,8 @@ public enum APIClient {
 
 extension APIClient: TargetType {
 
-  // MARK: - Base URL
   public var baseURL: URL {
-    guard let baseURL = URL(string: Config.baseURL) else {
-      fatalError("baseURL could not be configured")
-    }
-    return baseURL
+    URL(string: Config.baseURL)!
   }
 
   public var path: String {
@@ -67,6 +63,7 @@ extension APIClient: TargetType {
     }
   }
 
+  // TODO: 토큰관련 수정할 것
   public var headers: [String: String]? {
     if true {
       return [

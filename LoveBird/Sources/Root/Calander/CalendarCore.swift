@@ -16,7 +16,6 @@ struct CalendarCore: ReducerProtocol {
   struct State: Equatable {
     @PresentationState var scheduleAdd: ScheduleAddState?
     @PresentationState var scheduleDetail: ScheduleDetailState?
-    var today = Date()
     // Key는 "0000-00-00" 포맷이다.
     var schedules = [String: [Schedule]]()
     var schedulesOfDay = [Schedule]()
@@ -49,7 +48,7 @@ struct CalendarCore: ReducerProtocol {
     Reduce { state, action in
       switch action {
       case .plusTapped:
-        state.scheduleAdd = ScheduleAddState()
+        state.scheduleAdd = ScheduleAddState(date: state.currentDate)
       case .toggleTapped:
         state.currentPreviewDate = state.currentDate
         state.showCalendarPreview = true
@@ -87,6 +86,7 @@ struct CalendarCore: ReducerProtocol {
       case .dataLoaded(.success(let schedules)):
         print(schedules)
         state.schedules = schedules.schedules.mapToDict()
+        state.currentDate = Date()
       case .dataLoaded(.failure(let error)):
         print(error)
       case .scheduleAdd(.presented(.addScheduleResponse(.success(let response)))):
