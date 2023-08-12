@@ -39,12 +39,12 @@ struct OnboardingCore: ReducerProtocol {
     var buttonClickState: ButtonClickState = .notClicked
     var showBottomSheet = false
     var gender = ""
-    var birthdateYear: Int = Calendar.year
-    var birthdateMonth: Int = Calendar.month
-    var birthdateDay: Int = Calendar.day
-    var firstdateYear: Int = Calendar.year
-    var firstdateMonth: Int = Calendar.month
-    var firstdateDay: Int = Calendar.day
+    var birthdateYear: Int = Date().year
+    var birthdateMonth: Int = Date().month
+    var birthdateDay: Int = Date().day
+    var firstdateYear: Int = Date().year
+    var firstdateMonth: Int = Date().month
+    var firstdateDay: Int = Date().day
     var email: String = ""
     var invitationCode: String = "12akvow14"
     var invitationInputCode: String = ""
@@ -131,13 +131,13 @@ struct OnboardingCore: ReducerProtocol {
       case .hideBottomSheet:
         state.showBottomSheet = false
       case .birthdateInitialied:
-        state.birthdateYear = Calendar.year
-        state.birthdateMonth = Calendar.month
-        state.birthdateDay = Calendar.day
+        state.birthdateYear = Date().year
+        state.birthdateMonth = Date().month
+        state.birthdateDay = Date().day
       case .dateInitialied:
-        state.firstdateYear = Calendar.year
-        state.firstdateMonth = Calendar.month
-        state.firstdateDay = Calendar.day
+        state.firstdateYear = Date().year
+        state.firstdateMonth = Date().month
+        state.firstdateDay = Date().day
       case .imageSelected(let image):
         state.profileImage = image
       case .doneButtonTapped:
