@@ -1,68 +1,68 @@
 //
-//  CustomPickerView.swift
+//  AddScheduleDatePickerView.swift
 //  LoveBird
 //
-//  Created by 황득연 on 2023/05/21.
+//  Created by 황득연 on 2023/07/01.
 //
 
 import SwiftUI
 import UIKit
+import ComposableArchitecture
 
-struct CustomPickerView: UIViewRepresentable {
-  
-  @Binding var year: Int
-  @Binding var month: Int
-  @Binding var day: Int
+struct ScheduleAddDatePickerView: UIViewRepresentable {
+
+  let viewStore: ViewStore<ScheduleAddState, ScheduleAddAction>
   let fromYear = 1950
-  
+  let toYear = 2099
+
   func makeCoordinator() -> Coordinator {
     Coordinator(self)
   }
-  
+
   func makeUIView(context: Context) -> UIPickerView {
     let picker = UIPickerView()
     picker.dataSource = context.coordinator
     picker.delegate = context.coordinator
     return picker
   }
-  
+
   func updateUIView(_ uiView: UIPickerView, context: Context) {
-    uiView.selectRow(self.year - self.fromYear, inComponent: 0, animated: false)
-    uiView.selectRow(self.month - 1, inComponent: 1, animated: false)
-    uiView.selectRow(self.day - 1, inComponent: 2, animated: false)
+    uiView.selectRow(self.viewStore.year - self.fromYear, inComponent: 0, animated: false)
+    uiView.selectRow(self.viewStore.month - 1, inComponent: 1, animated: false)
+    uiView.selectRow(self.viewStore.day - 1, inComponent: 2, animated: false)
+    uiView.reloadAllComponents()
   }
-  
-  class Coordinator: NSObject, UIPickerViewDataSource, UIPickerViewDelegate {
-    var parent: CustomPickerView
-    
-    init(_ parent: CustomPickerView) {
+
+  final class Coordinator: NSObject, UIPickerViewDataSource, UIPickerViewDelegate {
+    var parent: ScheduleAddDatePickerView
+
+    init(_ parent: ScheduleAddDatePickerView) {
       self.parent = parent
     }
-    
+
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
       return 3
     }
-    
+
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
       switch component {
       case 0:
-        return Calendar.year - self.parent.fromYear + 1 // 1950부터 현재 연도까지
+        return self.parent.toYear - self.parent.fromYear + 1 // 1950부터 현재 연도까지
       case 1:
-        let months = Calendar.calculateMonths(in: self.parent.year)
-        // Ex) 2022년 12월인 상태에서 연도를 2023년으로 바꿀 때 현재가 6월인 경우 month값이 변화한다.
-        if months < self.parent.month { self.parent.month = months }
-        return months
+        return 12
       case 2:
-        let days = Calendar.calculateDays(in: self.parent.month, year: self.parent.year)
+        let days = Date.with(year: self.parent.viewStore.year, month: self.parent.viewStore.month).calculateDays
         // Ex) 12월 31일인 상태에서 월을 11월으로 바꿀 때 days가 30으로 변화하기 때문에
         // 자연스럽게 선택 일이 30일로 맞춰진다.
-        if days < self.parent.day { self.parent.day = days }
+        if days < self.parent.viewStore.day {
+          self.parent.viewStore.send(.daySelected(days))
+        }
         return days
       default:
         fatalError("Invalid component")
       }
     }
-    
+
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
       switch component {
       case 0:
@@ -75,25 +75,18 @@ struct CustomPickerView: UIViewRepresentable {
         fatalError("Invalid component")
       }
     }
-    
+
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
       switch component {
       case 0:
-        self.parent.year = self.parent.fromYear + row
+        self.parent.viewStore.send(.yearSelected(self.parent.fromYear + row))
       case 1:
-        self.parent.month = 1 + row
+        self.parent.viewStore.send(.monthSelected(1 + row))
       case 2:
-        self.parent.day = 1 + row
+        self.parent.viewStore.send(.daySelected(1 + row))
       default:
         break
       }
-      self.refresh(pickerView)
-    }
-    
-    private func refresh(_ pickerView: UIPickerView) {
-      pickerView.reloadComponent(1)
-      pickerView.reloadComponent(1)
-      pickerView.reloadComponent(2)
     }
   }
 }

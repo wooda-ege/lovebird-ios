@@ -28,8 +28,7 @@ struct OnboardingDateView: View {
             .frame(maxWidth: .infinity, alignment: .leading)
             .padding(.top, 12)
             .padding(.leading, 16)
-          Spacer()
-            .frame(height: 48)
+          Spacer().frame(height: 48)
           
           HStack(alignment: .center, spacing: 8) {
             Text(String(viewStore.firstdateYear))
@@ -73,10 +72,7 @@ struct OnboardingDateView: View {
         .background(.white)
         
         if viewStore.showBottomSheet {
-          BottomSheetView(isOpen: viewStore.binding(
-            get: \.showBottomSheet,
-            send: .hideBottomSheet
-          )) {
+          BottomSheetView(isOpen: viewStore.binding(get: \.showBottomSheet, send: .hideBottomSheet)) {
             VStack {
               CustomPickerView(
                 year: viewStore.binding(get: \.firstdateYear, send: OnboardingCore.Action.dateYearSelected),

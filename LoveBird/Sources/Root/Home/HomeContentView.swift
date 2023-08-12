@@ -23,7 +23,9 @@ struct HomeContentView: View {
             .font(.pretendard(size: 16, weight: .bold))
             .padding(.vertical, 18)
             .padding(.leading, 20)
+
           Spacer()
+
           Image(R.image.ic_navigate_next)
             .padding(.trailing, 20)
         }
@@ -35,7 +37,7 @@ struct HomeContentView: View {
         .onTapGesture {
           viewStore.send(.emptyDiaryTapped)
         }
-      case .fold, .unfold:
+      case .diary:
         VStack(spacing: -28) {
           HStack {
             Text(diary.title)
@@ -43,22 +45,25 @@ struct HomeContentView: View {
               .foregroundColor(Color.black)
               .font(.pretendard(size: 18, weight: .bold))
               .padding(20)
+
             Spacer()
           }
-          .background(self.diary.type == .unfold ? .white : Color(R.color.gray03))
+          .background(self.diary.isFolded ? Color(R.color.gray03) : .white)
           .onTapGesture {
             viewStore.send(.diaryTitleTapped(self.diary))
           }
           
-          if self.diary.type == .unfold {
+          if !self.diary.isFolded {
             HStack(spacing: 8) {
               Image(R.image.ic_place)
                 .padding(.leading, 8)
                 .padding(.vertical, 5)
-              Text(diary.location)
+
+              Text(self.diary.place)
                 .lineLimit(1)
                 .font(.pretendard(size: 14))
                 .foregroundColor(Color(R.color.gray07))
+
               Spacer()
             }
             .background(Color(R.color.gray03))
@@ -66,11 +71,12 @@ struct HomeContentView: View {
             .padding(20)
             
             HStack(spacing: 8) {
-              Text(diary.description)
+              Text(self.diary.content)
                 .font(.pretendard(size: 14))
                 .foregroundColor(Color.black)
                 .lineLimit(3)
                 .lineSpacing(6) // 적당한 값 대입.
+
               Spacer()
             }
             .padding(20)
@@ -80,7 +86,7 @@ struct HomeContentView: View {
         .cornerRadius(12)
         .padding(.top, 37)
         .padding(.trailing, 16)
-        .shadow(color: self.diary.type == .unfold ? .black.opacity(0.08) : .clear, radius: 12)
+        .shadow(color: self.diary.isFolded ? .clear : .black.opacity(0.08), radius: 12)
         .onTapGesture {
           viewStore.send(.diaryTapped(self.diary))
         }
@@ -89,6 +95,7 @@ struct HomeContentView: View {
           Text("D+1")
             .foregroundColor(Color(R.color.primary))
             .font(.pretendard(size: 18, weight: .bold))
+
           Spacer()
         }
         .padding(.leading, 2)
@@ -102,6 +109,7 @@ struct HomeContentView: View {
                 .font(.pretendard(size: 18, weight: .bold))
                 .padding(.leading, 2)
                 .padding(.top, 36)
+              
               Spacer()
             }
             Spacer()

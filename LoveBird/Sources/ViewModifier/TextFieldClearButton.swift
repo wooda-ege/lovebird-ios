@@ -9,6 +9,7 @@ import SwiftUI
 
 struct TextFieldClearButton: ViewModifier {
   @Binding var fieldText: String
+  var trailingPadding: CGFloat
   
   func body(content: Content) -> some View {
     content
@@ -22,7 +23,7 @@ struct TextFieldClearButton: ViewModifier {
               Image(systemName: "multiply.circle.fill")
             }
             .foregroundColor(.secondary)
-            .padding(.trailing, 18)
+            .padding(.trailing, self.trailingPadding)
           }
         }
       }

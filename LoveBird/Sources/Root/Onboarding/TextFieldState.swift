@@ -42,7 +42,7 @@ enum TextFieldState {
     case .emailError:
       return "love@bird.com와 같은 형식으로 입력해 주세요"
     case .error:
-      return "형식이 잘못됐어요"
+      return String(resource: R.string.localizable.onboarding_nickname_error)
     case .none:
       return ""
     }

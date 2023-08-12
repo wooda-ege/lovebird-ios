@@ -6,12 +6,12 @@
       "scale" : "1x"
     },
     {
-      "filename" : "ic_round-navigate-next-2.png",
+      "filename" : "ic_round-navigate-next@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "ic_round-navigate-next-3.png",
+      "filename" : "ic_round-navigate-next@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

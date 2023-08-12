@@ -11,7 +11,17 @@ import Foundation
 import SwiftUI
 import UIKit
 
+typealias OnboardingState = OnboardingCore.State
+typealias OnboardingAction = OnboardingCore.Action
+
 struct OnboardingCore: ReducerProtocol {
+  
+  enum Constant {
+    static let nicknamePageIdx = 0
+    static let maxNicknameLength = 20
+    static let minNicknameLength = 2
+  }
+  
   struct State: Equatable {
     
     init(accessToken: String, refreshToken: String) {
@@ -23,6 +33,7 @@ struct OnboardingCore: ReducerProtocol {
     var refreshToken: String = ""
     
     var page: Page = .first()
+    var pageIdx: Int = Constant.nicknamePageIdx
     var nickname: String = ""
     var textFieldState: TextFieldState = .none
     var buttonClickState: ButtonClickState = .notClicked
@@ -75,6 +86,7 @@ struct OnboardingCore: ReducerProtocol {
         state.page.update(.move(increment: index))
       case .nextTapped, .nextButtonTapped:
         state.page.update(.next)
+        state.pageIdx = 1
       case .textFieldStateChanged(let textFieldState):
         state.textFieldState = textFieldState
       case .previousTapped:
@@ -84,7 +96,7 @@ struct OnboardingCore: ReducerProtocol {
           state.page.update(.previous)
         }
       case .nicknameEdited(let nickname):
-        state.nickname = nickname
+        state.nickname = String(nickname.prefix(20))
         if nickname.isNicknameValid {
           state.textFieldState = nickname.count >= 2 ? .nicknameCorrect : .editing
         } else {
@@ -147,7 +159,7 @@ struct OnboardingCore: ReducerProtocol {
 }
 
 extension Page: Equatable {
-  public static func == (lhs: SwiftUIPager.Page, rhs: SwiftUIPager.Page) -> Bool {
+  public static func == (lhs: Page, rhs: Page) -> Bool {
     lhs.index == rhs.index
   }
 }

@@ -8,12 +8,19 @@
 
 "common_confirm" = "확인";
 "common_next" = "다음";
+"common_complete" = "완료";
+"color_primary" = "그린";
+"color_secondary" = "핑크";
+"color_gray" = "그레이";
 "main_tab_home" = "홈";
 "main_tab_calendar" = "캘린더";
 "main_tab_note" = "일기 작성";
 "main_tab_my_page" = "마이페이지";
 "onboarding_nickname_title" = "당신의 애칭을 알려주세요";
 "onboarding_nickname_description" = "애칭이 없다면 이름 또는 별명을 알려주셔도 좋아요";
+"onboarding_nickname_correct" = "사용 가능한 애칭이에요";
+"onboarding_nickname_edit" = "한글 또는 영어 2-20글자 이내로 입력해 주세요";
+"onboarding_nickname_error" = "잘못된 형식의 애칭이에요";
 "onboarding_date_title" = "연인과 사랑을 시작한 날짜를 알려주세요";
 "onboarding_date_description" = "러브버드가 기념일을 계산해서 알려드릴게요";
 "onboarding_date_initial" = "초기화";
@@ -40,3 +47,12 @@
 "onboarding_invitation_question" = "전달받은 초대코드가 있으신가요?";
 "onboarding_invitation_input" = "초대코드 입력";
 "onboarding_invitation_connect" = "러브버드 연결";
+"add_schedule_title" = "일정 추가";
+"add_schedule_title_placeholder" = "일정 제목을 입력해 주세요";
+"add_schedule_color" = "일정 컬러";
+"add_schedule_end_date" = "종료일 설정";
+"add_schedule_time" = "시간 설정";
+"add_schedule_start_time" = "시작 시간";
+"add_schedule_end_time" = "종료 시간";
+"add_schedule_alarm" = "알림 설정";
+"add_schedule_memo" = "메모";

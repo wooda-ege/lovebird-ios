@@ -9,31 +9,75 @@ import Foundation
 import UIKit
 import SwiftUI
 
-struct Diary: Equatable, Identifiable {
-  
-  enum TimeState {
+struct Diary: Decodable, Equatable, Sendable {
+
+  enum IDs: Int {
+    case INITIAL = -1
+    case TODO = -2
+    case ANNIVERSARY = -3
+  }
+
+  enum TimeState: Decodable, Equatable, Sendable {
     case previous
     case current
     case following
   }
-  
-  var id = UUID()
-  var type: HomeItem.ContentType
-  var image: UIImage?
-  let year: Int
-  let month: Int
-  let day: Int
-  let weekday: String
+
+  let id: Int
+  let memberId: Int
   let title: String
-  let description: String
-  let location: String
-  let timeState: TimeState
-  
-  static let dummy: [Self] = [
-    Diary(type: .initial, year: 2021, month: 9, day: 21, weekday: "", title: "", description: "", location: "", timeState: .previous),
-    Diary(type: .empty, year: 2022, month: 4, day: 44, weekday: "wed", title: "", description: "", location: "", timeState: .previous),
-    Diary(type: .fold, year: 2022, month: 5, day: 21, weekday: "sun", title: "두껍삼 역삼직영점", description: "오늘은 오랜만에 여의도 한강공원에 갔다. 근처 카페에서 피크닉 세트도 빌렸당! (요즘엔 이런게 참 잘 되어있는 것 같다..굳) 남자친구가 도시락을", location: "여의도 한강공원", timeState: .previous),
-    Diary(type: .unfold, year: 2022, month: 9, day: 21, weekday: "", title: "한강 간 날!", description: "오늘은 오랜만에 여의도 한강공원에 갔다. 근처 카페에서 피크닉 세트도 빌렸당! (요즘엔 이런게 참 잘 되어있는 것 같다..굳) 남자친구가 도시락을", location: "여의도 한강공원", timeState: .current),
-    Diary(type: .anniversary, year: 2022, month: 9, day: 15, weekday: "", title: "6주년", description: "", location: "", timeState: .following)
-  ]
+  let memoryDate: String
+  let place: String
+  let content: String
+  let imgUrls: [String]
+  var timeState: TimeState = .previous
+  var type: HomeItem.ContentType = .diary
+  var isFolded: Bool = false
+}
+
+// MARK: - Properties
+
+extension Diary {
+  static func initialDiary(with date: String) -> Self {
+    Self (
+      id: IDs.INITIAL.rawValue,
+      memberId: 0,
+      title: "",
+      memoryDate: date,
+      place: "",
+      content: "",
+      imgUrls: [],
+      timeState: .previous,
+      type: .initial,
+      isFolded: false
+    )
+  }
+
+  static func todoDiary(with date: String) -> Self {
+    Self(
+      id: IDs.TODO.rawValue,
+      memberId: 0,
+      title: "오늘 데이트 기록하기",
+      memoryDate: date,
+      place: "",
+      content: "",
+      imgUrls: [],
+      timeState: .current,
+      type: .empty
+    )
+  }
+
+  static func anniversaryDiary(with date: String, title: String) -> Self {
+    Self(
+      id: IDs.ANNIVERSARY.rawValue,
+      memberId: 0,
+      title: title,
+      memoryDate: date,
+      place: "",
+      content: "",
+      imgUrls: [],
+      timeState: .following,
+      type: .anniversary
+    )
+  }
 }

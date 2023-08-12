@@ -28,7 +28,7 @@ extension NetworkResponse: Decodable where T: Decodable {
   }
 }
 
-struct NetworkStatusResponse {
+struct NetworkStatusResponse: Equatable {
   let status: String
   let message: String
   
@@ -41,7 +41,7 @@ struct NetworkStatusResponse {
 extension NetworkStatusResponse: Decodable {
   init(from decoder: Decoder) throws {
     let container = try decoder.container(keyedBy: CodingKeys.self)
-    self.status = try! container.decode(String.self, forKey: .status)
-    self.message = try! container.decode(String.self, forKey: .message)
+    self.status = try container.decode(String.self, forKey: .status)
+    self.message = try container.decode(String.self, forKey: .message)
   }
 }

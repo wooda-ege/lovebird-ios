@@ -11,20 +11,17 @@ import SwiftUIPager
 import Foundation
 
 struct OnboardingView: View {
-  let store: StoreOf<OnboardingCore>
   
-  init(store: StoreOf<OnboardingCore>) {
-    self.store = store
-  }
+  let store: StoreOf<OnboardingCore>
   
   var body: some View {
     WithViewStore(self.store) { viewStore in
       VStack {
         HStack {
           Button { viewStore.send(.previousTapped) } label: {
-            Image(viewStore.page.index == 0
-                  ? R.image.ic_navigate_previous_active
-                  : R.image.ic_navigate_previous_inactive)
+            Image(viewStore.page.isNickname
+                  ? R.image.ic_navigate_previous_inactive
+                  : R.image.ic_navigate_previous_active)
             .offset(x: 16)
           }
           
