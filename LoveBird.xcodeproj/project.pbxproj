@@ -26,6 +26,7 @@
 		427573F82A53287000A8FD33 /* OnboardingGenderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 427573F72A53287000A8FD33 /* OnboardingGenderView.swift */; };
 		427573FA2A53377E00A8FD33 /* OnboardingInvitationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 427573F92A53377E00A8FD33 /* OnboardingInvitationView.swift */; };
 		428AED2F2A86BE4400F446B2 /* DiaryDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 428AED2E2A86BE4400F446B2 /* DiaryDetailView.swift */; };
+		428AED322A87610100F446B2 /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = 428AED312A87610100F446B2 /* ComposableArchitecture */; };
 		42E064112A45B5A000B9EAC3 /* PlaceRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42E064102A45B5A000B9EAC3 /* PlaceRequest.swift */; };
 		42E064122A45BF3800B9EAC3 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 42E064142A45BF3800B9EAC3 /* Localizable.strings */; };
 		42E064162A45C11600B9EAC3 /* SearchPlaceResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42E064152A45C11600B9EAC3 /* SearchPlaceResponse.swift */; };
@@ -62,7 +63,6 @@
 		4A327D4A2A55AC48002EEB55 /* SwiftUI+Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A327D492A55AC48002EEB55 /* SwiftUI+Helper.swift */; };
 		4A327DB52A592039002EEB55 /* ScheduleDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A327DB42A592039002EEB55 /* ScheduleDetail.swift */; };
 		4A327DB72A5A7C54002EEB55 /* Image+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A327DB62A5A7C54002EEB55 /* Image+Extension.swift */; };
-		4A3457AF2A86FF38004D1D6D /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = 4A3457AE2A86FF38004D1D6D /* ComposableArchitecture */; };
 		4A4894542A3EE0CC00BC4102 /* ResponseError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A4894532A3EE0CC00BC4102 /* ResponseError.swift */; };
 		4A8269FE2A6387B20060CE7F /* CalendarPreviewTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A8269FD2A6387B20060CE7F /* CalendarPreviewTabView.swift */; };
 		4A826A002A6387C50060CE7F /* CalendarPreviewContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A8269FF2A6387C50060CE7F /* CalendarPreviewContentView.swift */; };
@@ -288,9 +288,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				428AED322A87610100F446B2 /* ComposableArchitecture in Frameworks */,
 				425F25B52A543B7200A333A5 /* FirebaseMessaging in Frameworks */,
 				425640302A58463200EC962E /* KakaoSDK in Frameworks */,
-				4A0396A42A0FA68100EB062D /* ComposableArchitecture in Frameworks */,
 				A0E83505901348E67E5231F5 /* Pods_LoveBird.framework in Frameworks */,
 				425F25B32A543B7200A333A5 /* FirebaseAnalytics in Frameworks */,
 			);
@@ -724,7 +724,7 @@
 				425F25B22A543B7200A333A5 /* FirebaseAnalytics */,
 				425F25B42A543B7200A333A5 /* FirebaseMessaging */,
 				4256402F2A58463200EC962E /* KakaoSDK */,
-				4A3457AE2A86FF38004D1D6D /* ComposableArchitecture */,
+				428AED312A87610100F446B2 /* ComposableArchitecture */,
 			);
 			productName = LoveBird;
 			productReference = 4A03967F2A0FA5B600EB062D /* LoveBird.app */;
@@ -757,6 +757,7 @@
 			packageReferences = (
 				425F25B12A543B7200A333A5 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				4256402E2A58463200EC962E /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */,
+				428AED302A87610000F446B2 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */,
 			);
 			productRefGroup = 4A0396802A0FA5B600EB062D /* Products */;
 			projectDirPath = "";
@@ -1210,7 +1211,7 @@
 				minimumVersion = 10.0.0;
 			};
 		};
-		4A0396A22A0FA68100EB062D /* XCRemoteSwiftPackageReference "swift-composable-architecture" */ = {
+		428AED302A87610000F446B2 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/pointfreeco/swift-composable-architecture";
 			requirement = {
@@ -1236,9 +1237,9 @@
 			package = 425F25B12A543B7200A333A5 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseMessaging;
 		};
-		4A0396A32A0FA68100EB062D /* ComposableArchitecture */ = {
+		428AED312A87610100F446B2 /* ComposableArchitecture */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 4A3457AD2A86FF38004D1D6D /* XCRemoteSwiftPackageReference "swift-composable-architecture" */;
+			package = 428AED302A87610000F446B2 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */;
 			productName = ComposableArchitecture;
 		};
 /* End XCSwiftPackageProductDependency section */

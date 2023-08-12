@@ -7,7 +7,7 @@
 
 import UIKit
 
-struct SignUpRequest: Encodable {
+public struct SignUpRequest: Encodable {
   let email: String
   let nickname: String
   let birthDay: String

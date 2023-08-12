@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct AppleLoginRequest: Codable {
+public struct AppleLoginRequest: Codable {
     let idToken: String
     let user: User
 }

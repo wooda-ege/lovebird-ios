@@ -14,14 +14,15 @@ import UIKit
 
 // Public인 DependencyKey 때문에 불가피하게 public으로 선언한다.
 public enum APIClient {
-  case signUp
+  case signUp(authorization: String, refresh: String, signUpRequest: SignUpRequest)
   case addSchedule(addSchedule: AddScheduleRequest)
   case fetchDiary(id :Int)
   case searchPlace(searchTerm: String)
   case fetchCalendars
   case fetchDiaries
   case fetchProfile
-
+  case kakaoLogin(idToken: String, accessToken: String)
+  case appleLogin(appleLoginRequest: AppleLoginRequest)
 }
 
 extension APIClient: TargetType {
@@ -44,22 +45,34 @@ extension APIClient: TargetType {
         return "calendar"
       case .fetchProfile:
         return "profile"
+      case .kakaoLogin:
+        return "/api/v1/auth/kakao"
+      case .appleLogin:
+        return "/api/v1/auth/apple"
       }
   }
-
+  
   public var method: Moya.Method {
     switch self {
     case .signUp, .addSchedule:
       return .post
     case .fetchDiary, .searchPlace, .fetchCalendars, .fetchDiaries, .fetchProfile:
       return .get
+    case .kakaoLogin:
+      return .post
+    case .appleLogin:
+      return .post
     }
   }
-
+  
   public var task: Moya.Task {
     switch self {
     case .signUp:
-      return .requestParameters(parameters: bodyParameters ?? [:], encoding: JSONEncoding.default)
+      return .requestParameters(parameters: self.bodyParameters ?? [:], encoding: JSONEncoding.default)
+    case .kakaoLogin:
+      return .requestParameters(parameters: self.bodyParameters ?? [:], encoding: JSONEncoding.default)
+    case .appleLogin:
+      return .requestParameters(parameters: self.bodyParameters ?? [:], encoding: JSONEncoding.default)
     default:
       return .requestPlain
     }
@@ -79,6 +92,19 @@ extension APIClient: TargetType {
   private var bodyParameters: Parameters? {
     var params: Parameters = [:]
     switch self {
+    case .signUp(let authorization, let refresh, let signUpRequest):
+//      let email: String
+//      let nickname: String
+//      let birthDay: String
+//      let firstDate: String
+//      let gender: String
+//      let deviceToken: String
+      params["email"] = signUpRequest.email
+      params["nickname"] = signUpRequest.nickname
+      params["birthDay"] = signUpRequest.birthDay
+      params["firstDate"] = signUpRequest.firstDate
+      params["gender"] = signUpRequest.gender
+      params["deviceToken"] = signUpRequest.deviceToken
     case .addSchedule(let addSchedule):
       params["title"] = addSchedule.title
       params["memo"] = addSchedule.memo
@@ -88,6 +114,12 @@ extension APIClient: TargetType {
       params["startTime"] = addSchedule.startTime
       params["endTime"] = addSchedule.endTime
       params["alarm"] = addSchedule.alarm
+    case .kakaoLogin(let idToken, let accessToken):
+      params["idToken"] = idToken
+      params["accessToken"] = accessToken
+    case .appleLogin(let appleLoginRequest):
+      params["idToken"] = appleLoginRequest.idToken
+      params["user"] = appleLoginRequest.user
     default:
       break
     }

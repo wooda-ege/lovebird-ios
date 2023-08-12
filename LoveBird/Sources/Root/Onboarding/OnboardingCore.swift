@@ -141,15 +141,24 @@ struct OnboardingCore: ReducerProtocol {
       case .imageSelected(let image):
         state.profileImage = image
       case .doneButtonTapped:
-        return .task { [accessToken = state.accessToken, refreshToken = state.refreshToken, image = state.profileImage, email = state.email, nickname = state.nickname, birthYear = state.birthdateYear, birthMonth = state.birthdateMonth, birthDay = state.birthdateDay, year = state.firstdateYear, month = state.firstdateMonth, day = state.firstdateDay, gender = state.gender] in
-            .signUpResponse(
-              await TaskResult {
-                try await self.apiClient.requestMultipartform(accessToken: accessToken, refreshToken: refreshToken, image: image, signUpRequest: .init(email: email, nickname: nickname, birthDay: "\(birthYear)-\(birthMonth)-\(birthDay)", firstDate: "\(year)-\(month)-\(day)", gender: gender, deviceToken: "fj3vn9m"))
-              }
-            )
-          
-          
+        return .run { [state = state] send in
+          do {
+            let signUpResponse = try await self.apiClient.request(.signUp(authorization: state.accessToken, refresh: state.refreshToken, signUpRequest: SignUpRequest.init(email: state.email, nickname: state.nickname, birthDay: "\(state.birthdateYear)-\(state.birthdateMonth)-\(state.birthdateDay)", firstDate: "\(state.firstdateYear)-\(state.firstdateMonth)-\(state.firstdateDay)", gender: state.gender, deviceToken: "dd"))) as SignUpResponse
+            
+            await send(.signUpResponse(.success(signUpResponse)))
+          } catch {
+            
+          }
         }
+//        return .task { [accessToken = state.accessToken, refreshToken = state.refreshToken, image = state.profileImage, email = state.email, nickname = state.nickname, birthYear = state.birthdateYear, birthMonth = state.birthdateMonth, birthDay = state.birthdateDay, year = state.firstdateYear, month = state.firstdateMonth, day = state.firstdateDay, gender = state.gender] in
+//            .signUpResponse(
+//              await TaskResult {
+//                try await self.apiClient.requestMultipartform(accessToken: accessToken, refreshToken: refreshToken, image: image, signUpRequest: .init(email: email, nickname: nickname, birthDay: "\(birthYear)-\(birthMonth)-\(birthDay)", firstDate: "\(year)-\(month)-\(day)", gender: gender, deviceToken: "fj3vn9m"))
+//              }
+//            )
+//
+//
+//        }
       default:
         break
       }

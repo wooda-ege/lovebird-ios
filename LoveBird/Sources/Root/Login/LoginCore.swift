@@ -12,7 +12,7 @@ import AuthenticationServices
 import KakaoSDKAuth
 
 struct LoginCore: ReducerProtocol {
-  let apiClient = APIClient()
+  @Dependency(\.apiClient) var apiClient
   
   struct State: Equatable {
   }
@@ -29,12 +29,14 @@ struct LoginCore: ReducerProtocol {
     Reduce { state, action in
       switch action {
       case .kakaoLoginTapped(let accessToken, let idToken):
-        return .task {
-          .kakaoLoginResponse(
-            await TaskResult {
-              try await self.apiClient.request(.kakaoLogin(.init(idToken: idToken, accessToken: accessToken)))
-            }
-          )
+        return .run { send in
+          do {
+            let kakaoLoginResponse = try await self.apiClient.request(.kakaoLogin(idToken: idToken, accessToken: accessToken)) as KakaoLoginResponse
+            
+            await send(.kakaoLoginResponse(.success(kakaoLoginResponse)))
+          } catch {
+            
+          }
         }
       case .appleLoginTapped(let auth):
         switch auth.credential {
@@ -45,12 +47,14 @@ struct LoginCore: ReducerProtocol {
           let firstName = credential.fullName?.givenName ?? ""
           let lastName = credential.fullName?.familyName ?? ""
           
-          return .task {
-            .appleLoginResponse(
-              await TaskResult {
-                try await self.apiClient.request(.appleLogin(.init(idToken: tokenString, user: .init(email: email, name: .init(firstName: firstName, lastName: lastName)))))
-              }
-            )
+          return .run { send in
+            do {
+              let appleLoginResponse = try await self.apiClient.request(.appleLogin(appleLoginRequest: .init(idToken: tokenString, user: .init(email: email, name: .init(firstName: firstName, lastName: lastName))))) as AppleLoginResponse
+              
+              await send(.appleLoginResponse(.success(appleLoginResponse)))
+            } catch {
+
+            }
           }
         default:
           break
