@@ -32,7 +32,6 @@
 		4A1DDF1E2A2C338100B3A72B /* TouchableStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A1DDF1D2A2C338100B3A72B /* TouchableStack.swift */; };
 		4A1DDF222A2C7CC700B3A72B /* SignUpRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A1DDF212A2C7CC700B3A72B /* SignUpRequest.swift */; };
 		4A1DDF242A2C7CCD00B3A72B /* SignUpResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A1DDF232A2C7CCD00B3A72B /* SignUpResponse.swift */; };
-		4A1DDF262A2F287D00B3A72B /* APIEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A1DDF252A2F287D00B3A72B /* APIEndpoint.swift */; };
 		4A1DDF2A2A2F2DDA00B3A72B /* UserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A1DDF292A2F2DDA00B3A72B /* UserData.swift */; };
 		4A1DDF2C2A2F38E800B3A72B /* DiaryRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A1DDF2B2A2F38E800B3A72B /* DiaryRequest.swift */; };
 		4A1DDF2E2A2F3D3600B3A72B /* NetworkResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A1DDF2D2A2F3D3600B3A72B /* NetworkResponse.swift */; };
@@ -43,6 +42,7 @@
 		4A327D4A2A55AC48002EEB55 /* SwiftUI+Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A327D492A55AC48002EEB55 /* SwiftUI+Helper.swift */; };
 		4A327DB52A592039002EEB55 /* ScheduleDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A327DB42A592039002EEB55 /* ScheduleDetail.swift */; };
 		4A327DB72A5A7C54002EEB55 /* Image+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A327DB62A5A7C54002EEB55 /* Image+Extension.swift */; };
+		4A3457AF2A86FF38004D1D6D /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = 4A3457AE2A86FF38004D1D6D /* ComposableArchitecture */; };
 		4A4894542A3EE0CC00BC4102 /* ResponseError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A4894532A3EE0CC00BC4102 /* ResponseError.swift */; };
 		4A8269FE2A6387B20060CE7F /* CalendarPreviewTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A8269FD2A6387B20060CE7F /* CalendarPreviewTabView.swift */; };
 		4A826A002A6387C50060CE7F /* CalendarPreviewContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A8269FF2A6387C50060CE7F /* CalendarPreviewContentView.swift */; };
@@ -155,7 +155,6 @@
 		4A1DDF1D2A2C338100B3A72B /* TouchableStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TouchableStack.swift; sourceTree = "<group>"; };
 		4A1DDF212A2C7CC700B3A72B /* SignUpRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpRequest.swift; sourceTree = "<group>"; };
 		4A1DDF232A2C7CCD00B3A72B /* SignUpResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpResponse.swift; sourceTree = "<group>"; };
-		4A1DDF252A2F287D00B3A72B /* APIEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIEndpoint.swift; sourceTree = "<group>"; };
 		4A1DDF292A2F2DDA00B3A72B /* UserData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserData.swift; sourceTree = "<group>"; };
 		4A1DDF2B2A2F38E800B3A72B /* DiaryRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryRequest.swift; sourceTree = "<group>"; };
 		4A1DDF2D2A2F3D3600B3A72B /* NetworkResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkResponse.swift; sourceTree = "<group>"; };
@@ -251,6 +250,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4A3457AF2A86FF38004D1D6D /* ComposableArchitecture in Frameworks */,
 				A0E83505901348E67E5231F5 /* Pods_LoveBird.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -612,7 +612,6 @@
 				4A1DDF1F2A2C7CA700B3A72B /* Response */,
 				4A1DDF2D2A2F3D3600B3A72B /* NetworkResponse.swift */,
 				4AE5CB6F2A261E520016C0B4 /* APIClient.swift */,
-				4A1DDF252A2F287D00B3A72B /* APIEndpoint.swift */,
 				4A4894532A3EE0CC00BC4102 /* ResponseError.swift */,
 			);
 			path = Network;
@@ -655,6 +654,7 @@
 			);
 			name = LoveBird;
 			packageProductDependencies = (
+				4A3457AE2A86FF38004D1D6D /* ComposableArchitecture */,
 			);
 			productName = LoveBird;
 			productReference = 4A03967F2A0FA5B600EB062D /* LoveBird.app */;
@@ -685,6 +685,7 @@
 			);
 			mainGroup = 4A0396762A0FA5B600EB062D;
 			packageReferences = (
+				4A3457AD2A86FF38004D1D6D /* XCRemoteSwiftPackageReference "swift-composable-architecture" */,
 			);
 			productRefGroup = 4A0396802A0FA5B600EB062D /* Products */;
 			projectDirPath = "";
@@ -803,7 +804,6 @@
 				4A327DB52A592039002EEB55 /* ScheduleDetail.swift in Sources */,
 				4A03969C2A0FA61A00EB062D /* OnboardingView.swift in Sources */,
 				4A0396A12A0FA61A00EB062D /* HomeCore.swift in Sources */,
-				4A1DDF262A2F287D00B3A72B /* APIEndpoint.swift in Sources */,
 				4ACCB9722A18DE7E009F1E22 /* R.generated.swift in Sources */,
 				4AC985B32A5B0F810003D7AE /* Date+Properties.swift in Sources */,
 				4AD602CF2A5183070029D7EB /* GetHeightModifier.swift in Sources */,
@@ -1102,6 +1102,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		4A3457AD2A86FF38004D1D6D /* XCRemoteSwiftPackageReference "swift-composable-architecture" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/pointfreeco/swift-composable-architecture";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.6.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		4A3457AE2A86FF38004D1D6D /* ComposableArchitecture */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4A3457AD2A86FF38004D1D6D /* XCRemoteSwiftPackageReference "swift-composable-architecture" */;
+			productName = ComposableArchitecture;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 4A0396772A0FA5B600EB062D /* Project object */;
 }

@@ -250,7 +250,7 @@ struct ScheduleAddCore: ReducerProtocol {
         return .task {
             .addScheduleResponse(
               await TaskResult {
-                try await self.apiClient.request(.addSchedule(request))
+                try await self.apiClient.request(.addSchedule(addSchedule: request))
               }
             )
         }

@@ -5,88 +5,125 @@
 //  Created by 황득연 on 2023/05/30.
 //
 
-import Foundation
+import Moya
+import Alamofire
 import ComposableArchitecture
 import Dependencies
 
-struct APIClient {
-  func request<T: Decodable>(_ endpoint: APIEndpoint) async throws -> T {
-    do {
-      let (data, httpResponse) = try await self.performRequest(endpoint)
-      let result = try self.processResponse(data, httpResponse) as NetworkResponse<T>
-      return result.data
-    } catch {
-      throw ResponseError.unknown
-    }
-  }
-  
-  func requestRaw(_ endpoint: APIEndpoint) async throws -> NetworkStatusResponse {
-    do {
-      let (data, httpResponse) = try await self.performRequest(endpoint)
-      let result = try self.networkResponse(data, httpResponse)
-      return result
-    } catch {
-      throw ResponseError.unknown
-    }
-  }
-  
-  private func performRequest(_ endpoint: APIEndpoint) async throws -> (Data, HTTPURLResponse) {
-    let url = URL(string: Config.baseURL + endpoint.path)!
-    var urlRequest = URLRequest(url: url)
-    urlRequest.httpMethod = endpoint.method.rawValue
-    urlRequest.setValue("eyJhbGciOiJIUzUxMiJ9.eyJpZCI6IjIxNDc0ODM2NDciLCJleHAiOjE3MjE4ODI0ODd9.SkY9QmDQZ9ICU7LCeAKOQ4TGuDQOEmmwjplFpgxPVubLvJsng_heZ38LCXpDdjQ6mqGhtje8E9_XtKNmtjn9gA", forHTTPHeaderField: "Authorization")
-    urlRequest.setValue("eyJhbGciOiJIUzUxMiJ9.eyJpZCI6IjIxNDc0ODM2NDciLCJleHAiOjE2OTE1NTYwODd9.k-eP6sIX0VFGWY_Lqt5iAl5ox-h54knkDhpfA8Mk75D22LYWNGQcjE-lRIU4v_RckRWtPi1ST-TP9__IH-nJ7Q", forHTTPHeaderField: "Authorization")
+// Public인 DependencyKey 때문에 불가피하게 public으로 선언한다.
+public enum APIClient {
+  case signUp
+  case addSchedule(addSchedule: AddScheduleRequest)
+  case fetchDiary(id :Int)
+  case searchPlace(searchTerm: String)
+  case fetchCalendars
+  case fetchDiaries
+  case fetchProfile
 
-    if let body = endpoint.requestBody {
-      urlRequest.httpBody = try JSONEncoder().encode(body)
+}
+
+extension APIClient: TargetType {
+
+  // MARK: - Base URL
+  public var baseURL: URL {
+    guard let baseURL = URL(string: Config.baseURL) else {
+      fatalError("baseURL could not be configured")
     }
-    
-    let (data, response) = try await URLSession.shared.data(for: urlRequest, delegate: nil)
-    guard let httpResponse = response as? HTTPURLResponse else {
-      throw ResponseError.noResponse
-    }
-    
-    return (data, httpResponse)
+    return baseURL
   }
-  
-  private func processResponse<T: Decodable>(_ data: Data, _ httpResponse: HTTPURLResponse) throws -> NetworkResponse<T> {
-    switch httpResponse.statusCode {
-    case 200...299:
-      guard let result = try? JSONDecoder().decode(NetworkResponse<T>.self, from: data) else {
-        throw ResponseError.decode
+
+  public var path: String {
+      switch self {
+      case .signUp:
+        return "members"
+      case .fetchDiary(let id):
+        return "members/\(id)"
+      case .fetchDiaries:
+        return "diaries"
+      case .searchPlace(let searchTerm):
+        return "query=\(searchTerm)"
+      case .addSchedule, .fetchCalendars:
+        return "calendar"
+      case .fetchProfile:
+        return "profile"
       }
-      return result
-    case 401:
-      // TODO: 예시. 차후에 논의해야 됨.
-      throw ResponseError.unauthorized
-    default:
-      throw ResponseError.unexpectedStatusCode
+  }
+
+  public var method: Moya.Method {
+    switch self {
+    case .signUp, .addSchedule:
+      return .post
+    case .fetchDiary, .searchPlace, .fetchCalendars, .fetchDiaries, .fetchProfile:
+      return .get
     }
   }
 
-  private func networkResponse(_ data: Data, _ httpResponse: HTTPURLResponse) throws -> NetworkStatusResponse {
-    switch httpResponse.statusCode {
-    case 200...299:
-      guard let result = try? JSONDecoder().decode(NetworkStatusResponse.self, from: data) else {
-        throw ResponseError.decode
-      }
-      return result
-    case 401:
-      // TODO: 예시. 차후에 논의해야 됨.
-      throw ResponseError.unauthorized
+  public var task: Moya.Task {
+    switch self {
+    case .signUp:
+      return .requestParameters(parameters: bodyParameters ?? [:], encoding: JSONEncoding.default)
     default:
-      throw ResponseError.unexpectedStatusCode
+      return .requestPlain
+    }
+  }
+
+  public var headers: [String: String]? {
+    if true {
+      return [
+        "Authorization": "eyJhbGciOiJIUzUxMiJ9.eyJpZCI6IjIxNDc0ODM2NDciLCJleHAiOjE3MjE4ODI0ODd9.SkY9QmDQZ9ICU7LCeAKOQ4TGuDQOEmmwjplFpgxPVubLvJsng_heZ38LCXpDdjQ6mqGhtje8E9_XtKNmtjn9gA",
+        "Refresh": "eyJhbGciOiJIUzUxMiJ9.eyJpZCI6IjIxNDc0ODM2NDciLCJleHAiOjE2OTE1NTYwODd9.k-eP6sIX0VFGWY_Lqt5iAl5ox-h54knkDhpfA8Mk75D22LYWNGQcjE-lRIU4v_RckRWtPi1ST-TP9__IH-nJ7Q"
+      ]
+    }
+    return nil
+  }
+
+  private var bodyParameters: Parameters? {
+    var params: Parameters = [:]
+    switch self {
+    case .addSchedule(let addSchedule):
+      params["title"] = addSchedule.title
+      params["memo"] = addSchedule.memo
+      params["color"] = addSchedule.color
+      params["startDate"] = addSchedule.startDate
+      params["endDate"] = addSchedule.endDate
+      params["startTime"] = addSchedule.startTime
+      params["endTime"] = addSchedule.endTime
+      params["alarm"] = addSchedule.alarm
+    default:
+      break
+    }
+    return params
+  }
+}
+
+extension MoyaProvider {
+  func request<T: Decodable>(_ target: Target) async throws -> T {
+    return try await withCheckedThrowingContinuation { continuation in
+      self.request(target) { response in
+        switch response {
+        case .success(let result):
+          do {
+            let networkResponse = try JSONDecoder().decode(NetworkResponse<T>.self, from: result.data)
+            continuation.resume(returning: networkResponse.data)
+          } catch {
+            continuation.resume(throwing: error)
+          }
+
+        case .failure(let error):
+          continuation.resume(throwing: error)
+        }
+      }
     }
   }
 }
 
 extension DependencyValues {
-  var apiClient: APIClient {
-    get { self[APIClient.self] }
-    set { self[APIClient.self] = newValue }
+  var apiClient: MoyaProvider<APIClient> {
+    get { self[MoyaProvider.self] }
+    set { self[MoyaProvider.self] = newValue }
   }
 }
 
-extension APIClient: DependencyKey {
-  static let liveValue = Self()
+extension MoyaProvider<APIClient>: DependencyKey, TestDependencyKey {
+  public static var liveValue = MoyaProvider<APIClient>()
 }

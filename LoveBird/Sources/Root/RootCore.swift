@@ -7,7 +7,7 @@
 
 import ComposableArchitecture
 
-struct RootCore: ReducerProtocol {
+struct RootCore: Reducer {
   enum State: Equatable {
     case onboarding(OnboardingCore.State)
     case mainTab(MainTabCore.State)
@@ -23,7 +23,7 @@ struct RootCore: ReducerProtocol {
   
   @Dependency(\.userData) var userData
   
-  var body: some ReducerProtocol<State, Action> {
+  var body: some Reducer<State, Action> {
     Reduce { state, action in
       switch action {
       case .onboarding(.signUpResponse(.success(let reponse))):

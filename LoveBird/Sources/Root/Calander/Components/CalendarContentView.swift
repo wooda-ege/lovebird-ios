@@ -13,7 +13,7 @@ struct CalendarContentView: View {
   let store: StoreOf<CalendarCore>
 
   var body: some View {
-    WithViewStore(self.store) { viewStore in
+    WithViewStore(self.store, observe: { $0 }) { viewStore in
       GeometryReader { geometry in
         ScrollView(.vertical) {
           VStack(spacing: 0) {

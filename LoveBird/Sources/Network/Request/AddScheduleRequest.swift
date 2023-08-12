@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct AddScheduleRequest: Encodable {
+public struct AddScheduleRequest: Encodable {
   let title: String
   let memo: String?
   let color: ScheduleColor
