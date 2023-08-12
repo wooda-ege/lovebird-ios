@@ -36,6 +36,10 @@ struct ScheduleDetailCore: ReducerProtocol {
         state.scheduleAdd = ScheduleAddState(schedule: state.schedule)
       case .deleteTapped:
         state.scheduleAdd = nil
+      case .scheduleAdd(.presented(.addScheduleResponse(.success))):
+        state.scheduleAdd = nil
+      case .scheduleAdd(.presented(.backButtonTapped)):
+        state.scheduleAdd = nil
       default:
         break
       }

@@ -31,6 +31,7 @@ struct HomeCore: ReducerProtocol {
   }
 
   @Dependency(\.apiClient) var apiClient
+  @Dependency(\.userData) var userData
 
   var body: some ReducerProtocol<State, Action> {
     Reduce { state, action in
@@ -49,6 +50,8 @@ struct HomeCore: ReducerProtocol {
           do {
             let diariesLoaded = try await self.apiClient.request(.fetchDiaries) as Diaries
             let profileLoaded = try await self.apiClient.request(.fetchProfile) as Profile
+
+            self.userData.store(key: .user, value: profileLoaded)
             
             var diaries: [Diary] = [Diary.initialDiary(with: profileLoaded.firstDate)]
             diaries.append(contentsOf: diariesLoaded.diaries)

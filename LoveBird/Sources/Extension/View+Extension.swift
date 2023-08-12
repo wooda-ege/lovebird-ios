@@ -19,6 +19,15 @@ extension View {
         .strokeBorder(color, lineWidth: 1)
     )
   }
+
+  func bottomBorder() -> some View {
+    self.overlay(
+      Rectangle()
+        .fill(Color(R.color.gray04))
+        .frame(height: 1),
+      alignment: .bottom
+    )
+  }
   
   func bottomSheet<Content: View>(isShown: Binding<Bool>, @ViewBuilder content: @escaping () -> Content) -> some View {
     return self

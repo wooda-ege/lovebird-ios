@@ -27,7 +27,7 @@ struct RootCore: Reducer {
     Reduce { state, action in
       switch action {
       case .onboarding(.signUpResponse(.success(let reponse))):
-        self.userData.store(key: .userId, value: reponse)
+        self.userData.store(key: .user, value: reponse)
         state = .mainTab(MainTabCore.State())
       case .onboarding(.signUpResponse(.failure(let error))):
         // TODO: error시 정의할 것.

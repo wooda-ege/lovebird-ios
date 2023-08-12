@@ -15,24 +15,30 @@ struct ScheduleAddCore: ReducerProtocol {
   struct State: Equatable {
 
     init(date: Date) {
+      self.idForEditing = nil
       self.startDate = date
     }
 
     init(schedule: Schedule) {
-//      self.color = schedule.color
+      self.idForEditing = schedule.id
       self.title = schedule.title
       self.memo = schedule.memo ?? ""
+      self.color = schedule.color
       self.startDate = schedule.startDate.toDate()
-      self.endDate = (schedule.startDate != schedule.endDate && schedule.endDate != nil)
+
+      self.endDate = schedule.endDate != nil
         ? schedule.endDate!.toDate()
         : schedule.startDate.toDate().addDays(by: 1)
-      self.isEndDateActive = schedule.startDate != schedule.endDate
+      self.isEndDateActive = schedule.endDate != nil
+
       self.isTimeActive = schedule.startTime != nil
-//      if let startTime = schedule.startTime , let endTime = schedule.endTime {
-//        self.startTime = startTime.toScheduleTime()
-//      }
+      if let startTime = schedule.startTime , let endTime = schedule.endTime {
+        self.startTime = startTime.toTime()
+        self.endTime = endTime.toTime()
+      }
     }
 
+    let idForEditing: Int?
     var title = ""
     var color: ScheduleColor = .secondary
     var startDate = Date()
@@ -91,7 +97,8 @@ struct ScheduleAddCore: ReducerProtocol {
     case meridiemSelected(ScheduleTime.Meridiem)
 
     // Network
-    case addScheduleResponse(TaskResult<AddScheduleResponse>)
+    case addScheduleResponse(TaskResult<Int>)
+    case editScheduleResponse(TaskResult<Int>)
 
     // Navigation
     case scheduleDetail(PresentationAction<ScheduleDetailAction>)
@@ -235,11 +242,14 @@ struct ScheduleAddCore: ReducerProtocol {
         self.handleDateInitialized(state: &state)
       case .timeInitialied:
         self.handleTimeInitialized(state: &state)
+      case .scheduleDetail(.presented(.backButtonTapped)):
+        state.scheduleDetail = nil
 
       // Network
       case .confirmTapped:
         if state.title.isEmpty { break }
         let request = AddScheduleRequest(
+          id: state.idForEditing,
           title: state.title,
           memo: state.memo,
           color: state.color,
@@ -249,12 +259,22 @@ struct ScheduleAddCore: ReducerProtocol {
           startTime: state.startTime.toHMS(),
           endTime: state.endTime.toHMS()
         )
-        return .task {
-            .addScheduleResponse(
-              await TaskResult {
-                try await self.apiClient.request(.addSchedule(addSchedule: request))
-              }
-            )
+        if let id = state.idForEditing {
+          return .task {
+              .editScheduleResponse(
+                await TaskResult {
+                  try await self.apiClient.request(.editSchedule(addSchedule: request))
+                }
+              )
+          }
+        } else {
+          return .task {
+              .addScheduleResponse(
+                await TaskResult {
+                  try await self.apiClient.request(.addSchedule(addSchedule: request))
+                }
+              )
+          }
         }
       default:
         break
@@ -297,8 +317,8 @@ struct ScheduleAddCore: ReducerProtocol {
         state.endDate = state.startDate.addDays(by: 1)
       }
     case .endDate:
-      state.endDate = Date().addDays(by: 1)
-      self.initializeDate(state: &state, date: state.startDate)
+      state.endDate = state.startDate.addDays(by: 1)
+      self.initializeDate(state: &state, date: state.endDate)
       if state.startTime.isLater(than: state.endTime) {
         state.startDate = state.endDate.addDays(by: -1)
       }

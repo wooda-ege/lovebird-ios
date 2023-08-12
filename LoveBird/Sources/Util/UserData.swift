@@ -10,16 +10,15 @@ import ComposableArchitecture
 
 struct UserData {
   enum Keys: String {
-    case userId
-    case userNickname
+    case user
   }
   
   func store(key: Keys, value: Any) {
     UserDefaults.standard.set(value, forKey: key.rawValue)
   }
   
-  func get(key: Keys) {
-    UserDefaults.standard.object(forKey: key.rawValue)
+  func get(key: Keys) -> Any? {
+    return UserDefaults.standard.object(forKey: key.rawValue)
   }
 }
 

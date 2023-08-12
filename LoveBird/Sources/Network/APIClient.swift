@@ -13,13 +13,13 @@ import Dependencies
 // Public인 DependencyKey 때문에 불가피하게 public으로 선언한다.
 public enum APIClient {
   case signUp
-  case addSchedule(addSchedule: AddScheduleRequest)
   case fetchDiary(id :Int)
   case searchPlace(searchTerm: String)
   case fetchCalendars
   case fetchDiaries
   case fetchProfile
-
+  case addSchedule(addSchedule: AddScheduleRequest)
+  case editSchedule(addSchedule: AddScheduleRequest)
 }
 
 extension APIClient: TargetType {
@@ -42,12 +42,14 @@ extension APIClient: TargetType {
         return "calendar"
       case .fetchProfile:
         return "profile"
+      case .editSchedule(let addSchedule):
+        return "calendar/\(addSchedule.id!)"
       }
   }
 
   public var method: Moya.Method {
     switch self {
-    case .signUp, .addSchedule:
+    case .signUp, .addSchedule, .editSchedule:
       return .post
     case .fetchDiary, .searchPlace, .fetchCalendars, .fetchDiaries, .fetchProfile:
       return .get
@@ -56,7 +58,7 @@ extension APIClient: TargetType {
 
   public var task: Moya.Task {
     switch self {
-    case .signUp:
+    case .signUp, .addSchedule, .editSchedule:
       return .requestParameters(parameters: bodyParameters ?? [:], encoding: JSONEncoding.default)
     default:
       return .requestPlain
@@ -68,7 +70,8 @@ extension APIClient: TargetType {
     if true {
       return [
         "Authorization": "eyJhbGciOiJIUzUxMiJ9.eyJpZCI6IjIxNDc0ODM2NDciLCJleHAiOjE3MjE4ODI0ODd9.SkY9QmDQZ9ICU7LCeAKOQ4TGuDQOEmmwjplFpgxPVubLvJsng_heZ38LCXpDdjQ6mqGhtje8E9_XtKNmtjn9gA",
-        "Refresh": "eyJhbGciOiJIUzUxMiJ9.eyJpZCI6IjIxNDc0ODM2NDciLCJleHAiOjE2OTE1NTYwODd9.k-eP6sIX0VFGWY_Lqt5iAl5ox-h54knkDhpfA8Mk75D22LYWNGQcjE-lRIU4v_RckRWtPi1ST-TP9__IH-nJ7Q"
+        "Refresh": "eyJhbGciOiJIUzUxMiJ9.eyJpZCI6IjIxNDc0ODM2NDciLCJleHAiOjE2OTE1NTYwODd9.k-eP6sIX0VFGWY_Lqt5iAl5ox-h54knkDhpfA8Mk75D22LYWNGQcjE-lRIU4v_RckRWtPi1ST-TP9__IH-nJ7Q",
+        "Content-Type": "application/json"
       ]
     }
     return nil
@@ -77,15 +80,15 @@ extension APIClient: TargetType {
   private var bodyParameters: Parameters? {
     var params: Parameters = [:]
     switch self {
-    case .addSchedule(let addSchedule):
+    case .addSchedule(let addSchedule), .editSchedule(let addSchedule):
       params["title"] = addSchedule.title
       params["memo"] = addSchedule.memo
-      params["color"] = addSchedule.color
+      params["color"] = addSchedule.color.rawValue
       params["startDate"] = addSchedule.startDate
       params["endDate"] = addSchedule.endDate
       params["startTime"] = addSchedule.startTime
       params["endTime"] = addSchedule.endTime
-      params["alarm"] = addSchedule.alarm
+      params["alarm"] = addSchedule.alarm?.rawValue
     default:
       break
     }
@@ -102,6 +105,25 @@ extension MoyaProvider {
           do {
             let networkResponse = try JSONDecoder().decode(NetworkResponse<T>.self, from: result.data)
             continuation.resume(returning: networkResponse.data)
+          } catch {
+            continuation.resume(throwing: error)
+          }
+
+        case .failure(let error):
+          continuation.resume(throwing: error)
+        }
+      }
+    }
+  }
+
+  func requestRaw(_ target: Target) async throws -> NetworkStatusResponse {
+    return try await withCheckedThrowingContinuation { continuation in
+      self.request(target) { response in
+        switch response {
+        case .success(let result):
+          do {
+            let networkResponse = try JSONDecoder().decode(NetworkStatusResponse.self, from: result.data)
+            continuation.resume(returning: networkResponse)
           } catch {
             continuation.resume(throwing: error)
           }
