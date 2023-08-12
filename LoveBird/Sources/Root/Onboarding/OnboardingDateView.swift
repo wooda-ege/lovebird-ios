@@ -116,8 +116,8 @@ struct OnboardingDateView: View {
   }
 }
 
-struct OnboardingDateView_Previews: PreviewProvider {
-    static var previews: some View {
-      OnboardingDateView(store: .init(initialState: OnboardingCore.State(), reducer: OnboardingCore()))
-    }
-}
+//struct OnboardingDateView_Previews: PreviewProvider {
+//    static var previews: some View {
+//      OnboardingDateView(store: .init(initialState: OnboardingCore.State(), reducer: OnboardingCore()))
+//    }
+//}

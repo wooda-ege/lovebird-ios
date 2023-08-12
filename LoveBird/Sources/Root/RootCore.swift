@@ -39,11 +39,14 @@ struct RootCore: ReducerProtocol {
         let accessToken = response.accessToken
         let refreshToken = response.refreshToken
         
-        state = .onboarding(OnboardingCore.State(accessToken: accessToken, refreshToken: refreshToken))
+        state = .onboarding(OnboardingCore.State(accessToken: accessToken, refreshToken: refreshToken!))
       case .login(.kakaoLoginResponse(.failure(let error))):
         print(error)
       case .login(.appleLoginResponse(.success(let response))):
-        let a = response.accessToken
+        let accessToken = response.accessToken
+        let refreshToken = response.refreshToken
+        
+        state = .onboarding(OnboardingCore.State(accessToken: accessToken, refreshToken: refreshToken))
       case .login(.appleLoginResponse(.failure(let error))):
         print(error)
       default:
@@ -61,5 +64,4 @@ struct RootCore: ReducerProtocol {
       MainTabCore()
     }
   }
-  
 }

@@ -85,8 +85,8 @@ struct OnboardingNicknameView: View {
   }
 }
 
-struct OnboardingNicknameView_Previews: PreviewProvider {
-  static var previews: some View {
-    OnboardingNicknameView(store: Store(initialState: OnboardingCore.State(), reducer: OnboardingCore()))
-  }
-}
+//struct OnboardingNicknameView_Previews: PreviewProvider {
+//  static var previews: some View {
+//    OnboardingNicknameView(store: Store(initialState: OnboardingCore.State(), reducer: OnboardingCore()))
+//  }
+//}

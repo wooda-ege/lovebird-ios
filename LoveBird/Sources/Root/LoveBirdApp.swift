@@ -38,7 +38,7 @@ struct LoveBirdApp: App {
 class AppDelegate: NSObject, UIApplicationDelegate {
   
   var gcmMessageIDKey = "gcm.message_id"
-  var appDeviceToken = ""
+  var appDeviceToken = "fj3vn9m"
   // 앱이 켜졌을 때
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
     
@@ -75,7 +75,12 @@ class AppDelegate: NSObject, UIApplicationDelegate {
   // fcm 토큰이 등록 되었을 때
   func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
     Messaging.messaging().apnsToken = deviceToken
-    appDeviceToken = deviceToken.reduce("", {$0 + String(format: "%02X", $1)})
+    var token = ""
+    for i in 0..<deviceToken.count {
+      token += String(format: "%02.2hhx", deviceToken[i] as CVarArg)
+    }
+    
+    appDeviceToken = token
   }
   
 }

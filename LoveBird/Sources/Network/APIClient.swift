@@ -24,19 +24,23 @@ struct APIClient {
     }
   }
   
-  func requestMultipartform(image: UIImage?, signUpRequest: SignUpRequest) async throws -> SignUpResponse {
+  func requestMultipartform(accessToken: String, refreshToken: String, image: UIImage?, signUpRequest: SignUpRequest) async throws -> SignUpResponse {
     let url = URL(string: "https://lovebird-api.com/api/v1/profile")
-
+    
     var request = URLRequest(url: url!)
     request.httpMethod = "POST"
-    let boundary = "6o2knFse3p53ty9dmcQvWAIx1zInP11uCfbm" // UUID().uuidString
+    let boundary = UUID().uuidString
     let contentType = "multipart/form-data; boundary=\(boundary)"
     request.setValue(contentType, forHTTPHeaderField: "Content-Type")
+    request.setValue("eyJhbGciOiJIUzUxMiJ9.eyJpZCI6IjIxNDc0ODM2NDciLCJleHAiOjE3MjE4ODI0ODd9.SkY9QmDQZ9ICU7LCeAKOQ4TGuDQOEmmwjplFpgxPVubLvJsng_heZ38LCXpDdjQ6mqGhtje8E9_XtKNmtjn9gA", forHTTPHeaderField: "Authorization")
+    request.setValue("eyJhbGciOiJIUzUxMiJ9.eyJpZCI6IjIxNDc0ODM2NDciLCJleHAiOjE2OTE1NTYwODd9.k-eP6sIX0VFGWY_Lqt5iAl5ox-h54knkDhpfA8Mk75D22LYWNGQcjE-lRIU4v_RckRWtPi1ST-TP9__IH-nJ7Q", forHTTPHeaderField: "Refresh")
     var body = Data()
-    body.append("--\(boundary)\r\n".data(using: .utf8)!)
+    body.append("\r\n--\(boundary)\r\n".data(using: .utf8)!)
     body.append("Content-Disposition: form-data; name=\"image\"; filename=\"image.png\"\r\n".data(using: .utf8)!)
     body.append("Content-Type: image/png\r\n\r\n".data(using: .utf8)!)
-    body.append(image!.pngData()!)
+    if let image {
+      body.append(image.pngData()!)      
+    }
     body.append("\r\n".data(using: .utf8)!)
     body.append("--\(boundary)\r\n".data(using: .utf8)!)
     body.append("Content-Disposition: form-data; name=\"profileCreateRequest\"\r\n".data(using: .utf8)!)
@@ -45,8 +49,10 @@ struct APIClient {
     let jsonData = try jsonEncoder.encode(signUpRequest)
     body.append(jsonData)
     body.append("\r\n".data(using: .utf8)!)
-    body.append("--\(boundary)--\r\n".data(using: .utf8)!)
-
+    body.append("--\(boundary)--".data(using: .utf8)!)
+    
+    request.httpBody = body
+    
     let (data, response) = try await URLSession.shared.data(for: request)
     guard let httpResponse = response as? HTTPURLResponse else {
       throw ResponseError.noResponse

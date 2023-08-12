@@ -6,6 +6,8 @@
 //
 
 import Foundation
+import UIKit
+import SwiftUI
 
 struct Diary: Equatable, Identifiable {
   
@@ -17,6 +19,7 @@ struct Diary: Equatable, Identifiable {
   
   var id = UUID()
   var type: HomeItem.ContentType
+  var image: UIImage?
   let year: Int
   let month: Int
   let day: Int
@@ -25,8 +28,6 @@ struct Diary: Equatable, Identifiable {
   let description: String
   let location: String
   let timeState: TimeState
-  //    let description: String
-  //    let image: Image
   
   static let dummy: [Self] = [
     Diary(type: .initial, year: 2021, month: 9, day: 21, weekday: "", title: "", description: "", location: "", timeState: .previous),

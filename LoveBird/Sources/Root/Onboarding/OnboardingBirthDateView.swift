@@ -32,17 +32,17 @@ struct OnboardingBirthDateView: View {
             .frame(height: 48)
           
           HStack(alignment: .center, spacing: 8) {
-            Text(String(viewStore.firstdateYear))
+            Text(String(viewStore.birthdateYear))
               .font(.pretendard(size: 18))
             Text("/")
               .font(.pretendard(size: 18))
               .foregroundColor(Color(R.color.gray05))
-            Text(String(viewStore.firstdateMonth))
+            Text(String(viewStore.birthdateMonth))
               .font(.pretendard(size: 18))
             Text("/")
               .font(.pretendard(size: 18))
               .foregroundColor(Color(R.color.gray05))
-            Text(String(viewStore.firstdateDay))
+            Text(String(viewStore.birthdateDay))
               .font(.pretendard(size: 18))
           }
           .frame(width: UIScreen.width - 32, height: 56)
@@ -116,9 +116,9 @@ struct OnboardingBirthDateView: View {
   }
 }
 
-struct OnboardingBirthDateView_Previews: PreviewProvider {
-    static var previews: some View {
-        OnboardingBirthDateView(store: Store(initialState: OnboardingCore.State(), reducer: OnboardingCore()))
-    }
-}
+//struct OnboardingBirthDateView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        OnboardingBirthDateView(store: Store(initialState: OnboardingCore.State(), reducer: OnboardingCore()))
+//    }
+//}
 

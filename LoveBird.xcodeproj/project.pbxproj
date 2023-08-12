@@ -25,6 +25,7 @@
 		427573F62A52883500A8FD33 /* OnboardingBirthDateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 427573F52A52883500A8FD33 /* OnboardingBirthDateView.swift */; };
 		427573F82A53287000A8FD33 /* OnboardingGenderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 427573F72A53287000A8FD33 /* OnboardingGenderView.swift */; };
 		427573FA2A53377E00A8FD33 /* OnboardingInvitationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 427573F92A53377E00A8FD33 /* OnboardingInvitationView.swift */; };
+		428AED2F2A86BE4400F446B2 /* DiaryDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 428AED2E2A86BE4400F446B2 /* DiaryDetailView.swift */; };
 		42E064112A45B5A000B9EAC3 /* PlaceRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42E064102A45B5A000B9EAC3 /* PlaceRequest.swift */; };
 		42E064122A45BF3800B9EAC3 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 42E064142A45BF3800B9EAC3 /* Localizable.strings */; };
 		42E064162A45C11600B9EAC3 /* SearchPlaceResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42E064152A45C11600B9EAC3 /* SearchPlaceResponse.swift */; };
@@ -113,6 +114,7 @@
 		427573F52A52883500A8FD33 /* OnboardingBirthDateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingBirthDateView.swift; sourceTree = "<group>"; };
 		427573F72A53287000A8FD33 /* OnboardingGenderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingGenderView.swift; sourceTree = "<group>"; };
 		427573F92A53377E00A8FD33 /* OnboardingInvitationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingInvitationView.swift; sourceTree = "<group>"; };
+		428AED2E2A86BE4400F446B2 /* DiaryDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryDetailView.swift; sourceTree = "<group>"; };
 		42E064102A45B5A000B9EAC3 /* PlaceRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceRequest.swift; sourceTree = "<group>"; };
 		42E064132A45BF3800B9EAC3 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		42E064152A45C11600B9EAC3 /* SearchPlaceResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchPlaceResponse.swift; sourceTree = "<group>"; };
@@ -445,6 +447,7 @@
 			children = (
 				4AE5CB572A232E3F0016C0B4 /* DiaryCore.swift */,
 				4AE5CB592A232E490016C0B4 /* DiaryView.swift */,
+				428AED2E2A86BE4400F446B2 /* DiaryDetailView.swift */,
 			);
 			path = Diary;
 			sourceTree = "<group>";
@@ -679,6 +682,7 @@
 				4AB2DB362A19AE4F003EFD95 /* KeyboardResponder.swift in Sources */,
 				4AE5CB632A232FDB0016C0B4 /* CalanderView.swift in Sources */,
 				42E064112A45B5A000B9EAC3 /* PlaceRequest.swift in Sources */,
+				428AED2F2A86BE4400F446B2 /* DiaryDetailView.swift in Sources */,
 				42E4D5892A4DBB2E00F4FA42 /* LoginView.swift in Sources */,
 				4A0396A02A0FA61A00EB062D /* HomeView.swift in Sources */,
 				4AB2DB492A1E6601003EFD95 /* MainTabView.swift in Sources */,
@@ -860,7 +864,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"LoveBird/Preview Content\"";
-				DEVELOPMENT_TEAM = CR94SSTVK4;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = LoveBird/Info.plist;
@@ -892,7 +896,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"LoveBird/Preview Content\"";
-				DEVELOPMENT_TEAM = CR94SSTVK4;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = LoveBird/Info.plist;
@@ -959,7 +963,7 @@
 			repositoryURL = "https://github.com/pointfreeco/swift-composable-architecture";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 0.53.0;
+				minimumVersion = 0.7.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */

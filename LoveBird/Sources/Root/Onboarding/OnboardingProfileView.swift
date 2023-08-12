@@ -60,10 +60,10 @@ struct OnboardingProfileView: View {
   }
 }
 
-struct OnboardingProfileView_Previews: PreviewProvider {
-  static var previews: some View {
-    OnboardingProfileView(store: Store(initialState: OnboardingCore.State(), reducer: OnboardingCore()))
-  }
-}
+//struct OnboardingProfileView_Previews: PreviewProvider {
+//  static var previews: some View {
+//    OnboardingProfileView(store: Store(initialState: OnboardingCore.State(), reducer: OnboardingCore()))
+//  }
+//}
 
 

@@ -36,6 +36,7 @@ struct OnboardingEmailView: View {
         
         TextField("love@bird.com", text: viewStore.binding(get: \.email, send: OnboardingCore.Action.emailEdited))
           .font(.pretendard(size: 18, weight: .regular))
+          .textContentType(.emailAddress)
           .foregroundColor(.black)
           .padding(.vertical, 15)
           .padding(.leading, 16)
@@ -85,9 +86,9 @@ struct OnboardingEmailView: View {
   }
 }
 
-struct OnboardingEmailView_Previews: PreviewProvider {
-  static var previews: some View {
-    OnboardingEmailView(store: Store(initialState: OnboardingCore.State(), reducer: OnboardingCore()))
-  }
-}
+//struct OnboardingEmailView_Previews: PreviewProvider {
+//  static var previews: some View {
+//    OnboardingEmailView(store: Store(initialState: OnboardingCore.State(), reducer: OnboardingCore()))
+//  }
+//}
 

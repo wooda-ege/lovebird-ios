@@ -19,8 +19,8 @@ struct OnboardingCore: ReducerProtocol {
       self.refreshToken = refreshToken
     }
     
-    let accessToken: String
-    let refreshToken: String
+    var accessToken: String = ""
+    var refreshToken: String = ""
     
     var page: Page = .first()
     var nickname: String = ""
@@ -62,6 +62,7 @@ struct OnboardingCore: ReducerProtocol {
     case birthdateInitialied
     case signUpResponse(TaskResult<SignUpResponse>)
     case imageSelected(UIImage?)
+    case circleClicked(Int)
     case none
   }
   
@@ -70,16 +71,18 @@ struct OnboardingCore: ReducerProtocol {
   var body: some ReducerProtocol<State, Action> {
     Reduce { state, action in
       switch action {
+      case .circleClicked(let index):
+        state.page.update(.move(increment: index))
       case .nextTapped, .nextButtonTapped:
-        //        guard state.page.index == 0, state.textFieldState == .emailCorrect else {
-        //          return .none
-        //        }
         state.page.update(.next)
       case .textFieldStateChanged(let textFieldState):
         state.textFieldState = textFieldState
       case .previousTapped:
-        guard state.page.index == 1 else { return .none }
-        state.page.update(.previous)
+        if state.page.index == 0 {
+          return .none
+        } else {
+          state.page.update(.previous)
+        }
       case .nicknameEdited(let nickname):
         state.nickname = nickname
         if nickname.isNicknameValid {
@@ -100,11 +103,11 @@ struct OnboardingCore: ReducerProtocol {
         state.gender = gender
         state.buttonClickState = .clicked
       case .birthdateYearSelected(let year):
-        state.firstdateYear = year
+        state.birthdateYear = year
       case .birthdateMonthSelected(let month):
-        state.firstdateMonth = month
+        state.birthdateMonth = month
       case .birthdateDaySelected(let day):
-        state.firstdateDay = day
+        state.birthdateDay = day
       case .dateYearSelected(let year):
         state.firstdateYear = year
       case .dateMonthSelected(let month):
@@ -126,12 +129,14 @@ struct OnboardingCore: ReducerProtocol {
       case .imageSelected(let image):
         state.profileImage = image
       case .doneButtonTapped:
-        return .task { [image = state.profileImage, email = state.email, nickname = state.nickname, birthYear = state.birthdateYear, birthMonth = state.birthdateMonth, birthDay = state.birthdateDay, year = state.firstdateYear, month = state.firstdateMonth, day = state.firstdateDay, gender = state.gender] in
+        return .task { [accessToken = state.accessToken, refreshToken = state.refreshToken, image = state.profileImage, email = state.email, nickname = state.nickname, birthYear = state.birthdateYear, birthMonth = state.birthdateMonth, birthDay = state.birthdateDay, year = state.firstdateYear, month = state.firstdateMonth, day = state.firstdateDay, gender = state.gender] in
             .signUpResponse(
               await TaskResult {
-                try await self.apiClient.requestMultipartform(image: image, signUpRequest: .init(email: email, nickname: nickname, birthDay: "\(birthYear)-\(birthMonth)-\(birthDay)", firstDate: "\(year)-\(month)-\(day)", gender: gender, deviceToken: AppDelegate().appDeviceToken))
+                try await self.apiClient.requestMultipartform(accessToken: accessToken, refreshToken: refreshToken, image: image, signUpRequest: .init(email: email, nickname: nickname, birthDay: "\(birthYear)-\(birthMonth)-\(birthDay)", firstDate: "\(year)-\(month)-\(day)", gender: gender, deviceToken: "fj3vn9m"))
               }
             )
+          
+          
         }
       default:
         break
@@ -146,3 +151,5 @@ extension Page: Equatable {
     lhs.index == rhs.index
   }
 }
+
+// AppDelegate().appDeviceToken

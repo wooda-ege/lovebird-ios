@@ -82,8 +82,8 @@ struct HomeView: View {
   }
 }
 
-//struct HomeView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        HomeView(store: Store(initialState: Home.State(), reducer: Home()))
-//    }
-//}
+struct HomeView_Previews: PreviewProvider {
+    static var previews: some View {
+        HomeView(store: Store(initialState: HomeCore.State(), reducer: HomeCore()))
+    }
+}

@@ -7,6 +7,7 @@
 
 import Foundation
 import ComposableArchitecture
+import SwiftUI
 
 struct HomeCore: ReducerProtocol {
   
@@ -33,6 +34,11 @@ struct HomeCore: ReducerProtocol {
           state.diarys[idx].type.toggle()
         }
       case .diaryTapped(let diary):
+        NavigationLink {
+          DiaryDetailView(diary: diary)
+        } label: {
+           
+        }
         return .none //TODO: 득연 - Navigation
       case .offsetYChanged(let y):
         state.offsetY = y

@@ -118,11 +118,11 @@ struct OnboardingInvitationView: View {
   }
 }
 
-struct OnboardingInviteView_Previews: PreviewProvider {
-  static var previews: some View {
-    OnboardingInvitationView(store: Store(initialState: OnboardingCore.State(), reducer: OnboardingCore()))
-  }
-}
+//struct OnboardingInviteView_Previews: PreviewProvider {
+//  static var previews: some View {
+//    OnboardingInvitationView(store: Store(initialState: OnboardingCore.State(), reducer: OnboardingCore()))
+//  }
+//}
 
 
 struct ActivityViewController: UIViewControllerRepresentable {

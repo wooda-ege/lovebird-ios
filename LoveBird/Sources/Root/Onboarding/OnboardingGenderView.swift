@@ -37,57 +37,58 @@ struct OnboardingGenderView: View {
               HStack {
                 Text(R.string.localizable.onboarding_gender_female)
                   .font(.pretendard(size: 16, weight: .semiBold))
-                  .foregroundColor(Color(R.color.gray07))
+                  .foregroundColor((viewStore.gender == "FEMALE" ? Color.black : Color(R.color.gray07)))
                   .padding(.leading, 36)
                 Spacer()
                 Button {
-                  viewStore.send(.genderSelected("female"))
+                  viewStore.send(.genderSelected("FEMALE"))
                 } label: {
-                  viewStore.gender == "female" ? Image(R.image.ic_checkbox_on) : Image(R.image.ic_checkbox_off)
+                  viewStore.gender == "FEMALE" ? Image(R.image.ic_checkbox_on) : Image(R.image.ic_checkbox_off)
                 }
                 .padding(.trailing, 36)
               }
             }
             .frame(height: 56)
-            .background(viewStore.gender == "female" ? Color.white : Color(R.color.gray02))
+            .background(viewStore.gender == "FEMALE" ? Color.white : Color(R.color.gray02))
+            .shadow(color: .black.opacity(0.08), radius: 12)
             
             TouchableStack {
               HStack {
                 Text(R.string.localizable.onboarding_gender_male)
                   .font(.pretendard(size: 16, weight: .semiBold))
-                  .foregroundColor(Color(R.color.gray07))
+                  .foregroundColor((viewStore.gender == "MALE" ? Color.black : Color(R.color.gray07)))
                   .padding(.leading, 36)
                 Spacer()
                 Button {
-                  viewStore.send(.genderSelected("male"))
+                  viewStore.send(.genderSelected("MALE"))
                 } label: {
-                  viewStore.gender == "male" ? Image(R.image.ic_checkbox_on) : Image(R.image.ic_checkbox_off)
+                  viewStore.gender == "MALE" ? Image(R.image.ic_checkbox_on) : Image(R.image.ic_checkbox_off)
                 }
                 .padding(.trailing, 36)
               }
             }
-            .background(Color(R.color.gray02))
             .frame(height: 56)
-            .background(viewStore.gender == "male" ? Color.white : Color(R.color.gray02))
+            .background(viewStore.gender == "MALE" ? Color.white : Color(R.color.gray02))
+            .shadow(color: .black.opacity(0.08), radius: 12)
             
             TouchableStack {
               HStack {
                 Text(R.string.localizable.onboarding_gender_private)
                   .font(.pretendard(size: 16, weight: .semiBold))
-                  .foregroundColor(Color(R.color.gray07))
+                  .foregroundColor((viewStore.gender == "PRIVATE" ? Color.black : Color(R.color.gray07)))
                   .padding(.leading, 36)
                 Spacer()
                 Button {
-                  viewStore.send(.genderSelected("private"))
+                  viewStore.send(.genderSelected("PRIVATE"))
                 } label: {
-                  viewStore.gender == "private" ? Image(R.image.ic_checkbox_on) : Image(R.image.ic_checkbox_off)
+                  viewStore.gender == "PRIVATE" ? Image(R.image.ic_checkbox_on) : Image(R.image.ic_checkbox_off)
                 }
                 .padding(.trailing, 36)
               }
             }
-            .background(Color(R.color.gray02))
             .frame(height: 56)
-            .background(viewStore.gender == "private" ? Color.white : Color(R.color.gray02))
+            .background(viewStore.gender == "PRIVATE" ? Color.white : Color(R.color.gray02))
+            .shadow(color: .black.opacity(0.08), radius: 12)
           }
           .cornerRadius(12)
           .padding(.horizontal, 16)
@@ -116,10 +117,10 @@ struct OnboardingGenderView: View {
   }
 }
 
-struct OnboardingGenderView_Previews: PreviewProvider {
-    static var previews: some View {
-        OnboardingGenderView(store: Store(initialState: OnboardingCore.State(), reducer: OnboardingCore()))
-    }
-}
+//struct OnboardingGenderView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        OnboardingGenderView(store: Store(initialState: OnboardingCore.State(), reducer: OnboardingCore()))
+//    }
+//}
 
 

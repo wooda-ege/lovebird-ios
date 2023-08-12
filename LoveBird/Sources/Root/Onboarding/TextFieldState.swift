@@ -36,7 +36,7 @@ enum TextFieldState {
     case .emailCorrect:
       return "올바른 형식의 이메일이에요"
     case .editing:
-      return "한글 또는 영어로 2글자 이상 포함해야 해요"
+      return "한글 또는 영어 2-20글자 이내로 입력해 주세요"
     case .duplicate:
       return "중복된 애칭이에요"
     case .emailError:

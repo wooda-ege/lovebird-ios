@@ -33,10 +33,25 @@ struct OnboardingView: View {
           HStack {
             Circle()
               .frame(width: 10, height: 10)
-              .foregroundColor(Color(R.color.primary))
+              .foregroundColor(viewStore.page.index == 0 ? Color(R.color.primary) : Color(R.color.green100))
             Circle()
               .frame(width: 10, height: 10)
-              .foregroundColor(Color(R.color.green100))
+              .foregroundColor(viewStore.page.index == 1 ? Color(R.color.primary) : Color(R.color.green100))
+            Circle()
+              .frame(width: 10, height: 10)
+              .foregroundColor(viewStore.page.index == 2 ? Color(R.color.primary) : Color(R.color.green100))
+            Circle()
+              .frame(width: 10, height: 10)
+              .foregroundColor(viewStore.page.index == 3 ? Color(R.color.primary) : Color(R.color.green100))
+            Circle()
+              .frame(width: 10, height: 10)
+              .foregroundColor(viewStore.page.index == 4 ? Color(R.color.primary) : Color(R.color.green100))
+            Circle()
+              .frame(width: 10, height: 10)
+              .foregroundColor(viewStore.page.index == 5 ? Color(R.color.primary) : Color(R.color.green100))
+            Circle()
+              .frame(width: 10, height: 10)
+              .foregroundColor(viewStore.page.index == 6 ? Color(R.color.primary) : Color(R.color.green100))
           }
           
           Spacer()
@@ -45,9 +60,7 @@ struct OnboardingView: View {
             viewStore.send(.nextTapped)
             self.hideKeyboard()
           } label: {
-            Image(viewStore.page.index == 1
-                  ? R.image.ic_navigate_next_active
-                  : R.image.ic_navigate_next_inactive)
+            Image(R.image.ic_navigate_next_active)
             .offset(x: -16)
           }
         }
@@ -82,8 +95,8 @@ struct OnboardingView: View {
   }
 }
 
-struct OnboardingView_Previews: PreviewProvider {
-    static var previews: some View {
-        OnboardingView(store: Store(initialState: OnboardingCore.State(), reducer: OnboardingCore()))
-    }
-}
+//struct OnboardingView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        OnboardingView(store: Store(initialState: OnboardingCore.State(), reducer: OnboardingCore()))
+//    }
+//}
