@@ -17,7 +17,6 @@ struct DiarySelectPlaceButton: View {
         .foregroundColor(Color(R.color.gray231))
         .background(.white)
         .frame(
-          width: .infinity,
           height: 44,
           alignment: .leading
         )

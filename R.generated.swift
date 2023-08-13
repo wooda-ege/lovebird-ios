@@ -375,12 +375,15 @@ struct _R {
     var secondary: RswiftResources.ColorResource { .init(name: "Secondary", path: [], bundle: bundle) }
   }
 
-  /// This `_R.image` struct is generated, and contains static references to 24 images.
+  /// This `_R.image` struct is generated, and contains static references to 27 images.
   struct image {
     let bundle: Foundation.Bundle
 
     /// Image `ic_arrow_drop_down`.
     var ic_arrow_drop_down: RswiftResources.ImageResource { .init(name: "ic_arrow_drop_down", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `ic_arrow_right`.
+    var ic_arrow_right: RswiftResources.ImageResource { .init(name: "ic_arrow_right", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
     /// Image `ic_back`.
     var ic_back: RswiftResources.ImageResource { .init(name: "ic_back", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
@@ -388,8 +391,14 @@ struct _R {
     /// Image `ic_bird`.
     var ic_bird: RswiftResources.ImageResource { .init(name: "ic_bird", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
+    /// Image `ic_bird_edit`.
+    var ic_bird_edit: RswiftResources.ImageResource { .init(name: "ic_bird_edit", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
     /// Image `ic_calendar`.
     var ic_calendar: RswiftResources.ImageResource { .init(name: "ic_calendar", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `ic_camera_edit`.
+    var ic_camera_edit: RswiftResources.ImageResource { .init(name: "ic_camera_edit", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
     /// Image `ic_check_circle`.
     var ic_check_circle: RswiftResources.ImageResource { .init(name: "ic_check_circle", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }

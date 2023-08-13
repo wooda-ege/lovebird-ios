@@ -14,10 +14,16 @@ struct CommonToolBar<Content: View>: View {
   let content: Content?
   let backButtonTapped: () -> Void
 
-  init(title: String, backButtonTapped: @escaping () -> Void, @ViewBuilder content: () -> Content?) {
+  init(title: String, backButtonTapped: @escaping () -> Void, @ViewBuilder content: () -> Content) {
     self.title = title
     self.backButtonTapped = backButtonTapped
     self.content = content()
+  }
+
+  init(title: String, backButtonTapped: @escaping () -> Void) {
+    self.title = title
+    self.backButtonTapped = backButtonTapped
+    self.content = nil
   }
 
   var body: some View {
@@ -41,12 +47,14 @@ struct CommonToolBar<Content: View>: View {
 
       if self.content == nil {
         Rectangle()
+          .fill(Color(.white))
           .frame(maxWidth: .infinity, alignment: .trailing)
       } else {
         self.content
           .frame(maxWidth: .infinity, alignment: .trailing)
       }
     }
+    .background(.white)
     .frame(height: 44)
     .frame(maxWidth: .infinity)
     .padding(.horizontal, 16)

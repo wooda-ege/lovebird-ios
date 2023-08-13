@@ -25,7 +25,7 @@ struct Diary: Decodable, Equatable, Sendable {
   let memberId: Int
   let title: String
   let memoryDate: String
-  let place: String
+  let place: String?
   let content: String
   let imgUrls: [String]
   var timeState: TimeState = .previous

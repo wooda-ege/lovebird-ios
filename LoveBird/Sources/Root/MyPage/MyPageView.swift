@@ -69,16 +69,24 @@ struct MyPageView: View {
           .padding(.top, 30)
 
         VStack(spacing: 0) {
-          HStack(alignment: .center) {
-            Text("회원정보 수정")
-              .font(.pretendard(size: 16))
-              .padding(.leading, 16)
+          NavigationLinkStore(
+            self.store.scope(state: \.$myPageEdit, action: MyPageAction.myPageEdit)
+          ) {
+            viewStore.send(.editTapped)
+          } destination: { store in
+            MyPageEditView(store: store)
+          } label: {
+            HStack(alignment: .center) {
+              Text("회원정보 수정")
+                .font(.pretendard(size: 16))
+                .padding(.leading, 16)
 
-            Spacer()
+              Spacer()
+            }
+            .frame(height: 68)
+            .frame(maxWidth: .infinity)
+            .bottomBorder()
           }
-          .frame(height: 68)
-          .frame(maxWidth: .infinity)
-          .bottomBorder()
 
           HStack(alignment: .center) {
             Text("개인정보 처리방침")

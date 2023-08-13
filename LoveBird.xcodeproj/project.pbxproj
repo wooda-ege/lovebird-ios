@@ -44,6 +44,7 @@
 		4A327DB72A5A7C54002EEB55 /* Image+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A327DB62A5A7C54002EEB55 /* Image+Extension.swift */; };
 		4A3457AF2A86FF38004D1D6D /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = 4A3457AE2A86FF38004D1D6D /* ComposableArchitecture */; };
 		4A4894542A3EE0CC00BC4102 /* ResponseError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A4894532A3EE0CC00BC4102 /* ResponseError.swift */; };
+		4A748C652A88C30900E51ACF /* BorderTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A748C642A88C30900E51ACF /* BorderTextField.swift */; };
 		4A8269FE2A6387B20060CE7F /* CalendarPreviewTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A8269FD2A6387B20060CE7F /* CalendarPreviewTabView.swift */; };
 		4A826A002A6387C50060CE7F /* CalendarPreviewContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A8269FF2A6387C50060CE7F /* CalendarPreviewContentView.swift */; };
 		4A89961B2A7E1CE100FA5C81 /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A89961A2A7E1CE100FA5C81 /* Profile.swift */; };
@@ -63,6 +64,12 @@
 		4AB2DB4D2A1F8651003EFD95 /* HomeItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AB2DB4C2A1F8651003EFD95 /* HomeItem.swift */; };
 		4AB2DB4F2A1FA977003EFD95 /* ReversedScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AB2DB4E2A1FA977003EFD95 /* ReversedScrollView.swift */; };
 		4AB2DB512A1FAAA5003EFD95 /* Line.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AB2DB502A1FAAA5003EFD95 /* Line.swift */; };
+		4AC71AAE2A87C36200618409 /* MyPageEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AC71AAD2A87C36200618409 /* MyPageEditView.swift */; };
+		4AC71AB02A87C36900618409 /* MyPageEditCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AC71AAF2A87C36900618409 /* MyPageEditCore.swift */; };
+		4AC71AB52A885F1B00618409 /* MyPageProfileEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AC71AB42A885F1B00618409 /* MyPageProfileEditView.swift */; };
+		4AC71AB72A885F2000618409 /* MyPageProfileEditCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AC71AB62A885F2000618409 /* MyPageProfileEditCore.swift */; };
+		4AC71AB92A885F2B00618409 /* MyPageAnniversaryEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AC71AB82A885F2B00618409 /* MyPageAnniversaryEditView.swift */; };
+		4AC71ABB2A885F3000618409 /* MyPageAnniversaryEditCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AC71ABA2A885F3000618409 /* MyPageAnniversaryEditCore.swift */; };
 		4AC985AF2A5B0ACE0003D7AE /* Schedules.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AC985AE2A5B0ACE0003D7AE /* Schedules.swift */; };
 		4AC985B12A5B0B1D0003D7AE /* Schedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AC985B02A5B0B1D0003D7AE /* Schedule.swift */; };
 		4AC985B32A5B0F810003D7AE /* Date+Properties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AC985B22A5B0F810003D7AE /* Date+Properties.swift */; };
@@ -103,6 +110,7 @@
 		4AD602D52A51AF7D0029D7EB /* ScheduleAddAlarmBottomSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AD602D42A51AF7D0029D7EB /* ScheduleAddAlarmBottomSheetView.swift */; };
 		4AD602D72A51AFDE0029D7EB /* ScheduleAlarm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AD602D62A51AFDE0029D7EB /* ScheduleAlarm.swift */; };
 		4AD602D92A5316BE0029D7EB /* UINavigationController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AD602D82A5316BE0029D7EB /* UINavigationController+Extension.swift */; };
+		4AD853C82A88E45C0005EAD5 /* EditProfileRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AD853C72A88E45C0005EAD5 /* EditProfileRequest.swift */; };
 		4AD937E12A3F0DFD0093BD8D /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AD937E02A3F0DFD0093BD8D /* Config.swift */; };
 		4AD937E32A3F19240093BD8D /* Page+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AD937E22A3F19240093BD8D /* Page+Extension.swift */; };
 		4ADC019D2A792F790095A5E5 /* Diaries.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ADC019C2A792F790095A5E5 /* Diaries.swift */; };
@@ -166,6 +174,7 @@
 		4A327DB42A592039002EEB55 /* ScheduleDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleDetail.swift; sourceTree = "<group>"; };
 		4A327DB62A5A7C54002EEB55 /* Image+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Image+Extension.swift"; sourceTree = "<group>"; };
 		4A4894532A3EE0CC00BC4102 /* ResponseError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseError.swift; sourceTree = "<group>"; };
+		4A748C642A88C30900E51ACF /* BorderTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BorderTextField.swift; sourceTree = "<group>"; };
 		4A8269FD2A6387B20060CE7F /* CalendarPreviewTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarPreviewTabView.swift; sourceTree = "<group>"; };
 		4A8269FF2A6387C50060CE7F /* CalendarPreviewContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarPreviewContentView.swift; sourceTree = "<group>"; };
 		4A89961A2A7E1CE100FA5C81 /* Profile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Profile.swift; sourceTree = "<group>"; };
@@ -185,6 +194,12 @@
 		4AB2DB4C2A1F8651003EFD95 /* HomeItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeItem.swift; sourceTree = "<group>"; };
 		4AB2DB4E2A1FA977003EFD95 /* ReversedScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReversedScrollView.swift; sourceTree = "<group>"; };
 		4AB2DB502A1FAAA5003EFD95 /* Line.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Line.swift; sourceTree = "<group>"; };
+		4AC71AAD2A87C36200618409 /* MyPageEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageEditView.swift; sourceTree = "<group>"; };
+		4AC71AAF2A87C36900618409 /* MyPageEditCore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageEditCore.swift; sourceTree = "<group>"; };
+		4AC71AB42A885F1B00618409 /* MyPageProfileEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageProfileEditView.swift; sourceTree = "<group>"; };
+		4AC71AB62A885F2000618409 /* MyPageProfileEditCore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageProfileEditCore.swift; sourceTree = "<group>"; };
+		4AC71AB82A885F2B00618409 /* MyPageAnniversaryEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageAnniversaryEditView.swift; sourceTree = "<group>"; };
+		4AC71ABA2A885F3000618409 /* MyPageAnniversaryEditCore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageAnniversaryEditCore.swift; sourceTree = "<group>"; };
 		4AC985AE2A5B0ACE0003D7AE /* Schedules.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Schedules.swift; sourceTree = "<group>"; };
 		4AC985B02A5B0B1D0003D7AE /* Schedule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Schedule.swift; sourceTree = "<group>"; };
 		4AC985B22A5B0F810003D7AE /* Date+Properties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Properties.swift"; sourceTree = "<group>"; };
@@ -226,6 +241,7 @@
 		4AD602D42A51AF7D0029D7EB /* ScheduleAddAlarmBottomSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleAddAlarmBottomSheetView.swift; sourceTree = "<group>"; };
 		4AD602D62A51AFDE0029D7EB /* ScheduleAlarm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleAlarm.swift; sourceTree = "<group>"; };
 		4AD602D82A5316BE0029D7EB /* UINavigationController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UINavigationController+Extension.swift"; sourceTree = "<group>"; };
+		4AD853C72A88E45C0005EAD5 /* EditProfileRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileRequest.swift; sourceTree = "<group>"; };
 		4AD937E02A3F0DFD0093BD8D /* Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
 		4AD937E22A3F19240093BD8D /* Page+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Page+Extension.swift"; sourceTree = "<group>"; };
 		4ADC019C2A792F790095A5E5 /* Diaries.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Diaries.swift; sourceTree = "<group>"; };
@@ -352,6 +368,9 @@
 				4263E1CB2A2F3550008B402B /* Place */,
 				4AE5CB5F2A232FC10016C0B4 /* Calander */,
 				4AE5CB562A232E330016C0B4 /* MyPage */,
+				4AC71AAA2A87C34A00618409 /* MyPageEdit */,
+				4AC71AB22A885EED00618409 /* MyPageProfileEdit */,
+				4AC71AB32A885EFE00618409 /* MyPageProfileAnniversary */,
 				4AE5CB552A232E250016C0B4 /* Diary */,
 				4AB2DB472A1E65F8003EFD95 /* Main */,
 				4A0396982A0FA61A00EB062D /* Home */,
@@ -402,6 +421,7 @@
 				4A1DDF2B2A2F38E800B3A72B /* DiaryRequest.swift */,
 				42E064102A45B5A000B9EAC3 /* PlaceRequest.swift */,
 				4A327D402A545509002EEB55 /* AddScheduleRequest.swift */,
+				4AD853C72A88E45C0005EAD5 /* EditProfileRequest.swift */,
 			);
 			path = Request;
 			sourceTree = "<group>";
@@ -447,6 +467,33 @@
 			path = "ㅡ먀ㅜ";
 			sourceTree = "<group>";
 		};
+		4AC71AAA2A87C34A00618409 /* MyPageEdit */ = {
+			isa = PBXGroup;
+			children = (
+				4AC71AAD2A87C36200618409 /* MyPageEditView.swift */,
+				4AC71AAF2A87C36900618409 /* MyPageEditCore.swift */,
+			);
+			path = MyPageEdit;
+			sourceTree = "<group>";
+		};
+		4AC71AB22A885EED00618409 /* MyPageProfileEdit */ = {
+			isa = PBXGroup;
+			children = (
+				4AC71AB42A885F1B00618409 /* MyPageProfileEditView.swift */,
+				4AC71AB62A885F2000618409 /* MyPageProfileEditCore.swift */,
+			);
+			path = MyPageProfileEdit;
+			sourceTree = "<group>";
+		};
+		4AC71AB32A885EFE00618409 /* MyPageProfileAnniversary */ = {
+			isa = PBXGroup;
+			children = (
+				4AC71AB82A885F2B00618409 /* MyPageAnniversaryEditView.swift */,
+				4AC71ABA2A885F3000618409 /* MyPageAnniversaryEditCore.swift */,
+			);
+			path = MyPageProfileAnniversary;
+			sourceTree = "<group>";
+		};
 		4ACCB9732A18F004009F1E22 /* Components */ = {
 			isa = PBXGroup;
 			children = (
@@ -461,6 +508,7 @@
 				4AD6029E2A4F00930029D7EB /* CommonToolBar.swift */,
 				4AD602A42A4F10510029D7EB /* CommonTextField.swift */,
 				4AD602D22A51A98A0029D7EB /* CommonBottomSheetButtonView.swift */,
+				4A748C642A88C30900E51ACF /* BorderTextField.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -791,15 +839,20 @@
 				4ADC019D2A792F790095A5E5 /* Diaries.swift in Sources */,
 				4AD602A12A4F0EBD0029D7EB /* ScheduleAddContentView.swift in Sources */,
 				4263E1BC2A2F3372008B402B /* DiarySelectPlaceButton.swift in Sources */,
+				4AC71AB52A885F1B00618409 /* MyPageProfileEditView.swift in Sources */,
 				4AD602C82A508ED90029D7EB /* ScheduleAddTimeBottomSheetView.swift in Sources */,
+				4AC71ABB2A885F3000618409 /* MyPageAnniversaryEditCore.swift in Sources */,
+				4AC71AB72A885F2000618409 /* MyPageProfileEditCore.swift in Sources */,
 				4AD602BE2A5020BF0029D7EB /* ScheduleAddAlarmView.swift in Sources */,
 				4AD602A72A4F19A80029D7EB /* ScheduleColor.swift in Sources */,
+				4A748C652A88C30900E51ACF /* BorderTextField.swift in Sources */,
 				4AB2DB402A1A2EF3003EFD95 /* DatePickerView.swift in Sources */,
 				4A1DDF2C2A2F38E800B3A72B /* DiaryRequest.swift in Sources */,
 				4AD602982A4EC7710029D7EB /* ScheduleAddView.swift in Sources */,
 				4AE5CB502A21C0B10016C0B4 /* UIImage+Extension.swift in Sources */,
 				4AD6029F2A4F00930029D7EB /* CommonToolBar.swift in Sources */,
 				4AD602D72A51AFDE0029D7EB /* ScheduleAlarm.swift in Sources */,
+				4AC71AB92A885F2B00618409 /* MyPageAnniversaryEditView.swift in Sources */,
 				4A327D412A545509002EEB55 /* AddScheduleRequest.swift in Sources */,
 				4A327DB52A592039002EEB55 /* ScheduleDetail.swift in Sources */,
 				4A03969C2A0FA61A00EB062D /* OnboardingView.swift in Sources */,
@@ -816,6 +869,7 @@
 				4AD602932A4EB8D00029D7EB /* CalendarDateView.swift in Sources */,
 				4AD602BA2A5011110029D7EB /* ScheduleAddTitleView.swift in Sources */,
 				4AE5CB5E2A232F6C0016C0B4 /* MyPageCore.swift in Sources */,
+				4AC71AB02A87C36900618409 /* MyPageEditCore.swift in Sources */,
 				4ACCB9782A18F0A6009F1E22 /* UIScreen+Extension.swift in Sources */,
 				4AB2DB362A19AE4F003EFD95 /* KeyboardResponder.swift in Sources */,
 				4AE5CB632A232FDB0016C0B4 /* CalendarView.swift in Sources */,
@@ -855,11 +909,13 @@
 				42E4D5842A4C701A00F4FA42 /* DiarySelectCalenderButton.swift in Sources */,
 				4AD602AD2A4F9F7E0029D7EB /* ScheduleTime.swift in Sources */,
 				4A0FEA092A474531005E88E3 /* Date+DataFormatter.swift in Sources */,
+				4AC71AAE2A87C36200618409 /* MyPageEditView.swift in Sources */,
 				4AB2DB312A19A282003EFD95 /* TextFieldClearButton.swift in Sources */,
 				4A1DDF2E2A2F3D3600B3A72B /* NetworkResponse.swift in Sources */,
 				4AE5CB672A2348190016C0B4 /* String+Extension.swift in Sources */,
 				4AD937E12A3F0DFD0093BD8D /* Config.swift in Sources */,
 				4AD937E32A3F19240093BD8D /* Page+Extension.swift in Sources */,
+				4AD853C82A88E45C0005EAD5 /* EditProfileRequest.swift in Sources */,
 				4AD602AB2A4F20C50029D7EB /* ScheduleAddFocusedType.swift in Sources */,
 				4AC985AF2A5B0ACE0003D7AE /* Schedules.swift in Sources */,
 				4A327D482A545BDB002EEB55 /* ScheduleDetailView.swift in Sources */,
@@ -1109,7 +1165,7 @@
 			repositoryURL = "https://github.com/pointfreeco/swift-composable-architecture";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 0.6.0;
+				minimumVersion = 0.56.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */

@@ -20,6 +20,7 @@ public enum APIClient {
   case fetchProfile
   case addSchedule(addSchedule: AddScheduleRequest)
   case editSchedule(addSchedule: AddScheduleRequest)
+  case editProfile(editProfile: EditProfileRequest)
 }
 
 extension APIClient: TargetType {
@@ -40,7 +41,7 @@ extension APIClient: TargetType {
         return "query=\(searchTerm)"
       case .addSchedule, .fetchCalendars:
         return "calendar"
-      case .fetchProfile:
+      case .fetchProfile, .editProfile:
         return "profile"
       case .editSchedule(let addSchedule):
         return "calendar/\(addSchedule.id!)"
@@ -49,7 +50,7 @@ extension APIClient: TargetType {
 
   public var method: Moya.Method {
     switch self {
-    case .signUp, .addSchedule, .editSchedule:
+    case .signUp, .addSchedule, .editSchedule, .editProfile:
       return .post
     case .fetchDiary, .searchPlace, .fetchCalendars, .fetchDiaries, .fetchProfile:
       return .get
@@ -60,6 +61,8 @@ extension APIClient: TargetType {
     switch self {
     case .signUp, .addSchedule, .editSchedule:
       return .requestParameters(parameters: bodyParameters ?? [:], encoding: JSONEncoding.default)
+    case .editProfile:
+      return .uploadMultipart(self.multiparts)
     default:
       return .requestPlain
     }
@@ -93,6 +96,19 @@ extension APIClient: TargetType {
       break
     }
     return params
+  }
+
+  private var multiparts: [Moya.MultipartFormData] {
+    var multiparts: [Moya.MultipartFormData] = []
+    switch self {
+    case .editProfile(let editProfile):
+      multiparts.append(.init(provider: .data(editProfile.nickname?.data(using: .utf8) ?? Data()), name: "nickname"))
+      multiparts.append(.init(provider: .data(editProfile.email?.data(using: .utf8) ?? Data()), name: "email"))
+      multiparts.append(.init(provider: .data(editProfile.image ?? Data()), name: "images", fileName: "image.jpeg", mimeType: "image/jpeg"))
+    default:
+      break
+    }
+    return multiparts
   }
 }
 

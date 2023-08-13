@@ -11,14 +11,6 @@ import SwiftUI
 struct HomeView: View {
   let store: StoreOf<HomeCore>
   
-  enum ViewAction {
-    case alertDismissed
-    case emailChanged(String)
-    case loginButtonTapped
-    case passwordChanged(String)
-    case twoFactorDismissed
-  }
-  
   var body: some View {
     WithViewStore(self.store) { viewStore in
       VStack {
@@ -68,7 +60,7 @@ struct HomeView: View {
         }
       }
       .onAppear {
-        viewStore.send(.loadData)
+        viewStore.send(.viewAppear)
       }
     }
   }

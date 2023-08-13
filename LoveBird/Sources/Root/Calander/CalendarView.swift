@@ -12,7 +12,7 @@ struct CalendarView: View {
   let store: StoreOf<CalendarCore>
 
   var body: some View {
-    WithViewStore(self.store) { viewStore in
+    WithViewStore(self.store, observe: { $0 }) { viewStore in
       ZStack(alignment: .topLeading) {
         VStack(spacing: 16) {
           CalendarTabView(store: self.store)

@@ -27,7 +27,7 @@ struct HomeCore: ReducerProtocol {
 
     // Network
     case dataLoaded([Diary])
-    case loadData
+    case viewAppear
   }
 
   @Dependency(\.apiClient) var apiClient
@@ -45,7 +45,8 @@ struct HomeCore: ReducerProtocol {
 
         // MARK: - Network
 
-      case .loadData:
+      case .viewAppear:
+        self.userData.store(key: .user, value: Profile(nickname: "득연", partnerNickname: "득연2", firstDate: "2022-03-03", dayCount: 600, nextAnniversary: .init(kind: .twoYears, anniversaryDate: "2024-03-03"), profileImageUrl: nil, partnerImageUrl: nil))
         return .run { send in
           do {
             let diariesLoaded = try await self.apiClient.request(.fetchDiaries) as Diaries
