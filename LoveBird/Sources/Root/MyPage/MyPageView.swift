@@ -70,14 +70,14 @@ struct MyPageView: View {
 
         VStack(spacing: 0) {
           NavigationLinkStore(
-            self.store.scope(state: \.$myPageEdit, action: MyPageAction.myPageEdit)
+            self.store.scope(state: \.$myPageProfileEdit, action: MyPageAction.myPageProfileEdit)
           ) {
             viewStore.send(.editTapped)
           } destination: { store in
-            MyPageEditView(store: store)
+            MyPageProfileEditView(store: store)
           } label: {
             HStack(alignment: .center) {
-              Text("회원정보 수정")
+              Text("프로필 수정")
                 .font(.pretendard(size: 16))
                 .padding(.leading, 16)
 
@@ -88,16 +88,18 @@ struct MyPageView: View {
             .bottomBorder()
           }
 
-          HStack(alignment: .center) {
-            Text("개인정보 처리방침")
-              .font(.pretendard(size: 16))
-              .padding(.leading, 16)
+          NavigationLink(destination: MyWebView(urlToLoad: "https://deukyeon.notion.site/e1842da99a3f4ad6bc48582c6a1a0519?pvs=4")) {
+            HStack(alignment: .center) {
+              Text("개인정보 처리방침")
+                .font(.pretendard(size: 16))
+                .padding(.leading, 16)
 
-            Spacer()
+              Spacer()
+            }
+            .frame(height: 68)
+            .frame(maxWidth: .infinity)
+            .bottomBorder()
           }
-          .frame(height: 68)
-          .frame(maxWidth: .infinity)
-          .bottomBorder()
 
           HStack(alignment: .center) {
             Text("버전정보")

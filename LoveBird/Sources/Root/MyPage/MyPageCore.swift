@@ -13,12 +13,12 @@ typealias MyPageAction = MyPageCore.Action
 struct MyPageCore: ReducerProtocol {
   
   struct State: Equatable {
-    @PresentationState var myPageEdit: MyPageEditState?
+    @PresentationState var myPageProfileEdit: MyPageProfileEditState?
     var user: Profile?
   }
   
   enum Action: Equatable {
-    case myPageEdit(PresentationAction<MyPageEditAction>)
+    case myPageProfileEdit(PresentationAction<MyPageProfileEditAction>)
     case editTapped
     case privacyPolicyTapped
     case viewAppear
@@ -36,16 +36,23 @@ struct MyPageCore: ReducerProtocol {
 //          state.user = .init(nickname: "하이", partnerNickname: "하이", firstDate: "", dayCount: 100, nextAnniversary: .init(kind: .eightYears, anniversaryDate: ""), profileImageUrl: nil, partnerImageUrl: nil)
         }
       case .editTapped:
-        state.myPageEdit = MyPageEditState()
-      case .myPageEdit(.presented(.backButtonTapped)):
-        state.myPageEdit = nil
+        state.myPageProfileEdit = MyPageProfileEditState()
+      case .myPageProfileEdit(.presented(.backButtonTapped)):
+        state.myPageProfileEdit = nil
+        
+        // MyPageProfileEdit
+      case .myPageProfileEdit(.presented(.editProfileResponse(.success(let profile)))):
+        self.userData.store(key: .user, value: profile)
+        state.myPageProfileEdit = nil
+      case .myPageProfileEdit(.presented(.backButtonTapped)):
+        state.myPageProfileEdit = nil
       default:
         break
       }
       return .none
     }
-    .ifLet(\.$myPageEdit, action: /Action.myPageEdit) {
-      MyPageEditCore()
+    .ifLet(\.$myPageProfileEdit, action: /Action.myPageProfileEdit) {
+      MyPageProfileEditCore()
     }
   }
 }
