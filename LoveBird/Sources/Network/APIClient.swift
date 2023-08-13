@@ -11,10 +11,11 @@ import ComposableArchitecture
 import Dependencies
 import Alamofire
 import UIKit
+import SwiftUI
 
 // Public인 DependencyKey 때문에 불가피하게 public으로 선언한다.
 public enum APIClient {
-  case signUp(authorization: String, refresh: String, signUpRequest: SignUpRequest)
+  case signUp(authorization: String, refresh: String, image: UIImage?, signUpRequest: SignUpRequest)
   case addSchedule(addSchedule: AddScheduleRequest)
   case fetchDiary(id :Int)
   case searchPlace(searchTerm: String)
@@ -34,7 +35,7 @@ extension APIClient: TargetType {
   public var path: String {
       switch self {
       case .signUp:
-        return "members"
+        return "/api/v1/profile"
       case .fetchDiary(let id):
         return "members/\(id)"
       case .fetchDiaries:
@@ -67,8 +68,11 @@ extension APIClient: TargetType {
   
   public var task: Moya.Task {
     switch self {
-    case .signUp:
-      return .requestParameters(parameters: self.bodyParameters ?? [:], encoding: JSONEncoding.default)
+    case .signUp(_, _, let image, let signUpRequest):
+      let signUpData = try! JSONEncoder().encode(signUpRequest)
+      let imageData = MultipartFormData(provider: .data(image?.pngData() ?? Data()), name: "image", fileName: "image.png", mimeType: "image/png")
+      let signUpRequest = MultipartFormData(provider: .data(signUpData), name: "profileCreateRequest", mimeType: "application/json")
+      return .uploadMultipart([imageData, signUpRequest])
     case .kakaoLogin:
       return .requestParameters(parameters: self.bodyParameters ?? [:], encoding: JSONEncoding.default)
     case .appleLogin:
@@ -80,11 +84,13 @@ extension APIClient: TargetType {
 
   // TODO: 토큰관련 수정할 것
   public var headers: [String: String]? {
-    if true {
-      return [
-        "Authorization": "eyJhbGciOiJIUzUxMiJ9.eyJpZCI6IjIxNDc0ODM2NDciLCJleHAiOjE3MjE4ODI0ODd9.SkY9QmDQZ9ICU7LCeAKOQ4TGuDQOEmmwjplFpgxPVubLvJsng_heZ38LCXpDdjQ6mqGhtje8E9_XtKNmtjn9gA",
-        "Refresh": "eyJhbGciOiJIUzUxMiJ9.eyJpZCI6IjIxNDc0ODM2NDciLCJleHAiOjE2OTE1NTYwODd9.k-eP6sIX0VFGWY_Lqt5iAl5ox-h54knkDhpfA8Mk75D22LYWNGQcjE-lRIU4v_RckRWtPi1ST-TP9__IH-nJ7Q"
-      ]
+    switch self {
+    case .signUp(let authorization, let refresh, _, _):
+      return ["Content-type" : "multipart/form-data", "Authorization": authorization,
+              "Refresh": refresh]
+    default:
+      return ["Content-type" : "application/json",  "Authorization": "eyJhbGciOiJIUzUxMiJ9.eyJpZCI6IjIxNDc0ODM2NDciLCJleHAiOjE3MjE4ODI0ODd9.SkY9QmDQZ9ICU7LCeAKOQ4TGuDQOEmmwjplFpgxPVubLvJsng_heZ38LCXpDdjQ6mqGhtje8E9_XtKNmtjn9gA",
+                     "Refresh": "eyJhbGciOiJIUzUxMiJ9.eyJpZCI6IjIxNDc0ODM2NDciLCJleHAiOjE2OTE1NTYwODd9.k-eP6sIX0VFGWY_Lqt5iAl5ox-h54knkDhpfA8Mk75D22LYWNGQcjE-lRIU4v_RckRWtPi1ST-TP9__IH-nJ7Q"]
     }
     return nil
   }
@@ -92,19 +98,13 @@ extension APIClient: TargetType {
   private var bodyParameters: Parameters? {
     var params: Parameters = [:]
     switch self {
-    case .signUp(let authorization, let refresh, let signUpRequest):
-//      let email: String
-//      let nickname: String
-//      let birthDay: String
-//      let firstDate: String
-//      let gender: String
-//      let deviceToken: String
-      params["email"] = signUpRequest.email
-      params["nickname"] = signUpRequest.nickname
-      params["birthDay"] = signUpRequest.birthDay
-      params["firstDate"] = signUpRequest.firstDate
-      params["gender"] = signUpRequest.gender
-      params["deviceToken"] = signUpRequest.deviceToken
+//    case .signUp(_, _, _, let signUpRequest):
+//      params["email"] = signUpRequest.email
+//      params["nickname"] = signUpRequest.nickname
+//      params["birthDay"] = signUpRequest.birthDay
+//      params["firstDate"] = signUpRequest.firstDate
+//      params["gender"] = signUpRequest.gender
+//      params["deviceToken"] = signUpRequest.deviceToken
     case .addSchedule(let addSchedule):
       params["title"] = addSchedule.title
       params["memo"] = addSchedule.memo

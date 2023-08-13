@@ -143,7 +143,7 @@ struct OnboardingCore: ReducerProtocol {
       case .doneButtonTapped:
         return .run { [state = state] send in
           do {
-            let signUpResponse = try await self.apiClient.request(.signUp(authorization: state.accessToken, refresh: state.refreshToken, signUpRequest: SignUpRequest.init(email: state.email, nickname: state.nickname, birthDay: "\(state.birthdateYear)-\(state.birthdateMonth)-\(state.birthdateDay)", firstDate: "\(state.firstdateYear)-\(state.firstdateMonth)-\(state.firstdateDay)", gender: state.gender, deviceToken: "dd"))) as SignUpResponse
+            let signUpResponse = try await self.apiClient.request(.signUp(authorization: state.accessToken, refresh: state.refreshToken, image: state.profileImage, signUpRequest: SignUpRequest.init(email: state.email, nickname: state.nickname, birthDay: "\(state.birthdateYear)-\(state.birthdateMonth)-\(state.birthdateDay)", firstDate: "\(state.firstdateYear)-\(state.firstdateMonth)-\(state.firstdateDay)", gender: state.gender, deviceToken: "dd"))) as SignUpResponse
             
             await send(.signUpResponse(.success(signUpResponse)))
           } catch {

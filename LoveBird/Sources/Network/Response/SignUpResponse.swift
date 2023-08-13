@@ -6,11 +6,6 @@
 //
 
 struct SignUpResponse: Codable, Equatable, Sendable {
-    let status, message: String
-    let data: SignUpData
-}
-
-struct SignUpData: Codable, Equatable, Sendable {
   let nickname: String
   let partnerNickname: String?
   let firstDate: String

@@ -78,11 +78,7 @@ struct OnboardingBirthDateView: View {
             send: .hideBottomSheet
           )) {
             VStack {
-//              CustomPickerView(
-//                year: viewStore.binding(get: \.birthdateYear, send: OnboardingCore.Action.birthdateYearSelected),
-//                month: viewStore.binding(get: \.birthdateMonth, send: OnboardingCore.Action.birthdateMonthSelected),
-//                day: viewStore.binding(get: \.birthdateDay, send: OnboardingCore.Action.birthdateDaySelected)
-//              )
+              BirthDatePickerView(viewStore: viewStore)
               
               HStack(spacing: 8) {
                 Button(action: {

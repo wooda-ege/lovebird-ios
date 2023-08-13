@@ -25,6 +25,7 @@
 		427573F62A52883500A8FD33 /* OnboardingBirthDateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 427573F52A52883500A8FD33 /* OnboardingBirthDateView.swift */; };
 		427573F82A53287000A8FD33 /* OnboardingGenderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 427573F72A53287000A8FD33 /* OnboardingGenderView.swift */; };
 		427573FA2A53377E00A8FD33 /* OnboardingInvitationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 427573F92A53377E00A8FD33 /* OnboardingInvitationView.swift */; };
+		42784F812A88B76500F39139 /* BirthDatePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42784F802A88B76500F39139 /* BirthDatePickerView.swift */; };
 		428AED2F2A86BE4400F446B2 /* DiaryDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 428AED2E2A86BE4400F446B2 /* DiaryDetailView.swift */; };
 		428AED322A87610100F446B2 /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = 428AED312A87610100F446B2 /* ComposableArchitecture */; };
 		42E064112A45B5A000B9EAC3 /* PlaceRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42E064102A45B5A000B9EAC3 /* PlaceRequest.swift */; };
@@ -165,6 +166,7 @@
 		427573F52A52883500A8FD33 /* OnboardingBirthDateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingBirthDateView.swift; sourceTree = "<group>"; };
 		427573F72A53287000A8FD33 /* OnboardingGenderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingGenderView.swift; sourceTree = "<group>"; };
 		427573F92A53377E00A8FD33 /* OnboardingInvitationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingInvitationView.swift; sourceTree = "<group>"; };
+		42784F802A88B76500F39139 /* BirthDatePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BirthDatePickerView.swift; sourceTree = "<group>"; };
 		428AED2E2A86BE4400F446B2 /* DiaryDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryDetailView.swift; sourceTree = "<group>"; };
 		42E064102A45B5A000B9EAC3 /* PlaceRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceRequest.swift; sourceTree = "<group>"; };
 		42E064132A45BF3800B9EAC3 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -515,6 +517,7 @@
 			children = (
 				4AB2DB3B2A19B9F4003EFD95 /* BottomSheetView.swift */,
 				4AB2DB3F2A1A2EF3003EFD95 /* DatePickerView.swift */,
+				42784F802A88B76500F39139 /* BirthDatePickerView.swift */,
 				4AB2DB4E2A1FA977003EFD95 /* ReversedScrollView.swift */,
 				4AB2DB502A1FAAA5003EFD95 /* Line.swift */,
 				4A1DDF1D2A2C338100B3A72B /* TouchableStack.swift */,
@@ -949,6 +952,7 @@
 				4AC985AF2A5B0ACE0003D7AE /* Schedules.swift in Sources */,
 				4A327D482A545BDB002EEB55 /* ScheduleDetailView.swift in Sources */,
 				4AD602B22A4FBF3A0029D7EB /* ScheduleAddStartDateView.swift in Sources */,
+				42784F812A88B76500F39139 /* BirthDatePickerView.swift in Sources */,
 				4AB2DB3E2A1A2EA4003EFD95 /* ContentView.swift in Sources */,
 				4A0FEA0F2A4B0DDA005E88E3 /* CalendarDate.swift in Sources */,
 				4A03969E2A0FA61A00EB062D /* RootCore.swift in Sources */,

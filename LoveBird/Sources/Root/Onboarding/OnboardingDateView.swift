@@ -74,11 +74,7 @@ struct OnboardingDateView: View {
         if viewStore.showBottomSheet {
           BottomSheetView(isOpen: viewStore.binding(get: \.showBottomSheet, send: .hideBottomSheet)) {
             VStack {
-//              DatePickerView(
-//                year: viewStore.binding(get: \.firstdateYear, send: OnboardingCore.Action.dateYearSelected),
-//                month: viewStore.binding(get: \.firstdateMonth, send: OnboardingCore.Action.dateMonthSelected),
-//                day: viewStore.binding(get: \.firstdateDay, send: OnboardingCore.Action.dateDaySelected)
-//              )
+              DatePickerView(viewStore: viewStore)
               
               HStack(spacing: 8) {
                 Button(action: {

@@ -24,7 +24,7 @@ struct ScheduleAddAlarmView: View {
     ScheduleFocusedView(isFocused: self.isFocused) {
       VStack {
         HStack {
-          Text("R.string.localizable.add_schedule_alarm")
+          Text(R.string.localizable.add_schedule_alarm)
             .font(.pretendard(size: 16))
             .foregroundColor(self.isFocused ? .black : Color(R.color.gray06))
 
@@ -39,7 +39,7 @@ struct ScheduleAddAlarmView: View {
 
             Spacer()
 
-            Image(R.image.ic_back)
+            Image(R.image.ic_arrow_drop_down)
               .resizable()
               .frame(width: 24, height: 24)
           }

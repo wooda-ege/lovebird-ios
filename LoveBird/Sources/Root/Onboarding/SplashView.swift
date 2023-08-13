@@ -22,7 +22,7 @@ struct SplashView: View {
             HStack(alignment: .center) {
               Spacer()
               Text("러브")
-                .foregroundColor(Color(R.color.green100))
+                .foregroundColor(Color(R.color.green164))
               Text("버드")
                 .foregroundColor(Color(R.color.secondary))
               Spacer()

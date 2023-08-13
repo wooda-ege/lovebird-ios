@@ -16,13 +16,13 @@ enum ScheduleColor: String, Codable, CaseIterable {
   var description: String {
     switch self {
     case .secondary:
-      return String(resource: R.string.localizable.diary_note)
+      return String(resource: R.string.localizable.color_secondary)
     case .primary:
-      return String(resource: R.string.localizable.common_confirm)
+      return String(resource: R.string.localizable.color_primary)
     case .gray:
-      return String(resource: R.string.localizable.common_next)
+      return String(resource: R.string.localizable.color_gray)
     case .none:
-      return String(resource: R.string.localizable.common_next)
+      return String(resource: R.string.localizable.add_schedule_color)
     }
   }
 
