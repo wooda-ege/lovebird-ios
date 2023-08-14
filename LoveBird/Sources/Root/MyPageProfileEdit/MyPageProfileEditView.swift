@@ -12,6 +12,7 @@ struct MyPageProfileEditView: View {
 
   @FocusState var isNicknameFocused: Bool
   @FocusState var isEmailFocused: Bool
+
   let store: StoreOf<MyPageProfileEditCore>
 
   var body: some View {
@@ -32,6 +33,8 @@ struct MyPageProfileEditView: View {
             .overlay(Image(R.image.ic_bird_edit), alignment: .center)
         }
         .overlay(Image(R.image.ic_camera_edit), alignment: .bottomTrailing)
+        .onTapGesture {
+        }
 
         VStack(spacing: 10) {
           HStack {
@@ -43,7 +46,7 @@ struct MyPageProfileEditView: View {
           }
 
           let nicknameBinding = viewStore.binding(get: \.nickname, send: MyPageProfileEditAction.nicknameEdited)
-          TextField(viewStore.nicknamePlaceholder, text: nicknameBinding)
+          TextField(viewStore.profile?.nickname ?? "", text: nicknameBinding)
             .font(.pretendard(size: 18))
             .background(.clear)
             .padding(.leading, 16)
@@ -74,7 +77,7 @@ struct MyPageProfileEditView: View {
           }
 
           let emailBinding = viewStore.binding(get: \.email, send: MyPageProfileEditAction.emailEdited)
-          TextField(viewStore.emailPlaceholder, text: emailBinding)
+          TextField(viewStore.profile?.email ?? "", text: emailBinding)
             .font(.pretendard(size: 18))
             .background(.clear)
             .padding(.leading, 16)

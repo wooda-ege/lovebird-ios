@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum ScheduleAlarm: String, Encodable, CaseIterable {
+enum ScheduleAlarm: String, Codable, CaseIterable {
   case typeA = "TYPE_A"
   case typeB = "TYPE_B"
   case typeC = "TYPE_C"

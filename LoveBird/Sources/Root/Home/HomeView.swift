@@ -50,7 +50,7 @@ struct HomeView: View {
             viewStore.send(.offsetYChanged(point.y))
           } content: {
             LazyVGrid(columns: [GridItem(.flexible())], spacing: 0) {
-              ForEach(viewStore.diaries, id: \.id) { diary in
+              ForEach(viewStore.diaries, id: \.diaryId) { diary in
                 HomeItem(store: self.store, diary: diary)
               }
               .animation(.easeInOut, value: viewStore.diaries)

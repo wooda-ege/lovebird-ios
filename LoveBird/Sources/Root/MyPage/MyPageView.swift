@@ -88,7 +88,7 @@ struct MyPageView: View {
             .bottomBorder()
           }
 
-          NavigationLink(destination: MyWebView(urlToLoad: "https://deukyeon.notion.site/e1842da99a3f4ad6bc48582c6a1a0519?pvs=4")) {
+          NavigationLink(destination: MyWebView(urlToLoad: Config.privacyPolicyURL)) {
             HStack(alignment: .center) {
               Text("개인정보 처리방침")
                 .font(.pretendard(size: 16))

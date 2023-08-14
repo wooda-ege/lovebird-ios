@@ -6,41 +6,44 @@
 //
 
 import SwiftUI
+import UIKit
 
 struct ImagePicker: UIViewControllerRepresentable {
-  
-  @Binding var image: UIImage?
-  @Environment(\.presentationMode) var mode
-  
-  func makeCoordinator() -> Coordinator {
-    Coordinator(self)
-  }
-  
-  func makeUIViewController(context: Context) -> some UIViewController {
-    let picker = UIImagePickerController()
-    picker.delegate = context.coordinator
-    return picker
-  }
-  
-  func updateUIViewController(_ uiViewController: UIViewControllerType, context: Context) {
-    
-  }
-}
+    @Binding var image: UIImage?
+    @Binding var isImagePickerDisplayed: Bool
 
-extension ImagePicker {
-  class Coordinator: NSObject, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
-    let parent: ImagePicker
-    
-    init(_ parent: ImagePicker) {
-      self.parent = parent
+    func makeUIViewController(context: UIViewControllerRepresentableContext<ImagePicker>) -> UIImagePickerController {
+        let picker = UIImagePickerController()
+        picker.delegate = context.coordinator
+        return picker
     }
-    
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-      guard let image = info[.originalImage] as? UIImage else { return }
-      parent.image = image
-      parent.mode.wrappedValue.dismiss()
+
+    func updateUIViewController(_ uiViewController: UIImagePickerController, context: UIViewControllerRepresentableContext<ImagePicker>) {}
+
+    func makeCoordinator() -> Coordinator {
+        return Coordinator(image: $image, isImagePickerDisplayed: $isImagePickerDisplayed)
     }
-  }
+
+    class Coordinator: NSObject, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
+        @Binding var image: UIImage?
+        @Binding var isImagePickerDisplayed: Bool
+
+        init(image: Binding<UIImage?>, isImagePickerDisplayed: Binding<Bool>) {
+            _image = image
+            _isImagePickerDisplayed = isImagePickerDisplayed
+        }
+
+        func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+            if let uiImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
+                image = uiImage
+            }
+            isImagePickerDisplayed = false
+        }
+
+        func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+            isImagePickerDisplayed = false
+        }
+    }
 }
 
 struct ImagePickerView: View {
@@ -73,7 +76,7 @@ struct ImagePickerView: View {
         .sheet(isPresented: $showImagePicker, onDismiss: {
           loadImage()
         }) {
-          ImagePicker(image: $selectedUIImage)
+          ImagePicker(image: $selectedUIImage, isImagePickerDisplayed: $showImagePicker)
         }
       }
       

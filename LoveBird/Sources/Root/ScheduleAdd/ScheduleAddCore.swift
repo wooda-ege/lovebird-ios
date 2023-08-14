@@ -248,22 +248,13 @@ struct ScheduleAddCore: ReducerProtocol {
       // Network
       case .confirmTapped:
         if state.title.isEmpty { break }
-        let request = AddScheduleRequest(
-          id: state.idForEditing,
-          title: state.title,
-          memo: state.memo,
-          color: state.color,
-          alarm: state.alarm,
-          startDate: state.startDate.to(dateFormat: Date.Format.YMDDivided),
-          endDate: state.endDate.to(dateFormat: Date.Format.YMDDivided),
-          startTime: state.startTime.toHMS(),
-          endTime: state.endTime.toHMS()
-        )
-        if let id = state.idForEditing {
-          return .task {
+        let request = self.addScheduleRequest(state: &state)
+        if let _ = state.idForEditing {
+          print(request)
+          return .task { [scheduleId = state.idForEditing!] in
               .editScheduleResponse(
                 await TaskResult {
-                  try await self.apiClient.request(.editSchedule(addSchedule: request))
+                  try await self.apiClient.request(.editSchedule(id: scheduleId, addSchedule: request))
                 }
               )
           }
@@ -350,5 +341,18 @@ struct ScheduleAddCore: ReducerProtocol {
     state.year = date.year
     state.month = date.month
     state.day = date.day
+  }
+
+  private func addScheduleRequest(state: inout State) -> AddScheduleRequest {
+    return AddScheduleRequest(
+      title: state.title,
+      memo: state.memo.isEmpty ? nil : state.memo,
+      color: state.color,
+      alarm: state.isAlarmActive ? state.alarm : nil,
+      startDate: state.startDate.to(dateFormat: Date.Format.YMDDivided),
+      endDate: state.isEndDateActive ? state.endDate.to(dateFormat: Date.Format.YMDDivided) : nil,
+      startTime: state.isTimeActive ? state.startTime.toHMS() : nil,
+      endTime: state.isTimeActive ? state.endTime.toHMS() : nil
+    )
   }
 }

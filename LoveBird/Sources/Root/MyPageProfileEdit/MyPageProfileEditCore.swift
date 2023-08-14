@@ -20,23 +20,27 @@ struct MyPageProfileEditCore: ReducerProtocol {
   }
 
   struct State: Equatable {
+    @PresentationState var imagePicker: ImagePickerCore.State?
+    @BindingState var isImagePickerPresented = false
     var image: Data?
+    var profile: Profile?
     var nickname = ""
-    var nicknamePlaceholder = ""
     var email = ""
-    var emailPlaceholder = ""
     var isNicknameFocused = false
     var isEmailFocused = false
+    var isImagePickerVisible = false
   }
 
   enum Action: Equatable {
     case viewAppear
     case backButtonTapped
+    case imageTapped
     case isFocused(FocusedType)
     case nicknameEdited(String)
     case emailEdited(String)
     case editTapped
     case editProfileResponse(TaskResult<Profile>)
+    case imagePickerVisible(Bool)
   }
 
   @Dependency(\.apiClient) var apiClient
@@ -47,9 +51,9 @@ struct MyPageProfileEditCore: ReducerProtocol {
       switch action {
       case .viewAppear:
         let profile = self.userData.get(key: .user, type: Profile.self)
-        guard let profile else { break }
-        state.nicknamePlaceholder = profile.nickname
-        state.emailPlaceholder = profile.partnerNickname
+        if let profile {
+          state.profile = profile
+        }
       case .isFocused(let type):
         state.isNicknameFocused = type == .nickname
         state.isEmailFocused = type == .email
@@ -57,7 +61,10 @@ struct MyPageProfileEditCore: ReducerProtocol {
         state.nickname = nickname
       case .emailEdited(let email):
         state.email = email
-
+      case .imageTapped:
+        state.isImagePickerPresented = true
+      case .imagePickerVisible(let visible):
+        state.isImagePickerVisible = visible
       // Network
       case .editTapped:
         let request: EditProfileRequest = .init(

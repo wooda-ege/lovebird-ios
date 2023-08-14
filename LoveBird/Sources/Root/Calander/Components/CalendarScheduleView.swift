@@ -13,7 +13,7 @@ struct CalendarScheduleView: View {
   let store: StoreOf<CalendarCore>
 
   var body: some View {
-    WithViewStore(self.store) { viewStore in
+    WithViewStore(self.store, observe: { $0 }) { viewStore in
       HStack {
         Text("\(viewStore.currentDate.month)월 \(viewStore.currentDate.day)일")
           .font(.pretendard(size: 14, weight: .bold))
@@ -44,7 +44,7 @@ struct CalendarScheduleView: View {
             } label: {
               HStack(alignment: .center, spacing: 4) {
                 Rectangle()
-                  .fill(.blue)
+                  .fill(schedule.color.color)
                   .frame(width: 2)
                   .frame(maxHeight: .infinity)
                   .cornerRadius(1)

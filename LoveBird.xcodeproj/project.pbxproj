@@ -108,6 +108,9 @@
 		4AD602D92A5316BE0029D7EB /* UINavigationController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AD602D82A5316BE0029D7EB /* UINavigationController+Extension.swift */; };
 		4AD853C82A88E45C0005EAD5 /* EditProfileRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AD853C72A88E45C0005EAD5 /* EditProfileRequest.swift */; };
 		4AD853CC2A88EE030005EAD5 /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AD853CB2A88EE030005EAD5 /* WebView.swift */; };
+		4AD853CE2A89AEB00005EAD5 /* CustomModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AD853CD2A89AEB00005EAD5 /* CustomModalView.swift */; };
+		4AD853D12A89B30D0005EAD5 /* ImagePickerCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AD853D02A89B30D0005EAD5 /* ImagePickerCore.swift */; };
+		4AD853D32A89B5D40005EAD5 /* CustomImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AD853D22A89B5D40005EAD5 /* CustomImagePicker.swift */; };
 		4AD937E12A3F0DFD0093BD8D /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AD937E02A3F0DFD0093BD8D /* Config.swift */; };
 		4AD937E32A3F19240093BD8D /* Page+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AD937E22A3F19240093BD8D /* Page+Extension.swift */; };
 		4ADC019D2A792F790095A5E5 /* Diaries.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ADC019C2A792F790095A5E5 /* Diaries.swift */; };
@@ -236,6 +239,9 @@
 		4AD602D82A5316BE0029D7EB /* UINavigationController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UINavigationController+Extension.swift"; sourceTree = "<group>"; };
 		4AD853C72A88E45C0005EAD5 /* EditProfileRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileRequest.swift; sourceTree = "<group>"; };
 		4AD853CB2A88EE030005EAD5 /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
+		4AD853CD2A89AEB00005EAD5 /* CustomModalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomModalView.swift; sourceTree = "<group>"; };
+		4AD853D02A89B30D0005EAD5 /* ImagePickerCore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerCore.swift; sourceTree = "<group>"; };
+		4AD853D22A89B5D40005EAD5 /* CustomImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomImagePicker.swift; sourceTree = "<group>"; };
 		4AD937E02A3F0DFD0093BD8D /* Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
 		4AD937E22A3F19240093BD8D /* Page+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Page+Extension.swift"; sourceTree = "<group>"; };
 		4ADC019C2A792F790095A5E5 /* Diaries.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Diaries.swift; sourceTree = "<group>"; };
@@ -363,6 +369,7 @@
 				4AE5CB5F2A232FC10016C0B4 /* Calander */,
 				4AE5CB562A232E330016C0B4 /* MyPage */,
 				4AC71AB22A885EED00618409 /* MyPageProfileEdit */,
+				4AD853CF2A89B3010005EAD5 /* ImagePicker */,
 				4AD853CA2A88EDF40005EAD5 /* Web */,
 				4AE5CB552A232E250016C0B4 /* Diary */,
 				4AB2DB472A1E65F8003EFD95 /* Main */,
@@ -484,6 +491,8 @@
 				4AD602A42A4F10510029D7EB /* CommonTextField.swift */,
 				4AD602D22A51A98A0029D7EB /* CommonBottomSheetButtonView.swift */,
 				4A748C642A88C30900E51ACF /* BorderTextField.swift */,
+				4AD853CD2A89AEB00005EAD5 /* CustomModalView.swift */,
+				4AD853D22A89B5D40005EAD5 /* CustomImagePicker.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -592,6 +601,14 @@
 				4AD853CB2A88EE030005EAD5 /* WebView.swift */,
 			);
 			path = Web;
+			sourceTree = "<group>";
+		};
+		4AD853CF2A89B3010005EAD5 /* ImagePicker */ = {
+			isa = PBXGroup;
+			children = (
+				4AD853D02A89B30D0005EAD5 /* ImagePickerCore.swift */,
+			);
+			path = ImagePicker;
 			sourceTree = "<group>";
 		};
 		4AE5CB4C2A21B1070016C0B4 /* Model */ = {
@@ -837,6 +854,7 @@
 				4A327D412A545509002EEB55 /* AddScheduleRequest.swift in Sources */,
 				4A327DB52A592039002EEB55 /* ScheduleDetail.swift in Sources */,
 				4A03969C2A0FA61A00EB062D /* OnboardingView.swift in Sources */,
+				4AD853D12A89B30D0005EAD5 /* ImagePickerCore.swift in Sources */,
 				4A0396A12A0FA61A00EB062D /* HomeCore.swift in Sources */,
 				4ACCB9722A18DE7E009F1E22 /* R.generated.swift in Sources */,
 				4AC985B32A5B0F810003D7AE /* Date+Properties.swift in Sources */,
@@ -869,6 +887,7 @@
 				4AE5CB4E2A21B1180016C0B4 /* Diary.swift in Sources */,
 				4AE5CB612A232FCA0016C0B4 /* CalendarCore.swift in Sources */,
 				4263E1CD2A2F3563008B402B /* SearchPlaceView.swift in Sources */,
+				4AD853D32A89B5D40005EAD5 /* CustomImagePicker.swift in Sources */,
 				42E064162A45C11600B9EAC3 /* SearchPlaceResponse.swift in Sources */,
 				4263E1C82A2F3522008B402B /* SearchPlaceCore.swift in Sources */,
 				4A0FEA0D2A4B01D4005E88E3 /* DateManager.swift in Sources */,
@@ -893,6 +912,7 @@
 				4A1DDF2E2A2F3D3600B3A72B /* NetworkResponse.swift in Sources */,
 				4AE5CB672A2348190016C0B4 /* String+Extension.swift in Sources */,
 				4AD937E12A3F0DFD0093BD8D /* Config.swift in Sources */,
+				4AD853CE2A89AEB00005EAD5 /* CustomModalView.swift in Sources */,
 				4AD937E32A3F19240093BD8D /* Page+Extension.swift in Sources */,
 				4AD853C82A88E45C0005EAD5 /* EditProfileRequest.swift in Sources */,
 				4AD602AB2A4F20C50029D7EB /* ScheduleAddFocusedType.swift in Sources */,

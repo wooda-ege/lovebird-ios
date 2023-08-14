@@ -15,12 +15,20 @@ public enum APIClient {
   case signUp
   case fetchDiary(id :Int)
   case searchPlace(searchTerm: String)
-  case fetchCalendars
-  case fetchDiaries
+
+  // profile
   case fetchProfile
-  case addSchedule(addSchedule: AddScheduleRequest)
-  case editSchedule(addSchedule: AddScheduleRequest)
   case editProfile(editProfile: EditProfileRequest)
+
+  // diary
+  case fetchDiaries
+
+  // schedule
+  case fetchCalendars
+  case fetchSchedule(id: Int)
+  case addSchedule(addSchedule: AddScheduleRequest)
+  case editSchedule(id: Int, addSchedule: AddScheduleRequest)
+  case deleteSchedule(Int)
 }
 
 extension APIClient: TargetType {
@@ -43,24 +51,29 @@ extension APIClient: TargetType {
         return "calendar"
       case .fetchProfile, .editProfile:
         return "profile"
-      case .editSchedule(let addSchedule):
-        return "calendar/\(addSchedule.id!)"
+      case .fetchSchedule(let id), .deleteSchedule(let id), .editSchedule(let id, _):
+        return "calendar/\(id)"
       }
   }
 
   public var method: Moya.Method {
     switch self {
-    case .signUp, .addSchedule, .editSchedule, .editProfile:
+    case .signUp, .addSchedule:
       return .post
-    case .fetchDiary, .searchPlace, .fetchCalendars, .fetchDiaries, .fetchProfile:
+    case .fetchDiary, .searchPlace, .fetchCalendars, .fetchDiaries, .fetchProfile, .fetchSchedule:
       return .get
+    case .editSchedule, .editProfile:
+      return .put
+    case .deleteSchedule:
+      return .delete
     }
   }
 
   public var task: Moya.Task {
     switch self {
-    case .signUp, .addSchedule, .editSchedule:
-      return .requestParameters(parameters: bodyParameters ?? [:], encoding: JSONEncoding.default)
+    case .addSchedule(let encodable), .editSchedule(_, let encodable):
+      return .requestJSONEncodable(encodable as Encodable)
+//      return .requestParameters(parameters: bodyParameters ?? [:], encoding: JSONEncoding.default)
     case .editProfile:
       return .uploadMultipart(self.multiparts)
     default:
@@ -78,24 +91,6 @@ extension APIClient: TargetType {
       ]
     }
     return nil
-  }
-
-  private var bodyParameters: Parameters? {
-    var params: Parameters = [:]
-    switch self {
-    case .addSchedule(let addSchedule), .editSchedule(let addSchedule):
-      params["title"] = addSchedule.title
-      params["memo"] = addSchedule.memo
-      params["color"] = addSchedule.color.rawValue
-      params["startDate"] = addSchedule.startDate
-      params["endDate"] = addSchedule.endDate
-      params["startTime"] = addSchedule.startTime
-      params["endTime"] = addSchedule.endTime
-      params["alarm"] = addSchedule.alarm?.rawValue
-    default:
-      break
-    }
-    return params
   }
 
   private var multiparts: [Moya.MultipartFormData] {

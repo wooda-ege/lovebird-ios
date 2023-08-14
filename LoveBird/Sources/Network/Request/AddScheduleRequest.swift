@@ -7,8 +7,7 @@
 
 import Foundation
 
-public struct AddScheduleRequest {
-  let id: Int?
+public struct AddScheduleRequest: Codable {
   let title: String
   let memo: String?
   let color: ScheduleColor
