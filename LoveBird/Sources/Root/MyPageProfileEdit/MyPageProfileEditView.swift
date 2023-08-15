@@ -12,6 +12,7 @@ struct MyPageProfileEditView: View {
 
   @FocusState var isNicknameFocused: Bool
   @FocusState var isEmailFocused: Bool
+  @State var image: Image?
 
   let store: StoreOf<MyPageProfileEditCore>
 
@@ -26,7 +27,7 @@ struct MyPageProfileEditView: View {
             .font(.pretendard(size: 16, weight: .bold))
         }
 
-        ZStack(alignment: .bottomTrailing) {
+        ZStack() {
           Circle()
             .fill(Color(R.color.gray03))
             .frame(width: 80, height: 80)
@@ -34,6 +35,7 @@ struct MyPageProfileEditView: View {
         }
         .overlay(Image(R.image.ic_camera_edit), alignment: .bottomTrailing)
         .onTapGesture {
+          viewStore.send(.presentImagePicker)
         }
 
         VStack(spacing: 10) {

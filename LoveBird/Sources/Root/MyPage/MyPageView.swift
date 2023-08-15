@@ -42,16 +42,20 @@ struct MyPageView: View {
             .frame(height: 1)
             .padding(.horizontal, 10)
 
-          HStack(alignment: .center, spacing: 5) {
-            Text(viewStore.user?.nickname ?? "")
-              .font(.pretendard(size: 14))
+          ZStack(alignment: .center) {
+            HStack(spacing: 34) {
+              Text(viewStore.user?.nickname ?? "")
+                .font(.pretendard(size: 14))
+                .frame(maxWidth: .infinity, alignment: .trailing)
+
+              Text(viewStore.user?.partnerNickname ?? "")
+                .font(.pretendard(size: 14))
+                .frame(maxWidth: .infinity, alignment: .leading)
+            }
 
             Image(R.image.ic_bird)
               .changeSize(to: .init(width: 24, height: 24))
               .changeColor(to: Color(R.color.primary))
-
-            Text(viewStore.user?.partnerNickname ?? "")
-              .font(.pretendard(size: 14))
           }
           .frame(height: 34)
           .padding(.bottom, 8)

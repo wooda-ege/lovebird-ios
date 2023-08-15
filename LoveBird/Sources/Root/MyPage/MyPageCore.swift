@@ -33,7 +33,6 @@ struct MyPageCore: ReducerProtocol {
         let user = self.userData.get(key: .user, type: Profile.self)
         if let user {
           state.user = user
-//          state.user = .init(nickname: "하이", partnerNickname: "하이", firstDate: "", dayCount: 100, nextAnniversary: .init(kind: .eightYears, anniversaryDate: ""), profileImageUrl: nil, partnerImageUrl: nil)
         }
       case .editTapped:
         state.myPageProfileEdit = MyPageProfileEditState()
@@ -43,8 +42,6 @@ struct MyPageCore: ReducerProtocol {
         // MyPageProfileEdit
       case .myPageProfileEdit(.presented(.editProfileResponse(.success(let profile)))):
         self.userData.store(key: .user, value: profile)
-        state.myPageProfileEdit = nil
-      case .myPageProfileEdit(.presented(.backButtonTapped)):
         state.myPageProfileEdit = nil
       default:
         break

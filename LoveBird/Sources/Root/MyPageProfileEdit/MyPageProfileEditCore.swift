@@ -5,7 +5,7 @@
 //  Created by 황득연 on 2023/08/13.
 //
 
-import Foundation
+import UIKit
 import ComposableArchitecture
 
 typealias MyPageProfileEditState = MyPageProfileEditCore.State
@@ -21,14 +21,14 @@ struct MyPageProfileEditCore: ReducerProtocol {
 
   struct State: Equatable {
     @PresentationState var imagePicker: ImagePickerCore.State?
-    @BindingState var isImagePickerPresented = false
     var image: Data?
     var profile: Profile?
     var nickname = ""
     var email = ""
     var isNicknameFocused = false
     var isEmailFocused = false
-    var isImagePickerVisible = false
+    var isImagePickerPresented = false
+    var selectedImage: UIImage? = nil
   }
 
   enum Action: Equatable {
@@ -40,7 +40,10 @@ struct MyPageProfileEditCore: ReducerProtocol {
     case emailEdited(String)
     case editTapped
     case editProfileResponse(TaskResult<Profile>)
-    case imagePickerVisible(Bool)
+    case presentImagePicker
+    case dismissImagePicker
+    case imageSelected(UIImage?)
+    case imagePicker(PresentationAction<ImagePickerCore.Action>)
   }
 
   @Dependency(\.apiClient) var apiClient
@@ -62,9 +65,14 @@ struct MyPageProfileEditCore: ReducerProtocol {
       case .emailEdited(let email):
         state.email = email
       case .imageTapped:
-        state.isImagePickerPresented = true
-      case .imagePickerVisible(let visible):
-        state.isImagePickerVisible = visible
+        state.imagePicker = ImagePickerCore.State()
+      case .presentImagePicker:
+        state.imagePicker = ImagePickerCore.State()
+      case .dismissImagePicker:
+        state.imagePicker = nil
+      case .imageSelected(let image):
+        state.selectedImage = image
+        state.isImagePickerPresented = false
       // Network
       case .editTapped:
         let request: EditProfileRequest = .init(
@@ -83,6 +91,9 @@ struct MyPageProfileEditCore: ReducerProtocol {
         break
       }
       return .none
+    }
+    .ifLet(\.$imagePicker, action: /Action.imagePicker) {
+      ImagePickerCore()
     }
   }
 }
