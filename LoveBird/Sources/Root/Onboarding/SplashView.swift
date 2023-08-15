@@ -6,34 +6,29 @@
 //
 
 import SwiftUI
+import UIKit
+import ComposableArchitecture
 
 struct SplashView: View {
   @State var isActive: Bool = true
+  let background = Color.pink
   
   var body: some View {
     ZStack {
       if self.isActive {
         VStack {
           ZStack(alignment: .center) {
-            Image(R.image.img_backHeart)
+            Image(R.image.img_splashView)
               .resizable()
-              .scaledToFit()
-            
-            HStack(alignment: .center) {
-              Spacer()
-              Text("러브")
-                .foregroundColor(Color(R.color.green164))
-              Text("버드")
-                .foregroundColor(Color(R.color.secondary))
-              Spacer()
-            }
-            .font(.custom(R.font.gmarketSansBold, size: 38))
+              .scaledToFill()
+//            rgba(255, 0, 122, 1), rgba(255, 106, 115, 1)
           }
         }
       } else {
-//        LoginView()
+        LoginView(store: Store(initialState: LoginCore.State(), reducer: LoginCore()))
       }
     }
+    .ignoresSafeArea()
     .onAppear {
       DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
         withAnimation {

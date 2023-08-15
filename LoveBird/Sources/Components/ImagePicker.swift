@@ -48,6 +48,7 @@ struct ImagePickerView: View {
   @State var showImagePicker = false
   @Binding var selectedUIImage: UIImage?
   @State var image: Image?
+  var representImage: Image
   
   func loadImage() {
     guard let selectedImage = selectedUIImage else { return }
@@ -65,7 +66,7 @@ struct ImagePickerView: View {
         Button {
           showImagePicker.toggle()
         } label: {
-          Image(R.image.ic_profile)
+          representImage
             .resizable()
             .aspectRatio(contentMode: .fit)
             .frame(width: 124, height: 124)

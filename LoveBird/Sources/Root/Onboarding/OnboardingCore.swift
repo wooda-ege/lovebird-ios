@@ -46,7 +46,7 @@ struct OnboardingCore: ReducerProtocol {
     var firstdateMonth: Int = Date().month
     var firstdateDay: Int = Date().day
     var email: String = ""
-    var invitationCode: String = "12akvow14"
+    var invitationCode: String = "임시코드임니다"
     var invitationInputCode: String = ""
     var profileImage: UIImage?
   }
@@ -72,8 +72,11 @@ struct OnboardingCore: ReducerProtocol {
     case dateInitialied
     case birthdateInitialied
     case signUpResponse(TaskResult<SignUpResponse>)
+    case tryLinkResponse(TaskResult<TryLinkResponse>)
     case imageSelected(UIImage?)
     case circleClicked(Int)
+    case invitationViewLoaded(String)
+    case tryLink(String)
     case none
   }
   
@@ -111,6 +114,8 @@ struct OnboardingCore: ReducerProtocol {
         }
       case .invitationcodeEdited(let code):
         state.invitationInputCode = code
+      case .invitationViewLoaded(let code):
+            state.invitationCode = code
       case .genderSelected(let gender):
         state.gender = gender
         state.buttonClickState = .clicked
@@ -140,6 +145,16 @@ struct OnboardingCore: ReducerProtocol {
         state.firstdateDay = Date().day
       case .imageSelected(let image):
         state.profileImage = image
+      case .tryLink(let link):
+        return .run { send in
+          do {
+            let tryLinkResponse = TryLinkResponse(link: link)
+            
+            await send(.tryLinkResponse(.success(tryLinkResponse)))
+          } catch {
+            print("link error!")
+          }
+        }
       case .doneButtonTapped:
         return .run { [state = state] send in
           do {

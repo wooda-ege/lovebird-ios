@@ -16,4 +16,5 @@ import Foundation
 struct KakaoLoginResponse: Decodable, Equatable, Sendable {
   let accessToken: String
   let refreshToken: String?
+  let flag: Bool
 }

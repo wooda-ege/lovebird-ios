@@ -8,5 +8,7 @@
 import Foundation
 
 struct AppleLoginResponse: Decodable, Equatable, Sendable {
-    let accessToken, refreshToken: String
+  let accessToken: String
+  let refreshToken: String?
+  let flag: Bool
 }

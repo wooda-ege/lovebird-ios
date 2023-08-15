@@ -25,6 +25,7 @@ struct LoveBirdApp: App {
     WindowGroup {
       RootView(store: Store(initialState: RootCore.State(),
                             reducer: RootCore()._printChanges()))
+//      SplashView()
       .preferredColorScheme(.light)
       .onOpenURL(perform: { url in
         if (AuthApi.isKakaoTalkLoginUrl(url)) {

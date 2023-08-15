@@ -43,9 +43,9 @@ struct LoginCore: ReducerProtocol {
         case let credential as ASAuthorizationAppleIDCredential:
           let tokenData = credential.identityToken
           let tokenString = String(decoding: tokenData!, as: UTF8.self)
-          let email = credential.email ?? ""
-          let firstName = credential.fullName?.givenName ?? ""
-          let lastName = credential.fullName?.familyName ?? ""
+          let email = credential.email ?? "lyeeun37@naver.com"
+          let firstName = credential.fullName?.givenName ?? "예은"
+          let lastName = credential.fullName?.familyName ?? "이"
           
           return .run { send in
             do {

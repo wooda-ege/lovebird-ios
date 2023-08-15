@@ -64,7 +64,7 @@ struct OnboardingView: View {
         .frame(width: UIScreen.width, height: 44)
         
         Pager(page: viewStore.page, data: [0, 1, 2, 3, 4, 5, 6], id: \.self) { page in
-          if page == 0 {
+          if page as! Int == 0 {
             OnboardingEmailView(store: self.store)
               .frame(maxWidth: .infinity, maxHeight: .infinity)
           } else if page == 1 {

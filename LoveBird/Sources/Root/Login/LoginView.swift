@@ -25,28 +25,38 @@ struct LoginView: View {
     WithViewStore(self.store) { viewStore in
       VStack {
         HStack {
-          Text("함께 쌓는 추억 다이어리")
-            .font(.custom(R.font.pretendardBold, size: 32))
-            .multilineTextAlignment(.leading)
-            .frame(width: 180, height: 88)
-            .foregroundColor(Color(R.color.gray04))
+          Image(R.image.img_pinkbird)
+            .frame(width: 80, height: 80)
+            .padding(.leading, 16)
+            .padding(.top, 93)
           Spacer()
         }
-        .padding(.top, 60)
-        .padding(.leading, 40)
         
-        HStack(alignment: .center) {
-          Text("러브")
-            .foregroundColor(Color(R.color.green164))
-          Text("버드")
-            .foregroundColor(Color(R.color.secondary))
-          Spacer()
+        VStack {
+          HStack {
+            Text("함께 쌓는")
+              .font(.custom(R.font.pretendardRegular, size: 32))
+              .fontWeight(.ultraLight)
+            Spacer()
+          }
+          HStack {
+            Text("추억 다이어리")
+              .font(.custom(R.font.pretendardRegular, size: 32))
+              .fontWeight(.bold)
+            Spacer()
+          }
+          HStack {
+            Text(R.string.localizable.login_description)
+              .font(.custom(R.font.pretendardRegular, size: 16))
+              .fontWeight(.ultraLight)
+              .foregroundColor(Color(R.color.gray07))
+            Spacer()
+          }
+          .padding(.top, 3)
         }
-        .font(.custom(R.font.gmarketSansBold, size: 31))
-        .padding(.top, 96)
-        .padding(.bottom, 108)
-        .padding(.horizontal, 112)
-        
+        .padding(.top, 10)
+        .padding(.leading, 24)
+        .padding(.bottom, 212)
         Image(R.image.img_kakaoLogin)
           .resizable()
           .frame(width: 343, height: 60)
@@ -117,3 +127,10 @@ struct LoginView: View {
 //
 //  }
 }
+
+struct LoginView_Previews: PreviewProvider {
+  static var previews: some View {
+    LoginView(store: Store(initialState: LoginCore.State(), reducer: LoginCore()))
+  }
+}
+

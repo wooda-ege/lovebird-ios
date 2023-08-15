@@ -26,6 +26,10 @@
 		427573F82A53287000A8FD33 /* OnboardingGenderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 427573F72A53287000A8FD33 /* OnboardingGenderView.swift */; };
 		427573FA2A53377E00A8FD33 /* OnboardingInvitationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 427573F92A53377E00A8FD33 /* OnboardingInvitationView.swift */; };
 		42784F812A88B76500F39139 /* BirthDatePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42784F802A88B76500F39139 /* BirthDatePickerView.swift */; };
+		42784F832A89FA8800F39139 /* InvitationCodeResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42784F822A89FA8800F39139 /* InvitationCodeResponse.swift */; };
+		42784F872A8A1A0F00F39139 /* TryLinkResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42784F862A8A1A0F00F39139 /* TryLinkResponse.swift */; };
+		42784F892A8A4FD100F39139 /* KakaoMapAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42784F882A8A4FD100F39139 /* KakaoMapAPIClient.swift */; };
+		42784F8B2A8A8E2600F39139 /* RegisterDiaryRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42784F8A2A8A8E2600F39139 /* RegisterDiaryRequest.swift */; };
 		428AED2F2A86BE4400F446B2 /* DiaryDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 428AED2E2A86BE4400F446B2 /* DiaryDetailView.swift */; };
 		428AED322A87610100F446B2 /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = 428AED312A87610100F446B2 /* ComposableArchitecture */; };
 		42E064112A45B5A000B9EAC3 /* PlaceRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42E064102A45B5A000B9EAC3 /* PlaceRequest.swift */; };
@@ -55,7 +59,7 @@
 		4A1DDF222A2C7CC700B3A72B /* SignUpRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A1DDF212A2C7CC700B3A72B /* SignUpRequest.swift */; };
 		4A1DDF242A2C7CCD00B3A72B /* SignUpResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A1DDF232A2C7CCD00B3A72B /* SignUpResponse.swift */; };
 		4A1DDF2A2A2F2DDA00B3A72B /* UserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A1DDF292A2F2DDA00B3A72B /* UserData.swift */; };
-		4A1DDF2C2A2F38E800B3A72B /* DiaryRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A1DDF2B2A2F38E800B3A72B /* DiaryRequest.swift */; };
+		4A1DDF2C2A2F38E800B3A72B /* FetchDiaryRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A1DDF2B2A2F38E800B3A72B /* FetchDiaryRequest.swift */; };
 		4A1DDF2E2A2F3D3600B3A72B /* NetworkResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A1DDF2D2A2F3D3600B3A72B /* NetworkResponse.swift */; };
 		4A327D412A545509002EEB55 /* AddScheduleRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A327D402A545509002EEB55 /* AddScheduleRequest.swift */; };
 		4A327D432A5459EF002EEB55 /* AddScheduleResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A327D422A5459EF002EEB55 /* AddScheduleResponse.swift */; };
@@ -167,6 +171,10 @@
 		427573F72A53287000A8FD33 /* OnboardingGenderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingGenderView.swift; sourceTree = "<group>"; };
 		427573F92A53377E00A8FD33 /* OnboardingInvitationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingInvitationView.swift; sourceTree = "<group>"; };
 		42784F802A88B76500F39139 /* BirthDatePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BirthDatePickerView.swift; sourceTree = "<group>"; };
+		42784F822A89FA8800F39139 /* InvitationCodeResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InvitationCodeResponse.swift; sourceTree = "<group>"; };
+		42784F862A8A1A0F00F39139 /* TryLinkResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TryLinkResponse.swift; sourceTree = "<group>"; };
+		42784F882A8A4FD100F39139 /* KakaoMapAPIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KakaoMapAPIClient.swift; sourceTree = "<group>"; };
+		42784F8A2A8A8E2600F39139 /* RegisterDiaryRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterDiaryRequest.swift; sourceTree = "<group>"; };
 		428AED2E2A86BE4400F446B2 /* DiaryDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryDetailView.swift; sourceTree = "<group>"; };
 		42E064102A45B5A000B9EAC3 /* PlaceRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceRequest.swift; sourceTree = "<group>"; };
 		42E064132A45BF3800B9EAC3 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -196,7 +204,7 @@
 		4A1DDF212A2C7CC700B3A72B /* SignUpRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpRequest.swift; sourceTree = "<group>"; };
 		4A1DDF232A2C7CCD00B3A72B /* SignUpResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpResponse.swift; sourceTree = "<group>"; };
 		4A1DDF292A2F2DDA00B3A72B /* UserData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserData.swift; sourceTree = "<group>"; };
-		4A1DDF2B2A2F38E800B3A72B /* DiaryRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryRequest.swift; sourceTree = "<group>"; };
+		4A1DDF2B2A2F38E800B3A72B /* FetchDiaryRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchDiaryRequest.swift; sourceTree = "<group>"; };
 		4A1DDF2D2A2F3D3600B3A72B /* NetworkResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkResponse.swift; sourceTree = "<group>"; };
 		4A327D402A545509002EEB55 /* AddScheduleRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddScheduleRequest.swift; sourceTree = "<group>"; };
 		4A327D422A5459EF002EEB55 /* AddScheduleResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddScheduleResponse.swift; sourceTree = "<group>"; };
@@ -450,10 +458,12 @@
 			isa = PBXGroup;
 			children = (
 				4A1DDF232A2C7CCD00B3A72B /* SignUpResponse.swift */,
+				42784F862A8A1A0F00F39139 /* TryLinkResponse.swift */,
 				42E064152A45C11600B9EAC3 /* SearchPlaceResponse.swift */,
 				425640332A5AB30900EC962E /* KakaoLoginResponse.swift */,
 				4256403B2A6452A600EC962E /* AppleLoginResponse.swift */,
 				4A327D422A5459EF002EEB55 /* AddScheduleResponse.swift */,
+				42784F822A89FA8800F39139 /* InvitationCodeResponse.swift */,
 			);
 			path = Response;
 			sourceTree = "<group>";
@@ -462,7 +472,8 @@
 			isa = PBXGroup;
 			children = (
 				4A1DDF212A2C7CC700B3A72B /* SignUpRequest.swift */,
-				4A1DDF2B2A2F38E800B3A72B /* DiaryRequest.swift */,
+				4A1DDF2B2A2F38E800B3A72B /* FetchDiaryRequest.swift */,
+				42784F8A2A8A8E2600F39139 /* RegisterDiaryRequest.swift */,
 				42E064102A45B5A000B9EAC3 /* PlaceRequest.swift */,
 				425640312A5AA78B00EC962E /* KakaoLoginRequest.swift */,
 				4256403D2A6454E100EC962E /* AppleLoginRequest.swift */,
@@ -682,6 +693,7 @@
 				4A1DDF1F2A2C7CA700B3A72B /* Response */,
 				4A1DDF2D2A2F3D3600B3A72B /* NetworkResponse.swift */,
 				4AE5CB6F2A261E520016C0B4 /* APIClient.swift */,
+				42784F882A8A4FD100F39139 /* KakaoMapAPIClient.swift */,
 				4A4894532A3EE0CC00BC4102 /* ResponseError.swift */,
 			);
 			path = Network;
@@ -859,6 +871,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				42784F892A8A4FD100F39139 /* KakaoMapAPIClient.swift in Sources */,
 				4AD602CB2A508F560029D7EB /* ScheduleAddTimePickerView.swift in Sources */,
 				4A03969B2A0FA61A00EB062D /* OnboardingCore.swift in Sources */,
 				4AB2DB4D2A1F8651003EFD95 /* HomeItem.swift in Sources */,
@@ -874,7 +887,7 @@
 				4AD602BE2A5020BF0029D7EB /* ScheduleAddAlarmView.swift in Sources */,
 				4AD602A72A4F19A80029D7EB /* ScheduleColor.swift in Sources */,
 				4AB2DB402A1A2EF3003EFD95 /* DatePickerView.swift in Sources */,
-				4A1DDF2C2A2F38E800B3A72B /* DiaryRequest.swift in Sources */,
+				4A1DDF2C2A2F38E800B3A72B /* FetchDiaryRequest.swift in Sources */,
 				4AD602982A4EC7710029D7EB /* ScheduleAddView.swift in Sources */,
 				4AE5CB502A21C0B10016C0B4 /* UIImage+Extension.swift in Sources */,
 				4AD6029F2A4F00930029D7EB /* CommonToolBar.swift in Sources */,
@@ -883,6 +896,7 @@
 				4A327DB52A592039002EEB55 /* ScheduleDetail.swift in Sources */,
 				4A03969C2A0FA61A00EB062D /* OnboardingView.swift in Sources */,
 				4256403C2A6452A600EC962E /* AppleLoginResponse.swift in Sources */,
+				42784F8B2A8A8E2600F39139 /* RegisterDiaryRequest.swift in Sources */,
 				4A0396A12A0FA61A00EB062D /* HomeCore.swift in Sources */,
 				4ACCB9722A18DE7E009F1E22 /* R.generated.swift in Sources */,
 				4AC985B32A5B0F810003D7AE /* Date+Properties.swift in Sources */,
@@ -920,6 +934,7 @@
 				4AE5CB582A232E3F0016C0B4 /* DiaryCore.swift in Sources */,
 				4AD6028D2A4EB4970029D7EB /* CalendarTabView.swift in Sources */,
 				4AE5CB4E2A21B1180016C0B4 /* Diary.swift in Sources */,
+				42784F872A8A1A0F00F39139 /* TryLinkResponse.swift in Sources */,
 				4AE5CB612A232FCA0016C0B4 /* CalendarCore.swift in Sources */,
 				4263E1CD2A2F3563008B402B /* SearchPlaceView.swift in Sources */,
 				42E064162A45C11600B9EAC3 /* SearchPlaceResponse.swift in Sources */,
@@ -957,6 +972,7 @@
 				4A0FEA0F2A4B0DDA005E88E3 /* CalendarDate.swift in Sources */,
 				4A03969E2A0FA61A00EB062D /* RootCore.swift in Sources */,
 				4A327DB72A5A7C54002EEB55 /* Image+Extension.swift in Sources */,
+				42784F832A89FA8800F39139 /* InvitationCodeResponse.swift in Sources */,
 				4A89961B2A7E1CE100FA5C81 /* Profile.swift in Sources */,
 				4A1DDF1E2A2C338100B3A72B /* TouchableStack.swift in Sources */,
 				4AB2DB512A1FAAA5003EFD95 /* Line.swift in Sources */,

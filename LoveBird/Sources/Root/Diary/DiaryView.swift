@@ -11,6 +11,7 @@ import ComposableArchitecture
 
 struct DiaryView: View {
   let store: StoreOf<DiaryCore>
+  @State var image: UIImage? = nil
   @StateObject private var keyboardResponder = KeyboardResponder()
   
   init(store: StoreOf<DiaryCore>) {
@@ -79,10 +80,16 @@ struct DiaryView: View {
               }
             }
             
-            // 예은::ImagePickerView 아예 바꿔야함
-            // ImagePickerView(image: $)
-            //   .padding(.top, 10)
-        
+            HStack {
+              ImagePickerView(selectedUIImage: $image, representImage: Image(R.image.img_addImage))
+                .frame(width: 64, height: 64)
+                
+              Spacer()
+            }
+            .padding(.top, 30)
+            .padding(.leading, 36)
+            
+            Spacer()
           }
           .navigationBarBackButtonHidden(true)
           .padding(.top, 10)

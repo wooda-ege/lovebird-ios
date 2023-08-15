@@ -29,16 +29,14 @@ struct SearchPlaceCore: ReducerProtocol {
       switch action {
       case .textFieldDidEditting(let searchTerm):
         state.searchTerm = searchTerm
-        
-        // 예은:: 추후 네트워크 모델 수정되면 변경하기
-        //        return .task { [searchTerm = state.searchTerm] in
-        //          .searchPlaceResponse(
-        //            await TaskResult {
-        //              try await
-        //              self.apiClient.request(.searchPlace(.init(placeName: searchTerm)))
-        //            }
-        //          )
-        //        }
+          Task {
+            do {
+              let places = try await apiClient.requestKakaoMap(.searchKakaoMap(searchTerm: searchTerm)) as [PlaceInfo]
+//              state.placeList = places
+            } catch {
+              print("search error!")
+            }
+          }
       case .completeButtonTapped:
         state.placeList = []
         state.searchTerm = String(resource: R.string.localizable.diary_place_address_title)
@@ -47,7 +45,6 @@ struct SearchPlaceCore: ReducerProtocol {
       default:
         break
       }
-      
       return .none
     }
   }

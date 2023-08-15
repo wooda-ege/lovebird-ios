@@ -15,6 +15,18 @@ struct OnboardingInvitationView: View {
   @FocusState private var isEmailFieldFocused: Bool
   @StateObject private var keyboard = KeyboardResponder()
   @State var showShare: Bool = false
+  var invitationCode: String = ""
+  
+  @Dependency(\.apiClient) var apiClient
+  
+//  init() async {
+//    do {
+//      let response = try await self.apiClient.request(.invitationViewLoaded) as InvitationCodeResponse
+//      invitationCode = response.coupleCode
+//    } catch {
+//
+//    }
+//  }
   
   var body: some View {
     WithViewStore(self.store) { viewStore in
@@ -89,6 +101,29 @@ struct OnboardingInvitationView: View {
         
         Button {
           viewStore.send(.doneButtonTapped)
+          
+          Task {
+            do {
+              if viewStore.invitationInputCode.isEmpty { // 코드를 공유한 상황
+                let response = try await self.apiClient.requestRaw(.coupleLinkButtonClicked(coupleCode: viewStore.invitationCode, authorization: viewStore.accessToken, refresh: viewStore.refreshToken))
+                if response == "SUCCESS" {
+                  viewStore.send(.tryLink("success"))
+                } else {
+                  viewStore.send(.tryLink("failure"))
+                }
+              } else { // 코드를 직접 입력한 상황
+                let response = try await self.apiClient.requestRaw(.coupleLinkButtonClicked(coupleCode: viewStore.invitationInputCode, authorization: viewStore.accessToken, refresh: viewStore.refreshToken))
+                if response == "SUCCESS" {
+                  viewStore.send(.tryLink("success"))
+                } else {
+                  viewStore.send(.tryLink("failure"))
+                }
+              }
+            } catch {
+              print("연동코드 발급 실패")
+            }
+          }
+          
           self.hideKeyboard()
         } label: {
           TouchableStack {
@@ -102,6 +137,39 @@ struct OnboardingInvitationView: View {
         .cornerRadius(12)
         .padding(.horizontal, 16)
         .padding(.bottom, keyboard.currentHeight == 0 ? 20 + UIApplication.edgeInsets.bottom : keyboard.currentHeight + 20)
+        .onTapGesture {
+//          Task {
+//            do {
+//              if viewStore.invitationInputCode.isEmpty { // 코드를 공유한 상황
+//                let response = try await self.apiClient.requestRaw(.coupleLinkButtonClicked(coupleCode: viewStore.invitationCode, authorization: viewStore.accessToken, refresh: viewStore.refreshToken))
+//                if response == "SUCCESS" {
+//                  viewStore.send(.tryLink("success"))
+//                } else {
+//                  viewStore.send(.tryLink("failure"))
+//                }
+//              } else { // 코드를 직접 입력한 상황
+//                let response = try await self.apiClient.requestRaw(.coupleLinkButtonClicked(coupleCode: viewStore.invitationInputCode, authorization: viewStore.accessToken, refresh: viewStore.refreshToken))
+//                if response == "SUCCESS" {
+//                  viewStore.send(.tryLink("success"))
+//                } else {
+//                  viewStore.send(.tryLink("failure"))
+//                }
+//              }
+//            } catch {
+//              print("연동코드 발급 실패")
+//            }
+//          }
+        }
+      }
+      .onAppear {
+        Task {
+          do {
+            let response = try await self.apiClient.request(.invitationViewLoaded(authorization: viewStore.state.accessToken, refresh: viewStore.state.refreshToken)) as InvitationCodeResponse
+            viewStore.send(.invitationViewLoaded(response.coupleCode))
+          } catch {
+            print("연동코드 발급 실패")
+          }
+        }
       }
       .background(.white)
       .onTapGesture {

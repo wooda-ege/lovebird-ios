@@ -25,6 +25,8 @@ struct DiaryCore: ReducerProtocol {
     case completeButtonTapped
   }
   
+  @Dependency(\.apiClient) var apiClient
+  
   var body: some ReducerProtocol<State, Action> {
     Reduce<State, Action> { state, action in
       switch action {
@@ -39,10 +41,11 @@ struct DiaryCore: ReducerProtocol {
       case .changeTextEmpty:
         state.text = ""
       case .completeButtonTapped:
-        state.image = nil
-        state.place = String(resource: R.string.localizable.diary_select_place)
-        state.title = ""
-        state.text = ""
+        break
+//        return .run { send in
+//          try await apiClient.request(.registerDiary)
+//
+//        }
       default:
         break
       }

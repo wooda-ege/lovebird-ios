@@ -13,6 +13,8 @@ struct SearchPlaceView: View {
   let store: StoreOf<SearchPlaceCore>
   @Environment(\.presentationMode) var presentationMode
   
+  @Dependency(\.apiClient) var apiClient
+  
   enum Constant {
     static var placeholder = String(resource: R.string.localizable.diary_place_address_title)
   }
@@ -58,8 +60,8 @@ struct SearchPlaceView: View {
   }
 }
 
-//struct SearchPlaceView_Previews: PreviewProvider {
-//  static var previews: some View {
-//    SearchPlaceView()
-//  }
-//}
+struct SearchPlaceView_Previews: PreviewProvider {
+  static var previews: some View {
+    SearchPlaceView(store: Store(initialState: SearchPlaceCore.State(), reducer: SearchPlaceCore()))
+  }
+}

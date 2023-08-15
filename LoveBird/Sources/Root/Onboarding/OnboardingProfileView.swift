@@ -34,7 +34,7 @@ struct OnboardingProfileView: View {
         
         Spacer().frame(height: 48)
         
-        ImagePickerView(selectedUIImage: $image)
+        ImagePickerView(selectedUIImage: $image, representImage: Image(R.image.ic_profile))
           .padding(.horizontal, 126)
         
         Spacer()

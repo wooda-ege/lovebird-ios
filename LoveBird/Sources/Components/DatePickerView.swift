@@ -49,8 +49,8 @@ struct DatePickerView: UIViewRepresentable {
       case 0:
         return self.parent.today.year - self.parent.fromYear + 1 // 1950부터 현재 연도까지
       case 1:
-        let months = Date.with(year: self.parent.viewStore.firstdateYear).calculateMonths
-        // Ex) 2022년 12월인 상태에서 연도를 2023년으로 바꿀 때 현재가 6월인 경우 month값이 변화한다.
+        let months = Date.with(year: self.parent.viewStore.firstdateMonth).calculateMonths
+//        // Ex) 2022년 12월인 상태에서 연도를 2023년으로 바꿀 때 현재가 6월인 경우 month값이 변화한다.
         if months < self.parent.viewStore.firstdateMonth {
           self.parent.viewStore.send(.dateMonthSelected(months))
         }

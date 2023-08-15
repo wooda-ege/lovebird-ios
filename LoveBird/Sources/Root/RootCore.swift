@@ -12,7 +12,7 @@ struct RootCore: Reducer {
     case onboarding(OnboardingCore.State)
     case mainTab(MainTabCore.State)
     case login(LoginCore.State)
-
+    
     init() {
       self = .login(LoginCore.State())}
   }
@@ -23,28 +23,42 @@ struct RootCore: Reducer {
     case login(LoginCore.Action)
   }
   
-  @Dependency(\.userData) var userData
+  @Dependency(\.apiClient) var apiClient
   
   var body: some Reducer<State, Action> {
     Reduce { state, action in
       switch action {
-      case .onboarding(.signUpResponse(.success(let reponse))):
+      case .onboarding(.signUpResponse(.success)):
         state = .mainTab(MainTabCore.State())
       case .onboarding(.signUpResponse(.failure(let error))):
         // TODO: error시 정의할 것.
         break
+      case .onboarding(.tryLinkResponse(.success)):
+        state = .mainTab(MainTabCore.State())
+      case .onboarding(.tryLinkResponse(.failure)):
+        return .none
+        // 알랏 띄우기
       case .login(.kakaoLoginResponse(.success(let response))):
         let accessToken = response.accessToken
         let refreshToken = response.refreshToken
+        let flag = response.flag
         
-        state = .onboarding(OnboardingCore.State(accessToken: accessToken, refreshToken: refreshToken!))
+//        if flag == true {
+          state = .onboarding(OnboardingCore.State(accessToken: accessToken, refreshToken: refreshToken ?? ""))
+//        } else {
+//          state = .mainTab(MainTabCore.State())
+//        }
       case .login(.kakaoLoginResponse(.failure(let error))):
         print(error)
       case .login(.appleLoginResponse(.success(let response))):
         let accessToken = response.accessToken
         let refreshToken = response.refreshToken
         
-        state = .onboarding(OnboardingCore.State(accessToken: accessToken, refreshToken: refreshToken))
+        if response.flag == true {
+          state = .onboarding(OnboardingCore.State(accessToken: accessToken, refreshToken: refreshToken ?? ""))
+        } else {
+          state = .mainTab(MainTabCore.State())
+        }
       case .login(.appleLoginResponse(.failure(let error))):
         print(error)
       default:

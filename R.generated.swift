@@ -61,7 +61,7 @@ struct _R {
     }
 
 
-    /// This `_R.string.localizable` struct is generated, and contains static references to 49 localization keys.
+    /// This `_R.string.localizable` struct is generated, and contains static references to 50 localization keys.
     struct localizable {
       let source: RswiftResources.StringResource.Source
 
@@ -211,6 +211,13 @@ struct _R {
       ///
       /// Locales: en
       var diary_title: RswiftResources.StringResource { .init(key: "diary_title", tableName: "Localizable", source: source, developmentValue: "제목", comment: nil) }
+
+      /// en translation: 연인과의 데이트를 러브버드에서 기록해보세요
+      ///
+      /// Key: login_description
+      ///
+      /// Locales: en
+      var login_description: RswiftResources.StringResource { .init(key: "login_description", tableName: "Localizable", source: source, developmentValue: "연인과의 데이트를 러브버드에서 기록해보세요", comment: nil) }
 
       /// en translation: 캘린더
       ///
@@ -493,7 +500,7 @@ struct _R {
     var secondary: RswiftResources.ColorResource { .init(name: "Secondary", path: [], bundle: bundle) }
   }
 
-  /// This `_R.image` struct is generated, and contains static references to 31 images.
+  /// This `_R.image` struct is generated, and contains static references to 34 images.
   struct image {
     let bundle: Foundation.Bundle
 
@@ -575,11 +582,14 @@ struct _R {
     /// Image `ic_timeline`.
     var ic_timeline: RswiftResources.ImageResource { .init(name: "ic_timeline", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
+    /// Image `img_addImage`.
+    var img_addImage: RswiftResources.ImageResource { .init(name: "img_addImage", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
     /// Image `img_appleLogin`.
     var img_appleLogin: RswiftResources.ImageResource { .init(name: "img_appleLogin", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
-    /// Image `img_backHeart`.
-    var img_backHeart: RswiftResources.ImageResource { .init(name: "img_backHeart", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+    /// Image `img_bird`.
+    var img_bird: RswiftResources.ImageResource { .init(name: "img_bird", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
     /// Image `img_googleLogin`.
     var img_googleLogin: RswiftResources.ImageResource { .init(name: "img_googleLogin", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
@@ -589,6 +599,12 @@ struct _R {
 
     /// Image `img_naverLogin`.
     var img_naverLogin: RswiftResources.ImageResource { .init(name: "img_naverLogin", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `img_pinkbird`.
+    var img_pinkbird: RswiftResources.ImageResource { .init(name: "img_pinkbird", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `img_splashView`.
+    var img_splashView: RswiftResources.ImageResource { .init(name: "img_splashView", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
   }
 
   /// This `_R.entitlements` struct is generated, and contains static references to 1 properties.
