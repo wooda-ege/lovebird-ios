@@ -10,32 +10,23 @@ import UIKit
 import ComposableArchitecture
 
 struct SplashView: View {
-  @State var isActive: Bool = true
-  let background = Color.pink
-  
   var body: some View {
-    ZStack {
-      if self.isActive {
-        VStack {
-          ZStack(alignment: .center) {
-            Image(R.image.img_splashView)
-              .resizable()
-              .scaledToFill()
-//            rgba(255, 0, 122, 1), rgba(255, 106, 115, 1)
-          }
-        }
-      } else {
-        LoginView(store: Store(initialState: LoginCore.State(), reducer: LoginCore()))
-      }
+    VStack(alignment: .center, spacing: 0) {
+      Image(R.image.img_bird)
     }
-    .ignoresSafeArea()
-    .onAppear {
-      DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-        withAnimation {
-          self.isActive = false
-        }
-      }
-    }
+    .padding(0)
+    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
+    .background(
+      LinearGradient(
+        stops: [
+          Gradient.Stop(color: Color(red: 1, green: 0, blue: 0.48), location: 0.00),
+          Gradient.Stop(color: Color(red: 1, green: 0.42, blue: 0.45), location: 1.00),
+        ],
+        startPoint: UnitPoint(x: 0.5, y: 0),
+        endPoint: UnitPoint(x: 0.5, y: 1)
+      )
+    )
+    .background(.white)
   }
 }
 

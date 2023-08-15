@@ -54,7 +54,7 @@ struct OnboardingDateView: View {
           Spacer()
           
           Button(action: {
-            viewStore.send(.nextTapped)
+            viewStore.send(.doneButtonTapped)
           }) {
             TouchableStack {
               Text(R.string.localizable.common_next)

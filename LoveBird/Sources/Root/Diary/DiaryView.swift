@@ -23,12 +23,30 @@ struct DiaryView: View {
       NavigationView {
         ScrollView {
           VStack {
-            DiarySelectCalenderButton()
-
+            NavigationLink(destination:
+                            VStack {
+              CalendarPreviewContentView(store: self.store.scope(state: \.calendarDate, action: DiaryCore.Action.calendarDate))
+            }
+              .padding([.horizontal, .top], 12)
+              .padding(.bottom, 20)
+              .background(.white)
+              .cornerRadius(12)
+              .shadow(color: .black.opacity(0.16), radius: 8, x: 0, y: 4)
+              .offset(x: 16, y: 44))
+            {
+              ZStack(alignment: .center) {
+                viewStore.date == String(resource: R.string.localizable.calendar_date) ? DiarySelectCalenderButton(title: viewStore.date)
+                  .foregroundColor(Color(R.color.gray06)) : DiarySelectCalenderButton(title: viewStore.date)
+                  .foregroundColor(.black)
+              }
+              .padding(.top, 5)
+              .padding(.bottom, 8)
+            }
+            
             ZStack(alignment: .leading) {
               if viewStore.title.isEmpty {
                 Text(R.string.localizable.diary_title)
-                  .foregroundColor(Color(R.color.gray122))
+                  .foregroundColor(Color(R.color.gray06))
               }
               
               TextField(String(resource: R.string.localizable.diary_title), text: viewStore.binding(get: \.title, send: DiaryCore.Action.titleLabelTapped)
@@ -41,7 +59,8 @@ struct DiaryView: View {
             .padding(.vertical, 10)
             .padding(.leading, 15)
             .frame(height: 44)
-            .background(Color(R.color.gray231))
+            .foregroundColor(.black)
+            .background(Color(R.color.gray02))
             .textFieldStyle(.plain)
             .navigationBarTitleDisplayMode(.inline)
             .navigationTitle(String(resource: R.string.localizable.diary_note))
@@ -50,14 +69,11 @@ struct DiaryView: View {
             })
             .cornerRadius(10)
             
-            NavigationLink(destination: SearchPlaceView(store: Store(initialState: SearchPlaceCore.State(), reducer: SearchPlaceCore()))
-              .padding(.top, 20)
-              .padding(.bottom, 10)
-              .padding(.horizontal, 15)
-            ) {
+            NavigationLink(destination: SearchPlaceView(store: self.store.scope(state: \.searchPlace, action: DiaryCore.Action.searchPlace)))
+            {
               ZStack(alignment: .center) {
                 viewStore.place == String(resource: R.string.localizable.diary_select_place) ? DiarySelectPlaceButton(title: viewStore.place)
-                  .foregroundColor(Color(R.color.gray122)) : DiarySelectPlaceButton(title: viewStore.place)
+                  .foregroundColor(Color(R.color.gray06)) : DiarySelectPlaceButton(title: viewStore.place)
                   .foregroundColor(.black)
               }
               .padding(.top, 5)
@@ -67,14 +83,14 @@ struct DiaryView: View {
             ZStack(alignment: .topLeading) {
               TextEditor(text: viewStore.binding(get: \.text, send: DiaryCore.Action.textDidEditting))
                 .foregroundColor(.black)
-                .colorMultiply(Color(R.color.gray231))
+                .colorMultiply(Color(R.color.gray02))
                 .frame(height: keyboardResponder.currentHeight == 0 ? 332 : 320)
                 .lineSpacing(5)
                 .cornerRadius(10)
               
               if viewStore.state.text.isEmpty {
                 Text(R.string.localizable.diary_edit_text)
-                  .foregroundColor(Color(R.color.gray122))
+                  .foregroundColor(Color(R.color.gray06))
                   .padding(.top, 10)
                   .padding(.leading, 10)
               }
@@ -83,7 +99,7 @@ struct DiaryView: View {
             HStack {
               ImagePickerView(selectedUIImage: $image, representImage: Image(R.image.img_addImage))
                 .frame(width: 64, height: 64)
-                
+              
               Spacer()
             }
             .padding(.top, 30)
@@ -105,9 +121,9 @@ struct DiaryView: View {
   }
 }
 
-struct WritingDiaryView_Previews: PreviewProvider {
-  static var previews: some View {
-    DiaryView(store: Store(initialState: DiaryCore.State(), reducer: DiaryCore()))
-  }
-}
+//struct WritingDiaryView_Previews: PreviewProvider {
+//  static var previews: some View {
+//    DiaryView(store: Store(initialState: DiaryCore.State(), reducer: DiaryCore()))
+//  }
+//}
 

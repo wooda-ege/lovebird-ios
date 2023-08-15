@@ -27,16 +27,17 @@ struct MyPageProfileEditView: View {
             .font(.pretendard(size: 16, weight: .bold))
         }
 
-        ZStack() {
-          Circle()
-            .fill(Color(R.color.gray03))
-            .frame(width: 80, height: 80)
-            .overlay(Image(R.image.ic_bird_edit), alignment: .center)
-        }
-        .overlay(Image(R.image.ic_camera_edit), alignment: .bottomTrailing)
-        .onTapGesture {
-          viewStore.send(.presentImagePicker)
-        }
+        // TODO: 득연 - iOS 16.0 으로 올리고 NavigationStack으로 리팩토링 후 진행할 예정
+//        ZStack() {
+//          Circle()
+//            .fill(Color(R.color.gray03))
+//            .frame(width: 80, height: 80)
+//            .overlay(Image(R.image.ic_bird_edit), alignment: .center)
+//        }
+//        .overlay(Image(R.image.ic_camera_edit), alignment: .bottomTrailing)
+//        .onTapGesture {
+//          viewStore.send(.presentImagePicker)
+//        }
 
         VStack(spacing: 10) {
           HStack {
@@ -47,25 +48,13 @@ struct MyPageProfileEditView: View {
             Spacer()
           }
 
-          let nicknameBinding = viewStore.binding(get: \.nickname, send: MyPageProfileEditAction.nicknameEdited)
-          TextField(viewStore.profile?.nickname ?? "", text: nicknameBinding)
-            .font(.pretendard(size: 18))
-            .background(.clear)
-            .padding(.leading, 16)
-            .padding(.trailing, 48)
-            .padding(.vertical, 16)
-            .focused($isNicknameFocused)
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .showClearButton(nicknameBinding, isFocused: self.isNicknameFocused, trailingPadding: 16)
-            .roundedBackground(
-              cornerRadius: 12,
-              color: viewStore.isNicknameFocused ? .black : Color(R.color.gray06)
-            )
-            .onChange(of: self.isNicknameFocused) { newValue in
-              if newValue {
-                viewStore.send(.isFocused(.nickname))
-              }
-            }
+          CommonTextField(
+            text: viewStore.binding(get: \.nickname, send: MyPageProfileEditAction.nicknameEdited),
+            placeholder: viewStore.profile?.nickname ?? "",
+            borderColor: viewStore.isNicknameFocused ? .black : Color(R.color.gray06),
+            clearButtonTrailingPadding: 16,
+            isFocused: self.$isNicknameFocused
+          )
         }
         .padding(.horizontal, 16)
 
@@ -78,38 +67,32 @@ struct MyPageProfileEditView: View {
             Spacer()
           }
 
-          let emailBinding = viewStore.binding(get: \.email, send: MyPageProfileEditAction.emailEdited)
-          TextField(viewStore.profile?.email ?? "", text: emailBinding)
-            .font(.pretendard(size: 18))
-            .background(.clear)
-            .padding(.leading, 16)
-            .padding(.trailing, 48)
-            .padding(.vertical, 16)
-            .focused($isEmailFocused)
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .showClearButton(emailBinding, isFocused: self.isEmailFocused, trailingPadding: 16)
-            .roundedBackground(
-              cornerRadius: 12,
-              color: viewStore.isEmailFocused ? .black : Color(R.color.gray06)
-            )
-            .onChange(of: self.isEmailFocused) { newValue in
-              if newValue {
-                viewStore.send(.isFocused(.email))
-              }
-            }
+          CommonTextField(
+            text: viewStore.binding(get: \.email, send: MyPageProfileEditAction.emailEdited),
+            placeholder: viewStore.profile?.email ?? "",
+            borderColor: viewStore.isEmailFocused ? .black : Color(R.color.gray06),
+            clearButtonTrailingPadding: 16,
+            isFocused: self.$isEmailFocused
+          )
         }
         .padding(.horizontal, 16)
 
         Spacer()
       }
-      .background(Color.white.onTapGesture {
+      .navigationBarBackButtonHidden(true)
+      .ifTapped {
         viewStore.send(.isFocused(.none))
         self.isNicknameFocused = false
         self.isEmailFocused = false
-      })
-      .navigationBarBackButtonHidden(true)
+      }
       .onAppear {
         viewStore.send(.viewAppear)
+      }
+      .onChange(of: self.isNicknameFocused) { newValue in
+        if newValue { viewStore.send(.isFocused(.nickname)) }
+      }
+      .onChange(of: self.isEmailFocused) { newValue in
+        if newValue { viewStore.send(.isFocused(.email)) }
       }
     }
   }

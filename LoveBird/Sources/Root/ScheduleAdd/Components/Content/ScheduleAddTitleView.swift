@@ -23,15 +23,15 @@ struct ScheduleAddTitleView: View {
         .focused($isKeyboardFocused)
         .frame(maxWidth: .infinity, alignment: .leading)
         .showClearButton(textBinding, trailingPadding: 2)
-        .onAppear {
-          self.isKeyboardFocused = true
-        }
-        .onChange(of: self.viewStore.focusedType) { focusedType in
-          self.hideKeyboard()
-          DispatchQueue.main.async {
-            self.isKeyboardFocused = focusedType == .title
-          }
-        }
+    }
+    .onAppear {
+      self.isKeyboardFocused = true
+    }
+    .onChange(of: self.viewStore.focusedType) { focusedType in
+      self.hideKeyboard()
+      DispatchQueue.main.async {
+        self.isKeyboardFocused = focusedType == .title
+      }
     }
     .onTapGesture {
       self.viewStore.send(.contentTapped(.title))

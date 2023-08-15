@@ -21,29 +21,21 @@ struct MyPageProfileEditCore: ReducerProtocol {
 
   struct State: Equatable {
     @PresentationState var imagePicker: ImagePickerCore.State?
-    var image: Data?
     var profile: Profile?
     var nickname = ""
     var email = ""
     var isNicknameFocused = false
     var isEmailFocused = false
-    var isImagePickerPresented = false
-    var selectedImage: UIImage? = nil
   }
 
   enum Action: Equatable {
     case viewAppear
     case backButtonTapped
-    case imageTapped
     case isFocused(FocusedType)
     case nicknameEdited(String)
     case emailEdited(String)
     case editTapped
     case editProfileResponse(TaskResult<Profile>)
-    case presentImagePicker
-    case dismissImagePicker
-    case imageSelected(UIImage?)
-    case imagePicker(PresentationAction<ImagePickerCore.Action>)
   }
 
   @Dependency(\.apiClient) var apiClient
@@ -54,31 +46,27 @@ struct MyPageProfileEditCore: ReducerProtocol {
       switch action {
       case .viewAppear:
         let profile = self.userData.get(key: .user, type: Profile.self)
-        if let profile {
-          state.profile = profile
-        }
+        if let profile { state.profile = profile }
+        return .none
+
       case .isFocused(let type):
         state.isNicknameFocused = type == .nickname
         state.isEmailFocused = type == .email
+        return .none
+
       case .nicknameEdited(let nickname):
         state.nickname = nickname
+        return .none
+
       case .emailEdited(let email):
         state.email = email
-      case .imageTapped:
-        state.imagePicker = ImagePickerCore.State()
-      case .presentImagePicker:
-        state.imagePicker = ImagePickerCore.State()
-      case .dismissImagePicker:
-        state.imagePicker = nil
-      case .imageSelected(let image):
-        state.selectedImage = image
-        state.isImagePickerPresented = false
-      // Network
+        return .none
+
       case .editTapped:
         let request: EditProfileRequest = .init(
-          image: state.image,
-          nickname: state.nickname.isEmpty ? nil : state.nickname,
-          email: state.email.isEmpty ? nil : state.email
+          image: nil,
+          nickname: state.nickname,
+          email: state.email
         )
         return .task {
           .editProfileResponse(
@@ -87,13 +75,10 @@ struct MyPageProfileEditCore: ReducerProtocol {
             }
           )
         }
+
       default:
-        break
+        return .none
       }
-      return .none
-    }
-    .ifLet(\.$imagePicker, action: /Action.imagePicker) {
-      ImagePickerCore()
     }
   }
 }

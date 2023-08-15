@@ -75,6 +75,6 @@ struct CalendarPreviewContentView: View {
 
 //struct CalendarPreviewContentView_Previews: PreviewProvider {
 //    static var previews: some View {
-//        CalendarPreviewContentView()
+//      CalendarPreviewContentView(store: Store(initialState: CalendarCore.State(), reducer: CalendarCore()))
 //    }
 //}

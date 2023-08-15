@@ -58,14 +58,18 @@ struct MainTabView: View {
             .tag(MainTabCore.Tab.myPage)
         }
         .onAppear {
-          let appearance = UITabBarAppearance()
-          appearance.backgroundColor = .white
-          appearance.shadowImage = UIImage.shadowImage
-          UITabBar.appearance().scrollEdgeAppearance = appearance
+          self.setTabBarAppearance()
         }
       }
       .navigationViewStyle(StackNavigationViewStyle())
     }
+  }
+
+  private func setTabBarAppearance() {
+    let appearance = UITabBarAppearance()
+    appearance.backgroundColor = .white
+    appearance.shadowImage = UIImage.shadowImage
+    UITabBar.appearance().scrollEdgeAppearance = appearance
   }
 }
 

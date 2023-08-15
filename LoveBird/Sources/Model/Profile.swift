@@ -9,10 +9,10 @@ import Foundation
 
 struct Profile: Equatable, Codable, Sendable {
   let memberId: Int
-  let partnerId: Int
+  let partnerId: Int?
   let email: String
   let nickname: String
-  let partnerNickname: String
+  let partnerNickname: String?
   let firstDate: String
   let birthDay: String
   let dayCount: Int

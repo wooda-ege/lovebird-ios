@@ -6,5 +6,5 @@
 //
 
 struct TryLinkResponse: Codable, Equatable, Sendable {
-  let link: String
+  let isSuccess: Bool
 }

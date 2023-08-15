@@ -12,7 +12,9 @@ typealias CalendarState = CalendarCore.State
 typealias CalendarAction = CalendarCore.Action
 
 struct CalendarCore: ReducerProtocol {
-  
+
+  // MARK: - State
+
   struct State: Equatable {
     @PresentationState var scheduleAdd: ScheduleAddState?
     @PresentationState var scheduleDetail: ScheduleDetailState?
@@ -23,8 +25,12 @@ struct CalendarCore: ReducerProtocol {
     var currentPreviewDate = Date()
     var showCalendarPreview = false
   }
+
+  // MARK: - Action
   
   enum Action: Equatable {
+    case viewAppear
+    case dataLoaded(TaskResult<Schedules>)
     case scheduleAdd(PresentationAction<ScheduleAddAction>)
     case scheduleDetail(PresentationAction<ScheduleDetailAction>)
     case plusTapped
@@ -36,44 +42,18 @@ struct CalendarCore: ReducerProtocol {
     case fetchSchedules
     case scheduleTapped(Schedule)
     case hideCalendarPreview
-
-    // Network
-    case loadData
-    case dataLoaded(TaskResult<Schedules>)
   }
 
+  // MARK: - Dependency
+
   @Dependency(\.apiClient) var apiClient
+
+  // MARK: - Body
 
   var body: some ReducerProtocolOf<Self> {
     Reduce { state, action in
       switch action {
-      case .plusTapped:
-        state.scheduleAdd = ScheduleAddState(date: state.currentDate)
-      case .toggleTapped:
-        state.currentPreviewDate = state.currentDate
-        state.showCalendarPreview = true
-      case .dayTapped(let date):
-        state.currentDate = date
-        state.schedulesOfDay = state.schedules[date.to(dateFormat: Date.Format.YMDDivided)] ?? []
-        state.showCalendarPreview = false
-      case .previewDayTapped(let date):
-        return .send(.dayTapped(date))
-      case .scheduleAdd(.presented(.backButtonTapped)):
-        state.scheduleAdd = nil
-      case .scheduleDetail(.presented(.backButtonTapped)):
-        state.scheduleDetail = nil
-      case .previewFollowingTapped:
-        state.currentPreviewDate = state.currentPreviewDate.addMonths(by: -1)
-      case .previewNextTapped:
-        state.currentPreviewDate = state.currentPreviewDate.addMonths(by: 1)
-      case .scheduleTapped(let schedule):
-        state.scheduleDetail = ScheduleDetailState(schedule: schedule)
-        state.showCalendarPreview = false
-      case .hideCalendarPreview:
-        state.showCalendarPreview = false
-
-        // MARK: - Network
-      case .loadData:
+      case .viewAppear:
         return .task {
           .dataLoaded(
             await TaskResult {
@@ -81,17 +61,65 @@ struct CalendarCore: ReducerProtocol {
             }
           )
         }
+
+      case .plusTapped:
+        state.scheduleAdd = ScheduleAddState(date: state.currentDate)
+        return .none
+
+      case .toggleTapped:
+        state.currentPreviewDate = state.currentDate
+        state.showCalendarPreview = true
+        return .none
+
+      case .dayTapped(let date):
+        state.currentDate = date
+        state.schedulesOfDay = state.schedules[date.to(dateFormat: Date.Format.YMDDivided)] ?? []
+        state.showCalendarPreview = false
+        return .none
+
+      case .previewDayTapped(let date):
+        return .send(.dayTapped(date))
+
+      case .scheduleAdd(.presented(.backButtonTapped)):
+        state.scheduleAdd = nil
+        return .none
+
+      case .scheduleDetail(.presented(.backButtonTapped)):
+        state.scheduleDetail = nil
+        return .none
+
+      case .previewFollowingTapped:
+        state.currentPreviewDate = state.currentPreviewDate.addMonths(by: -1)
+        return .none
+
+      case .previewNextTapped:
+        state.currentPreviewDate = state.currentPreviewDate.addMonths(by: 1)
+        return .none
+
+      case .scheduleTapped(let schedule):
+        state.scheduleDetail = ScheduleDetailState(schedule: schedule)
+        state.showCalendarPreview = false
+        return .none
+
+      case .hideCalendarPreview:
+        state.showCalendarPreview = false
+        return .none
+
       case .dataLoaded(.success(let schedules)):
         state.schedules = schedules.schedules.mapToDict()
         return .send(.dayTapped(Date()))
+
       case .scheduleAdd(.presented(.addScheduleResponse(.success))):
         state.scheduleAdd = nil
+        return .none
+
       case .scheduleDetail(.presented(.deleteScheduleResponse(.success))):
         state.scheduleDetail = nil
+        return .none
+
       default:
-        break
+        return .none
       }
-      return .none
     }
     .ifLet(\.$scheduleAdd, action: /CalendarAction.scheduleAdd) {
       ScheduleAddCore()

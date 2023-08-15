@@ -19,17 +19,19 @@ struct LoveBirdApp: App {
   init() {
     KakaoSDK.initSDK(appKey:"1746240fb7f6ef325a38312290e1d8b1")
   }
-  
+
   var body: some Scene {
-    
     WindowGroup {
-      RootView(store: Store(initialState: RootCore.State(),
-                            reducer: RootCore()._printChanges()))
-//      SplashView()
+      RootView(
+        store: Store(
+          initialState: RootCore.State(),
+          reducer: RootCore()._printChanges()
+        )
+      )
       .preferredColorScheme(.light)
       .onOpenURL(perform: { url in
         if (AuthApi.isKakaoTalkLoginUrl(url)) {
-          AuthController.handleOpenUrl(url: url)
+          let _ = AuthController.handleOpenUrl(url: url)
         }
       })
     }

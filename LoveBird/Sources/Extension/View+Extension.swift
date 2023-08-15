@@ -9,12 +9,18 @@ import SwiftUI
 import UIKit
 
 extension View {
+  func ifTapped(completion: @escaping () -> Void) -> some View {
+    return self.background(Color.white.onTapGesture {
+      completion()
+    })
+  }
+
   func showClearButton(
     _ text: Binding<String>,
     isFocused: Bool = true,
     trailingPadding: CGFloat = 18
   ) -> some View {
-    self.modifier(TextFieldClearButton(
+    return self.modifier(TextFieldClearButton(
       fieldText: text,
       isFocused: isFocused,
       trailingPadding: trailingPadding
@@ -22,14 +28,14 @@ extension View {
   }
   
   func roundedBackground(cornerRadius: Int, color: Color) -> some View {
-    self.background(
+    return self.background(
       RoundedRectangle(cornerRadius: 12)
         .strokeBorder(color, lineWidth: 1)
     )
   }
 
   func bottomBorder() -> some View {
-    self.overlay(
+    return self.overlay(
       Rectangle()
         .fill(Color(R.color.gray04))
         .frame(height: 1),

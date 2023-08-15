@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>1098607680183-8cig0rigc3ai2a02qgcbmlkb09m49ljd.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.1098607680183-8cig0rigc3ai2a02qgcbmlkb09m49ljd</string>
+	<key>API_KEY</key>
+	<string>AIzaSyAddjXP_bQ017XxqQW0Rv0RPYalSDt5Hxk</string>
+	<key>GCM_SENDER_ID</key>
+	<string>1098607680183</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.prography.LoveBird</string>
+	<key></key>
+	<string></string>
+	<key>PROJECT_ID</key>
+	<string>lovebird-389615</string>
+	<key>STORAGE_BUCKET</key>
+	<string>lovebird-389615.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false/>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false/>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true/>
+	<key>IS_GCM_ENABLED</key>
+	<true/>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true/>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:1098607680183:ios:3a5afe8f6e49e9e255cb32</string>
+</dict>
+</plist>

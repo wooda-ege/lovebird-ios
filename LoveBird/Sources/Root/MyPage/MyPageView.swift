@@ -28,9 +28,9 @@ struct MyPageView: View {
               .foregroundColor(.black)
               .font(.pretendard(size: 16, weight: .bold))
 
-            Text(String(viewStore.user?.dayCount ?? 0))
-              .foregroundColor(Color(R.color.primary))
-              .font(.pretendard(size: 16, weight: .bold))
+//            Text(String(viewStore.user?.dayCount ?? 0))
+//              .foregroundColor(Color(R.color.primary))
+//              .font(.pretendard(size: 16, weight: .bold))
 
             Spacer()
           }
@@ -44,13 +44,13 @@ struct MyPageView: View {
 
           ZStack(alignment: .center) {
             HStack(spacing: 34) {
-              Text(viewStore.user?.nickname ?? "")
-                .font(.pretendard(size: 14))
-                .frame(maxWidth: .infinity, alignment: .trailing)
-
-              Text(viewStore.user?.partnerNickname ?? "")
-                .font(.pretendard(size: 14))
-                .frame(maxWidth: .infinity, alignment: .leading)
+//              Text(viewStore.user?.nickname ?? "")
+//                .font(.pretendard(size: 14))
+//                .frame(maxWidth: .infinity, alignment: .trailing)
+//
+//              Text(viewStore.user?.partnerNickname ?? "")
+//                .font(.pretendard(size: 14))
+//                .frame(maxWidth: .infinity, alignment: .leading)
             }
 
             Image(R.image.ic_bird)
@@ -92,18 +92,18 @@ struct MyPageView: View {
             .bottomBorder()
           }
 
-          NavigationLink(destination: MyWebView(urlToLoad: Config.privacyPolicyURL)) {
-            HStack(alignment: .center) {
-              Text("개인정보 처리방침")
-                .font(.pretendard(size: 16))
-                .padding(.leading, 16)
-
-              Spacer()
-            }
-            .frame(height: 68)
-            .frame(maxWidth: .infinity)
-            .bottomBorder()
-          }
+//          NavigationLink(destination: MyWebView(urlToLoad: Config.privacyPolicyURL)) {
+//            HStack(alignment: .center) {
+//              Text("개인정보 처리방침")
+//                .font(.pretendard(size: 16))
+//                .padding(.leading, 16)
+//
+//              Spacer()
+//            }
+//            .frame(height: 68)
+//            .frame(maxWidth: .infinity)
+//            .bottomBorder()
+//          }
 
           HStack(alignment: .center) {
             Text("버전정보")
@@ -112,7 +112,7 @@ struct MyPageView: View {
 
             Spacer()
 
-            Text("1.0.0")
+            Text(Bundle.main.version)
               .font(.pretendard(size: 16))
               .padding(.trailing, 16)
           }
