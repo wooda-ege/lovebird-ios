@@ -29,7 +29,7 @@ struct ScheduleDetailCore: ReducerProtocol {
     case deleteTapped
 
     // Network
-    case deleteScheduleResponse(TaskResult<NetworkStatusResponse>)
+    case deleteScheduleResponse(TaskResult<String>)
     case fetchScheduleResponse(TaskResult<Schedule>)
   }
 

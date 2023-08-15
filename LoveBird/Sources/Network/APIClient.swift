@@ -23,8 +23,6 @@ public enum APIClient {
   case coupleLinkButtonClicked(coupleCode: String, authorization: String, refresh: String)
   case searchKakaoMap(searchTerm: String)
   case registerDiary(authorization: String, refresh: String, image: UIImage?, diary: RegisterDiaryRequest)
-  case signUp
-  case fetchDiary(id :Int)
   case searchPlace(searchTerm: String)
 
   // profile
@@ -49,6 +47,7 @@ extension APIClient: TargetType {
       return URL(string: Config.kakaoMapURL)!
     default:
       return URL(string: Config.baseURL)!
+    }
   }
 
   public var path: String {
@@ -65,8 +64,6 @@ extension APIClient: TargetType {
         return "/v2/local/search/keyword.json"
       case .registerDiary:
         return "/diaries"
-      }
-
       case .fetchDiary(let id):
         return "/members/\(id)"
       case .fetchDiaries:
@@ -75,7 +72,7 @@ extension APIClient: TargetType {
         return "/query=\(searchTerm)"
       case .addSchedule, .fetchCalendars:
         return "/calendar"
-  case .signUp, .fetchProfile, .editProfile:
+      case .signUp, .fetchProfile, .editProfile:
         return "/profile"
       case .fetchSchedule(let id), .deleteSchedule(let id), .editSchedule(let id, _):
         return "/calendar/\(id)"
@@ -176,6 +173,11 @@ extension APIClient: TargetType {
       params["coupleCode"] = coupleCode
     case .searchKakaoMap(let searchTerm):
       params["query"] = searchTerm
+    default:
+      break
+    }
+    return params
+  }
 
   private var multiparts: [Moya.MultipartFormData] {
     var multiparts: [Moya.MultipartFormData] = []
@@ -243,25 +245,6 @@ extension MoyaProvider {
             continuation.resume(throwing: error)
           }
           
-        case .failure(let error):
-          continuation.resume(throwing: error)
-        }
-      }
-    }
-  }
-
-  func requestRaw(_ target: Target) async throws -> NetworkStatusResponse {
-    return try await withCheckedThrowingContinuation { continuation in
-      self.request(target) { response in
-        switch response {
-        case .success(let result):
-          do {
-            let networkResponse = try JSONDecoder().decode(NetworkStatusResponse.self, from: result.data)
-            continuation.resume(returning: networkResponse)
-          } catch {
-            continuation.resume(throwing: error)
-          }
-
         case .failure(let error):
           continuation.resume(throwing: error)
         }
