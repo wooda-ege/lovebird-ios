@@ -14,7 +14,7 @@ struct HomeContentView: View {
   let diary: Diary
   
   var body: some View {
-    WithViewStore(self.store) { viewStore in
+    WithViewStore(self.store, observe: { $0 }) { viewStore in
       switch self.diary.type {
       case .empty:
         HStack {
@@ -35,8 +35,9 @@ struct HomeContentView: View {
         .padding(.trailing, 16)
         .shadow(color: .black.opacity(0.08), radius: 12)
         .onTapGesture {
-          viewStore.send(.emptyDiaryTapped)
+          viewStore.send(.todoDiaryTapped)
         }
+
       case .diary:
         VStack(spacing: -28) {
           HStack {
@@ -90,6 +91,7 @@ struct HomeContentView: View {
         .onTapGesture {
           viewStore.send(.diaryTapped(self.diary))
         }
+
       case .initial:
         HStack {
           Text("D+1")
@@ -100,25 +102,23 @@ struct HomeContentView: View {
         }
         .padding(.leading, 2)
         .padding(.top, 20)
+
       case .anniversary:
-        VStack {
-          HStack(alignment: .top) {
-            VStack {
-              Text(diary.title)
-                .foregroundColor(Color(R.color.gray05))
-                .font(.pretendard(size: 18, weight: .bold))
-                .padding(.leading, 2)
-                .padding(.top, 36)
-              
-              Spacer()
-            }
+        HStack(alignment: .top) {
+          VStack {
+            Text(diary.title)
+              .foregroundColor(Color(R.color.gray05))
+              .font(.pretendard(size: 18, weight: .bold))
+              .padding(.leading, 2)
+              .padding(.top, 36)
+
             Spacer()
           }
-          Spacer(minLength: 44)
+          Spacer()
         }
+        .padding(.bottom, 44)
       }
     }
-    
   }
 }
 

@@ -12,19 +12,19 @@ struct HomeView: View {
   let store: StoreOf<HomeCore>
   
   var body: some View {
-    WithViewStore(self.store) { viewStore in
-      VStack {
+    WithViewStore(self.store, observe: { $0 }) { viewStore in
+      VStack(spacing: 0) {
         HStack(alignment: .center) {
-          Rectangle()
-            .fill(Color(R.color.primary))
-            .frame(width: 24, height: 24)
+          Image(R.image.img_pinkbird)
+            .changeSize(to: .init(width: 36, height: 36))
+
           Spacer()
         }
         .frame(height: 44)
-        .padding(.horizontal, 16)
-        
-        Spacer()
-        
+        .padding(.horizontal, 12)
+
+        // MARK: - 왼쪽 세로 선
+
         ZStack(alignment: .leading) {
           Line()
             .stroke(style: StrokeStyle(lineWidth: 1, dash: [2]))
@@ -45,6 +45,8 @@ struct HomeView: View {
               Spacer()
             }
           }
+
+          // MARK: - 타임라인
           
           ReversedScrollView { point in
             viewStore.send(.offsetYChanged(point.y))

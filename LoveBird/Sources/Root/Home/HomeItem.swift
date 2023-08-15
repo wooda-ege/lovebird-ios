@@ -22,11 +22,9 @@ struct HomeItem: View {
   
   var body: some View {
     HStack {
-      Spacer(minLength: 16)
-
-      HomeLeftLineView(timeState: diary.timeState ?? .previous)
-
-      Spacer(minLength: 11)
+      HomeLeftLineView(timeState: diary.timeState)
+        .padding(.leading, 16)
+        .padding(.trailing, 11)
 
       VStack(alignment: .trailing) {
         Text(String(diary.memoryDate.month))
@@ -44,8 +42,7 @@ struct HomeItem: View {
         Spacer()
       }
       .padding(.top, 20)
-
-      Spacer(minLength: 12)
+      .padding(.trailing, 12)
       
       HomeContentView(store: self.store, diary: diary)
     }

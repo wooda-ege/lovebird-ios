@@ -111,6 +111,8 @@ struct ScheduleAddCore: ReducerProtocol {
       switch action {
       case .contentTapped(let type):
         self.handleContentTapped(state: &state, type: type)
+        return .none
+
       case .endDateToggleTapped:
         state.isEndDateActive = !state.isEndDateActive
         if state.isEndDateActive {
@@ -118,22 +120,38 @@ struct ScheduleAddCore: ReducerProtocol {
         } else {
           state.showDateBottomSheet = false
         }
+        return .none
+
       case .timeToggleTapped:
         state.isTimeActive = !state.isTimeActive
+        return .none
+
       case .alarmToggleTapped:
         state.isAlarmActive = !state.isAlarmActive
+        return .none
+
       case .alarmOptionTapped:
         state.showAlarmBottomSheet = true
+        return .none
+
       case .titleEdited(let title):
         state.title = title
+        return .none
+
       case .memoEdited(let memo):
         state.memo = memo
+        return .none
+
       case .colorSelected(let color):
         state.color = color
         state.showColorBottomSheet = false
+        return .none
+
       case .alarmSelected(let alarm):
         state.alarm = alarm
         state.showAlarmBottomSheet = false
+        return .none
+
       case .yearSelected(let year):
         state.year = year
         switch state.focusedType {
@@ -142,14 +160,19 @@ struct ScheduleAddCore: ReducerProtocol {
           if state.startDate.isLater(than: state.endDate) {
             state.endDate = state.startDate.addDays(by: 1)
           }
+          return .none
+
         case .endDate:
           state.endDate = Date.with(year: year, month: state.month, day: state.day)
           if state.startDate.isLater(than: state.endDate) {
             state.startDate = state.endDate.addDays(by: -1)
           }
+          return .none
+
         default:
-          break
+          return .none
         }
+
       case .monthSelected(let month):
         state.month = month
         switch state.focusedType {
@@ -158,14 +181,19 @@ struct ScheduleAddCore: ReducerProtocol {
           if state.startDate.isLater(than: state.endDate) {
             state.endDate = state.startDate.addDays(by: 1)
           }
+          return .none
+
         case .endDate:
           state.endDate = Date.with(year: state.year, month: month, day: state.day)
           if state.startDate.isLater(than: state.endDate) {
             state.startDate = state.endDate.addDays(by: -1)
           }
+          return .none
+
         default:
-          break
+          return .none
         }
+
       case .daySelected(let day):
         state.day = day
         switch state.focusedType {
@@ -174,14 +202,19 @@ struct ScheduleAddCore: ReducerProtocol {
           if state.startDate.isLater(than: state.endDate) {
             state.endDate = state.startDate.addDays(by: 1)
           }
+          return .none
+
         case .endDate:
           state.endDate = Date.with(year: state.year, month: state.month, day: day)
           if state.startDate.isLater(than: state.endDate) {
             state.startDate = state.endDate.addDays(by: -1)
           }
+          return .none
+
         default:
-          break
+          return .none
         }
+
       case .hourSelected(let hour):
         state.time.hour = hour
         switch state.focusedType {
@@ -190,14 +223,19 @@ struct ScheduleAddCore: ReducerProtocol {
           if state.startTime.isLater(than: state.endTime) {
             state.endTime = state.startTime.addOneHour()
           }
+          return .none
+
         case .endTime:
           state.endTime.hour = hour
           if state.startTime.isLater(than: state.endTime) {
             state.startTime = state.endTime.subtractOneHour()
           }
+          return .none
+
         default:
-          break
+          return .none
         }
+
       case .minuteSelected(let minute):
         state.time.minute = minute
         switch state.focusedType {
@@ -206,14 +244,19 @@ struct ScheduleAddCore: ReducerProtocol {
           if state.startTime.isLater(than: state.endTime) {
             state.endTime = state.startTime.addOneHour()
           }
+          return .none
+
         case .endTime:
           state.endTime.minute = minute
           if state.startTime.isLater(than: state.endTime) {
             state.startTime = state.endTime.subtractOneHour()
           }
+          return .none
+
         default:
-          break
+          return .none
         }
+
       case .meridiemSelected(let meridiem):
         state.time.meridiem = meridiem
         switch state.focusedType {
@@ -222,35 +265,52 @@ struct ScheduleAddCore: ReducerProtocol {
           if state.startTime.isLater(than: state.endTime) {
             state.endTime = state.startTime.addOneHour()
           }
+          return .none
+
         case .endTime:
           state.endTime.meridiem = meridiem
           if state.startTime.isLater(than: state.endTime) {
             state.startTime = state.endTime.subtractOneHour()
           }
+          return .none
+
         default:
-          break
+          return .none
         }
+
       case .hideColorBottomSheet:
         state.showColorBottomSheet = false
+        return .none
+
       case .hideDateBottomSheet:
         state.showDateBottomSheet = false
+        return .none
+
       case .hideTimeBottomSheet:
         state.showTimeBottomSheet = false
+        return .none
+
       case .hideAlarmBottomSheet:
         state.showAlarmBottomSheet = false
+        return .none
+
       case .dateInitialied:
         self.handleDateInitialized(state: &state)
+        return .none
+
       case .timeInitialied:
         self.handleTimeInitialized(state: &state)
+        return .none
+
       case .scheduleDetail(.presented(.backButtonTapped)):
         state.scheduleDetail = nil
+        return .none
 
       // Network
       case .confirmTapped:
-        if state.title.isEmpty { break }
+        if state.title.isEmpty { return .none }
         let request = self.addScheduleRequest(state: &state)
         if let _ = state.idForEditing {
-          print(request)
           return .task { [scheduleId = state.idForEditing!] in
               .editScheduleResponse(
                 await TaskResult {
@@ -268,9 +328,8 @@ struct ScheduleAddCore: ReducerProtocol {
           }
         }
       default:
-        break
+        return .none
       }
-      return .none
     }
     .ifLet(\.$scheduleDetail, action: /ScheduleAddAction.scheduleDetail) {
       ScheduleDetailCore()

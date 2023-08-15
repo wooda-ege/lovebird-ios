@@ -9,21 +9,28 @@ import Foundation
 import ComposableArchitecture
 
 struct MainTabCore: ReducerProtocol {
+
+  // MARK: - Tab
+
   enum Tab {
     case home
     case canlander
     case diary
     case myPage
   }
-  
+
+  // MARK: - State
+
   struct State: Equatable {
-    var selectedTab = Tab.home
+    var selectedTab: Tab = .home
     var home: HomeCore.State? = HomeCore.State()
     var calander: CalendarCore.State? = CalendarCore.State()
     var diary: DiaryCore.State? = DiaryCore.State()
     var search: SearchPlaceCore.State? = SearchPlaceCore.State()
     var myPage: MyPageCore.State? = MyPageCore.State()
   }
+
+  // MARK: - Action
   
   enum Action: Equatable {
     case tabSelected(Tab)
@@ -33,6 +40,8 @@ struct MainTabCore: ReducerProtocol {
     case search(SearchPlaceCore.Action)
     case myPage(MyPageCore.Action)
   }
+
+  // MARK: - Body
   
   var body: some ReducerProtocol<State, Action> {
     Reduce { state, action in
@@ -40,15 +49,19 @@ struct MainTabCore: ReducerProtocol {
       case .tabSelected(let tab):
         state.selectedTab = tab
         return .none
-      case .home(.emptyDiaryTapped):
+
+      case .home(.todoDiaryTapped):
         state.selectedTab = .diary
         return .none
+
       case .diary(.completeButtonTapped):
         state.selectedTab = .home
         return .none
+
       case .search(.completeButtonTapped):
         state.selectedTab = .diary
         return .none
+
       default:
         return .none
       }

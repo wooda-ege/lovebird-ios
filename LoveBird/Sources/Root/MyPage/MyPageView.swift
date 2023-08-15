@@ -112,7 +112,7 @@ struct MyPageView: View {
 
             Spacer()
 
-            Text("1.0.0")
+            Text(Bundle.main.version)
               .font(.pretendard(size: 16))
               .padding(.trailing, 16)
           }

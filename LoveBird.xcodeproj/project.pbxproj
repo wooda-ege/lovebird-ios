@@ -14,7 +14,6 @@
 		4256403E2A6454E100EC962E /* AppleLoginRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4256403D2A6454E100EC962E /* AppleLoginRequest.swift */; };
 		425F25B32A543B7200A333A5 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 425F25B22A543B7200A333A5 /* FirebaseAnalytics */; };
 		425F25B52A543B7200A333A5 /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 425F25B42A543B7200A333A5 /* FirebaseMessaging */; };
-		425F25B92A543E9000A333A5 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 425F25B82A543E9000A333A5 /* GoogleService-Info.plist */; };
 		4263E1BC2A2F3372008B402B /* DiarySelectPlaceButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4263E1BB2A2F3372008B402B /* DiarySelectPlaceButton.swift */; };
 		4263E1BE2A2F33DB008B402B /* ResignKeyboardOnDragGesture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4263E1BD2A2F33DB008B402B /* ResignKeyboardOnDragGesture.swift */; };
 		4263E1C02A2F3419008B402B /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4263E1BF2A2F3419008B402B /* ImagePicker.swift */; };
@@ -55,6 +54,7 @@
 		4A0FEA0B2A47D640005E88E3 /* DateFormatter+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A0FEA0A2A47D640005E88E3 /* DateFormatter+Extension.swift */; };
 		4A0FEA0D2A4B01D4005E88E3 /* DateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A0FEA0C2A4B01D4005E88E3 /* DateManager.swift */; };
 		4A0FEA0F2A4B0DDA005E88E3 /* CalendarDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A0FEA0E2A4B0DDA005E88E3 /* CalendarDate.swift */; };
+		4A1B9BCD2A8B5717009832EF /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4A1B9BCC2A8B5717009832EF /* GoogleService-Info.plist */; };
 		4A1DDF1E2A2C338100B3A72B /* TouchableStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A1DDF1D2A2C338100B3A72B /* TouchableStack.swift */; };
 		4A1DDF222A2C7CC700B3A72B /* SignUpRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A1DDF212A2C7CC700B3A72B /* SignUpRequest.swift */; };
 		4A1DDF242A2C7CCD00B3A72B /* SignUpResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A1DDF232A2C7CCD00B3A72B /* SignUpResponse.swift */; };
@@ -139,6 +139,7 @@
 		4AD937E12A3F0DFD0093BD8D /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AD937E02A3F0DFD0093BD8D /* Config.swift */; };
 		4AD937E32A3F19240093BD8D /* Page+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AD937E22A3F19240093BD8D /* Page+Extension.swift */; };
 		4ADC019D2A792F790095A5E5 /* Diaries.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ADC019C2A792F790095A5E5 /* Diaries.swift */; };
+		4AE128342A8B9C670014CCE0 /* Bundle+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AE128332A8B9C670014CCE0 /* Bundle+Extension.swift */; };
 		4AE5CB492A20FF1D0016C0B4 /* HomeLeftLineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AE5CB482A20FF1D0016C0B4 /* HomeLeftLineView.swift */; };
 		4AE5CB4B2A2102800016C0B4 /* HomeContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AE5CB4A2A2102800016C0B4 /* HomeContentView.swift */; };
 		4AE5CB4E2A21B1180016C0B4 /* Diary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AE5CB4D2A21B1180016C0B4 /* Diary.swift */; };
@@ -165,7 +166,6 @@
 		4256403B2A6452A600EC962E /* AppleLoginResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleLoginResponse.swift; sourceTree = "<group>"; };
 		4256403D2A6454E100EC962E /* AppleLoginRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleLoginRequest.swift; sourceTree = "<group>"; };
 		425F25B02A54380F00A333A5 /* LoveBird.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = LoveBird.entitlements; sourceTree = "<group>"; };
-		425F25B82A543E9000A333A5 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../Downloads/구성파일/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		4263E1BB2A2F3372008B402B /* DiarySelectPlaceButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiarySelectPlaceButton.swift; sourceTree = "<group>"; };
 		4263E1BD2A2F33DB008B402B /* ResignKeyboardOnDragGesture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResignKeyboardOnDragGesture.swift; sourceTree = "<group>"; };
 		4263E1BF2A2F3419008B402B /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
@@ -208,6 +208,7 @@
 		4A0FEA0A2A47D640005E88E3 /* DateFormatter+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DateFormatter+Extension.swift"; sourceTree = "<group>"; };
 		4A0FEA0C2A4B01D4005E88E3 /* DateManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateManager.swift; sourceTree = "<group>"; };
 		4A0FEA0E2A4B0DDA005E88E3 /* CalendarDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarDate.swift; sourceTree = "<group>"; };
+		4A1B9BCC2A8B5717009832EF /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		4A1DDF1D2A2C338100B3A72B /* TouchableStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TouchableStack.swift; sourceTree = "<group>"; };
 		4A1DDF212A2C7CC700B3A72B /* SignUpRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpRequest.swift; sourceTree = "<group>"; };
 		4A1DDF232A2C7CCD00B3A72B /* SignUpResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpResponse.swift; sourceTree = "<group>"; };
@@ -293,6 +294,7 @@
 		4AD937E02A3F0DFD0093BD8D /* Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
 		4AD937E22A3F19240093BD8D /* Page+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Page+Extension.swift"; sourceTree = "<group>"; };
 		4ADC019C2A792F790095A5E5 /* Diaries.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Diaries.swift; sourceTree = "<group>"; };
+		4AE128332A8B9C670014CCE0 /* Bundle+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bundle+Extension.swift"; sourceTree = "<group>"; };
 		4AE5CB482A20FF1D0016C0B4 /* HomeLeftLineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeLeftLineView.swift; sourceTree = "<group>"; };
 		4AE5CB4A2A2102800016C0B4 /* HomeContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeContentView.swift; sourceTree = "<group>"; };
 		4AE5CB4D2A21B1180016C0B4 /* Diary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Diary.swift; sourceTree = "<group>"; };
@@ -378,7 +380,7 @@
 			children = (
 				425F25B02A54380F00A333A5 /* LoveBird.entitlements */,
 				4ACCB98B2A18F935009F1E22 /* Info.plist */,
-				425F25B82A543E9000A333A5 /* GoogleService-Info.plist */,
+				4A1B9BCC2A8B5717009832EF /* GoogleService-Info.plist */,
 				4A3F1FB02A18D15B009856F1 /* Resources */,
 				4A0396902A0FA5E900EB062D /* Sources */,
 				4A0396882A0FA5B800EB062D /* Preview Content */,
@@ -592,6 +594,7 @@
 				4AD602CC2A5167250029D7EB /* Int+Extension.swift */,
 				4AD602D82A5316BE0029D7EB /* UINavigationController+Extension.swift */,
 				4A327DB62A5A7C54002EEB55 /* Image+Extension.swift */,
+				4AE128332A8B9C670014CCE0 /* Bundle+Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -843,7 +846,7 @@
 				42E4D59C2A4DECE800F4FA42 /* GmarketSansLight.otf in Resources */,
 				4AB2DB2A2A18FBE3003EFD95 /* Pretendard-Regular.otf in Resources */,
 				4AB2DB442A1A3290003EFD95 /* Pretendard-SemiBold.otf in Resources */,
-				425F25B92A543E9000A333A5 /* GoogleService-Info.plist in Resources */,
+				4A1B9BCD2A8B5717009832EF /* GoogleService-Info.plist in Resources */,
 				42E4D59A2A4DECE800F4FA42 /* GmarketSansMedium.otf in Resources */,
 				4A0396872A0FA5B800EB062D /* Assets.xcassets in Resources */,
 			);
@@ -948,6 +951,7 @@
 				4A03969C2A0FA61A00EB062D /* OnboardingView.swift in Sources */,
 				4256403C2A6452A600EC962E /* AppleLoginResponse.swift in Sources */,
 				42784F8B2A8A8E2600F39139 /* RegisterDiaryRequest.swift in Sources */,
+				4AE128342A8B9C670014CCE0 /* Bundle+Extension.swift in Sources */,
 				4AD853D12A89B30D0005EAD5 /* ImagePickerCore.swift in Sources */,
 				4A0396A12A0FA61A00EB062D /* HomeCore.swift in Sources */,
 				4ACCB9722A18DE7E009F1E22 /* R.generated.swift in Sources */,
@@ -1200,15 +1204,17 @@
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.lovebird.apps;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1232,15 +1238,17 @@
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.lovebird.apps;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

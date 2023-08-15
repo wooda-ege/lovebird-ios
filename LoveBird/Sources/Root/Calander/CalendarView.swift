@@ -22,7 +22,7 @@ struct CalendarView: View {
         .onTapGesture {
           viewStore.send(.hideCalendarPreview)
         }
-
+        
         if viewStore.state.showCalendarPreview {
           VStack {
             CalendarPreviewTabView(viewStore: viewStore)
@@ -37,8 +37,9 @@ struct CalendarView: View {
           .offset(x: 16, y: 44)
         }
       }
+
       .onAppear {
-        viewStore.send(.loadData)
+        viewStore.send(.viewAppear)
       }
     }
   }

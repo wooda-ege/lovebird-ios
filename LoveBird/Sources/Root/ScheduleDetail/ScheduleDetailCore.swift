@@ -13,6 +13,8 @@ typealias ScheduleDetailAction = ScheduleDetailCore.Action
 
 struct ScheduleDetailCore: ReducerProtocol {
 
+  // MARK: - State
+
   struct State: Equatable {
     @PresentationState var scheduleAdd: ScheduleAddState?
     var schedule: Schedule
@@ -21,6 +23,8 @@ struct ScheduleDetailCore: ReducerProtocol {
       self.schedule = schedule
     }
   }
+
+  // MARK: - Action
 
   enum Action: Equatable {
     case scheduleAdd(PresentationAction<ScheduleAddAction>)
@@ -33,13 +37,19 @@ struct ScheduleDetailCore: ReducerProtocol {
     case fetchScheduleResponse(TaskResult<Schedule>)
   }
 
+  // MARK: - Dependency
+
   @Dependency(\.apiClient) var apiClient
 
+  // MARK: - Body
+  
   var body: some ReducerProtocol<State, Action> {
     Reduce { state, action in
       switch action {
       case .editTapped:
         state.scheduleAdd = ScheduleAddState(schedule: state.schedule)
+        return .none
+
       case .deleteTapped:
         return .task { [scheduleId = state.schedule.id] in
           .deleteScheduleResponse(
@@ -48,6 +58,7 @@ struct ScheduleDetailCore: ReducerProtocol {
             }
           )
         }
+
       case .scheduleAdd(.presented(.editScheduleResponse(.success))):
         state.scheduleAdd = nil
         return .task { [id = state.schedule.id] in
@@ -57,14 +68,18 @@ struct ScheduleDetailCore: ReducerProtocol {
             }
           )
         }
+
       case .fetchScheduleResponse(.success(let schedule)):
         state.schedule = schedule
+        return .none
+
       case .scheduleAdd(.presented(.backButtonTapped)):
         state.scheduleAdd = nil
+        return .none
+
       default:
-        break
+        return .none
       }
-      return .none
     }
     .ifLet(\.$scheduleAdd, action: /ScheduleDetailAction.scheduleAdd) {
       ScheduleAddCore()
