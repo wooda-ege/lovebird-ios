@@ -7,15 +7,15 @@
 
 import Foundation
 
-enum ScheduleAlarm: Encodable, CaseIterable {
-  case typeA
-  case typeB
-  case typeC
-  case typeD
-  case typeE
-  case typeF
-  case typeG
-  case typeH
+enum ScheduleAlarm: String, Codable, CaseIterable {
+  case typeA = "TYPE_A"
+  case typeB = "TYPE_B"
+  case typeC = "TYPE_C"
+  case typeD = "TYPE_D"
+  case typeE = "TYPE_E"
+  case typeF = "TYPE_F"
+  case typeG = "TYPE_G"
+  case typeH = "TYPE_H"
   case none
 
   var description: String {

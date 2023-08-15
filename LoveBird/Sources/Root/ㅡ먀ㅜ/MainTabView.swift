@@ -13,7 +13,7 @@ struct MainTabView: View {
   let store: StoreOf<MainTabCore>
   
   var body: some View {
-    WithViewStore(self.store) { viewStore in
+    WithViewStore(self.store, observe: { $0 }) { viewStore in
       NavigationView {
         TabView(
           selection: viewStore.binding(

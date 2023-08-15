@@ -15,24 +15,30 @@ struct ScheduleAddCore: ReducerProtocol {
   struct State: Equatable {
 
     init(date: Date) {
+      self.idForEditing = nil
       self.startDate = date
     }
 
     init(schedule: Schedule) {
-//      self.color = schedule.color
+      self.idForEditing = schedule.id
       self.title = schedule.title
       self.memo = schedule.memo ?? ""
+      self.color = schedule.color
       self.startDate = schedule.startDate.toDate()
-      self.endDate = (schedule.startDate != schedule.endDate && schedule.endDate != nil)
+
+      self.endDate = schedule.endDate != nil
         ? schedule.endDate!.toDate()
         : schedule.startDate.toDate().addDays(by: 1)
-      self.isEndDateActive = schedule.startDate != schedule.endDate
+      self.isEndDateActive = schedule.endDate != nil
+
       self.isTimeActive = schedule.startTime != nil
-//      if let startTime = schedule.startTime , let endTime = schedule.endTime {
-//        self.startTime = startTime.toScheduleTime()
-//      }
+      if let startTime = schedule.startTime , let endTime = schedule.endTime {
+        self.startTime = startTime.toTime()
+        self.endTime = endTime.toTime()
+      }
     }
 
+    let idForEditing: Int?
     var title = ""
     var color: ScheduleColor = .secondary
     var startDate = Date()
@@ -91,7 +97,8 @@ struct ScheduleAddCore: ReducerProtocol {
     case meridiemSelected(ScheduleTime.Meridiem)
 
     // Network
-    case addScheduleResponse(TaskResult<AddScheduleResponse>)
+    case addScheduleResponse(TaskResult<Int>)
+    case editScheduleResponse(TaskResult<Int>)
 
     // Navigation
     case scheduleDetail(PresentationAction<ScheduleDetailAction>)
@@ -235,26 +242,30 @@ struct ScheduleAddCore: ReducerProtocol {
         self.handleDateInitialized(state: &state)
       case .timeInitialied:
         self.handleTimeInitialized(state: &state)
+      case .scheduleDetail(.presented(.backButtonTapped)):
+        state.scheduleDetail = nil
 
       // Network
       case .confirmTapped:
         if state.title.isEmpty { break }
-        let request = AddScheduleRequest(
-          title: state.title,
-          memo: state.memo,
-          color: state.color,
-          alarm: state.alarm,
-          startDate: state.startDate.to(dateFormat: Date.Format.YMDDivided),
-          endDate: state.endDate.to(dateFormat: Date.Format.YMDDivided),
-          startTime: state.startTime.toHMS(),
-          endTime: state.endTime.toHMS()
-        )
-        return .task {
-            .addScheduleResponse(
-              await TaskResult {
-                try await self.apiClient.request(.addSchedule(addSchedule: request))
-              }
-            )
+        let request = self.addScheduleRequest(state: &state)
+        if let _ = state.idForEditing {
+          print(request)
+          return .task { [scheduleId = state.idForEditing!] in
+              .editScheduleResponse(
+                await TaskResult {
+                  try await self.apiClient.request(.editSchedule(id: scheduleId, addSchedule: request))
+                }
+              )
+          }
+        } else {
+          return .task {
+              .addScheduleResponse(
+                await TaskResult {
+                  try await self.apiClient.request(.addSchedule(addSchedule: request))
+                }
+              )
+          }
         }
       default:
         break
@@ -297,8 +308,8 @@ struct ScheduleAddCore: ReducerProtocol {
         state.endDate = state.startDate.addDays(by: 1)
       }
     case .endDate:
-      state.endDate = Date().addDays(by: 1)
-      self.initializeDate(state: &state, date: state.startDate)
+      state.endDate = state.startDate.addDays(by: 1)
+      self.initializeDate(state: &state, date: state.endDate)
       if state.startTime.isLater(than: state.endTime) {
         state.startDate = state.endDate.addDays(by: -1)
       }
@@ -330,5 +341,18 @@ struct ScheduleAddCore: ReducerProtocol {
     state.year = date.year
     state.month = date.month
     state.day = date.day
+  }
+
+  private func addScheduleRequest(state: inout State) -> AddScheduleRequest {
+    return AddScheduleRequest(
+      title: state.title,
+      memo: state.memo.isEmpty ? nil : state.memo,
+      color: state.color,
+      alarm: state.isAlarmActive ? state.alarm : nil,
+      startDate: state.startDate.to(dateFormat: Date.Format.YMDDivided),
+      endDate: state.isEndDateActive ? state.endDate.to(dateFormat: Date.Format.YMDDivided) : nil,
+      startTime: state.isTimeActive ? state.startTime.toHMS() : nil,
+      endTime: state.isTimeActive ? state.endTime.toHMS() : nil
+    )
   }
 }

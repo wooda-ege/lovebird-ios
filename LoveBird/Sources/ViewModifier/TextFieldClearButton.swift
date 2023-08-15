@@ -9,12 +9,13 @@ import SwiftUI
 
 struct TextFieldClearButton: ViewModifier {
   @Binding var fieldText: String
-  var trailingPadding: CGFloat
+  let isFocused: Bool
+  let trailingPadding: CGFloat
   
   func body(content: Content) -> some View {
     content
       .overlay {
-        if self.fieldText.isNotEmpty {
+        if self.fieldText.isNotEmpty, self.isFocused {
           HStack {
             Spacer()
             Button {

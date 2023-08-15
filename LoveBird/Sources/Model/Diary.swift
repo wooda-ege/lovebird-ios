@@ -23,16 +23,16 @@ struct Diary: Decodable, Equatable, Sendable {
     case following
   }
 
-  let id: Int
+  let diaryId: Int
   let memberId: Int
   let title: String
   let memoryDate: String
-  let place: String
+  let place: String?
   let content: String
   let imgUrls: [String]
   var timeState: TimeState = .previous
   var type: HomeItem.ContentType = .diary
-  var isFolded: Bool = false
+  var isFolded: Bool = true
 }
 
 // MARK: - Properties
@@ -40,7 +40,7 @@ struct Diary: Decodable, Equatable, Sendable {
 extension Diary {
   static func initialDiary(with date: String) -> Self {
     Self (
-      id: IDs.INITIAL.rawValue,
+      diaryId: IDs.INITIAL.rawValue,
       memberId: 0,
       title: "",
       memoryDate: date,
@@ -55,7 +55,7 @@ extension Diary {
 
   static func todoDiary(with date: String) -> Self {
     Self(
-      id: IDs.TODO.rawValue,
+      diaryId: IDs.TODO.rawValue,
       memberId: 0,
       title: "오늘 데이트 기록하기",
       memoryDate: date,
@@ -69,7 +69,7 @@ extension Diary {
 
   static func anniversaryDiary(with date: String, title: String) -> Self {
     Self(
-      id: IDs.ANNIVERSARY.rawValue,
+      diaryId: IDs.ANNIVERSARY.rawValue,
       memberId: 0,
       title: title,
       memoryDate: date,

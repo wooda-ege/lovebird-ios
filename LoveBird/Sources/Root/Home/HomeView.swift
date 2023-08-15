@@ -11,14 +11,6 @@ import SwiftUI
 struct HomeView: View {
   let store: StoreOf<HomeCore>
   
-  enum ViewAction {
-    case alertDismissed
-    case emailChanged(String)
-    case loginButtonTapped
-    case passwordChanged(String)
-    case twoFactorDismissed
-  }
-  
   var body: some View {
     WithViewStore(self.store) { viewStore in
       VStack {
@@ -58,7 +50,7 @@ struct HomeView: View {
             viewStore.send(.offsetYChanged(point.y))
           } content: {
             LazyVGrid(columns: [GridItem(.flexible())], spacing: 0) {
-              ForEach(viewStore.diaries, id: \.id) { diary in
+              ForEach(viewStore.diaries, id: \.diaryId) { diary in
                 HomeItem(store: self.store, diary: diary)
               }
               .animation(.easeInOut, value: viewStore.diaries)
@@ -68,7 +60,7 @@ struct HomeView: View {
         }
       }
       .onAppear {
-        viewStore.send(.loadData)
+        viewStore.send(.viewAppear)
       }
     }
   }

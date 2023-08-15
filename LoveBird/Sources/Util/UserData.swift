@@ -10,16 +10,24 @@ import ComposableArchitecture
 
 struct UserData {
   enum Keys: String {
-    case userId
-    case userNickname
+    case user
   }
   
-  func store(key: Keys, value: Any) {
-    UserDefaults.standard.set(value, forKey: key.rawValue)
+  func store<T: Encodable>(key: Keys, value: T) {
+    let encodedData = try? JSONEncoder().encode(value)
+    UserDefaults.standard.set(encodedData, forKey: key.rawValue)
   }
   
-  func get(key: Keys) {
-    UserDefaults.standard.object(forKey: key.rawValue)
+  func get<T: Decodable>(key: Keys, type: T.Type) -> T? {
+    if let savedData = UserDefaults.standard.data(forKey: key.rawValue) {
+        do {
+            let decodedProfile = try JSONDecoder().decode(type.self, from: savedData)
+            return decodedProfile
+        } catch {
+            return nil
+        }
+    }
+    return nil
   }
 }
 

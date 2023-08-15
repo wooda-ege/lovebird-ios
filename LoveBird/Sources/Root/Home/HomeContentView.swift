@@ -59,7 +59,7 @@ struct HomeContentView: View {
                 .padding(.leading, 8)
                 .padding(.vertical, 5)
 
-              Text(self.diary.place)
+              Text(self.diary.place ?? "미지정")
                 .lineLimit(1)
                 .font(.pretendard(size: 14))
                 .foregroundColor(Color(R.color.gray07))

@@ -7,21 +7,25 @@
 
 import Foundation
 
-struct Profile: Equatable, Decodable, Sendable {
+struct Profile: Equatable, Codable, Sendable {
+  let memberId: Int
+  let partnerId: Int
+  let email: String
   let nickname: String
-  let partnerNickname: String?
+  let partnerNickname: String
   let firstDate: String
+  let birthDay: String
   let dayCount: Int
   let nextAnniversary: Anniversary
   let profileImageUrl: String?
   let partnerImageUrl: String?
 
-  struct Anniversary: Decodable, Equatable {
+  struct Anniversary: Codable, Equatable {
     let kind: DateMilestone
     let anniversaryDate: String
   }
 
-  enum DateMilestone: String, Decodable, Equatable {
+  enum DateMilestone: String, Codable, Equatable {
     case oneHundred = "ONE_HUNDRED"
     case twoHundreds = "TWO_HUNDREDS"
     case threeHundreds = "THREE_HUNDREDS"

@@ -16,17 +16,30 @@ import SwiftUI
 // Public인 DependencyKey 때문에 불가피하게 public으로 선언한다.
 public enum APIClient {
   case signUp(authorization: String, refresh: String, image: UIImage?, signUpRequest: SignUpRequest)
-  case addSchedule(addSchedule: AddScheduleRequest)
   case fetchDiary(id :Int)
-  case fetchCalendars
-  case fetchDiaries
-  case fetchProfile
   case kakaoLogin(idToken: String, accessToken: String)
   case appleLogin(appleLoginRequest: AppleLoginRequest)
   case invitationViewLoaded(authorization: String, refresh: String)
   case coupleLinkButtonClicked(coupleCode: String, authorization: String, refresh: String)
   case searchKakaoMap(searchTerm: String)
   case registerDiary(authorization: String, refresh: String, image: UIImage?, diary: RegisterDiaryRequest)
+  case signUp
+  case fetchDiary(id :Int)
+  case searchPlace(searchTerm: String)
+
+  // profile
+  case fetchProfile
+  case editProfile(editProfile: EditProfileRequest)
+
+  // diary
+  case fetchDiaries
+
+  // schedule
+  case fetchCalendars
+  case fetchSchedule(id: Int)
+  case addSchedule(addSchedule: AddScheduleRequest)
+  case editSchedule(id: Int, addSchedule: AddScheduleRequest)
+  case deleteSchedule(Int)
 }
 
 extension APIClient: TargetType {
@@ -36,47 +49,52 @@ extension APIClient: TargetType {
       return URL(string: Config.kakaoMapURL)!
     default:
       return URL(string: Config.baseURL)!
-    }
   }
-  
+
   public var path: String {
-    switch self {
-    case .signUp:
-      return "/api/v1/profile"
-    case .fetchDiary(let id):
-      return "members/\(id)"
-    case .fetchDiaries:
-      return "diaries"
-    case .addSchedule, .fetchCalendars:
-      return "calendar"
-    case .fetchProfile:
-      return "/api/v1/profile"
-    case .kakaoLogin:
-      return "/api/v1/auth/kakao"
-    case .appleLogin:
-      return "/api/v1/auth/apple"
-    case .invitationViewLoaded:
-      return "/api/v1/couple/code"
-    case .coupleLinkButtonClicked:
-      return "/api/v1/couple/link"
-    case .searchKakaoMap:
-      return "/v2/local/search/keyword.json"
-    case .registerDiary:
-      return "/api/v1/diaries"
-    }
+      switch self {
+      case .kakaoLogin:
+        return "/auth/kakao"
+      case .appleLogin:
+        return "/auth/apple"
+      case .invitationViewLoaded:
+        return "/couple/code"
+      case .coupleLinkButtonClicked:
+        return "/couple/link"
+      case .searchKakaoMap:
+        return "/v2/local/search/keyword.json"
+      case .registerDiary:
+        return "/diaries"
+      }
+
+      case .fetchDiary(let id):
+        return "/members/\(id)"
+      case .fetchDiaries:
+        return "/diaries"
+      case .searchPlace(let searchTerm):
+        return "/query=\(searchTerm)"
+      case .addSchedule, .fetchCalendars:
+        return "/calendar"
+  case .signUp, .fetchProfile, .editProfile:
+        return "/profile"
+      case .fetchSchedule(let id), .deleteSchedule(let id), .editSchedule(let id, _):
+        return "/calendar/\(id)"
+      }
   }
-  
+
   public var method: Moya.Method {
     switch self {
     case .signUp, .addSchedule, .kakaoLogin, .appleLogin, .registerDiary:
       return .post
-    case .fetchDiary, .fetchCalendars, .fetchDiaries, .fetchProfile, .invitationViewLoaded, .searchKakaoMap:
+    case .fetchDiary, .searchPlace, .fetchCalendars, .fetchDiaries, .fetchProfile, .fetchSchedule, .invitationViewLoaded, .searchKakaoMap:
       return .get
-    case .coupleLinkButtonClicked:
+    case .editSchedule, .editProfile, .coupleLinkButtonClicked:
       return .put
+    case .deleteSchedule:
+      return .delete
     }
   }
-  
+
   public var task: Moya.Task {
     switch self {
     case .signUp(_, _, let image, let signUpRequest):
@@ -97,6 +115,10 @@ extension APIClient: TargetType {
 //      let imageData = MultipartFormData(provider: .data(image?.pngData() ?? Data()), name: "1-1", fileName: "1-1.png", mimeType: "image/png")
 //      let diaryData = MultipartFormData(provider: .data(encodedDiaryData), name: "diaryCreateRequest", mimeType: "application/json")
 //      return .uploadMultipart([imageData, diaryData])
+    case .addSchedule(let encodable), .editSchedule(_, let encodable):
+      return .requestJSONEncodable(encodable as Encodable)
+    case .editProfile:
+      return .uploadMultipart(self.multiparts)
     default:
       return .requestPlain
     }
@@ -154,10 +176,18 @@ extension APIClient: TargetType {
       params["coupleCode"] = coupleCode
     case .searchKakaoMap(let searchTerm):
       params["query"] = searchTerm
+
+  private var multiparts: [Moya.MultipartFormData] {
+    var multiparts: [Moya.MultipartFormData] = []
+    switch self {
+    case .editProfile(let editProfile):
+      multiparts.append(.init(provider: .data(editProfile.nickname?.data(using: .utf8) ?? Data()), name: "nickname"))
+      multiparts.append(.init(provider: .data(editProfile.email?.data(using: .utf8) ?? Data()), name: "email"))
+      multiparts.append(.init(provider: .data(editProfile.image ?? Data()), name: "images", fileName: "image.jpeg", mimeType: "image/jpeg"))
     default:
       break
     }
-    return params
+    return multiparts
   }
 }
 
@@ -213,6 +243,25 @@ extension MoyaProvider {
             continuation.resume(throwing: error)
           }
           
+        case .failure(let error):
+          continuation.resume(throwing: error)
+        }
+      }
+    }
+  }
+
+  func requestRaw(_ target: Target) async throws -> NetworkStatusResponse {
+    return try await withCheckedThrowingContinuation { continuation in
+      self.request(target) { response in
+        switch response {
+        case .success(let result):
+          do {
+            let networkResponse = try JSONDecoder().decode(NetworkStatusResponse.self, from: result.data)
+            continuation.resume(returning: networkResponse)
+          } catch {
+            continuation.resume(throwing: error)
+          }
+
         case .failure(let error):
           continuation.resume(throwing: error)
         }

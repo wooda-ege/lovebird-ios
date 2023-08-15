@@ -57,13 +57,11 @@ struct CalendarCore: ReducerProtocol {
         state.schedulesOfDay = state.schedules[date.to(dateFormat: Date.Format.YMDDivided)] ?? []
         state.showCalendarPreview = false
       case .previewDayTapped(let date):
-        state.currentDate = date
-        state.showCalendarPreview = false
-        // TODO: 득연
-//      case .scheduleAdd(.presented(.confirmTapped)):
-//        state.scheduleAdd = nil
+        return .send(.dayTapped(date))
       case .scheduleAdd(.presented(.backButtonTapped)):
         state.scheduleAdd = nil
+      case .scheduleDetail(.presented(.backButtonTapped)):
+        state.scheduleDetail = nil
       case .previewFollowingTapped:
         state.currentPreviewDate = state.currentPreviewDate.addMonths(by: -1)
       case .previewNextTapped:
@@ -84,16 +82,12 @@ struct CalendarCore: ReducerProtocol {
           )
         }
       case .dataLoaded(.success(let schedules)):
-        print(schedules)
         state.schedules = schedules.schedules.mapToDict()
-        state.currentDate = Date()
-      case .dataLoaded(.failure(let error)):
-        print(error)
-      case .scheduleAdd(.presented(.addScheduleResponse(.success(let response)))):
-        print(response)
+        return .send(.dayTapped(Date()))
+      case .scheduleAdd(.presented(.addScheduleResponse(.success))):
         state.scheduleAdd = nil
-      case .scheduleAdd(.presented(.addScheduleResponse(.failure(let error)))):
-        print(error)
+      case .scheduleDetail(.presented(.deleteScheduleResponse(.success))):
+        state.scheduleDetail = nil
       default:
         break
       }

@@ -28,16 +28,17 @@ struct HomeCore: ReducerProtocol {
 
     // Network
     case dataLoaded([Diary])
-    case loadData
+    case viewAppear
   }
 
   @Dependency(\.apiClient) var apiClient
+  @Dependency(\.userData) var userData
 
   var body: some ReducerProtocol<State, Action> {
     Reduce { state, action in
       switch action {
       case .diaryTitleTapped(let diary):
-        if let idx = state.diaries.firstIndex(where: { $0.id == diary.id }) {
+        if let idx = state.diaries.firstIndex(where: { $0.diaryId == diary.diaryId }) {
           state.diaries[idx].isFolded.toggle()
         }
       case .offsetYChanged(let y):
@@ -45,16 +46,20 @@ struct HomeCore: ReducerProtocol {
 
         // MARK: - Network
 
-      case .loadData:
+      case .viewAppear:
+//        self.userData.store(key: .user, value: Profile(nickname: "득연", partnerNickname: "득연2", firstDate: "2022-03-03", dayCount: 600, nextAnniversary: .init(kind: .twoYears, anniversaryDate: "2024-03-03"), profileImageUrl: nil, partnerImageUrl: nil))
         return .run { send in
           do {
             let diariesLoaded = try await self.apiClient.request(.fetchDiaries) as Diaries
             let profileLoaded = try await self.apiClient.request(.fetchProfile) as Profile
-            
-            var diaries: [Diary] = [Diary.initialDiary(with: profileLoaded.firstDate)]
-            diaries.append(contentsOf: diariesLoaded.diaries)
+            let diariesMapped = diariesLoaded.diaries.map { $0.toDiary() }
 
-            if self.shouldAppendTodoDiary(with: diariesLoaded.diaries) {
+            self.userData.store(key: .user, value: profileLoaded)
+
+            var diaries: [Diary] = [Diary.initialDiary(with: profileLoaded.firstDate)]
+            diaries.append(contentsOf: diariesMapped)
+
+            if self.shouldAppendTodoDiary(with: diariesMapped) {
               diaries.append(Diary.todoDiary(with: Date().to(dateFormat: Date.Format.YMDDivided)))
             }
 
@@ -64,6 +69,7 @@ struct HomeCore: ReducerProtocol {
             ))
             await send(.dataLoaded(diaries))
           } catch {
+            print(error)
 //            fatalError("\(error)")
           }
         }
