@@ -62,12 +62,13 @@ struct RootCore: Reducer {
 
           let user = self.userData.get(key: .user, type: Profile.self)
           var rootState: State
-          if user == nil {
-//            rootState = .login(LoginCore.State())
+          if let _ = user {
             rootState = .mainTab(MainTabCore.State())
           } else {
             rootState = .mainTab(MainTabCore.State())
+//            rootState = .login(LoginCore.State())
           }
+
           await send(.updateRootState(rootState), animation: .default)
         }
 

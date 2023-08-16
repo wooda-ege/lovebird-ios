@@ -33,6 +33,7 @@ struct Diary: Decodable, Equatable, Sendable {
   var timeState: TimeState = .previous
   var type: HomeItem.ContentType = .diary
   var isFolded: Bool = true
+  var isTimelineDateShown = true
 }
 
 // MARK: - Properties

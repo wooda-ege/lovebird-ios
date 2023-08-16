@@ -72,6 +72,10 @@ extension Date {
 
   // MARK: - Bool Properties
 
+  var isToday: Bool {
+    return self.year == Date().year && self.month == Date().month && self.day == Date().day
+  }
+
   func isLater(than date: Date) -> Bool {
     return self.compare(date) != .orderedAscending
   }

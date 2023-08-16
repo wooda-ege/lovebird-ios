@@ -44,6 +44,9 @@ struct HomeCore: ReducerProtocol {
           do {
             let diariesLoaded = try await self.apiClient.request(.fetchDiaries) as Diaries
             let profileLoaded = try await self.apiClient.request(.fetchProfile) as Profile
+
+            self.userData.store(key: .user, value: profileLoaded)
+
             let diaries = self.diariesForDomain(
               diaries: diariesLoaded.diaries.map { $0.toDiary() },
               profile: profileLoaded
@@ -77,26 +80,50 @@ struct HomeCore: ReducerProtocol {
   }
 
   private func diariesForDomain(diaries: [Diary], profile: Profile) -> [Diary] {
-    self.userData.store(key: .user, value: profile)
 
+    var isTodayDiaryAppended = false
+
+    // D + 1
     var diariesForDomain: [Diary] = [Diary.initialDiary(with: profile.firstDate)]
-    diariesForDomain.append(contentsOf: diaries)
+    diaries.enumerated().forEach { idx, diary in
+      var diaryUpdated = diary
 
-    if self.shouldAppendTodoDiary(with: diaries) {
+      // 연속된 두 날짜가 오는 경우, 뒤의 Diary의 타임라인의 Date를 표기하기 않는다.
+      if idx != 0, diaries[idx - 1].memoryDate.toDate() == diaries[idx].memoryDate.toDate() {
+        diaryUpdated.isTimelineDateShown = false
+      }
+
+      if diary.memoryDate.toDate().isToday {
+        isTodayDiaryAppended = true
+
+        // 이틀 연속 당일이라면 전에 기록된 Diary의 TimeState는 previous이다.
+        if diaries.count > idx + 1, diaries[idx + 1].memoryDate.toDate().isToday {
+          diaryUpdated.timeState = .previous
+        } else {
+          diaryUpdated.timeState = .current
+        }
+        diaryUpdated.isFolded = false
+        diariesForDomain.append(diaryUpdated)
+      } else if diary.memoryDate.toDate().isLater(than: Date()) {
+        diaryUpdated.timeState = .following
+        diariesForDomain.append(diaryUpdated)
+      } else {
+        diariesForDomain.append(diaryUpdated)
+      }
+    }
+
+    // 오늘 일 자
+    if !isTodayDiaryAppended {
       diariesForDomain.append(Diary.todoDiary(with: Date().to(dateFormat: Date.Format.YMDDivided)))
     }
 
+    // 다음 기념일
     diariesForDomain.append(Diary.anniversaryDiary(
       with: profile.nextAnniversary.anniversaryDate,
       title: profile.nextAnniversary.kind.description
     ))
 
     return diariesForDomain
-  }
-
-  private func shouldAppendTodoDiary(with diaries: [Diary]) -> Bool {
-    guard let diary = diaries.last else { return true }
-    return diary.memoryDate != Date().to(dateFormat: Date.Format.YMD)
   }
 }
 

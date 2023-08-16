@@ -13,7 +13,7 @@ struct ScheduleDetailView: View {
   let store: StoreOf<ScheduleDetailCore>
 
   var body: some View {
-    WithViewStore(self.store) { viewStore in
+    WithViewStore(self.store, observe: { $0 }) { viewStore in
       VStack {
         CommonToolBar(
           title: "",
@@ -39,7 +39,7 @@ struct ScheduleDetailView: View {
         ScrollView {
           VStack {
             ScheduleFocusedView() {
-              Text("viewStore.schedule.title")
+              Text(viewStore.schedule.title)
                 .font(.pretendard(size: 16))
                 .lineLimit(0)
                 .foregroundColor(.black)
@@ -53,7 +53,7 @@ struct ScheduleDetailView: View {
                 .frame(width: 12, height: 12)
                 .padding(6)
 
-              Text("viewStore.schedule.color.description")
+              Text(viewStore.schedule.color.description)
                 .font(.pretendard(size: 16))
                 .foregroundColor(.black)
 
