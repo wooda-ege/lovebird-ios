@@ -148,8 +148,16 @@ struct OnboardingCore: ReducerProtocol {
       case .doneButtonTapped:
         return .run { [state = state] send in
           do {
+            let birthyear = state.birthdateYear
+            let birthmonth = state.birthdateMonth
+            let birthday = state.birthdateDay
+            let firstyear = state.firstdateYear
+            let firstmonth = state.firstdateMonth
+            let firstday = state.firstdateDay
+            let birth = String(format: "%04d-%02d-%02d", birthyear, birthmonth, birthday)
+            let firstDate = String(format: "%04d-%02d-%02d", firstyear, firstmonth, firstday)
             // 프로필 등록 - 생년월일 입력 뷰에서 다음 버튼 클릭시
-            let profile = try await self.apiClient.request(.registerProfile(authorization: state.accessToken, refresh: state.refreshToken, image: state.profileImage, profileRequest: RegisterProfileRequest.init(email: state.email, nickname: state.nickname, birthDay: "\(state.birthdateYear)-\(state.birthdateMonth)-\(state.birthdateDay)", firstDate: "\(state.firstdateYear)-\(state.firstdateMonth)-\(state.firstdateDay)", gender: state.gender, deviceToken: "fcm"))) as Profile
+            let profile = try await self.apiClient.request(.registerProfile(authorization: state.accessToken, refresh: state.refreshToken, image: state.profileImage, profileRequest: RegisterProfileRequest.init(email: state.email, nickname: state.nickname, birthDay: birth, firstDate: firstDate, gender: state.gender, deviceToken: "fcm"))) as Profile
             
             await send(.registerProfileResponse(.success(profile)))
           } catch {

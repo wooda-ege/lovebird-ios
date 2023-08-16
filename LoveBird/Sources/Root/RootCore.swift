@@ -82,9 +82,9 @@ struct RootCore: Reducer {
         
         let flag = response.flag
 //        if flag == true { // 신규
-          state = .onboarding(OnboardingCore.State(accessToken: response.accessToken, refreshToken: response.refreshToken ?? ""))
+//          state = .onboarding(OnboardingCore.State(accessToken: response.accessToken, refreshToken: response.refreshToken ?? ""))
 //        } else { // 기존
-//          state = .mainTab(MainTabCore.State())
+          state = .mainTab(MainTabCore.State())
 //        }
         return .none
         
@@ -132,17 +132,6 @@ struct RootCore: Reducer {
         
       case .updateRootState(let rootState):
         state = rootState
-        return .none
-        
-      case .diary(.registerDiaryResponse(.success(let response))):
-        if response == "SUCCESS" {
-          return .send(.updateRootState(.mainTab(MainTabCore.State())))
-        } else {
-          print("다이어리 등록 실패")
-          return .none
-        }
-      case .diary(.registerDiaryResponse(.failure(let response))):
-        print("다이어리 등록 실패")
         return .none
       default:
         return .none

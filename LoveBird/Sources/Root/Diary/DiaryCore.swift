@@ -18,6 +18,7 @@ struct DiaryCore: ReducerProtocol {
     var isPresented = false
     var text: String = ""
     var image: UIImage? = nil
+    var showCalendarPreview: Bool = false
   }
   
   enum Action: Equatable {
@@ -29,6 +30,7 @@ struct DiaryCore: ReducerProtocol {
     case changeTextEmpty
     case completeButtonTapped
     case registerDiaryResponse(TaskResult<String>)
+    case hideDateView
   }
   
   @Dependency(\.apiClient) var apiClient
@@ -51,6 +53,10 @@ struct DiaryCore: ReducerProtocol {
       case .changeTextEmpty:
         state.text = ""
       case .completeButtonTapped:
+        state.title = ""
+        state.date = String(resource: R.string.localizable.calendar_date)
+        state.place = String(resource: R.string.localizable.diary_select_place)
+        state.text = ""
         return .run { [state = state] send in
           let response = try await apiClient.requestRaw(.registerDiary(authorization: userData.get(key: .accessToken, type: String.self)!, refresh: userData.get(key: .refreshToken, type: String.self)!, image: state.image, diary: .init(title: state.title, memoryDate: state.date, place: state.place, content: state.text))) as String
           
@@ -58,6 +64,8 @@ struct DiaryCore: ReducerProtocol {
         }
       case .searchPlace(.selectPlace(let place)):
         state.place = place
+      case .hideDateView:
+        state.showCalendarPreview = true
       default:
         break
       }
