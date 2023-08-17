@@ -18,6 +18,7 @@ struct CoupleLinkView: View {
   var invitationCode: String = ""
   
   @Dependency(\.apiClient) var apiClient
+  @Dependency(\.userData) var userData
   
   var body: some View {
     WithViewStore(self.store) { viewStore in
@@ -91,19 +92,17 @@ struct CoupleLinkView: View {
         Spacer()
         
         Button {
-//          viewStore.send(.doneButtonTapped)
-          
           Task {
             do {
               if viewStore.invitationInputCode.isEmpty { // 코드를 공유한 상황
-                let response = try await self.apiClient.requestRaw(.coupleLinkButtonClicked(coupleCode: viewStore.invitationCode, authorization: viewStore.accessToken, refresh: viewStore.refreshToken))
+                let response = try await self.apiClient.requestRaw(.coupleCheckButtonClicked(authorization: userData.get(key: .accessToken, type: String.self)!, refresh: userData.get(key: .refreshToken, type: String.self)!))
                 if response == "SUCCESS" {
                   viewStore.send(.isSuccessTryLink(true))
                 } else {
                   viewStore.send(.isSuccessTryLink(false))
                 }
               } else { // 코드를 직접 입력한 상황
-                let response = try await self.apiClient.requestRaw(.coupleLinkButtonClicked(coupleCode: viewStore.invitationInputCode, authorization: viewStore.accessToken, refresh: viewStore.refreshToken))
+                let response = try await self.apiClient.requestRaw(.coupleLinkButtonClicked(coupleCode: viewStore.invitationInputCode, authorization: userData.get(key: .accessToken, type: String.self)!, refresh: userData.get(key: .refreshToken, type: String.self)!))
                 if response == "SUCCESS" {
                   viewStore.send(.isSuccessTryLink(true))
                 } else {
@@ -128,29 +127,6 @@ struct CoupleLinkView: View {
         .cornerRadius(12)
         .padding(.horizontal, 16)
         .padding(.bottom, keyboard.currentHeight == 0 ? 20 + UIApplication.edgeInsets.bottom : keyboard.currentHeight + 20)
-        .onTapGesture {
-//          Task {
-//            do {
-//              if viewStore.invitationInputCode.isEmpty { // 코드를 공유한 상황
-//                let response = try await self.apiClient.requestRaw(.coupleLinkButtonClicked(coupleCode: viewStore.invitationCode, authorization: viewStore.accessToken, refresh: viewStore.refreshToken))
-//                if response == "SUCCESS" {
-//                  viewStore.send(.tryLink("success"))
-//                } else {
-//                  viewStore.send(.tryLink("failure"))
-//                }
-//              } else { // 코드를 직접 입력한 상황
-//                let response = try await self.apiClient.requestRaw(.coupleLinkButtonClicked(coupleCode: viewStore.invitationInputCode, authorization: viewStore.accessToken, refresh: viewStore.refreshToken))
-//                if response == "SUCCESS" {
-//                  viewStore.send(.tryLink("success"))
-//                } else {
-//                  viewStore.send(.tryLink("failure"))
-//                }
-//              }
-//            } catch {
-//              print("연동코드 발급 실패")
-//            }
-//          }
-        }
       }
       .onAppear {
         Task {

@@ -12,16 +12,18 @@ import SwiftUI
 import UIKit
 
 struct CoupleLinkCore: ReducerProtocol {
+  @Dependency(\.userData) var userData
+  
   struct State: Equatable {
+    var accessToken: String
+    var refreshToken: String
     
-    init(accessToken: String = "", refreshToken: String = "") {
+    init(accessToken: String, refreshToken: String) {
       self.accessToken = accessToken
       self.refreshToken = refreshToken
     }
     
-    var accessToken: String = ""
-    var refreshToken: String = ""
-    var invitationCode: String = "임시코드임니다"
+    var invitationCode: String = "임시코드"
     var invitationInputCode: String = ""
     var textFieldState: TextFieldState = .none
   }

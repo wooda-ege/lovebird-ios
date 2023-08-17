@@ -21,12 +21,13 @@ public enum APIClient {
   case appleLogin(appleLoginRequest: AppleLoginRequest)
   case invitationViewLoaded(authorization: String, refresh: String)
   case coupleLinkButtonClicked(coupleCode: String, authorization: String, refresh: String)
+  case coupleCheckButtonClicked(authorization: String, refresh: String)
   case searchKakaoMap(searchTerm: String)
   case registerDiary(authorization: String, refresh: String, image: UIImage?, diary: RegisterDiaryRequest)
   case searchPlace(searchTerm: String)
 
   // profile
-  case fetchProfile
+  case fetchProfile(authorization: String, refresh: String)
   case editProfile(editProfile: EditProfileRequest)
 
   // diary
@@ -60,6 +61,8 @@ extension APIClient: TargetType {
         return "/couple/code"
       case .coupleLinkButtonClicked:
         return "/couple/link"
+      case .coupleCheckButtonClicked:
+        return "/couple/check"
       case .searchKakaoMap:
         return "/v2/local/search/keyword.json"
       case .registerDiary:
@@ -83,7 +86,7 @@ extension APIClient: TargetType {
     switch self {
     case .registerProfile, .addSchedule, .kakaoLogin, .appleLogin, .registerDiary:
       return .post
-    case .fetchDiary, .searchPlace, .fetchCalendars, .fetchDiaries, .fetchProfile, .fetchSchedule, .invitationViewLoaded, .searchKakaoMap:
+    case .fetchDiary, .searchPlace, .fetchCalendars, .fetchDiaries, .fetchProfile, .fetchSchedule, .invitationViewLoaded, .searchKakaoMap, .coupleCheckButtonClicked:
       return .get
     case .editSchedule, .editProfile, .coupleLinkButtonClicked:
       return .put
@@ -107,7 +110,7 @@ extension APIClient: TargetType {
     case .kakaoLogin:
       return .requestParameters(parameters: self.bodyParameters ?? [:], encoding: JSONEncoding.default)
     case .appleLogin(let appleLoginRequest):
-      return .requestJSONEncodable(appleLoginRequest)
+      return .requestJSONEncodable(appleLoginRequest as Encodable)
     case .searchKakaoMap:
       return .requestParameters(parameters: self.bodyParameters ?? [:], encoding: URLEncoding.queryString)
     case .coupleLinkButtonClicked:
@@ -130,16 +133,20 @@ extension APIClient: TargetType {
     case .registerDiary(let authorization, let refresh, _, _):
       return ["Content-type" : "multipart/form-data", "Authorization": authorization,
               "Refresh": refresh]
-    case .appleLogin, .kakaoLogin:
-      return ["Content-type" : "application/json"]
     case .invitationViewLoaded(let authorization, let refresh):
       return ["Content-type" : "application/json", "Authorization": authorization,
               "Refresh": refresh]
     case .coupleLinkButtonClicked(_, let authorization, let refresh):
       return ["Content-type" : "application/json", "Authorization": authorization,
               "Refresh": refresh]
+    case .coupleCheckButtonClicked(let authorization, let refresh):
+      return ["Content-type" : "application/json", "Authorization": authorization,
+              "Refresh": refresh]
     case .searchKakaoMap:
       return ["Content-type" : "application/json", "Authorization" : "KakaoAK 84c41aac97f944ac218cbb88d40b4db7"]
+    case .fetchProfile(let authorization, let refresh):
+      return ["Content-type" : "application/json", "Authorization": authorization,
+              "Refresh": refresh]
     default:
       return ["Content-type" : "application/json"]
     }
@@ -149,13 +156,6 @@ extension APIClient: TargetType {
   private var bodyParameters: Parameters? {
     var params: Parameters = [:]
     switch self {
-      //    case .signUp(_, _, _, let signUpRequest):
-      //      params["email"] = signUpRequest.email
-      //      params["nickname"] = signUpRequest.nickname
-      //      params["birthDay"] = signUpRequest.birthDay
-      //      params["firstDate"] = signUpRequest.firstDate
-      //      params["gender"] = signUpRequest.gender
-      //      params["deviceToken"] = signUpRequest.deviceToken
     case .addSchedule(let addSchedule):
       params["title"] = addSchedule.title
       params["memo"] = addSchedule.memo
