@@ -63,7 +63,7 @@ struct OnboardingView: View {
         }
         .frame(width: UIScreen.width, height: 44)
         
-        Pager(page: viewStore.page, data: [0, 1, 2, 3, 4, 5, 6], id: \.self) { page in
+        Pager(page: viewStore.page, data: [0, 1, 2, 3, 4, 5], id: \.self) { page in
           if page as! Int == 0 {
             OnboardingEmailView(store: self.store)
               .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -79,10 +79,11 @@ struct OnboardingView: View {
           } else if page == 5 {
             OnboardingDateView(store: self.store)
               .frame(maxWidth: .infinity, maxHeight: .infinity)
-          } else if page == 6 {
-            OnboardingInvitationView(store: self.store)
-              .frame(maxWidth: .infinity, maxHeight: .infinity)
           }
+//        else if page == 6 {
+//            OnboardingInvitationView(store: self.store)
+//              .frame(maxWidth: .infinity, maxHeight: .infinity)
+//          }
         }
         .allowsDragging(false)
         .frame(maxWidth: .infinity, maxHeight: .infinity)

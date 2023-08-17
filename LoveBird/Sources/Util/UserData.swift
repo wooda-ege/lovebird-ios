@@ -11,6 +11,8 @@ import ComposableArchitecture
 struct UserData {
   enum Keys: String {
     case user
+    case accessToken
+    case refreshToken
   }
   
   func store<T: Encodable>(key: Keys, value: T) {

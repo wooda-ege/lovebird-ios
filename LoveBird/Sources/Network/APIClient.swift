@@ -15,7 +15,7 @@ import SwiftUI
 
 // Public인 DependencyKey 때문에 불가피하게 public으로 선언한다.
 public enum APIClient {
-  case signUp(authorization: String, refresh: String, image: UIImage?, signUpRequest: SignUpRequest)
+  case registerProfile(authorization: String, refresh: String, image: UIImage?, profileRequest: RegisterProfileRequest)
   case fetchDiary(id :Int)
   case kakaoLogin(idToken: String, accessToken: String)
   case appleLogin(appleLoginRequest: AppleLoginRequest)
@@ -72,7 +72,7 @@ extension APIClient: TargetType {
         return "/query=\(searchTerm)"
       case .addSchedule, .fetchCalendars:
         return "/calendar"
-      case .signUp, .fetchProfile, .editProfile:
+      case .registerProfile, .fetchProfile, .editProfile:
         return "/profile"
       case .fetchSchedule(let id), .deleteSchedule(let id), .editSchedule(let id, _):
         return "/calendar/\(id)"
@@ -81,7 +81,7 @@ extension APIClient: TargetType {
 
   public var method: Moya.Method {
     switch self {
-    case .signUp, .addSchedule, .kakaoLogin, .appleLogin, .registerDiary:
+    case .registerProfile, .addSchedule, .kakaoLogin, .appleLogin, .registerDiary:
       return .post
     case .fetchDiary, .searchPlace, .fetchCalendars, .fetchDiaries, .fetchProfile, .fetchSchedule, .invitationViewLoaded, .searchKakaoMap:
       return .get
@@ -94,11 +94,16 @@ extension APIClient: TargetType {
 
   public var task: Moya.Task {
     switch self {
-    case .signUp(_, _, let image, let signUpRequest):
-      let signUpData = try! JSONEncoder().encode(signUpRequest)
+    case .registerProfile(_, _, let image, let profileRequest):
+      let profileData = try! JSONEncoder().encode(profileRequest)
       let imageData = MultipartFormData(provider: .data(image?.pngData() ?? Data()), name: "image", fileName: "image.png", mimeType: "image/png")
-      let signUpRequest = MultipartFormData(provider: .data(signUpData), name: "profileCreateRequest", mimeType: "application/json")
-      return .uploadMultipart([imageData, signUpRequest])
+      let profileRequest = MultipartFormData(provider: .data(profileData), name: "profileCreateRequest", mimeType: "application/json")
+      return .uploadMultipart([imageData, profileRequest])
+    case .registerDiary(_, _, let image, let diary):
+      let diary = try! JSONEncoder().encode(diary)
+      let imageData = MultipartFormData(provider: .data(image?.pngData() ?? Data()), name: "1-1", fileName: "1-1.png", mimeType: "image/png")
+      let diaryRequest = MultipartFormData(provider: .data(diary), name: "diaryCreateRequest", mimeType: "application/json")
+      return .uploadMultipart([imageData, diaryRequest])
     case .kakaoLogin:
       return .requestParameters(parameters: self.bodyParameters ?? [:], encoding: JSONEncoding.default)
     case .appleLogin(let appleLoginRequest):
@@ -106,12 +111,7 @@ extension APIClient: TargetType {
     case .searchKakaoMap:
       return .requestParameters(parameters: self.bodyParameters ?? [:], encoding: URLEncoding.queryString)
     case .coupleLinkButtonClicked:
-      return .requestParameters(parameters: self.bodyParameters ?? [:], encoding: URLEncoding.queryString)
-//    case .registerDiary(let image, let diary):
-//      let encodedDiaryData = try! JSONEncoder().encode(diary)
-//      let imageData = MultipartFormData(provider: .data(image?.pngData() ?? Data()), name: "1-1", fileName: "1-1.png", mimeType: "image/png")
-//      let diaryData = MultipartFormData(provider: .data(encodedDiaryData), name: "diaryCreateRequest", mimeType: "application/json")
-//      return .uploadMultipart([imageData, diaryData])
+      return .requestParameters(parameters: self.bodyParameters ?? [:], encoding: JSONEncoding.default)
     case .addSchedule(let encodable), .editSchedule(_, let encodable):
       return .requestJSONEncodable(encodable as Encodable)
     case .editProfile:
@@ -124,7 +124,10 @@ extension APIClient: TargetType {
   // TODO: 토큰관련 수정할 것
   public var headers: [String: String]? {
     switch self {
-    case .signUp(let authorization, let refresh, _, _):
+    case .registerProfile(let authorization, let refresh, _, _):
+      return ["Content-type" : "multipart/form-data", "Authorization": authorization,
+              "Refresh": refresh]
+    case .registerDiary(let authorization, let refresh, _, _):
       return ["Content-type" : "multipart/form-data", "Authorization": authorization,
               "Refresh": refresh]
     case .appleLogin, .kakaoLogin:
@@ -137,12 +140,8 @@ extension APIClient: TargetType {
               "Refresh": refresh]
     case .searchKakaoMap:
       return ["Content-type" : "application/json", "Authorization" : "KakaoAK 84c41aac97f944ac218cbb88d40b4db7"]
-    case .registerDiary(let authorization, let refresh, let image, let diary):
-      return ["Content-type" : "multipart/form-data", "Authorization": authorization,
-              "Refresh": refresh]
     default:
-      return ["Content-type" : "application/json",  "Authorization": "eyJhbGciOiJIUzUxMiJ9.eyJpZCI6IjIxNDc0ODM2NDciLCJleHAiOjE3MjE4ODI0ODd9.SkY9QmDQZ9ICU7LCeAKOQ4TGuDQOEmmwjplFpgxPVubLvJsng_heZ38LCXpDdjQ6mqGhtje8E9_XtKNmtjn9gA",
-              "Refresh": "eyJhbGciOiJIUzUxMiJ9.eyJpZCI6IjIxNDc0ODM2NDciLCJleHAiOjE2OTE1NTYwODd9.k-eP6sIX0VFGWY_Lqt5iAl5ox-h54knkDhpfA8Mk75D22LYWNGQcjE-lRIU4v_RckRWtPi1ST-TP9__IH-nJ7Q"]
+      return ["Content-type" : "application/json"]
     }
     return nil
   }

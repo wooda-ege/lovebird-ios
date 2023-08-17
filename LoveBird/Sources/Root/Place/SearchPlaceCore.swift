@@ -12,13 +12,15 @@ struct SearchPlaceCore: ReducerProtocol {
   struct State: Equatable {
     var placeList: [PlaceInfo] = []
     var searchTerm: String = ""
+    var select: String = ""
   }
   
   enum Action: Equatable {
     case textFieldDidEditting(String)
-    case selectPlace
+    case selectPlace(String)
     case changePlaceInfo([PlaceInfo])
     case completeButtonTapped
+    case viewDidLoad
     case searchPlaceResponse(TaskResult<SearchPlaceResponse>)
   }
   
@@ -29,19 +31,15 @@ struct SearchPlaceCore: ReducerProtocol {
       switch action {
       case .textFieldDidEditting(let searchTerm):
         state.searchTerm = searchTerm
-          Task {
-            do {
-              let places = try await apiClient.requestKakaoMap(.searchKakaoMap(searchTerm: searchTerm)) as [PlaceInfo]
-//              state.placeList = places
-            } catch {
-              print("search error!")
-            }
-          }
       case .completeButtonTapped:
         state.placeList = []
-        state.searchTerm = String(resource: R.string.localizable.diary_place_address_title)
       case .changePlaceInfo(let placeInfo):
         state.placeList = placeInfo
+      case .selectPlace(let place):
+        state.select = place        // diaryview의 place state로 보내줘야함 
+      case .viewDidLoad:
+        state.placeList = []
+//        state.searchTerm = String(resource: R.string.localizable.diary_place_address_title)
       default:
         break
       }

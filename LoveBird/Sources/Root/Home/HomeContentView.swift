@@ -77,12 +77,44 @@ struct HomeContentView: View {
               Text(self.diary.content)
                 .font(.pretendard(size: 14))
                 .foregroundColor(Color.black)
-                .lineLimit(3)
-                .lineSpacing(6) // 적당한 값 대입.
-
+                .font(.pretendard(size: 18, weight: .bold))
+                .padding(20)
+              
               Spacer()
             }
-            .padding(20)
+            .background(self.diary.isFolded ? Color(R.color.gray03) : .white)
+            .onTapGesture {
+              viewStore.send(.diaryTitleTapped(self.diary))
+            }
+            
+            if !self.diary.isFolded {
+              HStack(spacing: 8) {
+                Image(R.image.ic_place)
+                  .padding(.leading, 8)
+                  .padding(.vertical, 5)
+                
+                Text(self.diary.place ?? "미지정")
+                  .lineLimit(1)
+                  .font(.pretendard(size: 14))
+                  .foregroundColor(Color(R.color.gray07))
+                
+                Spacer()
+              }
+              .background(Color(R.color.gray03))
+              .cornerRadius(4)
+              .padding(20)
+              
+              HStack(spacing: 8) {
+                Text(self.diary.content)
+                  .font(.pretendard(size: 14))
+                  .foregroundColor(Color.black)
+                  .lineLimit(3)
+                  .lineSpacing(6) // 적당한 값 대입.
+                
+                Spacer()
+              }
+              .padding(20)
+            }
           }
         }
         .background(.white)

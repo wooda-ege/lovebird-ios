@@ -14,7 +14,7 @@ struct DiarySelectPlaceButton: View {
   var body: some View {
     ZStack {
       RoundedRectangle(cornerRadius: 10)
-        .foregroundColor(Color(R.color.gray231))
+        .foregroundColor(Color(R.color.gray02))
         .background(.white)
         .frame(
           height: 44,
@@ -38,7 +38,7 @@ struct DiarySelectPlaceButton: View {
       }
       .padding(.leading, 15)
     }
-    .background(Color(R.color.gray231))
+    .background(Color(R.color.gray02))
   }
 }
 

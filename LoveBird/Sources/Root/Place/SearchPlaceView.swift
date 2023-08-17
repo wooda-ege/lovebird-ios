@@ -15,32 +15,35 @@ struct SearchPlaceView: View {
   
   @Dependency(\.apiClient) var apiClient
   
-  enum Constant {
-    static var placeholder = String(resource: R.string.localizable.diary_place_address_title)
-  }
-  
   var body: some View {
     WithViewStore(self.store) { viewStore in
-      HStack(spacing: 10) {
-        TextField(Constant.placeholder, text: viewStore.binding(get: \.searchTerm, send: SearchPlaceCore.Action.textFieldDidEditting))
+      ZStack() {
+        TextField(String(resource: R.string.localizable.diary_place_address_title), text: viewStore.binding(get: \.searchTerm, send: SearchPlaceCore.Action.textFieldDidEditting))
           .keyboardType(.webSearch)
           .padding(.vertical, 10)
           .padding(.leading, 12)
-          .background(Color(R.color.gray231))
+          .background(Color(R.color.gray02))
           .cornerRadius(10)
           .navigationTitle(String(resource: R.string.localizable.diary_select_place))
-          .navigationBarItems(leading: BackButton(), trailing: CompleteButton()
-            .onTapGesture {
-              viewStore.send(.completeButtonTapped)
-              Constant.placeholder = String(resource: R.string.localizable.diary_place_address_title)
-            })
+          .navigationBarItems(leading: BackButton(), trailing: CompleteButton())
           .navigationBarBackButtonHidden(true)
+        
+//        if viewStore.state.searchTerm.isEmpty {
+//          Text(R.string.localizable.diary_place_address_title)
+//            .foregroundColor(Color(R.color.gray06))
+//        }
       }
+      .padding(.top, 20)
+      .padding(.bottom, 10)
+      .padding(.horizontal, 15)
+      .onAppear {
+        viewStore.send(.viewDidLoad)
+      }
+      .foregroundColor(Color(R.color.gray06))
       
       List(viewStore.placeList, id:\.id) { place in
         Button {
-          Constant.placeholder = place.placeName
-          viewStore.send(.completeButtonTapped)
+          viewStore.send(.selectPlace(place.placeName))
         } label: {
           VStack(alignment: .leading) {
             Text(place.placeName)
@@ -53,6 +56,14 @@ struct SearchPlaceView: View {
       }
       .listStyle(.plain)
       .onChange(of: viewStore.searchTerm) { placeTerm in
+        Task {
+          do {
+            let places = try await apiClient.requestKakaoMap(.searchKakaoMap(searchTerm: placeTerm)) as [PlaceInfo]
+            viewStore.send(.changePlaceInfo(places))
+          } catch {
+            print("search error!")
+          }
+        }
         viewStore.send(.textFieldDidEditting(placeTerm))
       }
       Spacer()

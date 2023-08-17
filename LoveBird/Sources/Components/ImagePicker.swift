@@ -61,10 +61,19 @@ struct ImagePickerView: View {
   var body: some View {
     HStack(spacing: 10) {
       if let image = image {
-        image
-          .resizable()
-          .cornerRadius(32)
-          .frame(width: 124, height: 124)
+        Button {
+          showImagePicker.toggle()
+        } label: {
+          image
+            .resizable()
+            .aspectRatio(contentMode: .fit)
+            .frame(width: 124, height: 124)
+        }
+        .sheet(isPresented: $showImagePicker, onDismiss: {
+          loadImage()
+        }) {
+          ImagePicker(image: $selectedUIImage, isImagePickerDisplayed: $showImagePicker)
+        }
       } else {
         Button {
           showImagePicker.toggle()

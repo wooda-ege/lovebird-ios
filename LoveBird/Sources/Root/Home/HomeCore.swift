@@ -66,6 +66,7 @@ struct HomeCore: ReducerProtocol {
         return .none
 
       case .diaryTapped(let diary):
+
         // TODO: 다이어리 상세페이지로 이동
         return .none
 

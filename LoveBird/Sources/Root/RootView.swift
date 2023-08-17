@@ -42,6 +42,14 @@ struct RootView: View {
         CaseLet(/RootCore.State.login, action: RootCore.Action.login) { store in
           LoginView(store: store)
         }
+      case .coupleLink:
+        CaseLet(/RootCore.State.coupleLink, action: RootCore.Action.coupleLink) { store in
+          CoupleLinkView(store: store)
+        }
+      case .diary:
+        CaseLet(/RootCore.State.diary, action: RootCore.Action.diary) { store in
+          DiaryView(store: store)
+        }
       }
     }
     .onAppear {

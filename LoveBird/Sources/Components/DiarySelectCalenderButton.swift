@@ -8,18 +8,25 @@
 import SwiftUI
 
 struct DiarySelectCalenderButton: View {
+  var title: String
+  
   var body: some View {
-    Button(action: {
-      // 추후:: 버튼이 클릭되었을 때 캘린더뷰로 넘어가기
-    }) {
-      ZStack(alignment: .leading) {
-        RoundedRectangle(cornerRadius: 10)
-          .foregroundColor(Color(R.color.gray231))
-          .frame(height: 44)
-        Text("날짜")
-          .foregroundColor(Color(R.color.gray122))
-          .padding(.leading, 15)
+    ZStack {
+      RoundedRectangle(cornerRadius: 10)
+        .foregroundColor(Color(R.color.gray02))
+        .background(.white)
+        .frame(
+          height: 44,
+          alignment: .leading
+        )
+      
+      HStack {
+        Text(title)
+        
+        Spacer()
       }
+      .padding(.leading, 15)
     }
+    .background(Color(R.color.gray02))
   }
 }

@@ -24,7 +24,7 @@ struct OnboardingCore: ReducerProtocol {
   
   struct State: Equatable {
     
-    init(accessToken: String, refreshToken: String) {
+    init(accessToken: String = "", refreshToken: String = "") {
       self.accessToken = accessToken
       self.refreshToken = refreshToken
     }
@@ -65,16 +65,16 @@ struct OnboardingCore: ReducerProtocol {
     case dateDaySelected(Int)
     case nicknameEdited(String)
     case emailEdited(String)
-    case invitationcodeEdited(String)
     case doneButtonTapped
     case showBottomSheet
     case hideBottomSheet
     case dateInitialied
     case birthdateInitialied
-    case signUpResponse(TaskResult<SignUpResponse>)
+    case registerProfileResponse(TaskResult<Profile>)
     case tryLinkResponse(TaskResult<TryLinkResponse>)
     case imageSelected(UIImage?)
     case circleClicked(Int)
+    case invitationcodeEdited(String)
     case invitationViewLoaded(String)
     case tryLink(String)
     case none
@@ -145,24 +145,23 @@ struct OnboardingCore: ReducerProtocol {
         state.firstdateDay = Date().day
       case .imageSelected(let image):
         state.profileImage = image
-      case .tryLink(let link):
-        return .run { send in
-          do {
-            let tryLinkResponse = TryLinkResponse(link: link)
-            
-            await send(.tryLinkResponse(.success(tryLinkResponse)))
-          } catch {
-            print("link error!")
-          }
-        }
       case .doneButtonTapped:
         return .run { [state = state] send in
           do {
-            let signUpResponse = try await self.apiClient.request(.signUp(authorization: state.accessToken, refresh: state.refreshToken, image: state.profileImage, signUpRequest: SignUpRequest.init(email: state.email, nickname: state.nickname, birthDay: "\(state.birthdateYear)-\(state.birthdateMonth)-\(state.birthdateDay)", firstDate: "\(state.firstdateYear)-\(state.firstdateMonth)-\(state.firstdateDay)", gender: state.gender, deviceToken: "dd"))) as SignUpResponse
+            let birthyear = state.birthdateYear
+            let birthmonth = state.birthdateMonth
+            let birthday = state.birthdateDay
+            let firstyear = state.firstdateYear
+            let firstmonth = state.firstdateMonth
+            let firstday = state.firstdateDay
+            let birth = String(format: "%04d-%02d-%02d", birthyear, birthmonth, birthday)
+            let firstDate = String(format: "%04d-%02d-%02d", firstyear, firstmonth, firstday)
+            // 프로필 등록 - 생년월일 입력 뷰에서 다음 버튼 클릭시
+            let profile = try await self.apiClient.request(.registerProfile(authorization: state.accessToken, refresh: state.refreshToken, image: state.profileImage, profileRequest: RegisterProfileRequest.init(email: state.email, nickname: state.nickname, birthDay: birth, firstDate: firstDate, gender: state.gender, deviceToken: "fcm"))) as Profile
             
-            await send(.signUpResponse(.success(signUpResponse)))
+            await send(.registerProfileResponse(.success(profile)))
           } catch {
-            
+            print("프로필 등록 실패")
           }
         }
 //        return .task { [accessToken = state.accessToken, refreshToken = state.refreshToken, image = state.profileImage, email = state.email, nickname = state.nickname, birthYear = state.birthdateYear, birthMonth = state.birthdateMonth, birthDay = state.birthdateDay, year = state.firstdateYear, month = state.firstdateMonth, day = state.firstdateDay, gender = state.gender] in

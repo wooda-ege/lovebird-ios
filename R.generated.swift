@@ -61,7 +61,7 @@ struct _R {
     }
 
 
-    /// This `_R.string.localizable` struct is generated, and contains static references to 50 localization keys.
+    /// This `_R.string.localizable` struct is generated, and contains static references to 51 localization keys.
     struct localizable {
       let source: RswiftResources.StringResource.Source
 
@@ -127,6 +127,13 @@ struct _R {
       ///
       /// Locales: en
       var add_schedule_title_placeholder: RswiftResources.StringResource { .init(key: "add_schedule_title_placeholder", tableName: "Localizable", source: source, developmentValue: "일정 제목을 입력해 주세요", comment: nil) }
+
+      /// en translation: 날짜
+      ///
+      /// Key: calendar_date
+      ///
+      /// Locales: en
+      var calendar_date: RswiftResources.StringResource { .init(key: "calendar_date", tableName: "Localizable", source: source, developmentValue: "날짜", comment: nil) }
 
       /// en translation: 그레이
       ///
@@ -618,7 +625,6 @@ struct _R {
 
   /// This `_R.entitlements` struct is generated, and contains static references to 1 properties.
   struct entitlements {
-    let apsEnvironment: String = "development"
     let comAppleDeveloperApplesignin = comAppleDeveloperApplesignin()
     struct comAppleDeveloperApplesignin {
       let `default`: String = "Default"

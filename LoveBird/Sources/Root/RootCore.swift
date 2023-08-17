@@ -28,6 +28,8 @@ struct RootCore: Reducer {
     case onboarding(OnboardingCore.State)
     case mainTab(MainTabCore.State)
     case login(LoginCore.State)
+    case coupleLink(CoupleLinkCore.State)
+    case diary(DiaryCore.State)
     
     init() {
       self = .splash
@@ -36,19 +38,23 @@ struct RootCore: Reducer {
 
   // MARK: - Action
   
+  // MARK: - Action
+  
   enum Action: Equatable {
     case onboarding(OnboardingCore.Action)
     case mainTab(MainTabCore.Action)
     case login(LoginCore.Action)
+    case coupleLink(CoupleLinkCore.Action)
     case updateRootState(State)
+    case diary(DiaryCore.Action)
     case viewAppear
   }
-
+  
   // MARK: - Dependency
-
+  
   @Dependency(\.apiClient) var apiClient
   @Dependency(\.userData) var userData
-
+  
   // MARK: - Body
   var body: some Reducer<State, Action> {
     Reduce { state, action in
@@ -59,55 +65,43 @@ struct RootCore: Reducer {
       case .viewAppear:
         return .run { send in
           try await Task.sleep(nanoseconds: Constants.delayOfSplash)
-
+          
           let user = self.userData.get(key: .user, type: Profile.self)
           var rootState: State
-          if let _ = user {
-            rootState = .mainTab(MainTabCore.State())
+          if user == nil {
+            rootState = .login(LoginCore.State())
           } else {
             rootState = .mainTab(MainTabCore.State())
-//            rootState = .login(LoginCore.State())
           }
-
           await send(.updateRootState(rootState), animation: .default)
         }
-
-      // MARK: - Onboarding
-
-      case .onboarding(.signUpResponse(.success)):
-        return .send(.updateRootState(.mainTab(MainTabCore.State())))
-
-      case .onboarding(.tryLinkResponse(.success)):
-        return .send(.updateRootState(.mainTab(MainTabCore.State())))
-
-      case .onboarding(.tryLinkResponse(.failure)):
-        return .none
-
+        
       // MARK: - Login
-
+        
         // 알랏 띄우기
       case .login(.kakaoLoginResponse(.success(let response))):
-        let accessToken = response.accessToken
-        let refreshToken = response.refreshToken
+        userData.store(key: .accessToken, value: response.accessToken)
+        userData.store(key: .refreshToken, value: response.refreshToken)
+        
         let flag = response.flag
-        if flag == true {
-          state = .onboarding(OnboardingCore.State(accessToken: accessToken, refreshToken: refreshToken ?? ""))
-        } else {
+        if flag == true { // 신규
+          state = .onboarding(OnboardingCore.State(accessToken: response.accessToken, refreshToken: response.refreshToken ?? ""))
+        } else { // 기존
           state = .mainTab(MainTabCore.State())
         }
         return .none
-
+        
       case .login(.kakaoLoginResponse(.failure(let error))):
         print(error)
         return .none
 
       case .login(.appleLoginResponse(.success(let response))):
-        let accessToken = response.accessToken
-        let refreshToken = response.refreshToken
+        userData.store(key: .accessToken, value: response.accessToken)
+        userData.store(key: .refreshToken, value: response.refreshToken)
         
-        if response.flag == true {
-          state = .onboarding(OnboardingCore.State(accessToken: accessToken, refreshToken: refreshToken ?? ""))
-        } else {
+        if response.flag == true { // 신규
+          state = .onboarding(OnboardingCore.State(accessToken: response.accessToken, refreshToken: response.refreshToken ?? ""))
+        } else { // 기존
           state = .mainTab(MainTabCore.State())
         }
         return .none
@@ -115,9 +109,30 @@ struct RootCore: Reducer {
       case .login(.appleLoginResponse(.failure(let error))):
         print(error)
         return .none
+        
+      // MARK: - Onboarding
+        
+      case .onboarding(.registerProfileResponse(.success)):
+        return .send(.updateRootState(.coupleLink(CoupleLinkCore.State(accessToken: userData.get(key: .accessToken, type: String.self)!, refreshToken: userData.get(key: .refreshToken, type: String.self)!))))
+        
+      case .onboarding(.tryLinkResponse(.success)):
+        return .send(.updateRootState(.mainTab(MainTabCore.State())))
+        
+      case .onboarding(.tryLinkResponse(.failure)):
+        return .none
+        
+      // MARK: - CoupleLink
+        
+      case .coupleLink(.tryLinkResponse(.success(let response))):
+        if response.isSuccess {
+          return .send(.updateRootState(.mainTab(MainTabCore.State())))
+        } else {
+          print("link 실패")
+          return .none
+        }
 
       // MARK: - Etc
-
+        
       case .updateRootState(let rootState):
         state = rootState
         return .none
@@ -134,6 +149,12 @@ struct RootCore: Reducer {
     }
     .ifCaseLet(/State.mainTab, action: /Action.mainTab) {
       MainTabCore()
+    }
+    .ifCaseLet(/State.coupleLink, action: /Action.coupleLink) {
+      CoupleLinkCore()
+    }
+    .ifCaseLet(/State.diary, action: /Action.diary) {
+      DiaryCore()
     }
   }
 }
