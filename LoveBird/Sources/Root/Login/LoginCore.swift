@@ -44,8 +44,8 @@ struct LoginCore: ReducerProtocol {
           let tokenData = credential.identityToken
           let tokenString = String(decoding: tokenData!, as: UTF8.self)
           let email = credential.email ?? "lyeeun37@naver.com"
-          let firstName = credential.fullName?.givenName ?? "예은"
-          let lastName = credential.fullName?.familyName ?? "이"
+          let firstName = credential.fullName?.givenName ?? "Yeeun"
+          let lastName = credential.fullName?.familyName ?? "Lee"
           
           return .run { send in
             do {

@@ -31,6 +31,7 @@ struct DiaryCore: ReducerProtocol {
     case completeButtonTapped
     case registerDiaryResponse(TaskResult<String>)
     case hideDateView
+    case viewInitialized
   }
   
   @Dependency(\.apiClient) var apiClient
@@ -53,15 +54,17 @@ struct DiaryCore: ReducerProtocol {
       case .changeTextEmpty:
         state.text = ""
       case .completeButtonTapped:
-        state.title = ""
-        state.date = String(resource: R.string.localizable.calendar_date)
-        state.place = String(resource: R.string.localizable.diary_select_place)
-        state.text = ""
         return .run { [state = state] send in
           let response = try await apiClient.requestRaw(.registerDiary(authorization: userData.get(key: .accessToken, type: String.self)!, refresh: userData.get(key: .refreshToken, type: String.self)!, image: state.image, diary: .init(title: state.title, memoryDate: state.date, place: state.place, content: state.text))) as String
           
           await send(.registerDiaryResponse(.success(response)))
+          await send(.viewInitialized)
         }
+      case .viewInitialized:
+        state.title = ""
+        state.date = String(resource: R.string.localizable.calendar_date)
+        state.place = String(resource: R.string.localizable.diary_select_place)
+        state.text = ""
       case .searchPlace(.selectPlace(let place)):
         state.place = place
       case .hideDateView:
