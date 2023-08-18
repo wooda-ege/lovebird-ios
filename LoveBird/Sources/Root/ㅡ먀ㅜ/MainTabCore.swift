@@ -53,10 +53,6 @@ struct MainTabCore: ReducerProtocol {
       case .home(.todoDiaryTapped):
         state.selectedTab = .diary
         return .none
-
-      case .diary(.completeButtonTapped):
-        state.selectedTab = .home
-        return .none
         
       case .diary(.registerDiaryResponse(.success(let response))):
         if response == "SUCCESS" {
