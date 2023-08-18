@@ -55,7 +55,7 @@ struct DiaryCore: ReducerProtocol {
         state.text = ""
       case .completeButtonTapped:
         return .run { [state = state] send in
-          let response = try await apiClient.requestRaw(.registerDiary(authorization: userData.get(key: .accessToken, type: String.self)!, refresh: userData.get(key: .refreshToken, type: String.self)!, image: state.image, diary: .init(title: state.title, memoryDate: state.date, place: state.place, content: state.text))) as String
+          let response = try await apiClient.requestRaw(.registerDiary(authorization: userData.get(key: .accessToken, type: String.self)!, refresh: userData.get(key: .refreshToken, type: String.self) ?? "", image: state.image, diary: .init(title: state.title, memoryDate: state.date, place: state.place, content: state.text))) as String
           
           await send(.registerDiaryResponse(.success(response)))
           await send(.viewInitialized)

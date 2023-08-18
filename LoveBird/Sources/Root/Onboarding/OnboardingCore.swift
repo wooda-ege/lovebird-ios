@@ -23,15 +23,6 @@ struct OnboardingCore: ReducerProtocol {
   }
   
   struct State: Equatable {
-    
-    init(accessToken: String = "", refreshToken: String = "") {
-      self.accessToken = accessToken
-      self.refreshToken = refreshToken
-    }
-    
-    var accessToken: String = ""
-    var refreshToken: String = ""
-    
     var page: Page = .first()
     var pageIdx: Int = Constant.nicknamePageIdx
     var nickname: String = ""
@@ -81,6 +72,7 @@ struct OnboardingCore: ReducerProtocol {
   }
   
   @Dependency(\.apiClient) var apiClient
+  @Dependency(\.userData) var userData
   
   var body: some ReducerProtocol<State, Action> {
     Reduce { state, action in
@@ -157,7 +149,7 @@ struct OnboardingCore: ReducerProtocol {
             let birth = String(format: "%04d-%02d-%02d", birthyear, birthmonth, birthday)
             let firstDate = String(format: "%04d-%02d-%02d", firstyear, firstmonth, firstday)
             // 프로필 등록 - 생년월일 입력 뷰에서 다음 버튼 클릭시
-            let profile = try await self.apiClient.request(.registerProfile(authorization: state.accessToken, refresh: state.refreshToken, image: state.profileImage, profileRequest: RegisterProfileRequest.init(email: state.email, nickname: state.nickname, birthDay: birth, firstDate: firstDate, gender: state.gender, deviceToken: "fcm"))) as Profile
+            let profile = try await self.apiClient.request(.registerProfile(authorization: userData.get(key: .accessToken, type: String.self)!, refresh: userData.get(key: .refreshToken, type: String.self) ?? "", image: state.profileImage, profileRequest: RegisterProfileRequest.init(email: state.email, nickname: state.nickname, birthDay: birth, firstDate: firstDate, gender: state.gender, deviceToken: "fcm"))) as Profile
             
             await send(.registerProfileResponse(.success(profile)))
           } catch {

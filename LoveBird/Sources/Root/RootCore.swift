@@ -85,12 +85,12 @@ struct RootCore: Reducer {
           userData.store(key: .refreshToken, value: response.refreshToken)
           
           if response.flag == true { // 신규
-            await send(.updateRootState(.onboarding(OnboardingCore.State(accessToken: response.accessToken, refreshToken: response.refreshToken ?? ""))))
+            await send(.updateRootState(.onboarding(OnboardingCore.State())))
           } else { // 기존
             do {
               let profile = try await apiClient.request(.fetchProfile(authorization: response.accessToken, refresh: response.refreshToken!)) as Profile
               if profile.partnerId == nil {
-                await send(.updateRootState(.coupleLink(CoupleLinkCore.State(accessToken: response.accessToken, refreshToken: response.refreshToken!))))
+                await send(.updateRootState(.coupleLink(CoupleLinkCore.State())))
               } else {
                 await send(.updateRootState(.mainTab(MainTabCore.State())))
               }
@@ -107,12 +107,12 @@ struct RootCore: Reducer {
           userData.store(key: .refreshToken, value: response.refreshToken)
           
           if response.flag == true { // 신규
-            await send(.updateRootState(.onboarding(OnboardingCore.State(accessToken: response.accessToken, refreshToken: response.refreshToken ?? ""))))
+            await send(.updateRootState(.onboarding(OnboardingCore.State())))
           } else { // 기존
             do {
               let profile = try await apiClient.request(.fetchProfile(authorization: response.accessToken, refresh: response.refreshToken ?? "")) as Profile
               if profile.partnerId == nil {
-                await send(.updateRootState(.coupleLink(CoupleLinkCore.State(accessToken: response.accessToken, refreshToken: response.refreshToken!))))
+                await send(.updateRootState(.coupleLink(CoupleLinkCore.State())))
               } else {
                 await send(.updateRootState(.mainTab(MainTabCore.State())))
               }
@@ -128,7 +128,7 @@ struct RootCore: Reducer {
       // MARK: - Onboarding
         
       case .onboarding(.registerProfileResponse(.success)):
-        return .send(.updateRootState(.coupleLink(CoupleLinkCore.State(accessToken: userData.get(key: .accessToken, type: String.self)!, refreshToken: userData.get(key: .refreshToken, type: String.self)!))))
+        return .send(.updateRootState(.coupleLink(CoupleLinkCore.State())))
         
       case .onboarding(.tryLinkResponse(.success)):
         return .send(.updateRootState(.mainTab(MainTabCore.State())))

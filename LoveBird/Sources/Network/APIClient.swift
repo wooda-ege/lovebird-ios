@@ -147,6 +147,9 @@ extension APIClient: TargetType {
     case .fetchProfile(let authorization, let refresh):
       return ["Content-type" : "application/json", "Authorization": authorization,
               "Refresh": refresh]
+    case .fetchDiaries(let authorization, let refresh):
+      return ["Content-type" : "application/json", "Authorization": authorization,
+              "Refresh": refresh]
     default:
       return ["Content-type" : "application/json"]
     }
