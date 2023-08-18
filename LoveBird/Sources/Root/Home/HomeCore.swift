@@ -44,6 +44,9 @@ struct HomeCore: ReducerProtocol {
           do {
             let diariesLoaded = try await self.apiClient.request(.fetchDiaries(authorization: userData.get(key: .accessToken, type: String.self)!, refresh: userData.get(key: .refreshToken, type: String.self)!)) as Diaries
             let profileLoaded = try await self.apiClient.request(.fetchProfile(authorization: userData.get(key: .accessToken, type: String.self)!, refresh: userData.get(key: .refreshToken, type: String.self)!)) as Profile
+            
+            self.userData.store(key: .user, value: profileLoaded)
+            
             let diaries = self.diariesForDomain(
               diaries: diariesLoaded.diaries.map { $0.toDiary() },
               profile: profileLoaded
