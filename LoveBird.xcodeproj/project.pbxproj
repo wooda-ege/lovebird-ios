@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		42470D2A2A8FA8E0003E327E /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42470D292A8FA8E0003E327E /* Config.swift */; };
 		425640302A58463200EC962E /* KakaoSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 4256402F2A58463200EC962E /* KakaoSDK */; };
 		425640322A5AA78C00EC962E /* KakaoLoginRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 425640312A5AA78B00EC962E /* KakaoLoginRequest.swift */; };
 		425640342A5AB30900EC962E /* KakaoLoginResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 425640332A5AB30900EC962E /* KakaoLoginResponse.swift */; };
@@ -139,7 +140,6 @@
 		4AD853CE2A89AEB00005EAD5 /* CustomModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AD853CD2A89AEB00005EAD5 /* CustomModalView.swift */; };
 		4AD853D12A89B30D0005EAD5 /* ImagePickerCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AD853D02A89B30D0005EAD5 /* ImagePickerCore.swift */; };
 		4AD853D32A89B5D40005EAD5 /* CustomImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AD853D22A89B5D40005EAD5 /* CustomImagePicker.swift */; };
-		4AD937E12A3F0DFD0093BD8D /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AD937E02A3F0DFD0093BD8D /* Config.swift */; };
 		4AD937E32A3F19240093BD8D /* Page+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AD937E22A3F19240093BD8D /* Page+Extension.swift */; };
 		4ADC019D2A792F790095A5E5 /* Diaries.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ADC019C2A792F790095A5E5 /* Diaries.swift */; };
 		4AE128342A8B9C670014CCE0 /* Bundle+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AE128332A8B9C670014CCE0 /* Bundle+Extension.swift */; };
@@ -164,6 +164,7 @@
 		1F72EB125740F5145C2ECE5E /* Pods-LoveBird.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LoveBird.debug.xcconfig"; path = "Target Support Files/Pods-LoveBird/Pods-LoveBird.debug.xcconfig"; sourceTree = "<group>"; };
 		212E893A725E4BE7E73B96EB /* Pods_LoveBird.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LoveBird.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		30556E224283EEA95E9817D2 /* Pods-LoveBird.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LoveBird.release.xcconfig"; path = "Target Support Files/Pods-LoveBird/Pods-LoveBird.release.xcconfig"; sourceTree = "<group>"; };
+		42470D292A8FA8E0003E327E /* Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
 		425640312A5AA78B00EC962E /* KakaoLoginRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KakaoLoginRequest.swift; sourceTree = "<group>"; };
 		425640332A5AB30900EC962E /* KakaoLoginResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KakaoLoginResponse.swift; sourceTree = "<group>"; };
 		4256403B2A6452A600EC962E /* AppleLoginResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleLoginResponse.swift; sourceTree = "<group>"; };
@@ -297,7 +298,6 @@
 		4AD853CD2A89AEB00005EAD5 /* CustomModalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomModalView.swift; sourceTree = "<group>"; };
 		4AD853D02A89B30D0005EAD5 /* ImagePickerCore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerCore.swift; sourceTree = "<group>"; };
 		4AD853D22A89B5D40005EAD5 /* CustomImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomImagePicker.swift; sourceTree = "<group>"; };
-		4AD937E02A3F0DFD0093BD8D /* Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
 		4AD937E22A3F19240093BD8D /* Page+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Page+Extension.swift"; sourceTree = "<group>"; };
 		4ADC019C2A792F790095A5E5 /* Diaries.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Diaries.swift; sourceTree = "<group>"; };
 		4AE128332A8B9C670014CCE0 /* Bundle+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bundle+Extension.swift"; sourceTree = "<group>"; };
@@ -399,7 +399,7 @@
 				4A3F1FB02A18D15B009856F1 /* Resources */,
 				4A0396902A0FA5E900EB062D /* Sources */,
 				4A0396882A0FA5B800EB062D /* Preview Content */,
-				4AD937E02A3F0DFD0093BD8D /* Config.swift */,
+				42470D292A8FA8E0003E327E /* Config.swift */,
 			);
 			path = LoveBird;
 			sourceTree = "<group>";
@@ -975,6 +975,7 @@
 				4A0396A12A0FA61A00EB062D /* HomeCore.swift in Sources */,
 				4ACCB9722A18DE7E009F1E22 /* R.generated.swift in Sources */,
 				4AC985B32A5B0F810003D7AE /* Date+Properties.swift in Sources */,
+				42470D2A2A8FA8E0003E327E /* Config.swift in Sources */,
 				4AD602CF2A5183070029D7EB /* GetHeightModifier.swift in Sources */,
 				4A03969F2A0FA61A00EB062D /* RootView.swift in Sources */,
 				4A327D4A2A55AC48002EEB55 /* SwiftUI+Helper.swift in Sources */,
@@ -1038,7 +1039,6 @@
 				4AB2DB312A19A282003EFD95 /* TextFieldClearButton.swift in Sources */,
 				4A1DDF2E2A2F3D3600B3A72B /* NetworkResponse.swift in Sources */,
 				4AE5CB672A2348190016C0B4 /* String+Extension.swift in Sources */,
-				4AD937E12A3F0DFD0093BD8D /* Config.swift in Sources */,
 				4AD853CE2A89AEB00005EAD5 /* CustomModalView.swift in Sources */,
 				4AD937E32A3F19240093BD8D /* Page+Extension.swift in Sources */,
 				4AD853C82A88E45C0005EAD5 /* EditProfileRequest.swift in Sources */,
@@ -1217,7 +1217,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"LoveBird/Preview Content\"";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 79K7D639YK;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = LoveBird/Info.plist;
@@ -1230,7 +1230,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.lovebird.apps;
+				PRODUCT_BUNDLE_IDENTIFIER = com.lovebird.ios;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
@@ -1251,7 +1251,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"LoveBird/Preview Content\"";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 79K7D639YK;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = LoveBird/Info.plist;
@@ -1264,7 +1264,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.lovebird.apps;
+				PRODUCT_BUNDLE_IDENTIFIER = com.lovebird.ios;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;

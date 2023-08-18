@@ -62,7 +62,7 @@ struct DatePickerView: UIViewRepresentable {
         if days < self.parent.viewStore.firstdateDay {
           self.parent.viewStore.send(.dateDaySelected(days))
         }
-        return days
+        return 31
       default:
         fatalError("Invalid component")
       }

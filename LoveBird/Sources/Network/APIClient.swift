@@ -110,7 +110,7 @@ extension APIClient: TargetType {
     case .kakaoLogin:
       return .requestParameters(parameters: self.bodyParameters ?? [:], encoding: JSONEncoding.default)
     case .appleLogin(let appleLoginRequest):
-      return .requestJSONEncodable(appleLoginRequest as Encodable)
+      return .requestJSONEncodable(appleLoginRequest)
     case .searchKakaoMap:
       return .requestParameters(parameters: self.bodyParameters ?? [:], encoding: URLEncoding.queryString)
     case .coupleLinkButtonClicked:

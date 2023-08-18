@@ -69,7 +69,8 @@ struct RootCore: Reducer {
           let user = self.userData.get(key: .user, type: Profile.self)
           var rootState: State
 //          if user == nil {
-            rootState = .login(LoginCore.State())
+          rootState = .login(LoginCore.State())
+//            rootState = .login(LoginCore.State())
 //          } else {
 //            rootState = .mainTab(MainTabCore.State())
 //          }
@@ -119,8 +120,6 @@ struct RootCore: Reducer {
             }
           }
         }
-        return .none
-
       case .login(.appleLoginResponse(.failure(let error))):
         print(error)
         return .none

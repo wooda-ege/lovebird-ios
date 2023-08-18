@@ -62,7 +62,7 @@ struct BirthDatePickerView: UIViewRepresentable {
         if days < self.parent.viewStore.birthdateDay {
           self.parent.viewStore.send(.birthdateDaySelected(days))
         }
-        return days
+        return 31
       default:
         fatalError("Invalid component")
       }
