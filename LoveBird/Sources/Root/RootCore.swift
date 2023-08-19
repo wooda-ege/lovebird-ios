@@ -66,10 +66,6 @@ struct RootCore: Reducer {
       case .viewAppear:
         return .run { send in
           try await Task.sleep(nanoseconds: Constants.delayOfSplash)
-          
-//          checkCameraPermission()
-//          checkAlbumPermission()
-          
           let user = self.userData.get(key: .user, type: Profile.self)
           var rootState: State
           if user == nil {
@@ -104,28 +100,6 @@ struct RootCore: Reducer {
         }
 
       case .login(.kakaoLoginResponse(.failure(let error))), .login(.appleLoginResponse(.failure(let error))):
-        print(error)
-        return .none
-
-      case .login(.appleLoginResponse(.success(let response))):
-        return .run { send in
-          userData.store(key: .accessToken, value: response.accessToken)
-          userData.store(key: .refreshToken, value: response.refreshToken)
-          
-          if response.flag == true { // 신규
-            await send(.updateRootState(.onboarding(OnboardingCore.State())))
-          } else { // 기존
-            do {
-              let profile = try await apiClient.request(.fetchProfile) as Profile
-              if profile.partnerId == nil {
-                await send(.updateRootState(.coupleLink(CoupleLinkCore.State())))
-              } else {
-                await send(.updateRootState(.mainTab(MainTabCore.State())))
-              }
-            }
-          }
-        }
-      case .login(.appleLoginResponse(.failure(let error))):
         print(error)
         return .none
         
