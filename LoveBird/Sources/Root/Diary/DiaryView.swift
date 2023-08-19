@@ -38,7 +38,9 @@ struct DiaryView: View {
               Spacer()
 
               Button {
+                viewStore.send(.editImage(image))
                 viewStore.send(.completeTapped)
+                
               } label: {
                 Text(R.string.localizable.common_complete)
                   .foregroundColor((viewStore.title.isEmpty || viewStore.content.isEmpty) ? Color(R.color.green234) : Color(R.color.primary))

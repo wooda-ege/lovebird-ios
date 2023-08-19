@@ -61,7 +61,15 @@ struct ImagePickerView: View {
   var body: some View {
     HStack() {
       Button {
-        showImagePicker.toggle()
+        ImageAccessAuth.checkCameraPermission { isAccess in
+          if isAccess {
+            ImageAccessAuth.checkAlbumPermission { status in
+              if status == "허용" {
+                showImagePicker.toggle()
+              }
+            }
+          }
+        }
       } label: {
         Group {
           if let image = image {

@@ -43,6 +43,7 @@ struct DiaryCore: ReducerProtocol {
     case registerDiaryResponse(TaskResult<String>)
     case hideDateView
     case viewInitialized
+    case editImage(UIImage?)
   }
   
   @Dependency(\.apiClient) var apiClient
@@ -122,6 +123,10 @@ struct DiaryCore: ReducerProtocol {
           )
         }
 
+      case .editImage(let image):
+        state.image = image
+        return .none
+        
       case .registerDiaryResponse(.success):
         state.title = ""
         state.date = Date()

@@ -7,6 +7,8 @@
 
 import UIKit
 import ComposableArchitecture
+import AVFoundation
+import Photos
 
 // MARK: - Typealias
 
@@ -65,6 +67,9 @@ struct RootCore: Reducer {
         return .run { send in
           try await Task.sleep(nanoseconds: Constants.delayOfSplash)
           
+//          checkCameraPermission()
+//          checkAlbumPermission()
+          
           let user = self.userData.get(key: .user, type: Profile.self)
           var rootState: State
           if user == nil {
@@ -111,7 +116,7 @@ struct RootCore: Reducer {
             await send(.updateRootState(.onboarding(OnboardingCore.State())))
           } else { // 기존
             do {
-              let profile = try await apiClient.request(.fetchProfile(authorization: response.accessToken, refresh: response.refreshToken ?? "")) as Profile
+              let profile = try await apiClient.request(.fetchProfile) as Profile
               if profile.partnerId == nil {
                 await send(.updateRootState(.coupleLink(CoupleLinkCore.State())))
               } else {
