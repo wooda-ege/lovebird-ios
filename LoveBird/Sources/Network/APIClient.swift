@@ -117,9 +117,27 @@ extension APIClient: TargetType {
 
     case .registerDiary(let image, let diary):
       let diary = try! JSONEncoder().encode(diary)
-      let imageData = MultipartFormData(provider: .data(image?.pngData() ?? Data()), name: "1-1", fileName: "1-1.png", mimeType: "image/png")
-      let diaryRequest = MultipartFormData(provider: .data(diary), name: "diaryCreateRequest", mimeType: "application/json")
-      return .uploadMultipart([imageData, diaryRequest])
+
+      var multiparts: [Moya.MultipartFormData] = []
+
+      if let image = image?.jpegData(compressionQuality: 0.5) {
+        let imageData = MultipartFormData(
+          provider: .data(image),
+          name: "images",
+          fileName: "image.jpeg",
+          mimeType: "image/jpeg"
+        )
+        multiparts.append(imageData)
+      }
+
+      let diaryRequest = MultipartFormData(
+        provider: .data(diary),
+        name: "diaryCreateRequest",
+        mimeType: "application/json"
+      )
+      multiparts.append(diaryRequest)
+
+      return .uploadMultipart(multiparts)
 
     case .kakaoLogin:
       return .requestParameters(parameters: self.bodyParameters ?? [:], encoding: JSONEncoding.default)

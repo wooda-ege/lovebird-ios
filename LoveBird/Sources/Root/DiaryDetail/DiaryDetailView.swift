@@ -7,6 +7,7 @@
 
 import ComposableArchitecture
 import SwiftUI
+import Kingfisher
 
 struct DiaryDetailView: View {
   let store: StoreOf<DiaryDetailCore>
@@ -46,41 +47,37 @@ struct DiaryDetailView: View {
               .padding(.horizontal, 16)
             }
 
-            ZStack(alignment: .center) {
-              Image(uiImage: UIImage(named: viewStore.diary.imgUrls.first ?? "") ?? UIImage())
-                .resizable()
-                .foregroundColor(.black)
-                .background(Color(R.color.gray06))
-                .opacity(0.7)
-                .cornerRadius(10)
-
-              Image(uiImage: UIImage(named: viewStore.diary.imgUrls.first ?? "") ?? UIImage())
-                .resizable()
-                .opacity(0.7)
-                .saturation(0.9)
+            if let urlString = viewStore.diary.imgUrls.first ,
+               let url = URL(string: "\(urlString)") {
+                VStack {
+                  KFImage(url)
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+                    .frame(width: UIScreen.width - 32, height: (UIScreen.width - 32) * 0.6)
+                    .clipped()
+                    .cornerRadius(10)
+                }
+                .padding(.horizontal, 16)
             }
-            .aspectRatio(CGSize(width: 340, height: 200), contentMode: .fit)
-            .padding(.horizontal, 16)
+
 
             VStack(spacing: 12) {
               Divider()
                 .background(Color(R.color.gray04))
 
-              if let place = viewStore.diary.place {
-                HStack(spacing: 6) {
-                  Image(R.image.ic_map)
-                    .changeSize(to: .init(width: 24, height: 24))
-                    .changeColor(to: .black)
+              HStack(spacing: 6) {
+                Image(R.image.ic_map)
+                  .changeSize(to: .init(width: 24, height: 24))
+                  .changeColor(to: .black)
 
-                  Text(place)
-                    .font(.pretendard(size: 17))
+                Text(viewStore.diary.place ?? "미지정")
+                  .font(.pretendard(size: 17))
 
-                  Spacer()
-                }
-
-                Divider()
-                  .background(Color(R.color.gray04))
+                Spacer()
               }
+
+              Divider()
+                .background(Color(R.color.gray04))
             }
             .padding(.horizontal, 16)
 
