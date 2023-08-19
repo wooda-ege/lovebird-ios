@@ -126,7 +126,7 @@ struct CoupleLinkView: View {
         .background(.black)
         .cornerRadius(12)
         .padding(.horizontal, 16)
-        .padding(.bottom, keyboard.currentHeight == 0 ? 20 + UIApplication.edgeInsets.bottom : keyboard.currentHeight + 20)
+        .padding(.bottom, 20)
       }
       .onAppear {
         Task {

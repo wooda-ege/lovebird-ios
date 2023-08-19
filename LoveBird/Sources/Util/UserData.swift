@@ -9,7 +9,7 @@ import Foundation
 import ComposableArchitecture
 
 public struct UserData {
-  enum Keys: String {
+  enum Keys: String, CaseIterable {
     case user
     case accessToken
     case refreshToken
@@ -30,6 +30,10 @@ public struct UserData {
         }
     }
     return nil
+  }
+
+  func remove(key: Keys) {
+    UserDefaults.standard.removeObject(forKey: key.rawValue)
   }
 }
 

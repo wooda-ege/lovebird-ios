@@ -153,6 +153,10 @@ struct DiaryView: View {
           }
         }
       }
+      .background(.white)
+      .onTapGesture {
+        self.hideKeyboard()
+      }
       .onChange(of: viewStore.focusedType) { type in
         self.hideKeyboard()
         DispatchQueue.main.async {

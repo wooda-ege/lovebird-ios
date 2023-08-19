@@ -84,7 +84,7 @@ struct MyPageProfileEditView: View {
         Spacer()
 
         Button {
-          viewStore.send(.deleteProfile)
+          viewStore.send(.withdrawal)
         } label: {
           Text("회원탈퇴")
             .foregroundColor(Color(R.color.gray06))

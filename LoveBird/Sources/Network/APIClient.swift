@@ -27,7 +27,7 @@ public enum APIClient {
   case registerProfile(image: UIImage?, profileRequest: RegisterProfileRequest)
   case fetchProfile
   case editProfile(image: UIImage?, editProfile: EditProfileRequest)
-  case deleteProfile
+  case withdrawal
 
   // diary
   case fetchDiaries
@@ -62,6 +62,8 @@ extension APIClient: TargetType {
 
   public var path: String {
       switch self {
+      case .withdrawal:
+        return "/auth"
       case .kakaoLogin:
         return "/auth/kakao"
       case .appleLogin:
@@ -84,7 +86,7 @@ extension APIClient: TargetType {
         return "/diaries/\(id)"
       case .addSchedule, .fetchCalendars:
         return "/calendar"
-      case .registerProfile, .fetchProfile, .editProfile, .deleteProfile:
+      case .registerProfile, .fetchProfile, .editProfile:
         return "/profile"
       case .fetchSchedule(let id), .deleteSchedule(let id), .editSchedule(let id, _):
         return "/calendar/\(id)"
@@ -100,7 +102,7 @@ extension APIClient: TargetType {
       return .get
     case .editSchedule, .editProfile, .coupleLinkButtonClicked:
       return .put
-    case .deleteSchedule, .deleteDiary, .deleteProfile:
+    case .deleteSchedule, .deleteDiary, .withdrawal:
       return .delete
     }
   }
@@ -186,7 +188,7 @@ extension APIClient: TargetType {
       let editProfile = try! JSONEncoder().encode(editProfileRequset)
       multiparts.append(.init(provider: .data(editProfile), name: "profileUpdateRequest", mimeType: "application/json"))
       if let image = image?.pngData() {
-        multiparts.append(.init(provider: .data(image), name: "image", fileName: "image.png", mimeType: "image/png"))
+        multiparts.append(.init(provider: .data(image), name: "1-1", fileName: "1-1.png", mimeType: "image/png"))
       }
     default:
       break

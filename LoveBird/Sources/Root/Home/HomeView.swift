@@ -51,7 +51,7 @@ struct HomeView: View {
           GeometryReader { proxy in
             ScrollView {
               VStack {
-                Spacer(minLength: max(proxy.size.height - viewStore.contentHeight, 0))
+                Spacer(minLength: max(proxy.size.height - viewStore.contentHeight - 44, 0))
                   .scrollViewOrigin { viewStore.send(.offsetYChanged($0.y)) }
 
                 LazyVGrid(columns: [GridItem(.flexible())], spacing: 0) {

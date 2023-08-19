@@ -30,7 +30,7 @@ struct ScheduleTime: Equatable {
 
   func toHMS() -> String {
     let plusHour = self.meridiem == .pm ? 12 : 0
-    return "\(self.hour + plusHour):\(self.minute):00"
+    return String(format: "%02d:%02d:00", self.hour + plusHour, self.minute)
   }
 
   func isLater(than time: ScheduleTime) -> Bool {

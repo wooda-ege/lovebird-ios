@@ -125,7 +125,11 @@ struct RootCore: Reducer {
         }
 
       // MARK: - My Page
-      case .mainTab(.myPage(.myPageProfileEdit(.presented(.deleteProfileResponse(.success))))):
+        
+      case .mainTab(.myPage(.myPageProfileEdit(.presented(.withdrawalResponse(.success))))):
+        self.userData.remove(key: .user)
+        self.userData.remove(key: .accessToken)
+        self.userData.remove(key: .refreshToken)
         state = .login(LoginCore.State())
         return .none
 

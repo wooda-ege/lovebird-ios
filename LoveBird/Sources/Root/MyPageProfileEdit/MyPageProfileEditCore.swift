@@ -35,9 +35,9 @@ struct MyPageProfileEditCore: ReducerProtocol {
     case nicknameEdited(String)
     case emailEdited(String)
     case editTapped
-    case deleteProfile
+    case withdrawal
     case editProfileResponse(TaskResult<Profile>)
-    case deleteProfileResponse(TaskResult<String>)
+    case withdrawalResponse(TaskResult<String>)
   }
 
   @Dependency(\.apiClient) var apiClient
@@ -79,11 +79,11 @@ struct MyPageProfileEditCore: ReducerProtocol {
           )
         }
 
-      case .deleteProfile:
+      case .withdrawal:
         return .task {
-          .deleteProfileResponse(
+          .withdrawalResponse(
             await TaskResult {
-              try await (self.apiClient.requestRaw(.deleteProfile))
+              try await (self.apiClient.requestRaw(.withdrawal))
             }
           )
         }
