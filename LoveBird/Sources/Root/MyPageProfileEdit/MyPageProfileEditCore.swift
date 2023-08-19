@@ -35,7 +35,9 @@ struct MyPageProfileEditCore: ReducerProtocol {
     case nicknameEdited(String)
     case emailEdited(String)
     case editTapped
+    case deleteProfile
     case editProfileResponse(TaskResult<Profile>)
+    case deleteProfileResponse(TaskResult<String>)
   }
 
   @Dependency(\.apiClient) var apiClient
@@ -63,15 +65,25 @@ struct MyPageProfileEditCore: ReducerProtocol {
         return .none
 
       case .editTapped:
+        if state.nickname.isEmpty || state.email.isEmpty { return .none }
+        
         let request: EditProfileRequest = .init(
-          image: nil,
           nickname: state.nickname,
           email: state.email
         )
         return .task {
           .editProfileResponse(
             await TaskResult {
-              try await (self.apiClient.request(.editProfile(editProfile: request))) as Profile
+              try await (self.apiClient.request(.editProfile(image: nil, editProfile: request))) as Profile
+            }
+          )
+        }
+
+      case .deleteProfile:
+        return .task {
+          .deleteProfileResponse(
+            await TaskResult {
+              try await (self.apiClient.requestRaw(.deleteProfile))
             }
           )
         }

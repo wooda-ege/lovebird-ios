@@ -38,8 +38,6 @@ struct RootCore: Reducer {
 
   // MARK: - Action
   
-  // MARK: - Action
-  
   enum Action: Equatable {
     case onboarding(OnboardingCore.Action)
     case mainTab(MainTabCore.Action)
@@ -56,6 +54,7 @@ struct RootCore: Reducer {
   @Dependency(\.userData) var userData
   
   // MARK: - Body
+
   var body: some Reducer<State, Action> {
     Reduce { state, action in
       switch action {
@@ -70,26 +69,24 @@ struct RootCore: Reducer {
           var rootState: State
 //          if user == nil {
           rootState = .login(LoginCore.State())
-//            rootState = .login(LoginCore.State())
 //          } else {
-//            rootState = .mainTab(MainTabCore.State())
+            rootState = .mainTab(MainTabCore.State())
 //          }
           await send(.updateRootState(rootState), animation: .default)
         }
         
       // MARK: - Login
-        
-        // 알랏 띄우기
-      case .login(.kakaoLoginResponse(.success(let response))):
+
+      case .login(.kakaoLoginResponse(.success(let response))), .login(.appleLoginResponse(.success(let response))):
         return .run { send in
           userData.store(key: .accessToken, value: response.accessToken)
           userData.store(key: .refreshToken, value: response.refreshToken)
-          
+
           if response.flag == true { // 신규
             await send(.updateRootState(.onboarding(OnboardingCore.State())))
           } else { // 기존
             do {
-              let profile = try await apiClient.request(.fetchProfile(authorization: response.accessToken, refresh: response.refreshToken!)) as Profile
+              let profile = try await apiClient.request(.fetchProfile) as Profile
               if profile.partnerId == nil {
                 await send(.updateRootState(.coupleLink(CoupleLinkCore.State())))
               } else {
@@ -98,7 +95,8 @@ struct RootCore: Reducer {
             }
           }
         }
-      case .login(.kakaoLoginResponse(.failure(let error))):
+
+      case .login(.kakaoLoginResponse(.failure(let error))), .login(.appleLoginResponse(.failure(let error))):
         print(error)
         return .none
 
@@ -144,6 +142,11 @@ struct RootCore: Reducer {
           print("link 실패")
           return .none
         }
+
+      // MARK: - My Page
+      case .mainTab(.myPage(.myPageProfileEdit(.presented(.deleteProfileResponse(.success))))):
+        state = .login(LoginCore.State())
+        return .none
 
       // MARK: - Etc
         

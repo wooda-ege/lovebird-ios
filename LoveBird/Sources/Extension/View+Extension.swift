@@ -44,8 +44,7 @@ extension View {
   }
   
   func bottomSheet<Content: View>(isShown: Binding<Bool>, @ViewBuilder content: @escaping () -> Content) -> some View {
-    return self
-      .overlay(
+    return self.overlay(
         HalfSheetHelper(content: content(), isShown: isShown)
       )
   }
@@ -53,29 +52,41 @@ extension View {
   func hideKeyboard() {
     UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
   }
+
+  func sizeChanges(onChange: @escaping (CGSize) -> Void) -> some View {
+    return background(
+      GeometryReader { proxy in
+        Color.clear
+          .preference(key: SizeChangesPreferenceKey.self, value: proxy.size)
+      }
+    )
+    .onPreferenceChange(SizeChangesPreferenceKey.self, perform: onChange)
+  }
+
+  func scrollViewOrigin(callback: @escaping (CGPoint) -> Void) -> some View {
+    return background(
+      GeometryReader { proxy in
+        let origin = proxy.frame(in: .global).origin
+        DispatchQueue.main.async {
+          callback(origin)
+        }
+        return Color.clear
+      }
+    )
+  }
 }
 
-struct HalfSheetHelper<Content: View>: UIViewControllerRepresentable {
-  
-  var content: Content
-  @Binding var isShown: Bool
-  
-  let controller = UIViewController()
-  
-  func makeUIViewController(context: Context) -> UIViewController {
-    controller.view.backgroundColor = .white
-    return controller
-  }
-  
-  func updateUIViewController(_ uiViewController: UIViewController, context: Context) {
-    if self.isShown {
-      let sheetController = UIHostingController(rootView: content)
-      uiViewController.present(sheetController, animated: true) {
-        
-        DispatchQueue.main.async {
-          self.isShown.toggle()
-        }
-      }
-    }
-  }
+private struct SizeChangesPreferenceKey: PreferenceKey {
+    static var defaultValue: CGSize = .zero
+
+    static func reduce(value: inout CGSize, nextValue: () -> CGSize) {}
 }
+
+
+private struct OffsetPreferenceKey: PreferenceKey {
+
+  static var defaultValue: CGPoint = .zero
+
+  static func reduce(value: inout CGPoint, nextValue: () -> CGPoint) { }
+}
+

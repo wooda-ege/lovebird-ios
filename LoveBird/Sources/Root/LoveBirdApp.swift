@@ -17,7 +17,7 @@ import KakaoSDKUser
 struct LoveBirdApp: App {
   
   init() {
-    KakaoSDK.initSDK(appKey:"1746240fb7f6ef325a38312290e1d8b1")
+    KakaoSDK.initSDK(appKey: Config.kakaoAppKey)
   }
 
   var body: some Scene {

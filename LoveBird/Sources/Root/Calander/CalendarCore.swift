@@ -11,11 +11,15 @@ import ComposableArchitecture
 typealias CalendarState = CalendarCore.State
 typealias CalendarAction = CalendarCore.Action
 
+protocol PreviewState: Equatable {
+  var currentPreviewDate: Date { get }
+}
+
 struct CalendarCore: ReducerProtocol {
 
   // MARK: - State
 
-  struct State: Equatable {
+  struct State: PreviewState {
     @PresentationState var scheduleAdd: ScheduleAddState?
     @PresentationState var scheduleDetail: ScheduleDetailState?
     // Key는 "0000-00-00" 포맷이다.

@@ -1,15 +1,15 @@
 //
-//  CalendarPreviewTabView.swift
+//  DiaryPreviewTabView.swift
 //  LoveBird
 //
-//  Created by 황득연 on 2023/07/16.
+//  Created by 황득연 on 2023/08/18.
 //
 
 import ComposableArchitecture
 import SwiftUI
 
-struct CalendarPreviewTabView: View {
-  let store: StoreOf<CalendarCore>
+struct DiaryPreviewTabView: View {
+  let store: StoreOf<DiaryCore>
 
   var body: some View {
     WithViewStore(self.store, observe: { $0 }) { viewStore in
@@ -24,7 +24,7 @@ struct CalendarPreviewTabView: View {
 
         Spacer()
 
-        Text(String(viewStore.currentPreviewDate.year) + "." + String(viewStore.currentPreviewDate.month))
+        Text(String(viewStore.date.year) + "." + String(viewStore.date.month))
           .font(.pretendard(size: 16, weight: .bold))
           .foregroundColor(.black)
 
@@ -42,13 +42,12 @@ struct CalendarPreviewTabView: View {
       .frame(width: 237, alignment: .center)
       .background(Color(R.color.gray03))
       .cornerRadius(12)
-
     }
   }
 }
 
-//struct CalendarPreviewTabView_Previews: PreviewProvider {
+//struct DiaryPreviewTabView_Previews: PreviewProvider {
 //    static var previews: some View {
-//        CalendarPreviewTabView()
+//        DiaryPreviewTabView()
 //    }
 //}

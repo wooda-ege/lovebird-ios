@@ -38,7 +38,7 @@ struct ScheduleDetailView: View {
 
         ScrollView {
           VStack {
-            ScheduleFocusedView() {
+            CommonFocusedView() {
               Text(viewStore.schedule.title)
                 .font(.pretendard(size: 16))
                 .lineLimit(0)
@@ -47,7 +47,7 @@ struct ScheduleDetailView: View {
               Spacer()
             }
 
-            ScheduleFocusedView() {
+            CommonFocusedView() {
               Circle()
                 .fill(viewStore.schedule.color.color)
                 .frame(width: 12, height: 12)
@@ -60,7 +60,7 @@ struct ScheduleDetailView: View {
               Spacer()
             }
 
-            ScheduleFocusedView {
+            CommonFocusedView {
               let schedule = viewStore.schedule
               if schedule.startDate == schedule.endDate {
                 Image(R.image.ic_calendar)
@@ -131,7 +131,7 @@ struct ScheduleDetailView: View {
             }
 
             if let alarm = viewStore.schedule.alarm {
-              ScheduleFocusedView {
+              CommonFocusedView {
                 Image(R.image.ic_notification_primary)
                   .changeColor(to: Color(R.color.primary))
                   .changeSize(to: .init(width: 24, height: 24))
@@ -145,7 +145,7 @@ struct ScheduleDetailView: View {
             }
 
             if viewStore.schedule.memo != nil {
-              ScheduleFocusedView {
+              CommonFocusedView {
                 HStack(alignment: .top) {
                   VStack(spacing: 12) {
                     Text("메모")

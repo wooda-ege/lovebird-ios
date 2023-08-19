@@ -13,7 +13,7 @@ struct ScheduleAddView: View {
   let store: StoreOf<ScheduleAddCore>
 
   var body: some View {
-    WithViewStore(self.store) { viewStore in
+    WithViewStore(self.store, observe: { $0 }) { viewStore in
       ZStack {
         VStack {
           CommonToolBar(
@@ -28,7 +28,7 @@ struct ScheduleAddView: View {
               ScheduleDetailView(store: store)
             } label: {
               Text(R.string.localizable.common_complete)
-                .foregroundColor(viewStore.title.isEmpty ? Color(R.color.gray01) : Color(R.color.primary))
+                .foregroundColor(viewStore.title.isEmpty ? Color(R.color.green234) : Color(R.color.primary))
                 .font(.pretendard(size: 16, weight: .bold))
             }
           }

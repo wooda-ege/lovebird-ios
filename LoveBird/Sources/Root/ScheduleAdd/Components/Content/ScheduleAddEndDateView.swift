@@ -21,7 +21,7 @@ struct ScheduleAddEndDateView: View {
   }
 
   var body: some View {
-    ScheduleFocusedView(isFocused: self.isFocused) {
+    CommonFocusedView(isFocused: self.isFocused) {
       VStack {
         HStack {
           Text(R.string.localizable.add_schedule_end_date)

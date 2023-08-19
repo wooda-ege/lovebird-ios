@@ -20,8 +20,8 @@ struct LoginCore: ReducerProtocol {
   enum Action: Equatable {
     case kakaoLoginTapped(String, String)
     case appleLoginTapped(ASAuthorization)
-    case kakaoLoginResponse(TaskResult<KakaoLoginResponse>)
-    case appleLoginResponse(TaskResult<AppleLoginResponse>)
+    case kakaoLoginResponse(TaskResult<LoginResponse>)
+    case appleLoginResponse(TaskResult<LoginResponse>)
   }
   
   
@@ -31,7 +31,7 @@ struct LoginCore: ReducerProtocol {
       case .kakaoLoginTapped(let accessToken, let idToken):
         return .run { send in
           do {
-            let kakaoLoginResponse = try await self.apiClient.request(.kakaoLogin(idToken: idToken, accessToken: accessToken)) as KakaoLoginResponse
+            let kakaoLoginResponse = try await self.apiClient.request(.kakaoLogin(idToken: idToken, accessToken: accessToken)) as LoginResponse
             
             await send(.kakaoLoginResponse(.success(kakaoLoginResponse)))
           } catch {
@@ -49,7 +49,7 @@ struct LoginCore: ReducerProtocol {
           
           return .run { send in
             do {
-              let appleLoginResponse = try await self.apiClient.request(.appleLogin(appleLoginRequest: .init(idToken: tokenString, user: .init(email: email, name: .init(firstName: firstName, lastName: lastName))))) as AppleLoginResponse
+              let appleLoginResponse = try await self.apiClient.request(.appleLogin(appleLoginRequest: .init(idToken: tokenString, user: .init(email: email, name: .init(firstName: firstName, lastName: lastName))))) as LoginResponse
               
               await send(.appleLoginResponse(.success(appleLoginResponse)))
             } catch {

@@ -10,7 +10,7 @@ import SwiftUI
 
 struct HomeView: View {
   let store: StoreOf<HomeCore>
-  
+
   var body: some View {
     WithViewStore(self.store, observe: { $0 }) { viewStore in
       VStack(spacing: 0) {
@@ -47,18 +47,24 @@ struct HomeView: View {
           }
 
           // MARK: - 타임라인
-          
-          ReversedScrollView { point in
-            viewStore.send(.offsetYChanged(point.y))
-          } content: {
-            LazyVGrid(columns: [GridItem(.flexible())], spacing: 0) {
-              ForEach(viewStore.diaries, id: \.diaryId) { diary in
-                HomeItem(store: self.store, diary: diary)
+
+          GeometryReader { proxy in
+            ScrollView {
+              VStack {
+                Spacer(minLength: max(proxy.size.height - viewStore.contentHeight, 0))
+                  .scrollViewOrigin { viewStore.send(.offsetYChanged($0.y)) }
+
+                LazyVGrid(columns: [GridItem(.flexible())], spacing: 0) {
+                  ForEach(viewStore.diaries, id: \.diaryId) { diary in
+                    HomeItem(store: self.store, diary: diary)
+                  }
+                  .animation(.easeInOut, value: viewStore.diaries)
+                }
+                .sizeChanges { viewStore.send(.contentHeightChanged($0.height))  }
               }
-              .animation(.easeInOut, value: viewStore.diaries)
             }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
           }
-          .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
       }
       .onAppear {
@@ -73,3 +79,5 @@ struct HomeView_Previews: PreviewProvider {
         HomeView(store: Store(initialState: HomeCore.State(), reducer: HomeCore()))
     }
 }
+
+

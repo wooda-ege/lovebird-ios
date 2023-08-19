@@ -19,7 +19,7 @@ struct ScheduleAddColorView: View {
   }
 
   var body: some View {
-    ScheduleFocusedView(isFocused: self.isFocused) {
+    CommonFocusedView(isFocused: self.isFocused) {
       Text(R.string.localizable.add_schedule_color)
         .font(.pretendard(size: 16))
         .foregroundColor(self.isFocused ? .black : Color(R.color.gray06))

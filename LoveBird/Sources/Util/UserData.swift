@@ -8,7 +8,7 @@
 import Foundation
 import ComposableArchitecture
 
-struct UserData {
+public struct UserData {
   enum Keys: String {
     case user
     case accessToken
@@ -41,5 +41,5 @@ extension DependencyValues {
 }
 
 extension UserData: DependencyKey {
-  static let liveValue = Self()
+  static public let liveValue = Self()
 }

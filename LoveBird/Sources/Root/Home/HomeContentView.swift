@@ -39,13 +39,14 @@ struct HomeContentView: View {
         }
 
       case .diary:
-        VStack(spacing: -28) {
+        VStack {
           HStack {
             Text(diary.title)
               .lineLimit(1)
               .foregroundColor(Color.black)
               .font(.pretendard(size: 18, weight: .bold))
-              .padding(20)
+              .padding([.horizontal, .top], 20)
+              .padding(.bottom, self.diary.isFolded ? 20 : 12)
 
             Spacer()
           }
@@ -55,65 +56,43 @@ struct HomeContentView: View {
           }
           
           if !self.diary.isFolded {
-//            if let place = self.diary.place {
-//              HStack(spacing: 8) {
-//                Image(R.image.ic_place)
-//                  .padding(.leading, 8)
-//                  .padding(.vertical, 5)
-//
-//                Text(place)
-//                  .lineLimit(1)
-//                  .font(.pretendard(size: 14))
-//                  .foregroundColor(Color(R.color.gray07))
-//
-//                Spacer()
-//              }
-//              .background(Color(R.color.gray03))
-//              .cornerRadius(4)
-//              .padding(20)
-//            }
-//
-//            HStack(spacing: 8) {
-//              Text(self.diary.content)
-//                .font(.pretendard(size: 14))
-//                .foregroundColor(Color.black)
-//                .font(.pretendard(size: 18, weight: .bold))
-//                .padding(20)
-//              
-//              Spacer()
-//            }
-//            .background(self.diary.isFolded ? Color(R.color.gray03) : .white)
-//            .onTapGesture {
-//              viewStore.send(.diaryTitleTapped(self.diary))
-//            }
-            
-            if !self.diary.isFolded {
-              HStack(spacing: 8) {
-                Image(R.image.ic_place)
-                  .padding(.leading, 8)
-                  .padding(.vertical, 5)
+            NavigationLinkStore(
+              self.store.scope(state: \.$diaryDetail, action: HomeAction.diaryDetail)
+            ) {
+              viewStore.send(.diaryTapped(self.diary))
+            } destination: { store in
+              DiaryDetailView(store: store)
+            } label: {
+              VStack(spacing: 12) {
+                if let place = self.diary.place, place.isNotEmpty {
+                  HStack(spacing: 8) {
+                    Image(R.image.ic_place)
+                      .padding(.leading, 8)
+                      .padding(.vertical, 5)
 
-                Text(self.diary.place ?? "미지정")
-                  .lineLimit(1)
-                  .font(.pretendard(size: 14))
-                  .foregroundColor(Color(R.color.gray07))
+                    Text(place)
+                      .lineLimit(1)
+                      .font(.pretendard(size: 14))
+                      .foregroundColor(Color(R.color.gray07))
 
-                Spacer()
+                    Spacer()
+                  }
+                  .background(Color(R.color.gray03))
+                  .cornerRadius(4)
+                  .padding(.horizontal, 20)
+                }
+
+                HStack(spacing: 8) {
+                  Text(self.diary.content)
+                    .font(.pretendard(size: 14))
+                    .foregroundColor(Color.black)
+                    .font(.pretendard(size: 18, weight: .bold))
+                    .padding([.horizontal, .bottom], 20)
+
+                  Spacer()
+                }
+                .background(self.diary.isFolded ? Color(R.color.gray03) : .white)
               }
-              .background(Color(R.color.gray03))
-              .cornerRadius(4)
-              .padding(20)
-
-              HStack(spacing: 8) {
-                Text(self.diary.content)
-                  .font(.pretendard(size: 14))
-                  .foregroundColor(Color.black)
-                  .lineLimit(3)
-                  .lineSpacing(6) // 적당한 값 대입.
-
-                Spacer()
-              }
-              .padding(20)
             }
           }
         }

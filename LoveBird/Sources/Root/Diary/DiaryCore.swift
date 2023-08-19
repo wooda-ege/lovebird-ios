@@ -8,27 +8,38 @@
 import ComposableArchitecture
 import SwiftUI
 
+typealias DiaryState = DiaryCore.State
+typealias DiaryAction = DiaryCore.Action
+
 struct DiaryCore: ReducerProtocol {
   struct State: Equatable {
-    var searchPlace: SearchPlaceCore.State = SearchPlaceCore.State()
-    var calendarDate: CalendarCore.State = CalendarCore.State()
+    @PresentationState var searchPlace: SearchPlaceState?
+
+    var focusedType: DiaryFocusedType = .none
     var title: String = ""
-    var date: String = String(resource: R.string.localizable.calendar_date)
-    var place: String = String(resource: R.string.localizable.diary_select_place)
+    var content: String = ""
+    var place: String = ""
+    var date = Date()
+
     var isPresented = false
-    var text: String = ""
     var image: UIImage? = nil
     var showCalendarPreview: Bool = false
   }
   
   enum Action: Equatable {
-    case searchPlace(SearchPlaceCore.Action)
-    case calendarDate(CalendarCore.Action)
-    case titleLabelTapped(String)
+    case searchPlace(PresentationAction<SearchPlaceAction>)
+    case dateTapped(Date)
+    case titleEdited(String)
+    case contentEdited(String)
+    case focusedTypeChanged(DiaryFocusedType)
+    case placeTapped
+    case previewFollowingTapped
+    case previewNextTapped
+    case previewDayTapped(Date)
+
     case selectPlaceLabelTapped
-    case textDidEditting(String)
     case changeTextEmpty
-    case completeButtonTapped
+    case completeTapped
     case registerDiaryResponse(TaskResult<String>)
     case hideDateView
     case viewInitialized
@@ -40,46 +51,90 @@ struct DiaryCore: ReducerProtocol {
   var body: some ReducerProtocol<State, Action> {
     Reduce<State, Action> { state, action in
       switch action {
-      case .calendarDate(.dayTapped(let date)):
-        let date = date.to(dateFormat: Date.Format.YMDDivided)
-        state.date = date
-      case .titleLabelTapped(let title):
+      case .titleEdited(let title):
         state.title = title
         return .none
+
+      case .contentEdited(let content):
+        state.content = content
+        return .none
+
       case .selectPlaceLabelTapped:
         return .none
-      case .textDidEditting(let text):
-        state.text = text
-        return .none
+
       case .changeTextEmpty:
-        state.text = ""
-      case .completeButtonTapped:
-        return .run { [state = state] send in
-          let response = try await apiClient.requestRaw(.registerDiary(authorization: userData.get(key: .accessToken, type: String.self)!, refresh: userData.get(key: .refreshToken, type: String.self) ?? "", image: state.image, diary: .init(title: state.title, memoryDate: state.date, place: state.place, content: state.text))) as String
-          
-          await send(.registerDiaryResponse(.success(response)))
-          await send(.viewInitialized)
-        }
-      case .viewInitialized:
-        state.title = ""
-        state.date = String(resource: R.string.localizable.calendar_date)
-        state.place = String(resource: R.string.localizable.diary_select_place)
-        state.text = ""
-      case .searchPlace(.selectPlace(let place)):
-        state.place = place
-      case .hideDateView:
+        state.content = ""
+        return .none
+
+      case .placeTapped:
+        state.searchPlace = SearchPlaceState()
+        return .none
+
+      case .focusedTypeChanged(let type):
+        state.focusedType = type
+        state.showCalendarPreview = type == .date
+        return .none
+
+      case .previewFollowingTapped:
+        state.date = state.date.addMonths(by: -1)
+        return .none
+
+      case .previewNextTapped:
+        state.date = state.date.addMonths(by: 1)
+        return .none
+
+      case .previewDayTapped(let date):
+        state.date = date
+        state.focusedType = .none
+        state.showCalendarPreview = false
+        return .none
+
+      case .dateTapped:
         state.showCalendarPreview = true
+        state.focusedType = .date
+        return .none
+
+      case .searchPlace(.presented(.selectPlace(let place))), .searchPlace(.presented(.completeTapped(let place))):
+        state.place = place
+        state.searchPlace = nil
+        return .none
+
+      case .searchPlace(.presented(.backTapped)):
+        state.searchPlace = nil
+        return .none
+
+      case .completeTapped:
+        if state.title.isEmpty || state.content.isEmpty { return .none }
+        return .task { [state = state] in
+          .registerDiaryResponse(
+            await TaskResult {
+              try await self.apiClient.requestRaw(
+                .registerDiary(
+                  image: state.image,
+                  diary: .init(
+                    title: state.title,
+                    memoryDate: state.date.to(dateFormat: Date.Format.YMDDivided),
+                    place: state.place.isEmpty ? nil : state.place,
+                    content: state.content)
+                )
+              )
+            }
+          )
+        }
+
+      case .registerDiaryResponse(.success):
+        state.title = ""
+        state.date = Date()
+        state.place = ""
+        state.content = ""
+        return .none
+
       default:
-        break
+        return .none
       }
-      return .none
     }
-    Scope(state: \.searchPlace, action: /Action.searchPlace) {
+    .ifLet(\.$searchPlace, action: /Action.searchPlace) {
       SearchPlaceCore()
-    }
-    
-    Scope(state: \.calendarDate, action: /Action.calendarDate) {
-      CalendarCore()
     }
   }
 }

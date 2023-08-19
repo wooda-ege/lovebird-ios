@@ -8,6 +8,9 @@
 import ComposableArchitecture
 import SwiftUI
 
+typealias SearchPlaceState = SearchPlaceCore.State
+typealias SearchPlaceAction = SearchPlaceCore.Action
+
 struct SearchPlaceCore: ReducerProtocol {
   struct State: Equatable {
     var placeList: [PlaceInfo] = []
@@ -19,8 +22,8 @@ struct SearchPlaceCore: ReducerProtocol {
     case textFieldDidEditting(String)
     case selectPlace(String)
     case changePlaceInfo([PlaceInfo])
-    case completeButtonTapped
-    case viewDidLoad
+    case backTapped
+    case completeTapped(String)
     case searchPlaceResponse(TaskResult<SearchPlaceResponse>)
   }
   
@@ -31,19 +34,18 @@ struct SearchPlaceCore: ReducerProtocol {
       switch action {
       case .textFieldDidEditting(let searchTerm):
         state.searchTerm = searchTerm
-      case .completeButtonTapped:
-        state.placeList = []
+        if searchTerm.isEmpty {
+          state.placeList.removeAll()
+        }
+        return .none
+
       case .changePlaceInfo(let placeInfo):
         state.placeList = placeInfo
-      case .selectPlace(let place):
-        state.select = place        // diaryview의 place state로 보내줘야함 
-      case .viewDidLoad:
-        state.placeList = []
-//        state.searchTerm = String(resource: R.string.localizable.diary_place_address_title)
+        return .none
+
       default:
-        break
+        return .none
       }
-      return .none
     }
   }
 }

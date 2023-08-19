@@ -8,7 +8,6 @@
 import Foundation
 
 public struct EditProfileRequest: Encodable {
-  let image: Data?
-  let nickname: String?
-  let email: String?
+  let nickname: String
+  let email: String
 }
