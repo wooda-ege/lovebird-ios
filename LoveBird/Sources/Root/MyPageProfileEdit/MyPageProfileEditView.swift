@@ -9,13 +9,14 @@ import ComposableArchitecture
 import SwiftUI
 
 struct MyPageProfileEditView: View {
-
+  
   @FocusState var isNicknameFocused: Bool
   @FocusState var isEmailFocused: Bool
   @State var image: Image?
-
+  @State private var showingAlert = false
+  
   let store: StoreOf<MyPageProfileEditCore>
-
+  
   var body: some View {
     WithViewStore(self.store, observe: { $0 }) { viewStore in
       VStack(spacing: 20) {
@@ -30,28 +31,28 @@ struct MyPageProfileEditView: View {
               .font(.pretendard(size: 16, weight: .bold))
           }
         }
-
+        
         // TODO: 득연 - iOS 16.0 으로 올리고 NavigationStack으로 리팩토링 후 진행할 예정
-//        ZStack() {
-//          Circle()
-//            .fill(Color(R.color.gray03))
-//            .frame(width: 80, height: 80)
-//            .overlay(Image(R.image.ic_bird_edit), alignment: .center)
-//        }
-//        .overlay(Image(R.image.ic_camera_edit), alignment: .bottomTrailing)
-//        .onTapGesture {
-//          viewStore.send(.presentImagePicker)
-//        }
-
+        //        ZStack() {
+        //          Circle()
+        //            .fill(Color(R.color.gray03))
+        //            .frame(width: 80, height: 80)
+        //            .overlay(Image(R.image.ic_bird_edit), alignment: .center)
+        //        }
+        //        .overlay(Image(R.image.ic_camera_edit), alignment: .bottomTrailing)
+        //        .onTapGesture {
+        //          viewStore.send(.presentImagePicker)
+        //        }
+        
         VStack(spacing: 10) {
           HStack {
             Text("닉네임")
               .foregroundColor(.black)
               .font(.pretendard(size: 14))
-
+            
             Spacer()
           }
-
+          
           CommonTextField(
             text: viewStore.binding(get: \.nickname, send: MyPageProfileEditAction.nicknameEdited),
             placeholder: viewStore.profile?.nickname ?? "",
@@ -61,16 +62,16 @@ struct MyPageProfileEditView: View {
           )
         }
         .padding(.horizontal, 16)
-
+        
         VStack(spacing: 10) {
           HStack {
             Text("이메일")
               .foregroundColor(.black)
               .font(.pretendard(size: 14))
-
+            
             Spacer()
           }
-
+          
           CommonTextField(
             text: viewStore.binding(get: \.email, send: MyPageProfileEditAction.emailEdited),
             placeholder: viewStore.profile?.email ?? "",
@@ -80,16 +81,20 @@ struct MyPageProfileEditView: View {
           )
         }
         .padding(.horizontal, 16)
-
+        
         Spacer()
-
+        
         Button {
+          self.showingAlert.toggle()
           viewStore.send(.withdrawal)
         } label: {
           Text("회원탈퇴")
             .foregroundColor(Color(R.color.gray06))
             .font(.pretendard(size: 14))
             .padding(.bottom, 30)
+        }
+        .alert(isPresented: $showingAlert) {
+          Alert(title: Text("탈퇴가 완료되었습니다."), message: nil, dismissButton: .default(Text("확인")))
         }
       }
       .navigationBarBackButtonHidden(true)
