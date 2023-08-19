@@ -47,7 +47,7 @@ struct ImagePicker: UIViewControllerRepresentable {
 }
 
 struct ImagePickerView: View {
-  
+  var use: String
   @State var showImagePicker = false
   @Binding var selectedUIImage: UIImage?
   @State var image: Image?
@@ -73,13 +73,25 @@ struct ImagePickerView: View {
       } label: {
         Group {
           if let image = image {
-            image
-              .changeSize(to: .init(width: 64, height: 64))
-              .cornerRadius(12)
+            if use == "diary" {
+              image
+                .changeSize(to: .init(width: 64, height: 64))
+                .cornerRadius(12)
+            } else {
+              image
+                .changeSize(to: .init(width: 124, height: 124))
+                .cornerRadius(12)
+            }
           } else {
-            representImage
-              .changeSize(to: .init(width: 64, height: 64))
-              .aspectRatio(contentMode: .fit)
+            if use == "diary" {
+              representImage
+                .changeSize(to: .init(width: 64, height: 64))
+                .aspectRatio(contentMode: .fit)
+            } else {
+              representImage
+                .changeSize(to: .init(width: 124, height: 124))
+                .aspectRatio(contentMode: .fit)
+            }
           }
         }
       }

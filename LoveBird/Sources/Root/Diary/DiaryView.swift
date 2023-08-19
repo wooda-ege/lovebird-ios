@@ -129,7 +129,7 @@ struct DiaryView: View {
               }
 
               HStack {
-                ImagePickerView(selectedUIImage: $image, representImage: Image(R.image.img_addImage))
+                ImagePickerView(use: "diary", selectedUIImage: $image, representImage: Image(R.image.img_addImage))
                   .frame(width: 64, height: 64)
 
                 Spacer()
