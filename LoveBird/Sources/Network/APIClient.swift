@@ -111,9 +111,26 @@ extension APIClient: TargetType {
     switch self {
     case .registerProfile(let image, let profileRequest):
       let profileData = try! JSONEncoder().encode(profileRequest)
-      let imageData = MultipartFormData(provider: .data(image?.pngData() ?? Data()), name: "image", fileName: "image.png", mimeType: "image/png")
-      let profileRequest = MultipartFormData(provider: .data(profileData), name: "profileCreateRequest", mimeType: "application/json")
-      return .uploadMultipart([imageData, profileRequest])
+      var multiparts: [Moya.MultipartFormData] = []
+
+      if let image = image?.jpegData(compressionQuality: 0.5) {
+        let imageData = MultipartFormData(
+          provider: .data(image),
+          name: "image",
+          fileName: "image.png",
+          mimeType: "image/png"
+        )
+        multiparts.append(imageData)
+      }
+
+      let profileRequest = MultipartFormData(
+        provider: .data(profileData),
+        name: "profileCreateRequest",
+        mimeType: "application/json"
+      )
+      multiparts.append(profileRequest)
+
+      return .uploadMultipart(multiparts)
 
     case .registerDiary(let image, let diary):
       let diary = try! JSONEncoder().encode(diary)
