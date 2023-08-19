@@ -79,17 +79,25 @@ struct OnboardingCore: ReducerProtocol {
       switch action {
       case .circleClicked(let index):
         state.page.update(.move(increment: index))
+        return .none
+
       case .nextTapped, .nextButtonTapped:
         state.page.update(.next)
         state.pageIdx = 1
+        return .none
+
       case .textFieldStateChanged(let textFieldState):
         state.textFieldState = textFieldState
+        return .none
+
       case .previousTapped:
         if state.page.index == 0 {
           return .none
         } else {
           state.page.update(.previous)
         }
+        return .none
+
       case .nicknameEdited(let nickname):
         state.nickname = String(nickname.prefix(20))
         if nickname.isNicknameValid {
@@ -97,6 +105,8 @@ struct OnboardingCore: ReducerProtocol {
         } else {
           state.textFieldState = .error
         }
+        return .none
+
       case .emailEdited(let email):
         state.email = email
         if email.isEmailValid {
@@ -104,39 +114,69 @@ struct OnboardingCore: ReducerProtocol {
         } else {
           state.textFieldState = .emailError
         }
+        return .none
+
       case .invitationcodeEdited(let code):
         state.invitationInputCode = code
+        return .none
+
       case .invitationViewLoaded(let code):
-            state.invitationCode = code
+        state.invitationCode = code
+        return .none
+
       case .genderSelected(let gender):
         state.gender = gender
         state.buttonClickState = .clicked
+        return .none
+
       case .birthdateYearSelected(let year):
         state.birthdateYear = year
+        return .none
+
       case .birthdateMonthSelected(let month):
         state.birthdateMonth = month
+        return .none
+
       case .birthdateDaySelected(let day):
         state.birthdateDay = day
+        return .none
+
       case .dateYearSelected(let year):
         state.firstdateYear = year
+        return .none
+
       case .dateMonthSelected(let month):
         state.firstdateMonth = month
+        return .none
+
       case .dateDaySelected(let day):
         state.firstdateDay = day
+        return .none
+
       case .showBottomSheet:
         state.showBottomSheet = true
+        return .none
+
       case .hideBottomSheet:
         state.showBottomSheet = false
+        return .none
+
       case .birthdateInitialied:
         state.birthdateYear = Date().year
         state.birthdateMonth = Date().month
         state.birthdateDay = Date().day
+        return .none
+
       case .dateInitialied:
         state.firstdateYear = Date().year
         state.firstdateMonth = Date().month
         state.firstdateDay = Date().day
+        return .none
+
       case .imageSelected(let image):
         state.profileImage = image
+        return .none
+
       case .doneButtonTapped:
         return .run { [state = state] send in
           do {
@@ -149,26 +189,28 @@ struct OnboardingCore: ReducerProtocol {
             let birth = String(format: "%04d-%02d-%02d", birthyear, birthmonth, birthday)
             let firstDate = String(format: "%04d-%02d-%02d", firstyear, firstmonth, firstday)
             // 프로필 등록 - 생년월일 입력 뷰에서 다음 버튼 클릭시
-            let profile = try await self.apiClient.request(.registerProfile(authorization: userData.get(key: .accessToken, type: String.self)!, refresh: userData.get(key: .refreshToken, type: String.self) ?? "", image: state.profileImage, profileRequest: RegisterProfileRequest.init(email: state.email, nickname: state.nickname, birthDay: birth, firstDate: firstDate, gender: state.gender, deviceToken: "fcm"))) as Profile
+            let profile = try await self.apiClient.request(
+              .registerProfile(
+                image: state.profileImage,
+                profileRequest: RegisterProfileRequest.init(
+                  email: state.email,
+                  nickname: state.nickname,
+                  birthDay: birth,
+                  firstDate: firstDate,
+                  gender: state.gender,
+                  deviceToken: "fcm")
+              )
+            ) as Profile
             
             await send(.registerProfileResponse(.success(profile)))
           } catch {
             print("프로필 등록 실패")
           }
         }
-//        return .task { [accessToken = state.accessToken, refreshToken = state.refreshToken, image = state.profileImage, email = state.email, nickname = state.nickname, birthYear = state.birthdateYear, birthMonth = state.birthdateMonth, birthDay = state.birthdateDay, year = state.firstdateYear, month = state.firstdateMonth, day = state.firstdateDay, gender = state.gender] in
-//            .signUpResponse(
-//              await TaskResult {
-//                try await self.apiClient.requestMultipartform(accessToken: accessToken, refreshToken: refreshToken, image: image, signUpRequest: .init(email: email, nickname: nickname, birthDay: "\(birthYear)-\(birthMonth)-\(birthDay)", firstDate: "\(year)-\(month)-\(day)", gender: gender, deviceToken: "fj3vn9m"))
-//              }
-//            )
-//
-//
-//        }
+
       default:
-        break
+        return .none
       }
-      return .none
     }
   }
 }
@@ -178,5 +220,3 @@ extension Page: Equatable {
     lhs.index == rhs.index
   }
 }
-
-// AppDelegate().appDeviceToken

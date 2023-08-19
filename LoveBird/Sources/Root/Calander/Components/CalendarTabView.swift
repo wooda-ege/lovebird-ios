@@ -9,7 +9,6 @@ import ComposableArchitecture
 import SwiftUI
 
 struct CalendarTabView: View {
-
   let store: StoreOf<CalendarCore>
 
   var body: some View {

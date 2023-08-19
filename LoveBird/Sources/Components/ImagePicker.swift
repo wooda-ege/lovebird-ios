@@ -59,40 +59,30 @@ struct ImagePickerView: View {
   }
   
   var body: some View {
-    HStack(spacing: 10) {
-      if let image = image {
-        Button {
-          showImagePicker.toggle()
-        } label: {
-          image
-            .resizable()
-            .aspectRatio(contentMode: .fit)
-            .frame(width: 124, height: 124)
-        }
-        .sheet(isPresented: $showImagePicker, onDismiss: {
-          loadImage()
-        }) {
-          ImagePicker(image: $selectedUIImage, isImagePickerDisplayed: $showImagePicker)
-        }
-      } else {
-        Button {
-          showImagePicker.toggle()
-        } label: {
-          representImage
-            .resizable()
-            .aspectRatio(contentMode: .fit)
-            .frame(width: 124, height: 124)
-        }
-        .sheet(isPresented: $showImagePicker, onDismiss: {
-          loadImage()
-        }) {
-          ImagePicker(image: $selectedUIImage, isImagePickerDisplayed: $showImagePicker)
+    HStack() {
+      Button {
+        showImagePicker.toggle()
+      } label: {
+        Group {
+          if let image = image {
+            image
+              .changeSize(to: .init(width: 64, height: 64))
+              .cornerRadius(12)
+          } else {
+            representImage
+              .changeSize(to: .init(width: 64, height: 64))
+              .aspectRatio(contentMode: .fit)
+          }
         }
       }
-      
+
       Spacer()
     }
-    .padding(.leading, 5)
+    .sheet(isPresented: $showImagePicker, onDismiss: {
+      loadImage()
+    }) {
+      ImagePicker(image: $selectedUIImage, isImagePickerDisplayed: $showImagePicker)
+    }
   }
 }
 

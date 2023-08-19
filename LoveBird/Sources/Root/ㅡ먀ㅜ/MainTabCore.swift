@@ -26,7 +26,6 @@ struct MainTabCore: ReducerProtocol {
     var home: HomeCore.State? = HomeCore.State()
     var calander: CalendarCore.State? = CalendarCore.State()
     var diary: DiaryCore.State? = DiaryCore.State()
-    var search: SearchPlaceCore.State? = SearchPlaceCore.State()
     var myPage: MyPageCore.State? = MyPageCore.State()
   }
 
@@ -37,7 +36,6 @@ struct MainTabCore: ReducerProtocol {
     case home(HomeCore.Action)
     case calander(CalendarCore.Action)
     case diary(DiaryCore.Action)
-    case search(SearchPlaceCore.Action)
     case myPage(MyPageCore.Action)
   }
 
@@ -63,11 +61,7 @@ struct MainTabCore: ReducerProtocol {
       case .diary(.registerDiaryResponse(.failure)):
         print("다이어리 등록 실패")
         return .none
-        
-      case .search(.completeButtonTapped):
-        state.selectedTab = .diary
-        return .none
-        
+
       default:
         return .none
       }

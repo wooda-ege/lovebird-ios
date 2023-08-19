@@ -25,7 +25,7 @@ struct CalendarView: View {
         
         if viewStore.state.showCalendarPreview {
           VStack {
-            CalendarPreviewTabView(viewStore: viewStore)
+            CalendarPreviewTabView(store: self.store)
 
             CalendarPreviewContentView(store: self.store)
           }

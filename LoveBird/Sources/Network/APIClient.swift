@@ -15,23 +15,26 @@ import SwiftUI
 
 // Public인 DependencyKey 때문에 불가피하게 public으로 선언한다.
 public enum APIClient {
-  case registerProfile(authorization: String, refresh: String, image: UIImage?, profileRequest: RegisterProfileRequest)
-  case fetchDiary(id :Int)
+
+  // onboarding
   case kakaoLogin(idToken: String, accessToken: String)
   case appleLogin(appleLoginRequest: AppleLoginRequest)
-  case invitationViewLoaded(authorization: String, refresh: String)
-  case coupleLinkButtonClicked(coupleCode: String, authorization: String, refresh: String)
-  case coupleCheckButtonClicked(authorization: String, refresh: String)
-  case searchKakaoMap(searchTerm: String)
-  case registerDiary(authorization: String, refresh: String, image: UIImage?, diary: RegisterDiaryRequest)
-  case searchPlace(searchTerm: String)
+  case invitationViewLoaded
+  case coupleLinkButtonClicked(coupleCode: String)
+  case coupleCheckButtonClicked
 
   // profile
-  case fetchProfile(authorization: String, refresh: String)
-  case editProfile(editProfile: EditProfileRequest)
+  case registerProfile(image: UIImage?, profileRequest: RegisterProfileRequest)
+  case fetchProfile
+  case editProfile(image: UIImage?, editProfile: EditProfileRequest)
+  case deleteProfile
 
   // diary
-  case fetchDiaries(authorization: String, refresh: String)
+  case fetchDiaries
+  case registerDiary(image: UIImage?, diary: RegisterDiaryRequest)
+  case deleteDiary(id: Int)
+  case fetchDiary(id: Int)
+  case searchKakaoMap(searchTerm: String)
 
   // schedule
   case fetchCalendars
@@ -42,6 +45,12 @@ public enum APIClient {
 }
 
 extension APIClient: TargetType {
+
+  public var userDate: UserData {
+    @Dependency(\.userData) var userData
+    return userData
+  }
+
   public var baseURL: URL {
     switch self {
     case .searchKakaoMap:
@@ -71,11 +80,11 @@ extension APIClient: TargetType {
         return "/members/\(id)"
       case .fetchDiaries:
         return "/diaries"
-      case .searchPlace(let searchTerm):
-        return "/query=\(searchTerm)"
+      case .deleteDiary(let id):
+        return "/diaries/\(id)"
       case .addSchedule, .fetchCalendars:
         return "/calendar"
-      case .registerProfile, .fetchProfile, .editProfile:
+      case .registerProfile, .fetchProfile, .editProfile, .deleteProfile:
         return "/profile"
       case .fetchSchedule(let id), .deleteSchedule(let id), .editSchedule(let id, _):
         return "/calendar/\(id)"
@@ -86,74 +95,63 @@ extension APIClient: TargetType {
     switch self {
     case .registerProfile, .addSchedule, .kakaoLogin, .appleLogin, .registerDiary:
       return .post
-    case .fetchDiary, .searchPlace, .fetchCalendars, .fetchDiaries, .fetchProfile, .fetchSchedule, .invitationViewLoaded, .searchKakaoMap, .coupleCheckButtonClicked:
+    case .fetchDiary, .fetchCalendars, .fetchDiaries, .fetchProfile,
+        .fetchSchedule, .invitationViewLoaded, .searchKakaoMap, .coupleCheckButtonClicked:
       return .get
     case .editSchedule, .editProfile, .coupleLinkButtonClicked:
       return .put
-    case .deleteSchedule:
+    case .deleteSchedule, .deleteDiary, .deleteProfile:
       return .delete
     }
   }
 
   public var task: Moya.Task {
     switch self {
-    case .registerProfile(_, _, let image, let profileRequest):
+    case .registerProfile(let image, let profileRequest):
       let profileData = try! JSONEncoder().encode(profileRequest)
       let imageData = MultipartFormData(provider: .data(image?.pngData() ?? Data()), name: "image", fileName: "image.png", mimeType: "image/png")
       let profileRequest = MultipartFormData(provider: .data(profileData), name: "profileCreateRequest", mimeType: "application/json")
       return .uploadMultipart([imageData, profileRequest])
-    case .registerDiary(_, _, let image, let diary):
+
+    case .registerDiary(let image, let diary):
       let diary = try! JSONEncoder().encode(diary)
       let imageData = MultipartFormData(provider: .data(image?.pngData() ?? Data()), name: "1-1", fileName: "1-1.png", mimeType: "image/png")
       let diaryRequest = MultipartFormData(provider: .data(diary), name: "diaryCreateRequest", mimeType: "application/json")
       return .uploadMultipart([imageData, diaryRequest])
+
     case .kakaoLogin:
       return .requestParameters(parameters: self.bodyParameters ?? [:], encoding: JSONEncoding.default)
+
     case .appleLogin(let appleLoginRequest):
       return .requestJSONEncodable(appleLoginRequest as Encodable)
+
     case .searchKakaoMap:
       return .requestParameters(parameters: self.bodyParameters ?? [:], encoding: URLEncoding.queryString)
+
     case .coupleLinkButtonClicked:
       return .requestParameters(parameters: self.bodyParameters ?? [:], encoding: JSONEncoding.default)
+
     case .addSchedule(let encodable), .editSchedule(_, let encodable):
       return .requestJSONEncodable(encodable as Encodable)
+
     case .editProfile:
       return .uploadMultipart(self.multiparts)
+
     default:
       return .requestPlain
     }
   }
   
-  // TODO: 토큰관련 수정할 것
   public var headers: [String: String]? {
-    switch self {
-    case .registerProfile(let authorization, let refresh, _, _):
-      return ["Content-type" : "multipart/form-data", "Authorization": authorization,
-              "Refresh": refresh]
-    case .registerDiary(let authorization, let refresh, _, _):
-      return ["Content-type" : "multipart/form-data", "Authorization": authorization,
-              "Refresh": refresh]
-    case .invitationViewLoaded(let authorization, let refresh):
-      return ["Content-type" : "application/json", "Authorization": authorization,
-              "Refresh": refresh]
-    case .coupleLinkButtonClicked(_, let authorization, let refresh):
-      return ["Content-type" : "application/json", "Authorization": authorization,
-              "Refresh": refresh]
-    case .coupleCheckButtonClicked(let authorization, let refresh):
-      return ["Content-type" : "application/json", "Authorization": authorization,
-              "Refresh": refresh]
-    case .searchKakaoMap:
-      return ["Content-type" : "application/json", "Authorization" : "KakaoAK 84c41aac97f944ac218cbb88d40b4db7"]
-    case .fetchProfile(let authorization, let refresh):
-      return ["Content-type" : "application/json", "Authorization": authorization,
-              "Refresh": refresh]
-    case .fetchDiaries(let authorization, let refresh):
-      return ["Content-type" : "application/json", "Authorization": authorization,
-              "Refresh": refresh]
-    default:
-      return ["Content-type" : "application/json"]
+    let accessToken = self.userDate.get(key: .accessToken, type: String.self)
+    let refreshToken = self.userDate.get(key: .refreshToken, type: String.self)
+    if case .searchKakaoMap = self {
+      return ["Authorization" : Config.kakaoMapKey]
+    } else if let accessToken, let refreshToken  {
+      return ["Authorization": accessToken, "Refresh": refreshToken]
+    } else {
+      return nil
     }
-    return nil
   }
   
   private var bodyParameters: Parameters? {
@@ -171,7 +169,7 @@ extension APIClient: TargetType {
     case .kakaoLogin(let idToken, let accessToken):
       params["idToken"] = idToken
       params["accessToken"] = accessToken
-    case .coupleLinkButtonClicked(let coupleCode, _, _):
+    case .coupleLinkButtonClicked(let coupleCode):
       params["coupleCode"] = coupleCode
     case .searchKakaoMap(let searchTerm):
       params["query"] = searchTerm
@@ -184,10 +182,12 @@ extension APIClient: TargetType {
   private var multiparts: [Moya.MultipartFormData] {
     var multiparts: [Moya.MultipartFormData] = []
     switch self {
-    case .editProfile(let editProfile):
-      multiparts.append(.init(provider: .data(editProfile.nickname?.data(using: .utf8) ?? Data()), name: "nickname"))
-      multiparts.append(.init(provider: .data(editProfile.email?.data(using: .utf8) ?? Data()), name: "email"))
-      multiparts.append(.init(provider: .data(editProfile.image ?? Data()), name: "images", fileName: "image.jpeg", mimeType: "image/jpeg"))
+    case .editProfile(let image, let editProfileRequset):
+      let editProfile = try! JSONEncoder().encode(editProfileRequset)
+      multiparts.append(.init(provider: .data(editProfile), name: "profileUpdateRequest", mimeType: "application/json"))
+      if let image = image?.pngData() {
+        multiparts.append(.init(provider: .data(image), name: "image", fileName: "image.png", mimeType: "image/png"))
+      }
     default:
       break
     }

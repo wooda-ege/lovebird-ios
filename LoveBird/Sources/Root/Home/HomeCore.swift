@@ -10,24 +10,32 @@ import ComposableArchitecture
 import SwiftUI
 import Combine
 
+typealias HomeState = HomeCore.State
+typealias HomeAction = HomeCore.Action
+
 struct HomeCore: ReducerProtocol {
 
   // MARK: - State
 
   struct State: Equatable {
+    @PresentationState var diaryDetail: DiaryDetailState?
+
     var diaries: [Diary] = []
     var offsetY: CGFloat = 0.0
+    var contentHeight: CGFloat = 0.0
   }
 
   // MARK: - Action
   
   enum Action: Equatable {
+    case diaryDetail(PresentationAction<DiaryDetailAction>)
     case viewAppear
     case dataLoaded([Diary])
     case diaryTitleTapped(Diary)
     case diaryTapped(Diary)
     case todoDiaryTapped
     case offsetYChanged(CGFloat)
+    case contentHeightChanged(CGFloat)
   }
 
   @Dependency(\.apiClient) var apiClient
@@ -41,11 +49,10 @@ struct HomeCore: ReducerProtocol {
 
       case .viewAppear:
         return .run { send in
-          print("🔴 \(userData.get(key: .accessToken, type: String.self)!)")
           do {
-            let diariesLoaded = try await self.apiClient.request(.fetchDiaries(authorization: userData.get(key: .accessToken, type: String.self)!, refresh: userData.get(key: .refreshToken, type: String.self) ?? "")) as Diaries
-            let profileLoaded = try await self.apiClient.request(.fetchProfile(authorization: userData.get(key: .accessToken, type: String.self)!, refresh: userData.get(key: .refreshToken, type: String.self) ?? "")) as Profile
-            
+            let diariesLoaded = try await self.apiClient.request(.fetchDiaries) as Diaries
+            let profileLoaded = try await self.apiClient.request(.fetchProfile) as Profile
+
             self.userData.store(key: .user, value: profileLoaded)
             
             let diaries = self.diariesForDomain(
@@ -67,17 +74,36 @@ struct HomeCore: ReducerProtocol {
         return .none
 
       case .diaryTapped(let diary):
-
-        // TODO: 다이어리 상세페이지로 이동
+        guard let user = self.userData.get(key: .user, type: Profile.self) else { return .none}
+        var nickname: String?
+        if let partnerNickname = user.partnerNickname {
+          nickname = user.memberId == diary.memberId ? user.nickname : partnerNickname
+        } else {
+          nickname = nil
+        }
+        state.diaryDetail = DiaryDetailState(diary: diary, nickname: nickname)
         return .none
 
       case .offsetYChanged(let y):
         state.offsetY = y
         return .none
 
+      case .contentHeightChanged(let height):
+        state.contentHeight = height
+        return .none
+
+        // MARK: - DiaryDetail
+
+      case .diaryDetail(.presented(.backTapped)), .diaryDetail(.presented(.deleteDiaryResponse(.success))):
+        state.diaryDetail = nil
+        return .none
+
       default:
         return .none
       }
+    }
+    .ifLet(\.$diaryDetail, action: /Action.diaryDetail) {
+      DiaryDetailCore()
     }
   }
 

@@ -22,9 +22,13 @@ struct MyPageProfileEditView: View {
         CommonToolBar(title: "프로필 정보") {
           viewStore.send(.backButtonTapped)
         } content: {
-          Text("수정")
-            .foregroundColor(.black)
-            .font(.pretendard(size: 16, weight: .bold))
+          Button {
+            viewStore.send(.editTapped)
+          } label: {
+            Text("수정")
+              .foregroundColor(viewStore.nickname.isEmpty || viewStore.email.isEmpty ? Color(R.color.green234) : Color(R.color.primary))
+              .font(.pretendard(size: 16, weight: .bold))
+          }
         }
 
         // TODO: 득연 - iOS 16.0 으로 올리고 NavigationStack으로 리팩토링 후 진행할 예정
@@ -78,6 +82,15 @@ struct MyPageProfileEditView: View {
         .padding(.horizontal, 16)
 
         Spacer()
+
+        Button {
+          viewStore.send(.deleteProfile)
+        } label: {
+          Text("회원탈퇴")
+            .foregroundColor(Color(R.color.gray06))
+            .font(.pretendard(size: 14))
+            .padding(.bottom, 30)
+        }
       }
       .navigationBarBackButtonHidden(true)
       .ifTapped {

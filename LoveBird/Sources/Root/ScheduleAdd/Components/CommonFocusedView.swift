@@ -9,7 +9,7 @@ import Foundation
 
 import SwiftUI
 
-struct ScheduleFocusedView<Content: View>: View {
+struct CommonFocusedView<Content: View>: View {
 
   let isFocused: Bool
   let content: Content

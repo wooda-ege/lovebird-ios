@@ -21,7 +21,7 @@ struct ScheduleAddTimeView: View {
   }
 
   var body: some View {
-    ScheduleFocusedView(isFocused: self.viewStore.focusedType.isTime) {
+    CommonFocusedView(isFocused: self.viewStore.focusedType.isTime) {
       VStack(spacing: 16) {
         HStack {
           Text(R.string.localizable.add_schedule_time)

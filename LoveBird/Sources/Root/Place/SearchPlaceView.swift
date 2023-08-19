@@ -11,63 +11,66 @@ import Combine
 
 struct SearchPlaceView: View {
   let store: StoreOf<SearchPlaceCore>
-  @Environment(\.presentationMode) var presentationMode
-  
+
+  @FocusState var isFocused: Bool
   @Dependency(\.apiClient) var apiClient
   
   var body: some View {
-    WithViewStore(self.store) { viewStore in
-      ZStack() {
-        TextField(String(resource: R.string.localizable.diary_place_address_title), text: viewStore.binding(get: \.searchTerm, send: SearchPlaceCore.Action.textFieldDidEditting))
-          .keyboardType(.webSearch)
-          .padding(.vertical, 10)
-          .padding(.leading, 12)
-          .background(Color(R.color.gray02))
-          .cornerRadius(10)
-          .navigationTitle(String(resource: R.string.localizable.diary_select_place))
-          .navigationBarItems(leading: BackButton(), trailing: CompleteButton())
-          .navigationBarBackButtonHidden(true)
-        
-//        if viewStore.state.searchTerm.isEmpty {
-//          Text(R.string.localizable.diary_place_address_title)
-//            .foregroundColor(Color(R.color.gray06))
-//        }
-      }
-      .padding(.top, 20)
-      .padding(.bottom, 10)
-      .padding(.horizontal, 15)
-      .onAppear {
-        viewStore.send(.viewDidLoad)
-      }
-      .foregroundColor(Color(R.color.gray06))
-      
-      List(viewStore.placeList, id:\.id) { place in
+    WithViewStore(self.store, observe: { $0 }) { viewStore in
+      CommonToolBar(title: "장소 선택") {
+        viewStore.send(.backTapped)
+      } content: {
         Button {
-          viewStore.send(.selectPlace(place.placeName))
+          viewStore.send(.completeTapped(viewStore.searchTerm))
         } label: {
-          VStack(alignment: .leading) {
-            Text(place.placeName)
-              .padding(.bottom, 2)
-            Text(place.addressName)
-              .font(.caption)
-              .foregroundColor(Color(R.color.gray115))
-          }
+          Text("완료")
+            .foregroundColor(viewStore.searchTerm.isEmpty ? Color(R.color.green234) : Color(R.color.primary))
+            .font(.pretendard(size: 16, weight: .bold))
         }
       }
-      .listStyle(.plain)
-      .onChange(of: viewStore.searchTerm) { placeTerm in
-        Task {
-          do {
-            let places = try await apiClient.requestKakaoMap(.searchKakaoMap(searchTerm: placeTerm)) as [PlaceInfo]
-            viewStore.send(.changePlaceInfo(places))
-          } catch {
-            print("search error!")
+
+      VStack(spacing: 20) {
+        let textBinding = viewStore.binding(get: \.searchTerm, send: SearchPlaceCore.Action.textFieldDidEditting)
+        CommonFocusedView {
+          TextField(String(resource: R.string.localizable.diary_place_address_title), text: textBinding)
+            .font(.pretendard(size: 17))
+            .background(.clear)
+            .padding(.trailing, 32)
+            .focused($isFocused)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .showClearButton(textBinding, trailingPadding: 2)
+        }
+
+        List(viewStore.placeList, id:\.id) { place in
+          Button {
+            viewStore.send(.selectPlace(place.placeName))
+          } label: {
+            VStack(alignment: .leading) {
+              Text(place.placeName)
+                .padding(.bottom, 2)
+              Text(place.addressName)
+                .font(.caption)
+                .foregroundColor(Color(R.color.gray115))
+            }
           }
         }
-        viewStore.send(.textFieldDidEditting(placeTerm))
+        .listStyle(.plain)
+        .onChange(of: viewStore.searchTerm) { placeTerm in
+          Task {
+            do {
+              let places = try await apiClient.requestKakaoMap(.searchKakaoMap(searchTerm: placeTerm)) as [PlaceInfo]
+              viewStore.send(.changePlaceInfo(places))
+            } catch {
+              print(error)
+            }
+          }
+          viewStore.send(.textFieldDidEditting(placeTerm))
+        }
+        Spacer()
       }
-      Spacer()
+      .padding(.horizontal, 16)
     }
+    .navigationBarBackButtonHidden(true)
   }
 }
 

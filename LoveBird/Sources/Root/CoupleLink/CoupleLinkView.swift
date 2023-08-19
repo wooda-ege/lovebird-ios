@@ -95,14 +95,14 @@ struct CoupleLinkView: View {
           Task {
             do {
               if viewStore.invitationInputCode.isEmpty { // 코드를 공유한 상황
-                let response = try await self.apiClient.requestRaw(.coupleCheckButtonClicked(authorization: userData.get(key: .accessToken, type: String.self)!, refresh: userData.get(key: .refreshToken, type: String.self) ?? ""))
+                let response = try await self.apiClient.requestRaw(.coupleCheckButtonClicked)
                 if response == "SUCCESS" {
                   viewStore.send(.isSuccessTryLink(true))
                 } else {
                   viewStore.send(.isSuccessTryLink(false))
                 }
               } else { // 코드를 직접 입력한 상황
-                let response = try await self.apiClient.requestRaw(.coupleLinkButtonClicked(coupleCode: viewStore.invitationInputCode, authorization: userData.get(key: .accessToken, type: String.self)!, refresh: userData.get(key: .refreshToken, type: String.self) ?? ""))
+                let response = try await self.apiClient.requestRaw(.coupleLinkButtonClicked(coupleCode: viewStore.invitationInputCode))
                 if response == "SUCCESS" {
                   viewStore.send(.isSuccessTryLink(true))
                 } else {
@@ -131,7 +131,7 @@ struct CoupleLinkView: View {
       .onAppear {
         Task {
           do {
-            let response = try await self.apiClient.request(.invitationViewLoaded(authorization: userData.get(key: .accessToken, type: String.self)!, refresh: userData.get(key: .refreshToken, type: String.self) ?? "")) as InvitationCodeResponse
+            let response = try await self.apiClient.request(.invitationViewLoaded) as InvitationCodeResponse
             viewStore.send(.invitationViewLoaded(response.coupleCode))
           } catch {
             print("연동코드 발급 실패")

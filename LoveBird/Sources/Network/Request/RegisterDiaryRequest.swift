@@ -9,6 +9,6 @@
 public struct RegisterDiaryRequest: Encodable {
   let title: String
   let memoryDate: String
-  let place: String
+  let place: String?
   let content: String
 }
