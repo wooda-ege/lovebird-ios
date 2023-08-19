@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		42470D2A2A8FA8E0003E327E /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42470D292A8FA8E0003E327E /* Config.swift */; };
+		42470D2C2A908F67003E327E /* ImageAccessAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42470D2B2A908F67003E327E /* ImageAccessAuth.swift */; };
 		425640302A58463200EC962E /* KakaoSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 4256402F2A58463200EC962E /* KakaoSDK */; };
 		425640322A5AA78C00EC962E /* KakaoLoginRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 425640312A5AA78B00EC962E /* KakaoLoginRequest.swift */; };
 		425640342A5AB30900EC962E /* LoginResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 425640332A5AB30900EC962E /* LoginResponse.swift */; };
@@ -168,6 +169,7 @@
 		212E893A725E4BE7E73B96EB /* Pods_LoveBird.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LoveBird.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		30556E224283EEA95E9817D2 /* Pods-LoveBird.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LoveBird.release.xcconfig"; path = "Target Support Files/Pods-LoveBird/Pods-LoveBird.release.xcconfig"; sourceTree = "<group>"; };
 		42470D292A8FA8E0003E327E /* Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
+		42470D2B2A908F67003E327E /* ImageAccessAuth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageAccessAuth.swift; sourceTree = "<group>"; };
 		425640312A5AA78B00EC962E /* KakaoLoginRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KakaoLoginRequest.swift; sourceTree = "<group>"; };
 		425640332A5AB30900EC962E /* LoginResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginResponse.swift; sourceTree = "<group>"; };
 		4256403D2A6454E100EC962E /* AppleLoginRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleLoginRequest.swift; sourceTree = "<group>"; };
@@ -554,6 +556,7 @@
 				4A1DDF292A2F2DDA00B3A72B /* UserData.swift */,
 				4A0FEA0C2A4B01D4005E88E3 /* DateManager.swift */,
 				4A327D492A55AC48002EEB55 /* SwiftUI+Helper.swift */,
+				42470D2B2A908F67003E327E /* ImageAccessAuth.swift */,
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -1026,6 +1029,7 @@
 				4A0396A02A0FA61A00EB062D /* HomeView.swift in Sources */,
 				4AB2DB492A1E6601003EFD95 /* MainTabView.swift in Sources */,
 				4AD602BC2A5018220029D7EB /* StringResource+Extension.swift in Sources */,
+				42470D2C2A908F67003E327E /* ImageAccessAuth.swift in Sources */,
 				4AE5CB4B2A2102800016C0B4 /* HomeContentView.swift in Sources */,
 				4AD602B62A5000C50029D7EB /* ScheduleAddTimeView.swift in Sources */,
 				4AE5CB582A232E3F0016C0B4 /* DiaryCore.swift in Sources */,

@@ -94,10 +94,6 @@ struct LoginView: View {
         }
         .frame(width: 343, height: 60)
         
-        Text("로그인 문의")
-          .foregroundColor(Color(R.color.gray09))
-          .font(.pretendard(size: 14))
-          .padding(.top, 24)
         Spacer()
       }
     }

@@ -67,11 +67,13 @@ struct RootCore: Reducer {
           
           let user = self.userData.get(key: .user, type: Profile.self)
           var rootState: State
-//          if user == nil {
-          rootState = .login(LoginCore.State())
-//          } else {
+          if user == nil {
+            rootState = .login(LoginCore.State())
+          } else if user?.partnerId == nil {
+            rootState = .coupleLink(CoupleLinkCore.State())
+          } else {
             rootState = .mainTab(MainTabCore.State())
-//          }
+          }
           await send(.updateRootState(rootState), animation: .default)
         }
         
