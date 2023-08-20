@@ -98,8 +98,9 @@ struct HomeContentView: View {
                     .frame(height: 100)
                     .clipped()
                     .cornerRadius(4)
-                    .padding(.bottom, 16)
                 }
+
+                Spacer(minLength: 4)
               }
               .padding(.horizontal, 20)
             }
