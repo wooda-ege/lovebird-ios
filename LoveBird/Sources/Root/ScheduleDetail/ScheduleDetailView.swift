@@ -31,7 +31,7 @@ struct ScheduleDetailView: View {
             }
 
             Button { viewStore.send(.deleteTapped) } label: {
-              Image(R.image.ic_calendar)
+              Image(R.image.ic_delete)
             }
           }
         }

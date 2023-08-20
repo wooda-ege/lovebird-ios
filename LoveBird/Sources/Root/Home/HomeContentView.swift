@@ -7,6 +7,7 @@
 
 import ComposableArchitecture
 import SwiftUI
+import Kingfisher
 
 struct HomeContentView: View {
   
@@ -79,7 +80,6 @@ struct HomeContentView: View {
                   }
                   .background(Color(R.color.gray03))
                   .cornerRadius(4)
-                  .padding(.horizontal, 20)
                 }
 
                 HStack(spacing: 8) {
@@ -87,12 +87,21 @@ struct HomeContentView: View {
                     .font(.pretendard(size: 14))
                     .foregroundColor(Color.black)
                     .font(.pretendard(size: 18, weight: .bold))
-                    .padding([.horizontal, .bottom], 20)
 
                   Spacer()
                 }
-                .background(self.diary.isFolded ? Color(R.color.gray03) : .white)
+
+                if let urlString = self.diary.imgUrls.first, let url = URL(string: urlString) {
+                  KFImage(url)
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+                    .frame(height: 100)
+                    .clipped()
+                    .cornerRadius(4)
+                    .padding(.bottom, 16)
+                }
               }
+              .padding(.horizontal, 20)
             }
           }
         }

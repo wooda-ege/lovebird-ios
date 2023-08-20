@@ -58,7 +58,8 @@ struct HomeView: View {
                   ForEach(viewStore.diaries, id: \.diaryId) { diary in
                     HomeItem(store: self.store, diary: diary)
                   }
-                  .animation(.easeInOut, value: viewStore.diaries)
+                  // TODO: Animation 효과가 이상해서 일단 뺌
+//                  .animation(.easeInOut, value: viewStore.diaries)
                 }
                 .sizeChanges { viewStore.send(.contentHeightChanged($0.height))  }
               }

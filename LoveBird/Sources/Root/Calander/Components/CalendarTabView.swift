@@ -15,7 +15,7 @@ struct CalendarTabView: View {
     WithViewStore(self.store, observe: { $0 }) { viewStore in
       HStack(alignment: .center) {
         HStack(spacing: 0) {
-          Text(String(viewStore.currentPreviewDate.year) + "." + String(viewStore.currentPreviewDate.month))
+          Text(String(viewStore.currentDate.year) + "." + String(viewStore.currentDate.month))
             .font(.pretendard(size: 22, weight: .bold))
             .foregroundColor(.black)
 

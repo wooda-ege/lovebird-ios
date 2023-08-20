@@ -132,6 +132,7 @@ struct DiaryCore: ReducerProtocol {
         state.date = Date()
         state.place = ""
         state.content = ""
+        state.image = nil
         return .none
 
       default:
