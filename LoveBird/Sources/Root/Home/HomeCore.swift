@@ -23,6 +23,7 @@ struct HomeCore: ReducerProtocol {
     var diaries: [Diary] = []
     var offsetY: CGFloat = 0.0
     var contentHeight: CGFloat = 0.0
+    var isScrolledToBottom: Bool = false
   }
 
   // MARK: - Action
@@ -36,6 +37,7 @@ struct HomeCore: ReducerProtocol {
     case todoDiaryTapped
     case offsetYChanged(CGFloat)
     case contentHeightChanged(CGFloat)
+    case scrolledToBottom
   }
 
   @Dependency(\.apiClient) var apiClient
@@ -90,6 +92,10 @@ struct HomeCore: ReducerProtocol {
 
       case .contentHeightChanged(let height):
         state.contentHeight = height
+        return .none
+
+      case .scrolledToBottom:
+        state.isScrolledToBottom = true
         return .none
 
         // MARK: - DiaryDetail

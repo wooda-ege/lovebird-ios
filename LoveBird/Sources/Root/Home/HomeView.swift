@@ -49,22 +49,30 @@ struct HomeView: View {
           // MARK: - 타임라인
 
           GeometryReader { proxy in
-            ScrollView {
-              VStack {
-                Spacer(minLength: max(proxy.size.height - viewStore.contentHeight - 44, 0))
-                  .scrollViewOrigin { viewStore.send(.offsetYChanged($0.y)) }
+            ScrollViewReader { scrollProxy in
+              ScrollView {
+                VStack {
+                  Spacer(minLength: max(proxy.size.height - viewStore.contentHeight - 44, 0))
+                    .scrollViewOrigin { viewStore.send(.offsetYChanged($0.y)) }
 
-                LazyVGrid(columns: [GridItem(.flexible())], spacing: 0) {
-                  ForEach(viewStore.diaries, id: \.diaryId) { diary in
-                    HomeItem(store: self.store, diary: diary)
+                  LazyVGrid(columns: [GridItem(.flexible())], spacing: 0) {
+                    ForEach(viewStore.diaries, id: \.diaryId) { diary in
+                      HomeItem(store: self.store, diary: diary)
+                    }
+                    // TODO: Animation 효과가 이상해서 일단 뺌
+                    //                  .animation(.easeInOut, value: viewStore.diaries)
                   }
-                  // TODO: Animation 효과가 이상해서 일단 뺌
-//                  .animation(.easeInOut, value: viewStore.diaries)
+                  .sizeChanges {
+                    viewStore.send(.contentHeightChanged($0.height))
+                    guard let id = viewStore.diaries.last?.diaryId,
+                          !viewStore.isScrolledToBottom else { return }
+                    scrollProxy.scrollTo(id)
+                    viewStore.send(.scrolledToBottom)
+                  }
                 }
-                .sizeChanges { viewStore.send(.contentHeightChanged($0.height))  }
               }
+              .frame(maxWidth: .infinity, maxHeight: .infinity)
             }
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
           }
         }
       }
