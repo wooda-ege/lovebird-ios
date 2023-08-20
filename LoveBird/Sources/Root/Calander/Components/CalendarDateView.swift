@@ -19,7 +19,7 @@ struct CalendarDateView: View {
         HStack(alignment: .center, spacing: 0) {
           ForEach(1..<8) { weekday in
             let date = self.dateString(currentDate: self.viewStore.currentDate, week: week, weekday: weekday)
-            VStack(alignment: .leading) {
+            VStack(alignment: .leading, spacing: 4) {
               HStack(alignment: .top) {
                 Text(String(date.date.day))
                   .foregroundColor(self.dayForeground(date: date))
@@ -30,24 +30,20 @@ struct CalendarDateView: View {
                   .frame(width: 20, height: 20)
                   .background(self.dayBackground(date: date.date))
 
-                Spacer(minLength: 0)
+                Spacer()
               }
-
-              Spacer(minLength: 4)
 
               VStack(spacing: 2) {
                 if date.date.year == Date().year, date.isThisMonth,
                    let schedules = self.viewStore.state.schedules[date.date.to(dateFormat: Date.Format.YMDDivided)] {
                   ForEach(schedules, id: \.id) { schedule in
-                    VStack(alignment: .leading) {
-                      HStack {
-                        Text(schedule.title)
-                          .lineLimit(1)
-                          .font(.pretendard(size: 9, weight: .bold))
-                          .foregroundColor(.white)
+                    HStack {
+                      Text(schedule.title)
+                        .lineLimit(1)
+                        .font(.pretendard(size: 9, weight: .bold))
+                        .foregroundColor(.white)
 
-                        Spacer()
-                      }
+                      Spacer()
                     }
                     .padding(.horizontal, 4)
                     .padding(.vertical, 2)
@@ -56,15 +52,12 @@ struct CalendarDateView: View {
                   }
                 }
               }
-
-              Spacer()
-
-              Rectangle()
-                .fill(Color.white)
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
+              .frame(height: 42, alignment: .top)
+              .clipped()
             }
             .padding([.top, .horizontal], 4)
             .frame(minWidth: 0, maxWidth: .infinity, maxHeight: .infinity)
+            .background(Color.white)
             .overlay(
               Rectangle()
                 .frame(height: 1)
