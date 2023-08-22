@@ -1245,6 +1245,8 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = LoveBird/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "사진을 찍어 애플리케이션에 저장하기 위함입니다.";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "사진을 가져와 애플리케이션에 저장하기 위함입니다.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -1279,6 +1281,8 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = LoveBird/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "사진을 찍어 애플리케이션에 저장하기 위함입니다.";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "사진을 가져와 애플리케이션에 저장하기 위함입니다.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

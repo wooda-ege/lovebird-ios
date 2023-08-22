@@ -48,6 +48,7 @@
 "onboarding_invitation_question" = "전달받은 초대코드가 있으신가요?";
 "onboarding_invitation_input" = "초대코드 입력";
 "onboarding_invitation_connect" = "러브버드 연결";
+"onboarding_skip" = "건너뛰기";
 "add_schedule_title" = "일정 추가";
 "add_schedule_title_placeholder" = "일정 제목을 입력해 주세요";
 "add_schedule_color" = "일정 컬러";

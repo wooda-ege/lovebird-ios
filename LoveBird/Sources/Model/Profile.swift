@@ -14,7 +14,7 @@ struct Profile: Equatable, Codable, Sendable {
   let nickname: String
   let partnerNickname: String?
   let firstDate: String
-  let birthDay: String
+  let birthDay: String?
   let dayCount: Int
   let nextAnniversary: Anniversary
   let profileImageUrl: String?

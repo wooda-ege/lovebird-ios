@@ -33,6 +33,7 @@ struct OnboardingCore: ReducerProtocol {
     var birthdateYear: Int = Date().year
     var birthdateMonth: Int = Date().month
     var birthdateDay: Int = Date().day
+    var birthday: String? = ""
     var firstdateYear: Int = Date().year
     var firstdateMonth: Int = Date().month
     var firstdateDay: Int = Date().day
@@ -68,6 +69,8 @@ struct OnboardingCore: ReducerProtocol {
     case invitationcodeEdited(String)
     case invitationViewLoaded(String)
     case tryLink(String)
+    case skipBirthdate
+    case selectBirthDate
     case none
   }
   
@@ -176,17 +179,32 @@ struct OnboardingCore: ReducerProtocol {
       case .imageSelected(let image):
         state.profileImage = image
         return .none
+        
+      case .skipBirthdate:
+        state.page.update(.next)
+        state.pageIdx = 1
+        state.birthday = nil
+        state.birthdateDay = 00
+        state.birthdateMonth = 00
+        state.birthdateYear = 0000
+        return .none
+        
+      case .selectBirthDate:
+        let birthyear = state.birthdateYear
+        let birthmonth = state.birthdateMonth
+        let birthday = state.birthdateDay
 
+        state.page.update(.next)
+        state.pageIdx = 1
+        state.birthday = String(format: "%04d-%02d-%02d", birthyear, birthmonth, birthday)
+        return .none
+        
       case .doneButtonTapped:
         return .run { [state = state] send in
           do {
-            let birthyear = state.birthdateYear
-            let birthmonth = state.birthdateMonth
-            let birthday = state.birthdateDay
             let firstyear = state.firstdateYear
             let firstmonth = state.firstdateMonth
             let firstday = state.firstdateDay
-            let birth = String(format: "%04d-%02d-%02d", birthyear, birthmonth, birthday)
             let firstDate = String(format: "%04d-%02d-%02d", firstyear, firstmonth, firstday)
             // 프로필 등록 - 생년월일 입력 뷰에서 다음 버튼 클릭시
             let profile = try await self.apiClient.request(
@@ -195,7 +213,7 @@ struct OnboardingCore: ReducerProtocol {
                 profileRequest: RegisterProfileRequest.init(
                   email: state.email,
                   nickname: state.nickname,
-                  birthDay: birth,
+                  birthDay: state.birthday,
                   firstDate: firstDate,
                   gender: state.gender,
                   deviceToken: "fcm")

@@ -75,19 +75,19 @@ struct OnboardingGenderView: View {
               HStack {
                 Text(R.string.localizable.onboarding_gender_private)
                   .font(.pretendard(size: 16, weight: .semiBold))
-                  .foregroundColor((viewStore.gender == "PRIVATE" ? Color.black : Color(R.color.gray07)))
+                  .foregroundColor((viewStore.gender == "UNKNOWN" ? Color.black : Color(R.color.gray07)))
                   .padding(.leading, 36)
                 Spacer()
                 Button {
-                  viewStore.send(.genderSelected("PRIVATE"))
+                  viewStore.send(.genderSelected("UNKNOWN"))
                 } label: {
-                  viewStore.gender == "PRIVATE" ? Image(R.image.ic_checkbox_on) : Image(R.image.ic_checkbox_off)
+                  viewStore.gender == "UNKNOWN" ? Image(R.image.ic_checkbox_on) : Image(R.image.ic_checkbox_off)
                 }
                 .padding(.trailing, 36)
               }
             }
             .frame(height: 56)
-            .background(viewStore.gender == "PRIVATE" ? Color.white : Color(R.color.gray02))
+            .background(viewStore.gender == "UNKNOWN" ? Color.white : Color(R.color.gray02))
             .shadow(color: .black.opacity(0.08), radius: 12)
           }
           .cornerRadius(12)

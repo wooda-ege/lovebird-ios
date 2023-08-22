@@ -54,22 +54,16 @@ struct OnboardingBirthDateView: View {
           
           Spacer()
           
-          Button(action: {
-            viewStore.send(.nextTapped)
-          }) {
-            TouchableStack {
-              Text(R.string.localizable.common_next)
-                .font(.pretendard(size: 16, weight: .semiBold))
-                .foregroundColor(.white)
-            }
+          SkipBirthButtonView {
+            viewStore.send(.skipBirthdate)
+          } confirmAction: {
+            viewStore.send(.selectBirthDate)
           }
-          .frame(height: 56)
-          .background(.black)
+          .background(.white)
           .cornerRadius(12)
-          .padding(.horizontal, 16)
+          .padding(.horizontal, 10)
           .padding(.bottom, 20 + UIApplication.edgeInsets.bottom)
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(.white)
         
         if viewStore.showBottomSheet {
@@ -94,7 +88,7 @@ struct OnboardingBirthDateView: View {
                 Button(action: {
                   viewStore.send(.hideBottomSheet)
                 }) {
-                  Text(R.string.localizable.common_next)
+                  Text(R.string.localizable.common_confirm)
                     .font(.pretendard(size: 16, weight: .semiBold))
                     .frame(maxWidth: .infinity, maxHeight: 56)
                     .background(.black)
@@ -112,9 +106,9 @@ struct OnboardingBirthDateView: View {
   }
 }
 
-//struct OnboardingBirthDateView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        OnboardingBirthDateView(store: Store(initialState: OnboardingCore.State(), reducer: OnboardingCore()))
-//    }
-//}
+struct OnboardingBirthDateView_Previews: PreviewProvider {
+    static var previews: some View {
+        OnboardingBirthDateView(store: Store(initialState: OnboardingCore.State(), reducer: OnboardingCore()))
+    }
+}
 
