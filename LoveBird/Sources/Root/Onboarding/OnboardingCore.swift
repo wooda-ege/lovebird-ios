@@ -184,9 +184,6 @@ struct OnboardingCore: ReducerProtocol {
         state.page.update(.next)
         state.pageIdx = 1
         state.birthday = nil
-        state.birthdateDay = 00
-        state.birthdateMonth = 00
-        state.birthdateYear = 0000
         return .none
         
       case .selectBirthDate:

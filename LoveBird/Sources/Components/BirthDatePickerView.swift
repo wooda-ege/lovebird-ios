@@ -56,12 +56,12 @@ struct BirthDatePickerView: UIViewRepresentable {
         }
         return months
       case 2:
-        let days = Date.with(year: self.parent.viewStore.birthdateYear, month: self.parent.viewStore.birthdateMonth).calculateDaysInOnBoarding
-        // Ex) 12월 31일인 상태에서 월을 11월으로 바꿀 때 days가 30으로 변화하기 때문에
-        // 자연스럽게 선택 일이 30일로 맞춰진다.
-        if days < self.parent.viewStore.birthdateDay {
-          self.parent.viewStore.send(.birthdateDaySelected(days))
-        }
+//        let days = Date.with(year: self.parent.viewStore.birthdateYear, month: self.parent.viewStore.birthdateMonth).calculateDaysInOnBoarding
+//        // Ex) 12월 31일인 상태에서 월을 11월으로 바꿀 때 days가 30으로 변화하기 때문에
+//        // 자연스럽게 선택 일이 30일로 맞춰진다.
+//        if days < self.parent.viewStore.birthdateDay {
+//          self.parent.viewStore.send(.birthdateDaySelected(days))
+//        }
         return 31
       default:
         fatalError("Invalid component")
