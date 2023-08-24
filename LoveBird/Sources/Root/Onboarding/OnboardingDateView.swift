@@ -53,22 +53,16 @@ struct OnboardingDateView: View {
           
           Spacer()
           
-          Button(action: {
+          SkipDateButtonView {
+            viewStore.send(.skipFisrtdate)
+          } confirmAction: {
             viewStore.send(.doneButtonTapped)
-          }) {
-            TouchableStack {
-              Text(R.string.localizable.common_next)
-                .font(.pretendard(size: 16, weight: .semiBold))
-                .foregroundColor(.white)
-            }
           }
-          .frame(height: 56)
-          .background(.black)
+          .background(.white)
           .cornerRadius(12)
-          .padding(.horizontal, 16)
+          .padding(.horizontal, 10)
           .padding(.bottom, 20 + UIApplication.edgeInsets.bottom)
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(.white)
         
         if viewStore.showBottomSheet {

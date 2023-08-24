@@ -35,7 +35,7 @@ struct CommonBottomSheetButtonView: View {
   }
 }
 
-struct SkipBirthButtonView: View {
+struct SkipDateButtonView: View {
   
   let skipAction: () -> Void
   let confirmAction: () -> Void
@@ -64,7 +64,7 @@ struct SkipBirthButtonView: View {
 
 struct SkipBirthButtonView_Previews: PreviewProvider {
   static var previews: some View {
-    SkipBirthButtonView {
+    SkipDateButtonView {
       
     } confirmAction: {
        

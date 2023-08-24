@@ -118,7 +118,7 @@ struct HomeCore: ReducerProtocol {
     var isTodayDiaryAppended = false
 
     // D + 1
-    var diariesForDomain: [Diary] = [Diary.initialDiary(with: profile.firstDate)]
+    var diariesForDomain: [Diary] = [Diary.initialDiary(with: profile.firstDate ?? "")]
     diaries.enumerated().forEach { idx, diary in
       var diaryUpdated = diary
 
@@ -153,8 +153,8 @@ struct HomeCore: ReducerProtocol {
 
     // 다음 기념일
     diariesForDomain.append(Diary.anniversaryDiary(
-      with: profile.nextAnniversary.anniversaryDate,
-      title: profile.nextAnniversary.kind.description
+      with: profile.nextAnniversary?.anniversaryDate ?? "",
+      title: profile.nextAnniversary?.kind.description ?? ""
     ))
 
     return diariesForDomain

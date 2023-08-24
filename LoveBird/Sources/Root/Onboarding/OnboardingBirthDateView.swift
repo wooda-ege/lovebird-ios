@@ -54,7 +54,7 @@ struct OnboardingBirthDateView: View {
           
           Spacer()
           
-          SkipBirthButtonView {
+          SkipDateButtonView {
             viewStore.send(.skipBirthdate)
           } confirmAction: {
             viewStore.send(.selectBirthDate)

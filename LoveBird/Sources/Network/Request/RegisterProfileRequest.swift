@@ -11,7 +11,7 @@ public struct RegisterProfileRequest: Encodable {
   let email: String
   let nickname: String
   let birthDay: String?
-  let firstDate: String
+  let firstDate: String?
   let gender: String
   let deviceToken: String
 }

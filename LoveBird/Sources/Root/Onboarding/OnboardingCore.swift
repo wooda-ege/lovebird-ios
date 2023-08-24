@@ -34,6 +34,7 @@ struct OnboardingCore: ReducerProtocol {
     var birthdateMonth: Int = Date().month
     var birthdateDay: Int = Date().day
     var birthday: String? = ""
+    var firstday: String? = ""
     var firstdateYear: Int = Date().year
     var firstdateMonth: Int = Date().month
     var firstdateDay: Int = Date().day
@@ -71,6 +72,8 @@ struct OnboardingCore: ReducerProtocol {
     case tryLink(String)
     case skipBirthdate
     case selectBirthDate
+    case skipFisrtdate
+    case selectFirstDate
     case none
   }
   
@@ -196,13 +199,11 @@ struct OnboardingCore: ReducerProtocol {
         state.birthday = String(format: "%04d-%02d-%02d", birthyear, birthmonth, birthday)
         return .none
         
-      case .doneButtonTapped:
+      case .skipFisrtdate:
+        state.firstday = nil
+        
         return .run { [state = state] send in
           do {
-            let firstyear = state.firstdateYear
-            let firstmonth = state.firstdateMonth
-            let firstday = state.firstdateDay
-            let firstDate = String(format: "%04d-%02d-%02d", firstyear, firstmonth, firstday)
             // 프로필 등록 - 생년월일 입력 뷰에서 다음 버튼 클릭시
             let profile = try await self.apiClient.request(
               .registerProfile(
@@ -211,7 +212,35 @@ struct OnboardingCore: ReducerProtocol {
                   email: state.email,
                   nickname: state.nickname,
                   birthDay: state.birthday,
-                  firstDate: firstDate,
+                  firstDate: state.firstday,
+                  gender: state.gender,
+                  deviceToken: "fcm")
+              )
+            ) as Profile
+            
+            await send(.registerProfileResponse(.success(profile)))
+          } catch {
+            print("프로필 등록 실패")
+          }
+        }
+        
+      case .doneButtonTapped:
+        let firstyear = state.firstdateYear
+        let firstmonth = state.firstdateMonth
+        let firstday = state.firstdateDay
+        state.firstday = String(format: "%04d-%02d-%02d", firstyear, firstmonth, firstday)
+        
+        return .run { [state = state] send in
+          do {
+            // 프로필 등록 - 생년월일 입력 뷰에서 다음 버튼 클릭시
+            let profile = try await self.apiClient.request(
+              .registerProfile(
+                image: state.profileImage,
+                profileRequest: RegisterProfileRequest.init(
+                  email: state.email,
+                  nickname: state.nickname,
+                  birthDay: state.birthday,
+                  firstDate: state.firstday,
                   gender: state.gender,
                   deviceToken: "fcm")
               )
