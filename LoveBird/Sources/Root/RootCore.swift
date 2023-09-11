@@ -70,13 +70,14 @@ struct RootCore: Reducer {
           var rootState: State
 //          userData.remove(key: .accessToken)
 //          userData.remove(key: .refreshToken)
-          if user == nil {
-            rootState = .login(LoginCore.State())
-          } else if user?.partnerId == nil {
-            rootState = .coupleLink(CoupleLinkCore.State())
-          } else {
-            rootState = .mainTab(MainTabCore.State())
-          }
+//          if user == nil {
+//            rootState = .login(LoginCore.State())
+//          } else if user?.partnerId == nil {
+//            rootState = .coupleLink(CoupleLinkCore.State())
+//          } else {
+//            rootState = .mainTab(MainTabCore.State())
+//          }
+          rootState = .onboarding(OnboardingCore.State())
           await send(.updateRootState(rootState), animation: .default)
         }
         

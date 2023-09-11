@@ -23,25 +23,39 @@ struct OnboardingCore: ReducerProtocol {
   }
   
   struct State: Equatable {
+    // common
     var page: Page = .first()
     var pageIdx: Int = Constant.nicknamePageIdx
-    var nickname: String = ""
     var textFieldState: TextFieldState = .none
     var buttonClickState: ButtonClickState = .notClicked
     var showBottomSheet = false
-    var gender = ""
+
+    // page1
+    var email: String = ""
+
+    // page2
+    var nickname: String = ""
+
+    // page3
+    var profileImage: UIImage?
+
+    // page4
+    var birthday: String? = ""
     var birthdateYear: Int = Date().year
     var birthdateMonth: Int = Date().month
     var birthdateDay: Int = Date().day
-    var birthday: String? = ""
+
+    // page5
+    var gender = ""
+
+    // page6
     var firstday: String? = ""
     var firstdateYear: Int = Date().year
     var firstdateMonth: Int = Date().month
     var firstdateDay: Int = Date().day
-    var email: String = ""
+
     var invitationCode: String = "임시코드임니다"
     var invitationInputCode: String = ""
-    var profileImage: UIImage?
   }
   
   enum Action: Equatable {
@@ -66,7 +80,6 @@ struct OnboardingCore: ReducerProtocol {
     case registerProfileResponse(TaskResult<Profile>)
     case tryLinkResponse(TaskResult<TryLinkResponse>)
     case imageSelected(UIImage?)
-    case circleClicked(Int)
     case invitationcodeEdited(String)
     case invitationViewLoaded(String)
     case tryLink(String)
@@ -83,10 +96,6 @@ struct OnboardingCore: ReducerProtocol {
   var body: some ReducerProtocol<State, Action> {
     Reduce { state, action in
       switch action {
-      case .circleClicked(let index):
-        state.page.update(.move(increment: index))
-        return .none
-
       case .nextTapped, .nextButtonTapped:
         state.page.update(.next)
         state.pageIdx = 1
@@ -97,9 +106,7 @@ struct OnboardingCore: ReducerProtocol {
         return .none
 
       case .previousTapped:
-        if state.page.index == 0 {
-          return .none
-        } else {
+        if !state.page.isFisrt {
           state.page.update(.previous)
         }
         return .none
@@ -256,11 +263,5 @@ struct OnboardingCore: ReducerProtocol {
         return .none
       }
     }
-  }
-}
-
-extension Page: Equatable {
-  public static func == (lhs: Page, rhs: Page) -> Bool {
-    lhs.index == rhs.index
   }
 }

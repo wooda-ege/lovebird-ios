@@ -15,78 +15,58 @@ struct OnboardingView: View {
   let store: StoreOf<OnboardingCore>
   
   var body: some View {
-    WithViewStore(self.store) { viewStore in
+    WithViewStore(self.store, observe: { $0 }) { viewStore in
       VStack {
-        HStack {
+        HStack(alignment: .center) {
           Button { viewStore.send(.previousTapped) } label: {
-            Image(viewStore.page.isNickname
-                  ? R.image.ic_navigate_previous_inactive
-                  : R.image.ic_navigate_previous_active)
-            .offset(x: 16)
+            Image(
+              viewStore.page.isFisrt
+                ? R.image.ic_navigate_previous_inactive
+                : R.image.ic_navigate_previous_active
+            )
+            .padding(.leading, 16)
           }
           
           Spacer()
           
           HStack {
-            Circle()
-              .frame(width: 10, height: 10)
-              .foregroundColor(viewStore.page.index == 0 ? Color(R.color.primary) : Color(R.color.green164))
-            Circle()
-              .frame(width: 10, height: 10)
-              .foregroundColor(viewStore.page.index == 1 ? Color(R.color.primary) : Color(R.color.green164))
-            Circle()
-              .frame(width: 10, height: 10)
-              .foregroundColor(viewStore.page.index == 2 ? Color(R.color.primary) : Color(R.color.green164))
-            Circle()
-              .frame(width: 10, height: 10)
-              .foregroundColor(viewStore.page.index == 3 ? Color(R.color.primary) : Color(R.color.green164))
-            Circle()
-              .frame(width: 10, height: 10)
-              .foregroundColor(viewStore.page.index == 4 ? Color(R.color.primary) : Color(R.color.green164))
-            Circle()
-              .frame(width: 10, height: 10)
-              .foregroundColor(viewStore.page.index == 5 ? Color(R.color.primary) : Color(R.color.green164))
-            Circle()
-              .frame(width: 10, height: 10)
-              .foregroundColor(viewStore.page.index == 6 ? Color(R.color.primary) : Color(R.color.green164))
+            ForEach(Page.Onboarding.allCases, id: \.self) {
+              Circle()
+                .frame(width: 10, height: 10)
+                .foregroundColor(viewStore.page.index == $0.rawValue ? Color(R.color.primary) : Color(R.color.green164))
+            }
           }
           
           Spacer()
           
-          Button {
-            viewStore.send(.nextTapped)
-            self.hideKeyboard()
-          } label: {
-            Image(R.image.ic_navigate_next_active)
-            .offset(x: -16)
+          Button { viewStore.send(.nextTapped) } label: {
+            Image(
+              viewStore.page.isLast
+                ? R.image.ic_navigate_next_active
+                : R.image.ic_navigate_next_inactive
+            )
+            .padding(.trailing, 16)
           }
         }
         .frame(width: UIScreen.width, height: 44)
         
-        Pager(page: viewStore.page, data: [0, 1, 2, 3, 4, 5], id: \.self) { page in
-          if page as! Int == 0 {
+        Pager(page: viewStore.page, data: Page.Onboarding.allCases, id: \.self) {
+          switch $0 {
+          case .email:
             OnboardingEmailView(store: self.store)
-              .frame(maxWidth: .infinity, maxHeight: .infinity)
-          } else if page == 1 {
+          case .nickname:
             OnboardingNicknameView(store: self.store)
-              .frame(maxWidth: .infinity, maxHeight: .infinity)
-          } else if page == 2 {
+          case .profileImage:
             OnboardingProfileView(store: self.store)
-          } else if page == 3 {
+          case .birth:
             OnboardingBirthDateView(store: self.store)
-          } else if page == 4 {
+          case .gender:
             OnboardingGenderView(store: self.store)
-          } else if page == 5 {
+          case .anniversary:
             OnboardingDateView(store: self.store)
-              .frame(maxWidth: .infinity, maxHeight: .infinity)
           }
-//        else if page == 6 {
-//            OnboardingInvitationView(store: self.store)
-//              .frame(maxWidth: .infinity, maxHeight: .infinity)
-//          }
         }
         .allowsDragging(false)
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
         .edgesIgnoringSafeArea(.bottom)
       }
     }
