@@ -15,7 +15,7 @@ struct OnboardingNicknameView: View {
   @StateObject private var keyboard = KeyboardResponder()
   
   var body: some View {
-    WithViewStore(self.store) { viewStore in
+    WithViewStore(self.store, observe: { $0 }) { viewStore in
       VStack {
         TextField("ex. 러버", text: viewStore.binding(get: \.nickname, send: OnboardingCore.Action.nicknameEdited))
           .font(.pretendard(size: 18, weight: .regular))

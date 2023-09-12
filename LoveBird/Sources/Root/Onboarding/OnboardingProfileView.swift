@@ -15,7 +15,7 @@ struct OnboardingProfileView: View {
   @StateObject private var keyboard = KeyboardResponder()
   
   var body: some View {
-    WithViewStore(self.store) { viewStore in
+    WithViewStore(self.store, observe: { $0 }) { viewStore in
       VStack(alignment: .center) {
         ImagePickerView(use: "profile", selectedUIImage: $image, representImage: Image(R.image.ic_profile))
           .frame(width: 124, height: 124, alignment: .center)

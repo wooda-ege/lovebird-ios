@@ -13,7 +13,7 @@ struct OnboardingBirthDateView: View {
   let store: StoreOf<OnboardingCore>
   
   var body: some View {
-    WithViewStore(self.store) { viewStore in
+    WithViewStore(self.store, observe: { $0 }) { viewStore in
       ZStack {
         VStack {
           HStack(alignment: .center, spacing: 8) {
