@@ -58,7 +58,7 @@ struct OnboardingView: View {
             .font(.pretendard(size: 20, weight: .bold))
             .foregroundColor(.black)
 
-          Text(R.string.localizable.onboarding_email_description)
+          Text(viewStore.state.pageState.description)
             .frame(maxWidth: .infinity, alignment: .leading)
             .font(.pretendard(size: 16, weight: .regular))
             .foregroundColor(Color(R.color.gray07))
