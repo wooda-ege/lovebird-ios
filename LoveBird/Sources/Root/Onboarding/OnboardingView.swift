@@ -16,7 +16,7 @@ struct OnboardingView: View {
   
   var body: some View {
     WithViewStore(self.store, observe: { $0 }) { viewStore in
-      VStack {
+      VStack(spacing: 0) {
         HStack(alignment: .center) {
           Button { viewStore.send(.previousTapped) } label: {
             Image(
@@ -42,13 +42,30 @@ struct OnboardingView: View {
           Button { viewStore.send(.nextTapped) } label: {
             Image(
               viewStore.page.isLast
-                ? R.image.ic_navigate_next_active
-                : R.image.ic_navigate_next_inactive
+                ? R.image.ic_navigate_next_inactive
+                : R.image.ic_navigate_next_active
             )
             .padding(.trailing, 16)
           }
         }
         .frame(width: UIScreen.width, height: 44)
+
+        Spacer(minLength: 24)
+
+        VStack(alignment: .leading, spacing: 12) {
+          Text(viewStore.state.pageState.title)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .font(.pretendard(size: 20, weight: .bold))
+            .foregroundColor(.black)
+
+          Text(R.string.localizable.onboarding_email_description)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .font(.pretendard(size: 16, weight: .regular))
+            .foregroundColor(Color(R.color.gray07))
+        }
+        .padding(.leading, 16)
+
+        Spacer(minLength: 48)
         
         Pager(page: viewStore.page, data: Page.Onboarding.allCases, id: \.self) {
           switch $0 {

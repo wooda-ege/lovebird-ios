@@ -25,7 +25,7 @@ struct OnboardingCore: ReducerProtocol {
   struct State: Equatable {
     // common
     var page: Page = .first()
-    var pageIdx: Int = Constant.nicknamePageIdx
+    var pageState: Page.Onboarding = .email
     var textFieldState: TextFieldState = .none
     var buttonClickState: ButtonClickState = .notClicked
     var showBottomSheet = false
@@ -97,8 +97,10 @@ struct OnboardingCore: ReducerProtocol {
     Reduce { state, action in
       switch action {
       case .nextTapped, .nextButtonTapped:
-        state.page.update(.next)
-        state.pageIdx = 1
+        if !state.page.isLast {
+          state.page.update(.next)
+          state.pageState = state.page.state
+        }
         return .none
 
       case .textFieldStateChanged(let textFieldState):
@@ -108,6 +110,7 @@ struct OnboardingCore: ReducerProtocol {
       case .previousTapped:
         if !state.page.isFisrt {
           state.page.update(.previous)
+          state.pageState = state.page.state
         }
         return .none
 
@@ -192,7 +195,6 @@ struct OnboardingCore: ReducerProtocol {
         
       case .skipBirthdate:
         state.page.update(.next)
-        state.pageIdx = 1
         state.birthday = nil
         return .none
         
@@ -202,7 +204,6 @@ struct OnboardingCore: ReducerProtocol {
         let birthday = state.birthdateDay
 
         state.page.update(.next)
-        state.pageIdx = 1
         state.birthday = String(format: "%04d-%02d-%02d", birthyear, birthmonth, birthday)
         return .none
         

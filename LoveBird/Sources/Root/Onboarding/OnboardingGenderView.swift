@@ -16,22 +16,6 @@ struct OnboardingGenderView: View {
     WithViewStore(self.store) { viewStore in
       ZStack {
         VStack {
-          Spacer().frame(height: 24)
-          Text(R.string.localizable.onboarding_gender_title)
-            .font(.pretendard(size: 20, weight: .bold))
-            .foregroundColor(.black)
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .padding(.leading, 16)
-          Text(R.string.localizable.onboarding_gender_description)
-            .font(.pretendard(size: 16, weight: .regular))
-            .foregroundColor(Color(R.color.gray07))
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .padding(.top, 12)
-            .padding(.leading, 16)
-          
-          Spacer()
-            .frame(height: 48)
-          
           VStack(alignment: .leading) {
             TouchableStack {
               HStack {

@@ -15,25 +15,8 @@ struct OnboardingEmailView: View {
   @StateObject private var keyboard = KeyboardResponder()
   
   var body: some View {
-    WithViewStore(self.store) { viewStore in
+    WithViewStore(self.store, observe: { $0 }) { viewStore in
       VStack {
-        Spacer().frame(height: 24)
-        
-        Text(R.string.localizable.onboarding_email_title)
-          .font(.pretendard(size: 20, weight: .bold))
-          .foregroundColor(.black)
-          .frame(maxWidth: .infinity, alignment: .leading)
-          .padding(.leading, 16)
-
-        Text(R.string.localizable.onboarding_email_description)
-          .font(.pretendard(size: 16, weight: .regular))
-          .foregroundColor(Color(R.color.gray07))
-          .frame(maxWidth: .infinity, alignment: .leading)
-          .padding(.top, 12)
-          .padding(.leading, 16)
-        
-        Spacer().frame(height: 48)
-        
         TextField("love@bird.com", text: viewStore.binding(get: \.email, send: OnboardingCore.Action.emailEdited))
           .font(.pretendard(size: 18, weight: .regular))
           .textContentType(.emailAddress)

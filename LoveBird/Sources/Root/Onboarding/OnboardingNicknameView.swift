@@ -17,23 +17,6 @@ struct OnboardingNicknameView: View {
   var body: some View {
     WithViewStore(self.store) { viewStore in
       VStack {
-        Spacer().frame(height: 24)
-        
-        Text(R.string.localizable.onboarding_nickname_title)
-          .font(.pretendard(size: 20, weight: .bold))
-          .foregroundColor(.black)
-          .frame(maxWidth: .infinity, alignment: .leading)
-          .padding(.leading, 16)
-        
-        Text(R.string.localizable.onboarding_nickname_description)
-          .font(.pretendard(size: 16, weight: .regular))
-          .foregroundColor(Color(R.color.gray07))
-          .frame(maxWidth: .infinity, alignment: .leading)
-          .padding(.top, 12)
-          .padding(.leading, 16)
-        
-        Spacer().frame(height: 48)
-        
         TextField("ex. 러버", text: viewStore.binding(get: \.nickname, send: OnboardingCore.Action.nicknameEdited))
           .font(.pretendard(size: 18, weight: .regular))
           .foregroundColor(.black)

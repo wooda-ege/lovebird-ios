@@ -16,21 +16,6 @@ struct OnboardingBirthDateView: View {
     WithViewStore(self.store) { viewStore in
       ZStack {
         VStack {
-          Spacer().frame(height: 24)
-          Text(R.string.localizable.onboarding_birthdate_title)
-            .font(.pretendard(size: 20, weight: .bold))
-            .foregroundColor(.black)
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .padding(.leading, 16)
-          Text(R.string.localizable.onboarding_birthdate_description)
-            .font(.pretendard(size: 16, weight: .regular))
-            .foregroundColor(Color(R.color.gray07))
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .padding(.top, 12)
-            .padding(.leading, 16)
-          Spacer()
-            .frame(height: 48)
-          
           HStack(alignment: .center, spacing: 8) {
             Text(String(viewStore.birthdateYear))
               .font(.pretendard(size: 18))

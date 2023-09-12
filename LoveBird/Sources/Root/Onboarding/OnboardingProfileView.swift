@@ -17,25 +17,8 @@ struct OnboardingProfileView: View {
   var body: some View {
     WithViewStore(self.store) { viewStore in
       VStack(alignment: .center) {
-        Spacer().frame(height: 24)
-        
-        Text(R.string.localizable.onboarding_profile_title)
-          .font(.pretendard(size: 20, weight: .bold))
-          .foregroundColor(.black)
-          .frame(maxWidth: .infinity, alignment: .leading)
-          .padding(.leading, 16)
-        
-        Text(R.string.localizable.onboarding_profile_description)
-          .font(.pretendard(size: 16, weight: .regular))
-          .foregroundColor(Color(R.color.gray07))
-          .frame(maxWidth: .infinity, alignment: .leading)
-          .padding(.top, 12)
-          .padding(.leading, 16)
-        
-        Spacer().frame(height: 48)
-        
-          ImagePickerView(use: "profile", selectedUIImage: $image, representImage: Image(R.image.ic_profile))
-            .frame(width: 124, height: 124, alignment: .center)
+        ImagePickerView(use: "profile", selectedUIImage: $image, representImage: Image(R.image.ic_profile))
+          .frame(width: 124, height: 124, alignment: .center)
         
         Spacer()
         
