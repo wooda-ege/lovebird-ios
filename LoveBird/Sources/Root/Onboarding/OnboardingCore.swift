@@ -33,8 +33,8 @@ struct OnboardingCore: ReducerProtocol {
     var birthdateYear: Int = Date().year
     var birthdateMonth: Int = Date().month
     var birthdateDay: Int = Date().day
-    var birthday: String? = ""
-    var firstday: String? = ""
+    var birthday: String? = "0000-00-00"
+    var firstday: String? = "0000-00-00"
     var firstdateYear: Int = Date().year
     var firstdateMonth: Int = Date().month
     var firstdateDay: Int = Date().day

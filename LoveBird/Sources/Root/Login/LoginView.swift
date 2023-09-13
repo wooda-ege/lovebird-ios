@@ -65,26 +65,44 @@ struct LoginView: View {
               UserApi.shared.loginWithKakaoTalk {(oauthToken, error) in
                 if let error = error {
                   print(error)
-                }
-                else {
-                  guard let accessToken = oauthToken?.accessToken,
-                        let idToken = oauthToken?.idToken else {
+                } else {
+                  guard let idToken = oauthToken?.idToken else {
                     return
                   }
-                  viewStore.send(.kakaoLoginTapped(accessToken, idToken))
+                    
+                  UserApi.shared.me {(user, error) in
+                    if let error = error {
+                      print(error)
+                    } else {
+                      guard let name = user?.kakaoAccount?.name,
+                            let email = user?.kakaoAccount?.email else {
+                        return
+                      }
+                      viewStore.send(.kakaoLoginTapped(idToken, name, email))
+                    }
+                  }
                 }
               }
             } else {
               UserApi.shared.loginWithKakaoAccount {(oauthToken, error) in
                 if let error = error {
                   print(error)
-                }
-                else {
-                  guard let accessToken = oauthToken?.accessToken,
-                        let idToken = oauthToken?.idToken else {
+                } else {
+                  guard let idToken = oauthToken?.idToken else {
                     return
                   }
-                  viewStore.send(.kakaoLoginTapped(accessToken, idToken))
+                    
+                  UserApi.shared.me {(user, error) in
+                    if let error = error {
+                      print(error)
+                    } else {
+                      guard let name = user?.kakaoAccount?.name,
+                            let email = user?.kakaoAccount?.email else {
+                        return
+                      }
+                      viewStore.send(.kakaoLoginTapped(idToken, name, email))
+                    }
+                  }
                 }
               }
             }

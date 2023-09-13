@@ -8,7 +8,7 @@
 import Foundation
 
 struct LoginResponse: Decodable, Equatable, Sendable {
-  let accessToken: String
-  let refreshToken: String?
-  let flag: Bool
+  let idToken: String
+  let name: String
+  let email: String?
 }

@@ -17,8 +17,7 @@ import SwiftUI
 public enum APIClient {
 
   // onboarding
-  case kakaoLogin(idToken: String, accessToken: String)
-  case appleLogin(appleLoginRequest: AppleLoginRequest)
+  case login(idToken: String, name: String, email: String)
   case invitationViewLoaded
   case coupleLinkButtonClicked(coupleCode: String)
   case coupleCheckButtonClicked
@@ -46,7 +45,7 @@ public enum APIClient {
 
 extension APIClient: TargetType {
 
-  public var userDate: UserData {
+  public var userData: UserData {
     @Dependency(\.userData) var userData
     return userData
   }
@@ -64,10 +63,8 @@ extension APIClient: TargetType {
       switch self {
       case .withdrawal:
         return "/auth"
-      case .kakaoLogin:
-        return "/auth/kakao"
-      case .appleLogin:
-        return "/auth/apple"
+      case .login:
+        return "/api/v1/auth"
       case .invitationViewLoaded:
         return "/couple/code"
       case .coupleLinkButtonClicked:
@@ -95,7 +92,7 @@ extension APIClient: TargetType {
 
   public var method: Moya.Method {
     switch self {
-    case .registerProfile, .addSchedule, .kakaoLogin, .appleLogin, .registerDiary:
+    case .registerProfile, .addSchedule, .login, .registerDiary:
       return .post
     case .fetchDiary, .fetchCalendars, .fetchDiaries, .fetchProfile,
         .fetchSchedule, .invitationViewLoaded, .searchKakaoMap, .coupleCheckButtonClicked:
@@ -156,12 +153,9 @@ extension APIClient: TargetType {
 
       return .uploadMultipart(multiparts)
 
-    case .kakaoLogin:
+    case .login:
       return .requestParameters(parameters: self.bodyParameters ?? [:], encoding: JSONEncoding.default)
-
-    case .appleLogin(let appleLoginRequest):
-      return .requestJSONEncodable(appleLoginRequest as Encodable)
-
+      
     case .searchKakaoMap:
       return .requestParameters(parameters: self.bodyParameters ?? [:], encoding: URLEncoding.queryString)
 
@@ -180,8 +174,8 @@ extension APIClient: TargetType {
   }
   
   public var headers: [String: String]? {
-    let accessToken = self.userDate.get(key: .accessToken, type: String.self)
-    let refreshToken = self.userDate.get(key: .refreshToken, type: String.self)
+    let accessToken = self.userData.get(key: .accessToken, type: String.self)
+    let refreshToken = self.userData.get(key: .refreshToken, type: String.self)
     if case .searchKakaoMap = self {
       return ["Authorization" : Config.kakaoMapKey]
     } else if let accessToken, let refreshToken  {
@@ -203,9 +197,10 @@ extension APIClient: TargetType {
       params["startTime"] = addSchedule.startTime
       params["endTime"] = addSchedule.endTime
       params["alarm"] = addSchedule.alarm
-    case .kakaoLogin(let idToken, let accessToken):
+    case .login(let idToken, let name, let email):
       params["idToken"] = idToken
-      params["accessToken"] = accessToken
+      params["name"] = name
+      params["email"] = email
     case .coupleLinkButtonClicked(let coupleCode):
       params["coupleCode"] = coupleCode
     case .searchKakaoMap(let searchTerm):
