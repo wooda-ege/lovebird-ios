@@ -26,29 +26,30 @@ struct OnboardingCore: ReducerProtocol {
     // common
     var page: Page = .first()
     var pageState: Page.Onboarding = .email
-    var textFieldState: TextFieldState = .none
+    var emailTextFieldState: TextFieldState = .none
+    var nicknameTextFieldState: TextFieldState = .none
     var buttonClickState: ButtonClickState = .notClicked
     var showBottomSheet = false
 
-    // page1
+    // page1 - email
     var email: String = ""
 
-    // page2
+    // page2 - nickname
     var nickname: String = ""
 
-    // page3
+    // page3 - profile
     var profileImage: UIImage?
 
-    // page4
+    // page4 - birthday
     var birthday: String? = ""
     var birthdateYear: Int = Date().year
     var birthdateMonth: Int = Date().month
     var birthdateDay: Int = Date().day
 
-    // page5
+    // page5 - gender
     var gender = ""
 
-    // page6
+    // page6 - anniversary
     var firstday: String? = ""
     var firstdateYear: Int = Date().year
     var firstdateMonth: Int = Date().month
@@ -59,31 +60,42 @@ struct OnboardingCore: ReducerProtocol {
   }
   
   enum Action: Equatable {
+    // common
     case nextTapped
     case previousTapped
     case nextButtonTapped
-    case textFieldStateChanged(TextFieldState)
-    case genderSelected(String)
+    case showBottomSheet
+    case hideBottomSheet
+    case doneButtonTapped
+
+    // page1 - email
+    case emailTextFieldStateChanged(TextFieldState)
+    case emailEdited(String)
+
+    // page2 - nickname
+    case nicknameTextFieldStateChanged(TextFieldState)
+    case nicknameEdited(String)
+
+    // page3 - profile
+
+    // page4 - birthday
     case birthdateYearSelected(Int)
     case birthdateMonthSelected(Int)
     case birthdateDaySelected(Int)
+    case birthdateInitialied
+    case skipBirthdate
+
+    // page5 - gender
+    case genderSelected(String)
+
+    // page6 - anniversary
     case dateYearSelected(Int)
     case dateMonthSelected(Int)
     case dateDaySelected(Int)
-    case nicknameEdited(String)
-    case emailEdited(String)
-    case doneButtonTapped
-    case showBottomSheet
-    case hideBottomSheet
     case dateInitialied
-    case birthdateInitialied
     case registerProfileResponse(TaskResult<Profile>)
     case tryLinkResponse(TaskResult<TryLinkResponse>)
     case imageSelected(UIImage?)
-    case invitationcodeEdited(String)
-    case invitationViewLoaded(String)
-    case tryLink(String)
-    case skipBirthdate
     case selectBirthDate
     case skipFisrtdate
     case selectFirstDate
@@ -97,14 +109,8 @@ struct OnboardingCore: ReducerProtocol {
     Reduce { state, action in
       switch action {
       case .nextTapped, .nextButtonTapped:
-        if !state.page.isLast {
-          state.page.update(.next)
-          state.pageState = state.page.state
-        }
-        return .none
-
-      case .textFieldStateChanged(let textFieldState):
-        state.textFieldState = textFieldState
+        self.handleNext(state: &state)
+        UIApplication.shared.endEditing(true)
         return .none
 
       case .previousTapped:
@@ -112,32 +118,31 @@ struct OnboardingCore: ReducerProtocol {
           state.page.update(.previous)
           state.pageState = state.page.state
         }
+        UIApplication.shared.endEditing(true)
         return .none
 
-      case .nicknameEdited(let nickname):
-        state.nickname = String(nickname.prefix(20))
-        if nickname.isNicknameValid {
-          state.textFieldState = nickname.count >= 2 ? .nicknameCorrect : .editing
-        } else {
-          state.textFieldState = .error
-        }
+      case .emailTextFieldStateChanged(let textFieldState):
+        state.emailTextFieldState = textFieldState
         return .none
 
       case .emailEdited(let email):
         state.email = email
         if email.isEmailValid {
-          state.textFieldState = email.count >= 2 ? .emailCorrect : .editing
+          state.emailTextFieldState = .correct(.email)
+        } else if email.isEmpty {
+          state.emailTextFieldState = .editing(.email)
         } else {
-          state.textFieldState = .emailError
+          state.emailTextFieldState = .error(.email)
         }
         return .none
 
-      case .invitationcodeEdited(let code):
-        state.invitationInputCode = code
-        return .none
-
-      case .invitationViewLoaded(let code):
-        state.invitationCode = code
+      case .nicknameEdited(let nickname):
+        state.nickname = String(nickname.prefix(20))
+        if nickname.isNicknameValid {
+          state.nicknameTextFieldState = nickname.count >= 2 ? .correct(.nickname) : .editing(.nickname)
+        } else {
+          state.nicknameTextFieldState = .error(.nickname)
+        }
         return .none
 
       case .genderSelected(let gender):
@@ -264,5 +269,23 @@ struct OnboardingCore: ReducerProtocol {
         return .none
       }
     }
+  }
+
+  private func handleNext(state: inout State) {
+    switch state.pageState {
+    case .email:
+      guard state.emailTextFieldState.isCorrect else { return }
+      state.page.update(.next)
+
+    case .nickname:
+      guard state.nicknameTextFieldState.isCorrect else { return }
+      state.page.update(.next)
+
+    case .profileImage, .gender, .birth:
+      state.page.update(.next)
+    default:
+      return
+    }
+    state.pageState = state.page.state
   }
 }

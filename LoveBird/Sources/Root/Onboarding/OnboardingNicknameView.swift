@@ -11,29 +11,25 @@ import ComposableArchitecture
 struct OnboardingNicknameView: View {
   
   let store: StoreOf<OnboardingCore>
-  @FocusState private var isNameFieldFocused: Bool
+  @FocusState private var isFocused: Bool
   @StateObject private var keyboard = KeyboardResponder()
   
   var body: some View {
     WithViewStore(self.store, observe: { $0 }) { viewStore in
-      VStack {
-        TextField("ex. 러버", text: viewStore.binding(get: \.nickname, send: OnboardingCore.Action.nicknameEdited))
-          .font(.pretendard(size: 18, weight: .regular))
-          .foregroundColor(.black)
-          .padding(.vertical, 15)
-          .padding(.leading, 16)
-          .padding(.trailing, 48)
-          .focused($isNameFieldFocused)
-          .showClearButton(viewStore.binding(get: \.nickname, send: OnboardingCore.Action.nicknameEdited))
-          .frame(width: UIScreen.width - 32)
-          .roundedBackground(cornerRadius: 12, color: viewStore.textFieldState.color)
-        
-        Text(viewStore.textFieldState.description)
+      VStack(spacing: 10) {
+        CommonTextField(
+          text: viewStore.binding(get: \.nickname, send: OnboardingCore.Action.nicknameEdited),
+          placeholder: "ex. 러버",
+          borderColor: viewStore.nicknameTextFieldState.color,
+          isFocused: self.$isFocused
+        )
+        .padding(.horizontal, 16)
+
+        Text(viewStore.nicknameTextFieldState.description)
           .font(.pretendard(size: 16, weight: .regular))
-          .foregroundColor(viewStore.textFieldState.color)
+          .foregroundColor(viewStore.nicknameTextFieldState.color)
           .frame(maxWidth: .infinity, alignment: .leading)
-          .padding(.top, 10)
-          .padding(.leading, 16)
+          .padding(.horizontal, 16)
         
         Spacer()
         
@@ -48,22 +44,21 @@ struct OnboardingNicknameView: View {
           }
         }
         .frame(height: 56)
-        .background(viewStore.textFieldState == .nicknameCorrect ? .black : Color(R.color.gray05))
+        .background(viewStore.nicknameTextFieldState.isCorrect ? .black : Color(R.color.gray05))
         .cornerRadius(12)
         .padding(.horizontal, 16)
         .padding(.bottom, keyboard.currentHeight == 0 ? 20 + UIApplication.edgeInsets.bottom : keyboard.currentHeight + 20)
       }
-      .background(.white)
-      .onTapGesture {
-        self.isNameFieldFocused = false
-      }
-      .onChange(of: isNameFieldFocused) { newValue in
-        if viewStore.nickname.isEmpty {
-          viewStore.send(.textFieldStateChanged(newValue ? .editing : .none))
-        }
-      }
       .frame(maxWidth: .infinity, maxHeight: .infinity)
       .background(.white)
+      .onTapGesture {
+        self.isFocused = false
+      }
+      .onChange(of: self.isFocused) { isFocused in
+        if !isFocused, viewStore.state.nicknameTextFieldState.isEditing {
+          viewStore.send(.nicknameTextFieldStateChanged(.none))
+        }
+      }
     }
   }
 }

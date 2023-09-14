@@ -14,6 +14,20 @@ struct CommonTextField: View {
   let clearButtonTrailingPadding: CGFloat
   var isFocused: FocusState<Bool>.Binding
 
+  init(
+    text: Binding<String>,
+    placeholder: String,
+    borderColor: Color = Color(R.color.gray05),
+    clearButtonTrailingPadding: CGFloat = 16,
+    isFocused: FocusState<Bool>.Binding
+  ) {
+    self._text = text
+    self.placeholder = placeholder
+    self.borderColor = borderColor
+    self.clearButtonTrailingPadding = clearButtonTrailingPadding
+    self.isFocused = isFocused
+  }
+
   var body: some View {
     TextField(self.placeholder, text: self.$text)
       .font(.pretendard(size: 18))

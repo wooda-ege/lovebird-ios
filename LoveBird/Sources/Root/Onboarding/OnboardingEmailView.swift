@@ -9,32 +9,26 @@ import SwiftUI
 import ComposableArchitecture
 
 struct OnboardingEmailView: View {
-  
   let store: StoreOf<OnboardingCore>
-  @FocusState private var isEmailFieldFocused: Bool
+  @FocusState private var isFocused: Bool
   @StateObject private var keyboard = KeyboardResponder()
   
   var body: some View {
     WithViewStore(self.store, observe: { $0 }) { viewStore in
-      VStack {
-        TextField("love@bird.com", text: viewStore.binding(get: \.email, send: OnboardingCore.Action.emailEdited))
-          .font(.pretendard(size: 18, weight: .regular))
-          .textContentType(.emailAddress)
-          .foregroundColor(.black)
-          .padding(.vertical, 15)
-          .padding(.leading, 16)
-          .padding(.trailing, 48)
-          .focused($isEmailFieldFocused)
-          .showClearButton(viewStore.binding(get: \.email, send: OnboardingCore.Action.emailEdited))
-          .frame(width: UIScreen.width - 32)
-          .roundedBackground(cornerRadius: 12, color: viewStore.textFieldState.color)
-        
-        Text(viewStore.textFieldState.description)
+      VStack(spacing: 10) {
+        CommonTextField(
+          text: viewStore.binding(get: \.email, send: OnboardingAction.emailEdited),
+          placeholder: "love@bird.com",
+          borderColor: viewStore.emailTextFieldState.color,
+          isFocused: self.$isFocused
+        )
+        .padding(.horizontal, 16)
+
+        Text(viewStore.emailTextFieldState.description)
           .font(.pretendard(size: 16, weight: .regular))
-          .foregroundColor(viewStore.textFieldState.color)
+          .foregroundColor(viewStore.emailTextFieldState.color)
           .frame(maxWidth: .infinity, alignment: .leading)
-          .padding(.top, 10)
-          .padding(.leading, 16)
+          .padding(.horizontal, 16)
         
         Spacer()
         
@@ -49,22 +43,21 @@ struct OnboardingEmailView: View {
           }
         }
         .frame(height: 56)
-        .background(viewStore.textFieldState == .emailCorrect ? .black : Color(R.color.gray05))
+        .background(viewStore.emailTextFieldState.isCorrect ? .black : Color(R.color.gray05))
         .cornerRadius(12)
         .padding(.horizontal, 16)
         .padding(.bottom, keyboard.currentHeight == 0 ? 20 + UIApplication.edgeInsets.bottom : keyboard.currentHeight + 20)
       }
-      .background(.white)
-      .onTapGesture {
-        self.isEmailFieldFocused = false
-      }
-      .onChange(of: isEmailFieldFocused) { newValue in
-        if viewStore.nickname.isEmpty {
-          viewStore.send(.textFieldStateChanged(newValue ? .editing : .none))
-        }
-      }
       .frame(maxWidth: .infinity, maxHeight: .infinity)
       .background(.white)
+      .onTapGesture {
+        self.isFocused = false
+      }
+      .onChange(of: self.isFocused) { isFocused in
+        if !isFocused, viewStore.state.emailTextFieldState.isEditing {
+          viewStore.send(.emailTextFieldStateChanged(.none))
+        }
+      }
     }
   }
 }
