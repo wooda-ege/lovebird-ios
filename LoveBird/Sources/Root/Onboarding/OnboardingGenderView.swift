@@ -51,7 +51,7 @@ struct OnboardingGenderView: View {
             viewStore.send(.nextTapped)
           }
           .padding(.horizontal, 16)
-          .padding(.bottom, 20 + UIApplication.edgeInsets.bottom)
+          .padding(.bottom, 20)
         }
       }
     }

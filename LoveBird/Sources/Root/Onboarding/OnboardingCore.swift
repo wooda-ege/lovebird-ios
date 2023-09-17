@@ -19,7 +19,7 @@ struct OnboardingCore: ReducerProtocol {
   }
   struct State: Equatable {
     // common
-    var page: Page = .withIndex(3)
+    var page: Page = .first()
     var pageState: Page.Onboarding = .email
     var emailTextFieldState: TextFieldState = .none
     var nicknameTextFieldState: TextFieldState = .none

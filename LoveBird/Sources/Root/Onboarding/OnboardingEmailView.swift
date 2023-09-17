@@ -11,7 +11,6 @@ import ComposableArchitecture
 struct OnboardingEmailView: View {
   let store: StoreOf<OnboardingCore>
   @FocusState private var isFocused: Bool
-  @StateObject private var keyboard = KeyboardResponder()
   
   var body: some View {
     WithViewStore(self.store, observe: { $0 }) { viewStore in
@@ -39,7 +38,7 @@ struct OnboardingEmailView: View {
           viewStore.send(.nextTapped)
         }
         .padding(.horizontal, 16)
-        .padding(.bottom, keyboard.currentHeight == 0 ? 20 + UIApplication.edgeInsets.bottom : keyboard.currentHeight + 20)
+        .padding(.bottom, 20)
       }
       .frame(maxWidth: .infinity, maxHeight: .infinity)
       .background(.white)

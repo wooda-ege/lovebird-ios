@@ -37,7 +37,7 @@ extension Date {
 
   var calculateMonths: Int {
     if self.year == Self().year {
-      return self.month
+      return Self().month
     } else {
       return 12
     }
@@ -55,7 +55,7 @@ extension Date {
 
   var calculateDaysInOnBoarding: Int {
     if self.year == Self().year, self.month == Self().month {
-      return self.day
+      return Self().day
     }
     let dateComponents = DateComponents(year: self.year, month: self.month)
     if let date = Calendar.current.date(from: dateComponents) {

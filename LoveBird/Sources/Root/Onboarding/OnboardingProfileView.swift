@@ -30,7 +30,7 @@ struct OnboardingProfileView: View {
           viewStore.send(.nextTapped)
         }
         .padding(.horizontal, 16)
-        .padding(.bottom, UIApplication.edgeInsets.bottom + 20)
+        .padding(.bottom, 20)
       }
     }
   }

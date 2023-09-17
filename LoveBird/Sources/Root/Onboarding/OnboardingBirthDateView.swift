@@ -13,55 +13,26 @@ struct OnboardingBirthDateView: View {
 
   var body: some View {
     WithViewStore(self.store, observe: { $0 }) { viewStore in
-      ZStack {
-        VStack {
-          OnboardingDateView(date: viewStore.birth, onTap: {
-            viewStore.send(.showBottomSheet)
-          })
-          .frame(maxWidth: .infinity)
-          .padding(.horizontal, 16)
+      GeometryReader { geometry in
+        ZStack {
+          VStack {
+            OnboardingDateView(date: viewStore.birth, onTap: {
+              viewStore.send(.showBottomSheet)
+            })
+            .frame(maxWidth: .infinity)
+            .padding(.horizontal, 16)
 
-          Spacer()
+            Spacer()
 
-          CommonHorizontalButton(title: "확인") {
-            viewStore.send(.nextButtonTapped)
-          }
-          .padding(.horizontal, 16)
-          .padding(.bottom, 20 + UIApplication.edgeInsets.bottom)
-        }
-
-        if viewStore.showBottomSheet {
-          BottomSheetView(isOpen: viewStore.binding(
-            get: \.showBottomSheet,
-            send: .hideBottomSheet
-          )) {
-            VStack {
-              DatePickerView(date: viewStore.birth) {
-                viewStore.send(.birthUpdated($0))
-              }
-
-              HStack(spacing: 8) {
-                CommonHorizontalButton(
-                  title: String(resource: R.string.localizable.onboarding_date_initial),
-                  backgroundColor: Color(R.color.gray05)
-                ) {
-                  viewStore.send(.birthInitialized)
-                }
-
-                CommonHorizontalButton(
-                  title: String(resource: R.string.localizable.common_confirm),
-                  backgroundColor: .black
-                ) {
-                  viewStore.send(.hideBottomSheet)
-                }
-              }
-              .padding(.horizontal, 16)
-              .padding(.bottom, 100 + UIApplication.edgeInsets.bottom)
+            CommonHorizontalButton(title: "확인") {
+              viewStore.send(.nextButtonTapped)
             }
+            .padding(.horizontal, 16)
+            .padding(.bottom, 20)
           }
         }
+        .background(.white)
       }
-      .background(.white)
     }
   }
 }

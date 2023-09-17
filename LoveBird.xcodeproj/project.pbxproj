@@ -76,6 +76,8 @@
 		4A35E31A2AB342A3003C9033 /* OnboardingDateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A35E3192AB342A3003C9033 /* OnboardingDateView.swift */; };
 		4A35E31D2AB6E086003C9033 /* SimpleDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A35E31C2AB6E086003C9033 /* SimpleDate.swift */; };
 		4A35E31F2AB6E08A003C9033 /* Gender.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A35E31E2AB6E08A003C9033 /* Gender.swift */; };
+		4A35E3212AB70760003C9033 /* OnboardingTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A35E3202AB70760003C9033 /* OnboardingTabView.swift */; };
+		4A35E3232AB707AA003C9033 /* OnboardingTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A35E3222AB707AA003C9033 /* OnboardingTitleView.swift */; };
 		4A41C90F2A8F707C00E666C5 /* DiaryFocusedType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A41C90E2A8F707C00E666C5 /* DiaryFocusedType.swift */; };
 		4A41C9112A8F8EEE00E666C5 /* DiaryPreviewTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A41C9102A8F8EEE00E666C5 /* DiaryPreviewTabView.swift */; };
 		4A41C9132A8F8FAF00E666C5 /* DiaryPreviewContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A41C9122A8F8FAF00E666C5 /* DiaryPreviewContentView.swift */; };
@@ -241,6 +243,8 @@
 		4A35E3192AB342A3003C9033 /* OnboardingDateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingDateView.swift; sourceTree = "<group>"; };
 		4A35E31C2AB6E086003C9033 /* SimpleDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleDate.swift; sourceTree = "<group>"; };
 		4A35E31E2AB6E08A003C9033 /* Gender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gender.swift; sourceTree = "<group>"; };
+		4A35E3202AB70760003C9033 /* OnboardingTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingTabView.swift; sourceTree = "<group>"; };
+		4A35E3222AB707AA003C9033 /* OnboardingTitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingTitleView.swift; sourceTree = "<group>"; };
 		4A41C90E2A8F707C00E666C5 /* DiaryFocusedType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryFocusedType.swift; sourceTree = "<group>"; };
 		4A41C9102A8F8EEE00E666C5 /* DiaryPreviewTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryPreviewTabView.swift; sourceTree = "<group>"; };
 		4A41C9122A8F8FAF00E666C5 /* DiaryPreviewContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryPreviewContentView.swift; sourceTree = "<group>"; };
@@ -448,8 +452,10 @@
 				4AB2DB3D2A1A2EA4003EFD95 /* ContentView.swift */,
 				42E4D58C2A4DD3D600F4FA42 /* SplashView.swift */,
 				4AB2DB332A19A2C1003EFD95 /* TextFieldState.swift */,
+				4A35E3222AB707AA003C9033 /* OnboardingTitleView.swift */,
 				4A0396922A0FA61A00EB062D /* OnboardingCore.swift */,
 				4A0396932A0FA61A00EB062D /* OnboardingView.swift */,
+				4A35E3202AB70760003C9033 /* OnboardingTabView.swift */,
 				4ACCB97D2A18F3C8009F1E22 /* OnboardingNicknameView.swift */,
 				4AB2DB392A19B3F4003EFD95 /* OnboardingAnniversaryView.swift */,
 				427573EF2A4F06DD00A8FD33 /* OnboardingEmailView.swift */,
@@ -978,6 +984,7 @@
 				4260B05D2A8CE1AE002A61B6 /* TryDiaryResponse.swift in Sources */,
 				4AB2DB342A19A2C1003EFD95 /* TextFieldState.swift in Sources */,
 				4A35E31F2AB6E08A003C9033 /* Gender.swift in Sources */,
+				4A35E3232AB707AA003C9033 /* OnboardingTitleView.swift in Sources */,
 				4263E1C02A2F3419008B402B /* ImagePicker.swift in Sources */,
 				4AD602B02A4FBE9F0029D7EB /* ScheduleAddColorView.swift in Sources */,
 				4AD602C62A506E840029D7EB /* ScheduleAddDatePickerView.swift in Sources */,
@@ -1010,6 +1017,7 @@
 				4AD853D12A89B30D0005EAD5 /* ImagePickerCore.swift in Sources */,
 				4A0396A12A0FA61A00EB062D /* HomeCore.swift in Sources */,
 				4ACCB9722A18DE7E009F1E22 /* R.generated.swift in Sources */,
+				4A35E3212AB70760003C9033 /* OnboardingTabView.swift in Sources */,
 				4AC985B32A5B0F810003D7AE /* Date+Properties.swift in Sources */,
 				42470D2A2A8FA8E0003E327E /* Config.swift in Sources */,
 				4AD602CF2A5183070029D7EB /* GetHeightModifier.swift in Sources */,

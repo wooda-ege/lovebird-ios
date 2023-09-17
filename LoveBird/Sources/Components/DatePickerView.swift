@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Combine
 import UIKit
 import ComposableArchitecture
 
@@ -15,12 +16,7 @@ struct DatePickerView: UIViewRepresentable {
     static let fromYear = 1950
   }
 
-  var date: SimpleDate {
-    didSet {
-      self.onDateUpdated(date)
-    }
-  }
-  let onDateUpdated: (SimpleDate) -> Void
+  @Binding var date: SimpleDate
 
   func makeCoordinator() -> Coordinator {
     Coordinator(self)
@@ -35,9 +31,12 @@ struct DatePickerView: UIViewRepresentable {
   
   func updateUIView(_ uiView: UIPickerView, context: Context) {
     uiView.selectRow(self.date.year - Constant.fromYear, inComponent: 0, animated: false)
-    uiView.selectRow(self.date.month, inComponent: 1, animated: false)
-    uiView.selectRow(self.date.day, inComponent: 2, animated: false)
-    uiView.reloadAllComponents()
+    uiView.selectRow(self.date.month - 1, inComponent: 1, animated: false)
+    uiView.selectRow(self.date.day - 1, inComponent: 2, animated: false)
+    // TODO: 원인 정확히 파악해보기
+    DispatchQueue.main.async {
+      uiView.reloadAllComponents()
+    }
   }
   
   final class Coordinator: NSObject, UIPickerViewDataSource, UIPickerViewDelegate {
@@ -114,6 +113,7 @@ struct DatePickerView: UIViewRepresentable {
       default:
         break
       }
+      pickerView.reloadAllComponents()
     }
   }
 }
