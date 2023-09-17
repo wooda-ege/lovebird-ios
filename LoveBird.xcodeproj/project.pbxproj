@@ -28,7 +28,6 @@
 		427573F62A52883500A8FD33 /* OnboardingBirthDateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 427573F52A52883500A8FD33 /* OnboardingBirthDateView.swift */; };
 		427573F82A53287000A8FD33 /* OnboardingGenderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 427573F72A53287000A8FD33 /* OnboardingGenderView.swift */; };
 		427573FA2A53377E00A8FD33 /* OnboardingInvitationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 427573F92A53377E00A8FD33 /* OnboardingInvitationView.swift */; };
-		42784F812A88B76500F39139 /* BirthDatePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42784F802A88B76500F39139 /* BirthDatePickerView.swift */; };
 		42784F832A89FA8800F39139 /* InvitationCodeResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42784F822A89FA8800F39139 /* InvitationCodeResponse.swift */; };
 		42784F872A8A1A0F00F39139 /* TryLinkResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42784F862A8A1A0F00F39139 /* TryLinkResponse.swift */; };
 		42784F892A8A4FD100F39139 /* KakaoMapAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42784F882A8A4FD100F39139 /* KakaoMapAPIClient.swift */; };
@@ -195,7 +194,6 @@
 		427573F52A52883500A8FD33 /* OnboardingBirthDateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingBirthDateView.swift; sourceTree = "<group>"; };
 		427573F72A53287000A8FD33 /* OnboardingGenderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingGenderView.swift; sourceTree = "<group>"; };
 		427573F92A53377E00A8FD33 /* OnboardingInvitationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingInvitationView.swift; sourceTree = "<group>"; };
-		42784F802A88B76500F39139 /* BirthDatePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BirthDatePickerView.swift; sourceTree = "<group>"; };
 		42784F822A89FA8800F39139 /* InvitationCodeResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InvitationCodeResponse.swift; sourceTree = "<group>"; };
 		42784F862A8A1A0F00F39139 /* TryLinkResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TryLinkResponse.swift; sourceTree = "<group>"; };
 		42784F882A8A4FD100F39139 /* KakaoMapAPIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KakaoMapAPIClient.swift; sourceTree = "<group>"; };
@@ -600,7 +598,6 @@
 				4AB2DB3B2A19B9F4003EFD95 /* BottomSheetView.swift */,
 				4AE7C2EB2A904FC2001CB089 /* HalfSheetHelper.swift */,
 				4AB2DB3F2A1A2EF3003EFD95 /* DatePickerView.swift */,
-				42784F802A88B76500F39139 /* BirthDatePickerView.swift */,
 				4AB2DB502A1FAAA5003EFD95 /* Line.swift */,
 				4A1DDF1D2A2C338100B3A72B /* TouchableStack.swift */,
 				4263E1BB2A2F3372008B402B /* DiarySelectPlaceButton.swift */,
@@ -1093,7 +1090,6 @@
 				4AC985AF2A5B0ACE0003D7AE /* Schedules.swift in Sources */,
 				4A327D482A545BDB002EEB55 /* ScheduleDetailView.swift in Sources */,
 				4AD602B22A4FBF3A0029D7EB /* ScheduleAddStartDateView.swift in Sources */,
-				42784F812A88B76500F39139 /* BirthDatePickerView.swift in Sources */,
 				4AB2DB3E2A1A2EA4003EFD95 /* ContentView.swift in Sources */,
 				4A35E31D2AB6E086003C9033 /* SimpleDate.swift in Sources */,
 				4A0FEA0F2A4B0DDA005E88E3 /* CalendarDate.swift in Sources */,

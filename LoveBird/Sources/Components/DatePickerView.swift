@@ -113,7 +113,6 @@ struct DatePickerView: UIViewRepresentable {
       default:
         break
       }
-      pickerView.reloadAllComponents()
     }
   }
 }
