@@ -72,6 +72,10 @@
 		4A327D4A2A55AC48002EEB55 /* SwiftUI+Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A327D492A55AC48002EEB55 /* SwiftUI+Helper.swift */; };
 		4A327DB52A592039002EEB55 /* ScheduleDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A327DB42A592039002EEB55 /* ScheduleDetail.swift */; };
 		4A327DB72A5A7C54002EEB55 /* Image+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A327DB62A5A7C54002EEB55 /* Image+Extension.swift */; };
+		4A35E3182AB33B31003C9033 /* CommonHorizontalButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A35E3172AB33B31003C9033 /* CommonHorizontalButton.swift */; };
+		4A35E31A2AB342A3003C9033 /* OnboardingDateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A35E3192AB342A3003C9033 /* OnboardingDateView.swift */; };
+		4A35E31D2AB6E086003C9033 /* SimpleDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A35E31C2AB6E086003C9033 /* SimpleDate.swift */; };
+		4A35E31F2AB6E08A003C9033 /* Gender.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A35E31E2AB6E08A003C9033 /* Gender.swift */; };
 		4A41C90F2A8F707C00E666C5 /* DiaryFocusedType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A41C90E2A8F707C00E666C5 /* DiaryFocusedType.swift */; };
 		4A41C9112A8F8EEE00E666C5 /* DiaryPreviewTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A41C9102A8F8EEE00E666C5 /* DiaryPreviewTabView.swift */; };
 		4A41C9132A8F8FAF00E666C5 /* DiaryPreviewContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A41C9122A8F8FAF00E666C5 /* DiaryPreviewContentView.swift */; };
@@ -86,7 +90,7 @@
 		4AB2DB312A19A282003EFD95 /* TextFieldClearButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AB2DB302A19A282003EFD95 /* TextFieldClearButton.swift */; };
 		4AB2DB342A19A2C1003EFD95 /* TextFieldState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AB2DB332A19A2C1003EFD95 /* TextFieldState.swift */; };
 		4AB2DB362A19AE4F003EFD95 /* KeyboardResponder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AB2DB352A19AE4F003EFD95 /* KeyboardResponder.swift */; };
-		4AB2DB3A2A19B3F4003EFD95 /* OnboardingDateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AB2DB392A19B3F4003EFD95 /* OnboardingDateView.swift */; };
+		4AB2DB3A2A19B3F4003EFD95 /* OnboardingAnniversaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AB2DB392A19B3F4003EFD95 /* OnboardingAnniversaryView.swift */; };
 		4AB2DB3C2A19B9F4003EFD95 /* BottomSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AB2DB3B2A19B9F4003EFD95 /* BottomSheetView.swift */; };
 		4AB2DB3E2A1A2EA4003EFD95 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AB2DB3D2A1A2EA4003EFD95 /* ContentView.swift */; };
 		4AB2DB402A1A2EF3003EFD95 /* DatePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AB2DB3F2A1A2EF3003EFD95 /* DatePickerView.swift */; };
@@ -233,6 +237,10 @@
 		4A327D492A55AC48002EEB55 /* SwiftUI+Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SwiftUI+Helper.swift"; sourceTree = "<group>"; };
 		4A327DB42A592039002EEB55 /* ScheduleDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleDetail.swift; sourceTree = "<group>"; };
 		4A327DB62A5A7C54002EEB55 /* Image+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Image+Extension.swift"; sourceTree = "<group>"; };
+		4A35E3172AB33B31003C9033 /* CommonHorizontalButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonHorizontalButton.swift; sourceTree = "<group>"; };
+		4A35E3192AB342A3003C9033 /* OnboardingDateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingDateView.swift; sourceTree = "<group>"; };
+		4A35E31C2AB6E086003C9033 /* SimpleDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleDate.swift; sourceTree = "<group>"; };
+		4A35E31E2AB6E08A003C9033 /* Gender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gender.swift; sourceTree = "<group>"; };
 		4A41C90E2A8F707C00E666C5 /* DiaryFocusedType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryFocusedType.swift; sourceTree = "<group>"; };
 		4A41C9102A8F8EEE00E666C5 /* DiaryPreviewTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryPreviewTabView.swift; sourceTree = "<group>"; };
 		4A41C9122A8F8FAF00E666C5 /* DiaryPreviewContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryPreviewContentView.swift; sourceTree = "<group>"; };
@@ -247,7 +255,7 @@
 		4AB2DB302A19A282003EFD95 /* TextFieldClearButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldClearButton.swift; sourceTree = "<group>"; };
 		4AB2DB332A19A2C1003EFD95 /* TextFieldState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldState.swift; sourceTree = "<group>"; };
 		4AB2DB352A19AE4F003EFD95 /* KeyboardResponder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardResponder.swift; sourceTree = "<group>"; };
-		4AB2DB392A19B3F4003EFD95 /* OnboardingDateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingDateView.swift; sourceTree = "<group>"; };
+		4AB2DB392A19B3F4003EFD95 /* OnboardingAnniversaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingAnniversaryView.swift; sourceTree = "<group>"; };
 		4AB2DB3B2A19B9F4003EFD95 /* BottomSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetView.swift; sourceTree = "<group>"; };
 		4AB2DB3D2A1A2EA4003EFD95 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		4AB2DB3F2A1A2EF3003EFD95 /* DatePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatePickerView.swift; sourceTree = "<group>"; };
@@ -443,7 +451,7 @@
 				4A0396922A0FA61A00EB062D /* OnboardingCore.swift */,
 				4A0396932A0FA61A00EB062D /* OnboardingView.swift */,
 				4ACCB97D2A18F3C8009F1E22 /* OnboardingNicknameView.swift */,
-				4AB2DB392A19B3F4003EFD95 /* OnboardingDateView.swift */,
+				4AB2DB392A19B3F4003EFD95 /* OnboardingAnniversaryView.swift */,
 				427573EF2A4F06DD00A8FD33 /* OnboardingEmailView.swift */,
 				427573F12A519A3200A8FD33 /* OnboardingProfileView.swift */,
 				427573F52A52883500A8FD33 /* OnboardingBirthDateView.swift */,
@@ -595,6 +603,8 @@
 				4AD6029E2A4F00930029D7EB /* CommonToolBar.swift */,
 				4AD602A42A4F10510029D7EB /* CommonTextField.swift */,
 				4AD602D22A51A98A0029D7EB /* CommonBottomSheetButtonView.swift */,
+				4A35E3192AB342A3003C9033 /* OnboardingDateView.swift */,
+				4A35E3172AB33B31003C9033 /* CommonHorizontalButton.swift */,
 				4A748C642A88C30900E51ACF /* BorderTextField.swift */,
 				4AD853CD2A89AEB00005EAD5 /* CustomModalView.swift */,
 				4AD853D22A89B5D40005EAD5 /* CustomImagePicker.swift */,
@@ -729,6 +739,8 @@
 				4A327DB42A592039002EEB55 /* ScheduleDetail.swift */,
 				4AC985B02A5B0B1D0003D7AE /* Schedule.swift */,
 				4A89961A2A7E1CE100FA5C81 /* Profile.swift */,
+				4A35E31C2AB6E086003C9033 /* SimpleDate.swift */,
+				4A35E31E2AB6E08A003C9033 /* Gender.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -965,6 +977,7 @@
 				4AB2DB4D2A1F8651003EFD95 /* HomeItem.swift in Sources */,
 				4260B05D2A8CE1AE002A61B6 /* TryDiaryResponse.swift in Sources */,
 				4AB2DB342A19A2C1003EFD95 /* TextFieldState.swift in Sources */,
+				4A35E31F2AB6E08A003C9033 /* Gender.swift in Sources */,
 				4263E1C02A2F3419008B402B /* ImagePicker.swift in Sources */,
 				4AD602B02A4FBE9F0029D7EB /* ScheduleAddColorView.swift in Sources */,
 				4AD602C62A506E840029D7EB /* ScheduleAddDatePickerView.swift in Sources */,
@@ -1019,6 +1032,7 @@
 				4AE5CB632A232FDB0016C0B4 /* CalendarView.swift in Sources */,
 				42E064112A45B5A000B9EAC3 /* PlaceRequest.swift in Sources */,
 				428AED2F2A86BE4400F446B2 /* DiaryDetailView.swift in Sources */,
+				4A35E3182AB33B31003C9033 /* CommonHorizontalButton.swift in Sources */,
 				42E4D5892A4DBB2E00F4FA42 /* LoginView.swift in Sources */,
 				427573F82A53287000A8FD33 /* OnboardingGenderView.swift in Sources */,
 				4A826A002A6387C50060CE7F /* CalendarPreviewContentView.swift in Sources */,
@@ -1040,6 +1054,7 @@
 				4263E1CD2A2F3563008B402B /* SearchPlaceView.swift in Sources */,
 				4AD853D32A89B5D40005EAD5 /* CustomImagePicker.swift in Sources */,
 				42E064162A45C11600B9EAC3 /* SearchPlaceResponse.swift in Sources */,
+				4A35E31A2AB342A3003C9033 /* OnboardingDateView.swift in Sources */,
 				4263E1C82A2F3522008B402B /* SearchPlaceCore.swift in Sources */,
 				4A0FEA0D2A4B01D4005E88E3 /* DateManager.swift in Sources */,
 				4A4894542A3EE0CC00BC4102 /* ResponseError.swift in Sources */,
@@ -1055,7 +1070,7 @@
 				4AB2DB3C2A19B9F4003EFD95 /* BottomSheetView.swift in Sources */,
 				4AE5CB6B2A2469D00016C0B4 /* Calendar+Extension.swift in Sources */,
 				4AD602C42A506E250029D7EB /* ScheduleAddDateBottomSheetView.swift in Sources */,
-				4AB2DB3A2A19B3F4003EFD95 /* OnboardingDateView.swift in Sources */,
+				4AB2DB3A2A19B3F4003EFD95 /* OnboardingAnniversaryView.swift in Sources */,
 				4AB2DB462A1A3366003EFD95 /* UIApplication+Extension.swift in Sources */,
 				42E4D5842A4C701A00F4FA42 /* DiarySelectCalenderButton.swift in Sources */,
 				4AD602AD2A4F9F7E0029D7EB /* ScheduleTime.swift in Sources */,
@@ -1072,6 +1087,7 @@
 				4AD602B22A4FBF3A0029D7EB /* ScheduleAddStartDateView.swift in Sources */,
 				42784F812A88B76500F39139 /* BirthDatePickerView.swift in Sources */,
 				4AB2DB3E2A1A2EA4003EFD95 /* ContentView.swift in Sources */,
+				4A35E31D2AB6E086003C9033 /* SimpleDate.swift in Sources */,
 				4A0FEA0F2A4B0DDA005E88E3 /* CalendarDate.swift in Sources */,
 				4A03969E2A0FA61A00EB062D /* RootCore.swift in Sources */,
 				4A327DB72A5A7C54002EEB55 /* Image+Extension.swift in Sources */,

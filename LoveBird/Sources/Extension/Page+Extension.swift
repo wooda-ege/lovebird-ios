@@ -49,6 +49,10 @@ extension Page {
         return String(resource: R.string.localizable.onboarding_date_description)
       }
     }
+
+    var canSkip: Bool {
+      return self == .birth || self == .profileImage || self == .anniversary
+    }
   }
 
   var state: Onboarding {

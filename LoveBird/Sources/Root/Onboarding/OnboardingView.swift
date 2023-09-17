@@ -23,7 +23,7 @@ struct OnboardingView: View {
                 ? R.image.ic_navigate_previous_inactive
                 : R.image.ic_navigate_previous_active
             )
-            .padding(.leading, 16)
+            .frame(maxWidth: .infinity, alignment: .leading)
           }
           
           Spacer()
@@ -35,19 +35,33 @@ struct OnboardingView: View {
                 .foregroundColor(viewStore.page.index == $0.rawValue ? Color(R.color.primary) : Color(R.color.green164))
             }
           }
-          
+          .frame(maxWidth: .infinity)
+
           Spacer()
-          
-          Button { viewStore.send(.nextTapped) } label: {
-            Image(
-              viewStore.page.isLast
-                ? R.image.ic_navigate_next_inactive
-                : R.image.ic_navigate_next_active
-            )
-            .padding(.trailing, 16)
+
+          Group {
+            if viewStore.canSkip {
+              Button { viewStore.send(.skipTapped) } label: {
+                Text("건너뛰기")
+                  .font(.pretendard(size: 16, weight: .bold))
+                  .foregroundColor(Color(R.color.primary))
+              }
+
+            } else {
+              Button { viewStore.send(.nextTapped) } label: {
+                Image(
+                  viewStore.page.isLast
+                    ? R.image.ic_navigate_next_inactive
+                    : R.image.ic_navigate_next_active
+                )
+              }
+            }
           }
+          .frame(maxWidth: .infinity, alignment: .trailing)
         }
-        .frame(width: UIScreen.width, height: 44)
+        .background(.white)
+        .frame(height: 44)
+        .padding(.horizontal, 16)
 
         Spacer(minLength: 24)
 
@@ -79,7 +93,7 @@ struct OnboardingView: View {
           case .gender:
             OnboardingGenderView(store: self.store)
           case .anniversary:
-            OnboardingDateView(store: self.store)
+            OnboardingAnniversaryView(store: self.store)
           }
         }
         .allowsDragging(false)

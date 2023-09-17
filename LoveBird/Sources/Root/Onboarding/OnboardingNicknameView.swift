@@ -32,20 +32,13 @@ struct OnboardingNicknameView: View {
           .padding(.horizontal, 16)
         
         Spacer()
-        
-        Button {
+
+        CommonHorizontalButton(
+          title: "확인",
+          backgroundColor: viewStore.nicknameTextFieldState.isCorrect ? .black : Color(R.color.gray05)
+        ) {
           viewStore.send(.nextTapped)
-          self.hideKeyboard()
-        } label: {
-          TouchableStack {
-            Text(R.string.localizable.common_next)
-              .font(.pretendard(size: 16, weight: .semiBold))
-              .foregroundColor(.white)
-          }
         }
-        .frame(height: 56)
-        .background(viewStore.nicknameTextFieldState.isCorrect ? .black : Color(R.color.gray05))
-        .cornerRadius(12)
         .padding(.horizontal, 16)
         .padding(.bottom, keyboard.currentHeight == 0 ? 20 + UIApplication.edgeInsets.bottom : keyboard.currentHeight + 20)
       }
@@ -56,7 +49,7 @@ struct OnboardingNicknameView: View {
       }
       .onChange(of: self.isFocused) { isFocused in
         if !isFocused, viewStore.state.nicknameTextFieldState.isEditing {
-          viewStore.send(.nicknameTextFieldStateChanged(.none))
+          viewStore.send(.nicknameFocusFlashed)
         }
       }
     }

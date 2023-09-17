@@ -10,11 +10,18 @@ import UIKit
 import ComposableArchitecture
 
 struct DatePickerView: UIViewRepresentable {
-  
-  @ObservedObject var viewStore: ViewStore<OnboardingState, OnboardingCore.Action>
-  let fromYear = 1950
-  let today = Date()
-  
+
+  private enum Constant {
+    static let fromYear = 1950
+  }
+
+  var date: SimpleDate {
+    didSet {
+      self.onDateUpdated(date)
+    }
+  }
+  let onDateUpdated: (SimpleDate) -> Void
+
   func makeCoordinator() -> Coordinator {
     Coordinator(self)
   }
@@ -27,10 +34,10 @@ struct DatePickerView: UIViewRepresentable {
   }
   
   func updateUIView(_ uiView: UIPickerView, context: Context) {
-    uiView.selectRow(self.viewStore.firstdateYear - self.fromYear, inComponent: 0, animated: false)
-      uiView.selectRow(self.viewStore.firstdateMonth - 1, inComponent: 1, animated: false)
-      uiView.selectRow(self.viewStore.firstdateDay - 1, inComponent: 2, animated: false)
-      uiView.reloadAllComponents()
+    uiView.selectRow(self.date.year - Constant.fromYear, inComponent: 0, animated: false)
+    uiView.selectRow(self.date.month, inComponent: 1, animated: false)
+    uiView.selectRow(self.date.day, inComponent: 2, animated: false)
+    uiView.reloadAllComponents()
   }
   
   final class Coordinator: NSObject, UIPickerViewDataSource, UIPickerViewDelegate {
@@ -47,22 +54,28 @@ struct DatePickerView: UIViewRepresentable {
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
       switch component {
       case 0:
-        return self.parent.today.year - self.parent.fromYear + 1 // 1950부터 현재 연도까지
+        return Date().year - Constant.fromYear + 1 // 1950부터 현재 연도까지
+
       case 1:
-        let months = Date.with(year: self.parent.viewStore.firstdateMonth).calculateMonths
+        let months = Date.with(year: self.parent.date.year).calculateMonths
 //        // Ex) 2022년 12월인 상태에서 연도를 2023년으로 바꿀 때 현재가 6월인 경우 month값이 변화한다.
-        if months < self.parent.viewStore.firstdateMonth {
-          self.parent.viewStore.send(.dateMonthSelected(months))
+        if months < self.parent.date.month {
+          self.parent.date.month = months
         }
         return months
+
       case 2:
-//        let days = Date.with(year: self.parent.viewStore.firstdateYear, month: self.parent.viewStore.firstdateMonth).calculateDaysInOnBoarding
-//        // Ex) 12월 31일인 상태에서 월을 11월으로 바꿀 때 days가 30으로 변화하기 때문에
-//        // 자연스럽게 선택 일이 30일로 맞춰진다.
-//        if days < self.parent.viewStore.firstdateDay {
-//          self.parent.viewStore.send(.dateDaySelected(days))
-//        }
-        return 31
+        let days = Date.with(
+          year: self.parent.date.year,
+          month: self.parent.date.month
+        ).calculateDaysInOnBoarding
+        // Ex) 12월 31일인 상태에서 월을 11월으로 바꿀 때 days가 30으로 변화하기 때문에
+        // 자연스럽게 선택 일이 30일로 맞춰진다.
+        if days < self.parent.date.day {
+          self.parent.date.day = days
+        }
+        return days
+
       default:
         fatalError("Invalid component")
       }
@@ -71,11 +84,14 @@ struct DatePickerView: UIViewRepresentable {
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
       switch component {
       case 0:
-        return String(self.parent.fromYear + row)
+        return String(Constant.fromYear + row)
+
       case 1:
         return String(1 + row)
+
       case 2:
         return String(1 + row)
+
       default:
         fatalError("Invalid component")
       }
@@ -84,11 +100,17 @@ struct DatePickerView: UIViewRepresentable {
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
       switch component {
       case 0:
-        self.parent.viewStore.send(.dateYearSelected(self.parent.fromYear + row))
+        let year = Constant.fromYear + row
+        self.parent.date.year = year
+
       case 1:
-        self.parent.viewStore.send(.dateMonthSelected(1 + row))
+        let month = 1 + row
+        self.parent.date.month = month
+
       case 2:
-        self.parent.viewStore.send(.dateDaySelected(1 + row))
+        let day = 1 + row
+        self.parent.date.day = day
+
       default:
         break
       }

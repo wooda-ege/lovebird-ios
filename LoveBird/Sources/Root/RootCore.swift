@@ -110,14 +110,8 @@ struct RootCore: Reducer {
         
       case .onboarding(.registerProfileResponse(.success)):
         return .send(.updateRootState(.coupleLink(CoupleLinkCore.State())))
-        
-      case .onboarding(.tryLinkResponse(.success)):
-        return .send(.updateRootState(.mainTab(MainTabCore.State())))
-        
-      case .onboarding(.tryLinkResponse(.failure)):
-        return .none
-        
-      // MARK: - CoupleLink
+
+        // MARK: - CoupleLink
         
       case .coupleLink(.tryLinkResponse(.success(let response))):
         if response.isSuccess {

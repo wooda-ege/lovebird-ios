@@ -86,6 +86,10 @@ enum TextFieldState: Equatable {
     }
   }
 
+  func update(with email: String) {
+    
+  }
+
   static func == (ltf: TextFieldState, rtf: TextFieldState) -> Bool {
     switch (ltf, rtf) {
     case (.correct(let lt), .correct(let rt)), (.error(let lt), .error(let rt)), (.editing(let lt), .editing(let rt)):
@@ -96,9 +100,4 @@ enum TextFieldState: Equatable {
       return false
     }
   }
-}
-
-enum ButtonClickState {
-  case clicked
-  case notClicked
 }
