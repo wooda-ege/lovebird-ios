@@ -22,6 +22,7 @@ struct OnboardingNicknameView: View {
           borderColor: viewStore.nicknameTextFieldState.color,
           isFocused: self.$isFocused
         )
+        .padding(.top, 24)
         .padding(.horizontal, 16)
 
         Text(viewStore.nicknameTextFieldState.description)
@@ -33,7 +34,7 @@ struct OnboardingNicknameView: View {
         Spacer()
 
         CommonHorizontalButton(
-          title: "확인",
+          title: "다음",
           backgroundColor: viewStore.nicknameTextFieldState.isCorrect ? .black : Color(R.color.gray05)
         ) {
           viewStore.send(.nextTapped)

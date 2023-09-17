@@ -20,32 +20,33 @@ struct OnboardingGenderView: View {
             ForEach(Gender.allCases, id: \.self) { gender in
               TouchableStack {
                 HStack {
-                  Text(R.string.localizable.onboarding_gender_female)
-                    .font(.pretendard(size: 16, weight: .semiBold))
+                  Text(gender.description)
+                    .font(.pretendard(size: 18, weight: viewStore.gender == gender ? .bold : .regular))
                     .foregroundColor((viewStore.gender == gender ? Color.black : Color(R.color.gray07)))
-                    .padding(.leading, 36)
+                    .padding(.leading, 20)
+
                   Spacer()
-                  Button {
-                    viewStore.send(.genderSelected(gender))
-                  } label: {
-                    viewStore.gender == gender ? Image(R.image.ic_checkbox_on) : Image(R.image.ic_checkbox_off)
-                  }
-                  .padding(.trailing, 36)
+
+                  Image(viewStore.gender == gender ? R.image.ic_checkbox_on : R.image.ic_checkbox_off)
+                    .padding(.trailing, 20)
                 }
               }
               .frame(height: 56)
               .background(viewStore.gender == gender ? Color.white : Color(R.color.gray02))
-              .shadow(color: .black.opacity(0.08), radius: 12)
+              .cornerRadius(12)
+              .shadow(color: viewStore.gender == gender ? .black.opacity(0.08) : .clear, radius: 12)
+              .onTapGesture {
+                viewStore.send(.genderSelected(gender))
+              }
             }
           }
-          .cornerRadius(12)
+          .padding(.top, 24)
           .padding(.horizontal, 16)
           
           Spacer()
-            .frame(height: 294)
 
           CommonHorizontalButton(
-            title: "확인",
+            title: "다음",
             backgroundColor: viewStore.gender == nil ? Color(R.color.gray05) : .black
           ) {
             viewStore.send(.nextTapped)

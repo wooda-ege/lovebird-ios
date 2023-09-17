@@ -9,14 +9,18 @@ import SwiftUIPager
 import Foundation
 import SwiftUI
 import UIKit
+
 typealias OnboardingState = OnboardingCore.State
 typealias OnboardingAction = OnboardingCore.Action
+
 struct OnboardingCore: ReducerProtocol {
+
   enum Constant {
     static let nicknamePageIdx = 0
     static let maxNicknameLength = 20
     static let minNicknameLength = 2
   }
+
   struct State: Equatable {
     // common
     var page: Page = .first()
@@ -48,6 +52,7 @@ struct OnboardingCore: ReducerProtocol {
     // page6 - anniversary
     var anniversary: SimpleDate = .init()
   }
+
   enum Action: Equatable {
     // common
     case nextTapped
@@ -57,6 +62,7 @@ struct OnboardingCore: ReducerProtocol {
     case showBottomSheet
     case hideBottomSheet
     case doneButtonTapped
+    case flush
 
     // page1 - email
     case emailFocusFlashed
@@ -78,23 +84,22 @@ struct OnboardingCore: ReducerProtocol {
     case genderSelected(Gender)
     
     // page6 - anniversary
-    case dateYearSelected(Int)
-    case dateMonthSelected(Int)
-    case dateDaySelected(Int)
     case anniversaryInitialized
+    case anniversaryUpdated(SimpleDate)
 
     // Network
     case registerProfileResponse(TaskResult<Profile>)
   }
+
   @Dependency(\.apiClient) var apiClient
   @Dependency(\.userData) var userData
+
   var body: some ReducerProtocol<State, Action> {
     Reduce { state, action in
       switch action {
       case .nextTapped, .nextButtonTapped:
-          UIApplication.shared.endEditing(true)
-          self.handleNext(state: &state)
-          return .none
+        self.handleNext(state: &state)
+        return .send(.flush)
 
       case .doneButtonTapped:
         return .run { [state = state] send in
@@ -124,17 +129,15 @@ struct OnboardingCore: ReducerProtocol {
           return .send(.doneButtonTapped)
         }
 
-        UIApplication.shared.endEditing(true)
         self.handleSkip(state: &state)
-        return .none
+        return .send(.flush)
 
       case .previousTapped:
-        UIApplication.shared.endEditing(true)
         if !state.page.isFisrt {
           state.page.update(.previous)
           state.pageState = state.page.state
         }
-        return .none
+        return .send(.flush)
 
       case .emailFocusFlashed:
         state.emailTextFieldState = .none
@@ -143,8 +146,8 @@ struct OnboardingCore: ReducerProtocol {
       case .emailEdited(let email):
         state.email = email
         state.emailTextFieldState = email.isEmailValid ? .correct(.email)
-          : email.isEmpty ? .editing(.email)
-          : .error(.email)
+        : email.isEmpty ? .editing(.email)
+        : .error(.email)
         return .none
 
       case .nicknameFocusFlashed:
@@ -154,28 +157,32 @@ struct OnboardingCore: ReducerProtocol {
       case .nicknameEdited(let nickname):
         state.nickname = String(nickname.prefix(20))
         state.nicknameTextFieldState = !nickname.isNicknameValid ? .error(.nickname)
-          : nickname.count >= 2 ? .correct(.nickname)
-          : .editing(.nickname)
+        : nickname.count >= 2 ? .correct(.nickname)
+        : .editing(.nickname)
         return .none
 
-      case .genderSelected(let gender):
-        state.gender = gender
+      case .imageSelected(let image):
+        state.profileImage = image
         return .none
 
       case .birthUpdated(let birth):
         state.birth = birth
         return .none
 
-      case .dateYearSelected(let year):
-        state.anniversary.year = year
+      case .birthInitialized:
+        state.birth = .init()
         return .none
 
-      case .dateMonthSelected(let month):
-        state.anniversary.month = month
+      case .genderSelected(let gender):
+        state.gender = gender
         return .none
 
-      case .dateDaySelected(let day):
-        state.anniversary.day = day
+      case .anniversaryInitialized:
+        state.anniversary = .init()
+        return .none
+
+      case .anniversaryUpdated(let anniversary):
+        state.anniversary = anniversary
         return .none
 
       case .showBottomSheet:
@@ -186,16 +193,9 @@ struct OnboardingCore: ReducerProtocol {
         state.showBottomSheet = false
         return .none
 
-      case .birthInitialized:
-        state.birth = .init()
-        return .none
-
-      case .anniversaryInitialized:
-        state.anniversary = .init()
-        return .none
-
-      case .imageSelected(let image):
-        state.profileImage = image
+      case .flush:
+        UIApplication.shared.endEditing(true)
+        state.showBottomSheet = false
         return .none
 
       default:
@@ -208,23 +208,24 @@ struct OnboardingCore: ReducerProtocol {
     switch state.pageState {
     case .email:
       guard state.emailTextFieldState.isCorrect else { return }
-      state.page.update(.next)
 
     case .nickname:
       guard state.nicknameTextFieldState.isCorrect else { return }
-      state.page.update(.next)
 
     case .profileImage:
       guard state.profileImage != nil else { return }
-      state.page.update(.next)
 
-    case .gender, .birth:
-      state.page.update(.next)
+    case .gender:
+      guard state.gender != nil else { return }
+
+    case .birth:
+      break
 
     case .anniversary:
       return
     }
 
+    state.page.update(.next)
     state.pageState = state.page.state
   }
 

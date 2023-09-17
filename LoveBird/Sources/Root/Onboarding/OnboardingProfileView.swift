@@ -19,18 +19,19 @@ struct OnboardingProfileView: View {
       VStack(alignment: .center) {
         ImagePickerView(use: "profile", selectedUIImage: self.$image, representImage: Image(R.image.ic_profile))
           .frame(width: 124, height: 124, alignment: .center)
+          .padding(.top, 16)
         
         Spacer()
 
         CommonHorizontalButton(
-          title: "확인",
+          title: "다음",
           backgroundColor: self.image != nil ? .black : Color(R.color.gray05)
         ) {
           viewStore.send(.imageSelected(self.image))
           viewStore.send(.nextTapped)
         }
-        .padding(.horizontal, 16)
         .padding(.bottom, 20)
+        .padding(.horizontal, 16)
       }
     }
   }

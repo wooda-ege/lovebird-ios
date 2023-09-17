@@ -21,6 +21,7 @@ struct OnboardingEmailView: View {
           borderColor: viewStore.emailTextFieldState.color,
           isFocused: self.$isFocused
         )
+        .padding(.top, 24)
         .padding(.horizontal, 16)
 
         Text(viewStore.emailTextFieldState.description)
@@ -32,7 +33,7 @@ struct OnboardingEmailView: View {
         Spacer()
 
         CommonHorizontalButton(
-          title: "확인",
+          title: "다음",
           backgroundColor: viewStore.emailTextFieldState.isCorrect ? .black : Color(R.color.gray05)
         ) {
           viewStore.send(.nextTapped)

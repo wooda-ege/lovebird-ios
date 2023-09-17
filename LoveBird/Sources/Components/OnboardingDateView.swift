@@ -32,6 +32,7 @@ struct OnboardingDateView: View {
         Spacer()
       }
     }
+    .frame(maxWidth: .infinity)
     .font(.pretendard(size: 18))
     .foregroundColor(.black)
     .frame(height: 56)

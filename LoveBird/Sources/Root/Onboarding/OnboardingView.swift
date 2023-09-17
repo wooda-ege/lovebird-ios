@@ -16,12 +16,10 @@ struct OnboardingView: View {
   var body: some View {
     WithViewStore(self.store, observe: { $0 }) { viewStore in
       ZStack() {
-        VStack(spacing: 0) {
+        VStack(spacing: 24) {
           OnboardingTabView(store: self.store)
-          Spacer(minLength: 24)
 
           OnboardingTitleView(store: self.store)
-          Spacer(minLength: 48)
 
           Pager(page: viewStore.page, data: Page.Onboarding.allCases, id: \.self) {
             switch $0 {
@@ -49,15 +47,22 @@ struct OnboardingView: View {
             send: .hideBottomSheet
           )) {
             VStack {
-              DatePickerView(date: viewStore.binding(get: \.birth, send: OnboardingAction.birthUpdated))
-//              DatePickerView(date: viewStore.birth)
+              DatePickerView(
+                date: viewStore.pageState == .birth
+                  ? viewStore.binding(get: \.birth, send: OnboardingAction.birthUpdated)
+                  : viewStore.binding(get: \.anniversary, send: OnboardingAction.anniversaryUpdated)
+              )
 
               HStack(spacing: 8) {
                 CommonHorizontalButton(
                   title: String(resource: R.string.localizable.onboarding_date_initial),
                   backgroundColor: Color(R.color.gray05)
                 ) {
-                  viewStore.send(.birthInitialized)
+                  if viewStore.pageState == .birth {
+                    viewStore.send(.birthInitialized)
+                  } else {
+                    viewStore.send(.anniversaryInitialized)
+                  }
                 }
 
                 CommonHorizontalButton(
