@@ -54,9 +54,6 @@ struct BottomSheetView<Content: View>: View {
   private var indicator: some View {
     RoundedRectangle(cornerRadius: 2)
       .fill(Color(R.color.gray07))
-      .frame(
-        width: 48,
-        height: 4
-      )
+      .frame(width: 48, height: 4)
   }
 }

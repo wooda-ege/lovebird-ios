@@ -144,7 +144,8 @@ struct CoupleLinkView: View {
       }
       .onChange(of: isEmailFieldFocused) { newValue in
         if viewStore.invitationInputCode.isEmpty {
-          viewStore.send(.textFieldStateChanged(newValue ? .editing : .none))
+          // TODO: 수정할 것
+//          viewStore.send(.textFieldStateChanged(newValue ? .editing : .none))
         }
       }
       .frame(maxWidth: .infinity, maxHeight: .infinity)

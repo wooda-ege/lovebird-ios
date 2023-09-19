@@ -11,83 +11,71 @@ import SwiftUIPager
 import Foundation
 
 struct OnboardingView: View {
-  
   let store: StoreOf<OnboardingCore>
   
   var body: some View {
-    WithViewStore(self.store) { viewStore in
-      VStack {
-        HStack {
-          Button { viewStore.send(.previousTapped) } label: {
-            Image(viewStore.page.isNickname
-                  ? R.image.ic_navigate_previous_inactive
-                  : R.image.ic_navigate_previous_active)
-            .offset(x: 16)
+    WithViewStore(self.store, observe: { $0 }) { viewStore in
+      ZStack() {
+        VStack(spacing: 24) {
+          OnboardingTabView(store: self.store)
+
+          OnboardingTitleView(store: self.store)
+
+          Pager(page: viewStore.page, data: Page.Onboarding.allCases, id: \.self) {
+            switch $0 {
+            case .email:
+              OnboardingEmailView(store: self.store)
+            case .nickname:
+              OnboardingNicknameView(store: self.store)
+            case .profileImage:
+              OnboardingProfileView(store: self.store)
+            case .birth:
+              OnboardingBirthDateView(store: self.store)
+            case .gender:
+              OnboardingGenderView(store: self.store)
+            case .anniversary:
+              OnboardingAnniversaryView(store: self.store)
+            }
           }
-          
-          Spacer()
-          
-          HStack {
-            Circle()
-              .frame(width: 10, height: 10)
-              .foregroundColor(viewStore.page.index == 0 ? Color(R.color.primary) : Color(R.color.green164))
-            Circle()
-              .frame(width: 10, height: 10)
-              .foregroundColor(viewStore.page.index == 1 ? Color(R.color.primary) : Color(R.color.green164))
-            Circle()
-              .frame(width: 10, height: 10)
-              .foregroundColor(viewStore.page.index == 2 ? Color(R.color.primary) : Color(R.color.green164))
-            Circle()
-              .frame(width: 10, height: 10)
-              .foregroundColor(viewStore.page.index == 3 ? Color(R.color.primary) : Color(R.color.green164))
-            Circle()
-              .frame(width: 10, height: 10)
-              .foregroundColor(viewStore.page.index == 4 ? Color(R.color.primary) : Color(R.color.green164))
-            Circle()
-              .frame(width: 10, height: 10)
-              .foregroundColor(viewStore.page.index == 5 ? Color(R.color.primary) : Color(R.color.green164))
-            Circle()
-              .frame(width: 10, height: 10)
-              .foregroundColor(viewStore.page.index == 6 ? Color(R.color.primary) : Color(R.color.green164))
-          }
-          
-          Spacer()
-          
-          Button {
-            viewStore.send(.nextTapped)
-            self.hideKeyboard()
-          } label: {
-            Image(R.image.ic_navigate_next_active)
-            .offset(x: -16)
-          }
+          .allowsDragging(false)
         }
-        .frame(width: UIScreen.width, height: 44)
-        
-        Pager(page: viewStore.page, data: [0, 1, 2, 3, 4, 5], id: \.self) { page in
-          if page as! Int == 0 {
-            OnboardingEmailView(store: self.store)
-              .frame(maxWidth: .infinity, maxHeight: .infinity)
-          } else if page == 1 {
-            OnboardingNicknameView(store: self.store)
-              .frame(maxWidth: .infinity, maxHeight: .infinity)
-          } else if page == 2 {
-            OnboardingProfileView(store: self.store)
-          } else if page == 3 {
-            OnboardingBirthDateView(store: self.store)
-          } else if page == 4 {
-            OnboardingGenderView(store: self.store)
-          } else if page == 5 {
-            OnboardingDateView(store: self.store)
-              .frame(maxWidth: .infinity, maxHeight: .infinity)
-          }
-//        else if page == 6 {
-//            OnboardingInvitationView(store: self.store)
-//              .frame(maxWidth: .infinity, maxHeight: .infinity)
-//          }
-        }
-        .allowsDragging(false)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .edgesIgnoringSafeArea(.bottom)
+
+        if viewStore.showBottomSheet {
+          BottomSheetView(isOpen: viewStore.binding(
+            get: \.showBottomSheet,
+            send: .hideBottomSheet
+          )) {
+            VStack {
+              DatePickerView(
+                date: viewStore.pageState == .birth
+                  ? viewStore.binding(get: \.birth, send: OnboardingAction.birthUpdated)
+                  : viewStore.binding(get: \.anniversary, send: OnboardingAction.anniversaryUpdated)
+              )
+
+              HStack(spacing: 8) {
+                CommonHorizontalButton(
+                  title: String(resource: R.string.localizable.onboarding_date_initial),
+                  backgroundColor: Color(R.color.gray05)
+                ) {
+                  if viewStore.pageState == .birth {
+                    viewStore.send(.birthInitialized)
+                  } else {
+                    viewStore.send(.anniversaryInitialized)
+                  }
+                }
+
+                CommonHorizontalButton(
+                  title: String(resource: R.string.localizable.common_confirm),
+                  backgroundColor: .black
+                ) {
+                  viewStore.send(.hideBottomSheet)
+                }
+              }
+              .padding(.horizontal, 16)
+            }
+          }
+        }
       }
     }
   }

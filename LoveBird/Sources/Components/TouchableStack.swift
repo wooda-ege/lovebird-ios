@@ -15,12 +15,10 @@ struct TouchableStack<Content: View>: View {
   }
   
   var body: some View {
-    ZStack {
-      self.content
-      
-      Rectangle()
-        .fill(Color.clear)
-    }
+    self.content
+      .frame(maxWidth: .infinity)
+      .contentShape(Rectangle())
+      .background(.clear)
   }
 }
 
