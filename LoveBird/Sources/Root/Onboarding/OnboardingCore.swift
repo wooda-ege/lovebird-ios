@@ -1,10 +1,9 @@
 //
-//  OnboardingCore.swift
-//  wooda
+// OnboardingCore.swift
+// wooda
 //
-//  Created by 황득연 on 2023/05/09.
+// Created by 황득연 on 2023/05/09.
 //
-
 import ComposableArchitecture
 import SwiftUIPager
 import Foundation
@@ -15,148 +14,175 @@ typealias OnboardingState = OnboardingCore.State
 typealias OnboardingAction = OnboardingCore.Action
 
 struct OnboardingCore: ReducerProtocol {
-  
+
   enum Constant {
     static let nicknamePageIdx = 0
     static let maxNicknameLength = 20
     static let minNicknameLength = 2
   }
-  
+
   struct State: Equatable {
+    // common
     var page: Page = .first()
-    var pageIdx: Int = Constant.nicknamePageIdx
-    var nickname: String = ""
-    var textFieldState: TextFieldState = .none
-    var buttonClickState: ButtonClickState = .notClicked
+    var pageState: Page.Onboarding = .email
+    var emailTextFieldState: TextFieldState = .none
+    var nicknameTextFieldState: TextFieldState = .none
     var showBottomSheet = false
-    var gender = ""
-    var birthdateYear: Int = Date().year
-    var birthdateMonth: Int = Date().month
-    var birthdateDay: Int = Date().day
-    var birthday: String? = "0000-00-00"
-    var firstday: String? = "0000-00-00"
-    var firstdateYear: Int = Date().year
-    var firstdateMonth: Int = Date().month
-    var firstdateDay: Int = Date().day
+    var skipPages: [Page.Onboarding] = []
+
+    var canSkip: Bool {
+      self.pageState.canSkip
+    }
+
+    // page1 - email
     var email: String = ""
-    var invitationCode: String = "임시코드임니다"
-    var invitationInputCode: String = ""
+
+    // page2 - nickname
+    var nickname: String = ""
+
+    // page3 - profile
     var profileImage: UIImage?
+
+    // page4 - birthday
+    var birth: SimpleDate = .init()
+
+    // page5 - gender
+    var gender: Gender? = nil
+
+    // page6 - anniversary
+    var anniversary: SimpleDate = .init()
   }
-  
+
   enum Action: Equatable {
+    // common
     case nextTapped
     case previousTapped
     case nextButtonTapped
-    case textFieldStateChanged(TextFieldState)
-    case genderSelected(String)
-    case birthdateYearSelected(Int)
-    case birthdateMonthSelected(Int)
-    case birthdateDaySelected(Int)
-    case dateYearSelected(Int)
-    case dateMonthSelected(Int)
-    case dateDaySelected(Int)
-    case nicknameEdited(String)
-    case emailEdited(String)
-    case doneButtonTapped
+    case skipTapped
     case showBottomSheet
     case hideBottomSheet
-    case dateInitialied
-    case birthdateInitialied
-    case registerProfileResponse(TaskResult<Profile>)
-    case tryLinkResponse(TaskResult<TryLinkResponse>)
+    case doneButtonTapped
+    case flush
+
+    // page1 - email
+    case emailFocusFlashed
+    case emailEdited(String)
+
+    // page2 - nickname
+    case nicknameFocusFlashed
+    case nicknameEdited(String)
+
+    // page3 - profile
     case imageSelected(UIImage?)
-    case circleClicked(Int)
-    case invitationcodeEdited(String)
-    case invitationViewLoaded(String)
-    case tryLink(String)
-    case skipBirthdate
-    case selectBirthDate
-    case skipFisrtdate
-    case selectFirstDate
-    case none
+
+    // page4 - birthday
+    case birthInitialized
+    case birthUpdated(SimpleDate)
+    case skipbirth
+
+    // page5 - gender
+    case genderSelected(Gender)
+    
+    // page6 - anniversary
+    case anniversaryInitialized
+    case anniversaryUpdated(SimpleDate)
+
+    // Network
+    case registerProfileResponse(TaskResult<Profile>)
   }
-  
+
   @Dependency(\.apiClient) var apiClient
   @Dependency(\.userData) var userData
-  
+
   var body: some ReducerProtocol<State, Action> {
     Reduce { state, action in
       switch action {
-      case .circleClicked(let index):
-        state.page.update(.move(increment: index))
-        return .none
-
       case .nextTapped, .nextButtonTapped:
-        state.page.update(.next)
-        state.pageIdx = 1
-        return .none
+        self.handleNext(state: &state)
+        return .send(.flush)
 
-      case .textFieldStateChanged(let textFieldState):
-        state.textFieldState = textFieldState
-        return .none
+      case .doneButtonTapped:
+        return .run { [state = state] send in
+          do {
+            // 프로필 등록 - 생년월일 입력 뷰에서 다음 버튼 클릭시
+            let profile = try await self.apiClient.request(
+              .registerProfile(
+                image: state.skipPages.contains(.profileImage) ? nil : state.profileImage,
+                profileRequest: RegisterProfileRequest.init(
+                  email: state.email,
+                  nickname: state.nickname,
+                  birthDay: state.skipPages.contains(.birth) ? nil : state.birth.toYMDFormat(),
+                  firstDate: state.skipPages.contains(.anniversary) ? nil : state.anniversary.toYMDFormat(),
+                  gender: state.gender?.rawValue ?? "UNKNOWN",
+                  deviceToken: "fcm")
+              )
+            ) as Profile
+            await send(.registerProfileResponse(.success(profile)))
+          } catch {
+            print("프로필 등록 실패")
+          }
+        }
+
+      case .skipTapped:
+        guard state.pageState != .anniversary else {
+          state.skipPages.append(.anniversary)
+          return .send(.doneButtonTapped)
+        }
+
+        self.handleSkip(state: &state)
+        return .send(.flush)
 
       case .previousTapped:
-        if state.page.index == 0 {
-          return .none
-        } else {
+        if !state.page.isFisrt {
           state.page.update(.previous)
+          state.pageState = state.page.state
         }
-        return .none
+        return .send(.flush)
 
-      case .nicknameEdited(let nickname):
-        state.nickname = String(nickname.prefix(20))
-        if nickname.isNicknameValid {
-          state.textFieldState = nickname.count >= 2 ? .nicknameCorrect : .editing
-        } else {
-          state.textFieldState = .error
-        }
+      case .emailFocusFlashed:
+        state.emailTextFieldState = .none
         return .none
 
       case .emailEdited(let email):
         state.email = email
-        if email.isEmailValid {
-          state.textFieldState = email.count >= 2 ? .emailCorrect : .editing
-        } else {
-          state.textFieldState = .emailError
-        }
+        state.emailTextFieldState = email.isEmailValid ? .correct(.email)
+        : email.isEmpty ? .editing(.email)
+        : .error(.email)
         return .none
 
-      case .invitationcodeEdited(let code):
-        state.invitationInputCode = code
+      case .nicknameFocusFlashed:
+        state.nicknameTextFieldState = .none
         return .none
 
-      case .invitationViewLoaded(let code):
-        state.invitationCode = code
+      case .nicknameEdited(let nickname):
+        state.nickname = String(nickname.prefix(20))
+        state.nicknameTextFieldState = !nickname.isNicknameValid ? .error(.nickname)
+        : nickname.count >= 2 ? .correct(.nickname)
+        : .editing(.nickname)
+        return .none
+
+      case .imageSelected(let image):
+        state.profileImage = image
+        return .none
+
+      case .birthUpdated(let birth):
+        state.birth = birth
+        return .none
+
+      case .birthInitialized:
+        state.birth = .init()
         return .none
 
       case .genderSelected(let gender):
         state.gender = gender
-        state.buttonClickState = .clicked
         return .none
 
-      case .birthdateYearSelected(let year):
-        state.birthdateYear = year
+      case .anniversaryInitialized:
+        state.anniversary = .init()
         return .none
 
-      case .birthdateMonthSelected(let month):
-        state.birthdateMonth = month
-        return .none
-
-      case .birthdateDaySelected(let day):
-        state.birthdateDay = day
-        return .none
-
-      case .dateYearSelected(let year):
-        state.firstdateYear = year
-        return .none
-
-      case .dateMonthSelected(let month):
-        state.firstdateMonth = month
-        return .none
-
-      case .dateDaySelected(let day):
-        state.firstdateDay = day
+      case .anniversaryUpdated(let anniversary):
+        state.anniversary = anniversary
         return .none
 
       case .showBottomSheet:
@@ -167,100 +193,53 @@ struct OnboardingCore: ReducerProtocol {
         state.showBottomSheet = false
         return .none
 
-      case .birthdateInitialied:
-        state.birthdateYear = Date().year
-        state.birthdateMonth = Date().month
-        state.birthdateDay = Date().day
+      case .flush:
+        UIApplication.shared.endEditing(true)
+        state.showBottomSheet = false
         return .none
-
-      case .dateInitialied:
-        state.firstdateYear = Date().year
-        state.firstdateMonth = Date().month
-        state.firstdateDay = Date().day
-        return .none
-
-      case .imageSelected(let image):
-        state.profileImage = image
-        return .none
-        
-      case .skipBirthdate:
-        state.page.update(.next)
-        state.pageIdx = 1
-        state.birthday = nil
-        return .none
-        
-      case .selectBirthDate:
-        let birthyear = state.birthdateYear
-        let birthmonth = state.birthdateMonth
-        let birthday = state.birthdateDay
-
-        state.page.update(.next)
-        state.pageIdx = 1
-        state.birthday = String(format: "%04d-%02d-%02d", birthyear, birthmonth, birthday)
-        return .none
-        
-      case .skipFisrtdate:
-        state.firstday = nil
-        
-        return .run { [state = state] send in
-          do {
-            // 프로필 등록 - 생년월일 입력 뷰에서 다음 버튼 클릭시
-            let profile = try await self.apiClient.request(
-              .registerProfile(
-                image: state.profileImage,
-                profileRequest: RegisterProfileRequest.init(
-                  email: state.email,
-                  nickname: state.nickname,
-                  birthDay: state.birthday,
-                  firstDate: state.firstday,
-                  gender: state.gender,
-                  deviceToken: "fcm")
-              )
-            ) as Profile
-            
-            await send(.registerProfileResponse(.success(profile)))
-          } catch {
-            print("프로필 등록 실패")
-          }
-        }
-        
-      case .doneButtonTapped:
-        let firstyear = state.firstdateYear
-        let firstmonth = state.firstdateMonth
-        let firstday = state.firstdateDay
-        state.firstday = String(format: "%04d-%02d-%02d", firstyear, firstmonth, firstday)
-        
-        return .run { [state = state] send in
-          do {
-            // 프로필 등록 - 생년월일 입력 뷰에서 다음 버튼 클릭시
-            let profile = try await self.apiClient.request(
-              .registerProfile(
-                image: state.profileImage,
-                profileRequest: RegisterProfileRequest.init(
-                  email: state.email,
-                  nickname: state.nickname,
-                  birthDay: state.birthday,
-                  firstDate: state.firstday,
-                  gender: state.gender,
-                  deviceToken: "fcm")
-              )
-            ) as Profile
-            
-            await send(.registerProfileResponse(.success(profile)))
-          } catch {
-            print("프로필 등록 실패")
-          }
-        }
 
       default:
         return .none
       }
     }
   }
-}
+  // MARK: - Private Method
+  private func handleNext(state: inout State) {
+    switch state.pageState {
+    case .email:
+      guard state.emailTextFieldState.isCorrect else { return }
 
-extension Page: Equatable {
-  public static func == (lhs: Page, rhs: Page) -> Bool {
-    lhs.index == rhs.index
+    case .nickname:
+      guard state.nicknameTextFieldState.isCorrect else { return }
+
+    case .profileImage:
+      guard state.profileImage != nil else { return }
+
+    case .gender:
+      guard state.gender != nil else { return }
+
+    case .birth:
+      break
+
+    case .anniversary:
+      return
+    }
+
+    state.page.update(.next)
+    state.pageState = state.page.state
+  }
+
+  private func handleSkip(state: inout State) {
+    switch state.pageState {
+    case .profileImage, .birth, .gender:
+      if !state.skipPages.contains(state.pageState) {
+        state.skipPages.append(state.pageState)
+      }
+      state.page.update(.next)
+      state.pageState = state.page.state
+
+    default:
+      return
+    }
   }
 }

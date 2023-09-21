@@ -11,76 +11,47 @@ import ComposableArchitecture
 struct OnboardingNicknameView: View {
   
   let store: StoreOf<OnboardingCore>
-  @FocusState private var isNameFieldFocused: Bool
-  @StateObject private var keyboard = KeyboardResponder()
-  
+  @FocusState private var isFocused: Bool
+
   var body: some View {
-    WithViewStore(self.store) { viewStore in
-      VStack {
-        Spacer().frame(height: 24)
-        
-        Text(R.string.localizable.onboarding_nickname_title)
-          .font(.pretendard(size: 20, weight: .bold))
-          .foregroundColor(.black)
-          .frame(maxWidth: .infinity, alignment: .leading)
-          .padding(.leading, 16)
-        
-        Text(R.string.localizable.onboarding_nickname_description)
+    WithViewStore(self.store, observe: { $0 }) { viewStore in
+      VStack(spacing: 10) {
+        CommonTextField(
+          text: viewStore.binding(get: \.nickname, send: OnboardingCore.Action.nicknameEdited),
+          placeholder: "ex. 러버",
+          borderColor: viewStore.nicknameTextFieldState.color,
+          isFocused: self.$isFocused
+        )
+        .padding(.top, 24)
+        .padding(.horizontal, 16)
+
+        Text(viewStore.nicknameTextFieldState.description)
           .font(.pretendard(size: 16, weight: .regular))
-          .foregroundColor(Color(R.color.gray07))
+          .foregroundColor(viewStore.nicknameTextFieldState.color)
           .frame(maxWidth: .infinity, alignment: .leading)
-          .padding(.top, 12)
-          .padding(.leading, 16)
-        
-        Spacer().frame(height: 48)
-        
-        TextField("ex. 러버", text: viewStore.binding(get: \.nickname, send: OnboardingCore.Action.nicknameEdited))
-          .font(.pretendard(size: 18, weight: .regular))
-          .foregroundColor(.black)
-          .padding(.vertical, 15)
-          .padding(.leading, 16)
-          .padding(.trailing, 48)
-          .focused($isNameFieldFocused)
-          .showClearButton(viewStore.binding(get: \.nickname, send: OnboardingCore.Action.nicknameEdited))
-          .frame(width: UIScreen.width - 32)
-          .roundedBackground(cornerRadius: 12, color: viewStore.textFieldState.color)
-        
-        Text(viewStore.textFieldState.description)
-          .font(.pretendard(size: 16, weight: .regular))
-          .foregroundColor(viewStore.textFieldState.color)
-          .frame(maxWidth: .infinity, alignment: .leading)
-          .padding(.top, 10)
-          .padding(.leading, 16)
+          .padding(.horizontal, 16)
         
         Spacer()
-        
-        Button {
+
+        CommonHorizontalButton(
+          title: "다음",
+          backgroundColor: viewStore.nicknameTextFieldState.isCorrect ? .black : Color(R.color.gray05)
+        ) {
           viewStore.send(.nextTapped)
-          self.hideKeyboard()
-        } label: {
-          TouchableStack {
-            Text(R.string.localizable.common_next)
-              .font(.pretendard(size: 16, weight: .semiBold))
-              .foregroundColor(.white)
-          }
         }
-        .frame(height: 56)
-        .background(viewStore.textFieldState == .nicknameCorrect ? .black : Color(R.color.gray05))
-        .cornerRadius(12)
         .padding(.horizontal, 16)
-        .padding(.bottom, keyboard.currentHeight == 0 ? 20 + UIApplication.edgeInsets.bottom : keyboard.currentHeight + 20)
-      }
-      .background(.white)
-      .onTapGesture {
-        self.isNameFieldFocused = false
-      }
-      .onChange(of: isNameFieldFocused) { newValue in
-        if viewStore.nickname.isEmpty {
-          viewStore.send(.textFieldStateChanged(newValue ? .editing : .none))
-        }
+        .padding(.bottom, 20)
       }
       .frame(maxWidth: .infinity, maxHeight: .infinity)
       .background(.white)
+      .onTapGesture {
+        self.isFocused = false
+      }
+      .onChange(of: self.isFocused) { isFocused in
+        if !isFocused, viewStore.state.nicknameTextFieldState.isEditing {
+          viewStore.send(.nicknameFocusFlashed)
+        }
+      }
     }
   }
 }

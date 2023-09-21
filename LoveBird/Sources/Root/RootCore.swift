@@ -68,8 +68,6 @@ struct RootCore: Reducer {
           try await Task.sleep(nanoseconds: Constants.delayOfSplash)
           let user = self.userData.get(key: .user, type: Profile.self)
           var rootState: State
-//          userData.remove(key: .accessToken)
-//          userData.remove(key: .refreshToken)
           if user == nil {
             rootState = .login(LoginCore.State())
           } else if user?.partnerId == nil {
@@ -77,6 +75,7 @@ struct RootCore: Reducer {
           } else {
             rootState = .mainTab(MainTabCore.State())
           }
+          rootState = .onboarding(OnboardingCore.State())
           await send(.updateRootState(rootState), animation: .default)
         }
         
@@ -109,14 +108,8 @@ struct RootCore: Reducer {
         
       case .onboarding(.registerProfileResponse(.success)):
         return .send(.updateRootState(.coupleLink(CoupleLinkCore.State())))
-        
-      case .onboarding(.tryLinkResponse(.success)):
-        return .send(.updateRootState(.mainTab(MainTabCore.State())))
-        
-      case .onboarding(.tryLinkResponse(.failure)):
-        return .none
-        
-      // MARK: - CoupleLink
+
+        // MARK: - CoupleLink
         
       case .coupleLink(.tryLinkResponse(.success(let response))):
         if response.isSuccess {
