@@ -11,6 +11,9 @@ import Foundation
 import SwiftUI
 import UIKit
 
+typealias CoupleLinkState = CoupleLinkCore.State
+typealias CoupleLinkAction = CoupleLinkCore.Action
+
 struct CoupleLinkCore: ReducerProtocol {
   struct State: Equatable {
     var invitationCode: String = ""

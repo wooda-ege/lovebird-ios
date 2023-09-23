@@ -72,3 +72,20 @@ struct Profile: Equatable, Codable, Sendable {
     }
   }
 }
+
+extension Profile {
+  static let dummy: Profile =
+    .init(
+      memberId: 0,
+      partnerId: 1,
+      email: "test@lb.com",
+      nickname: "러브",
+      partnerNickname: "버드",
+      firstDate: "2022-01-01",
+      birthDay: "1995-06-24",
+      dayCount: 200,
+      nextAnniversary: .init(kind: .twoYears, anniversaryDate: "2024-01-01"),
+      profileImageUrl: nil,
+      partnerImageUrl: nil
+    )
+}

@@ -16,8 +16,21 @@ struct Schedule: Decodable, Equatable, Sendable {
   let memo: String?
   let color: ScheduleColor
   let alarm: AlarmType?
+}
 
-  static let aDummy: Self = .init(id: 0, memberId: 0, startDate: "", endDate: "", startTime: "", endTime: "", title: "", memo: "", color: .primary, alarm: .none)
+extension Schedule {
+  static let dummy: Self = .init(
+    id: 0,
+    memberId: 0,
+    startDate: "2023-09-01",
+    endDate: "2023-09-03",
+    startTime: "18:00:00",
+    endTime: "22:00:00",
+    title: "타이틀",
+    memo: "메모",
+    color: .primary,
+    alarm: .typeB
+  )
 }
 
 enum AlarmType: String, Decodable, Equatable {

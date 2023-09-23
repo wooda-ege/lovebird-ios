@@ -9,40 +9,40 @@ import ComposableArchitecture
 import SwiftUI
 
 struct ScheduleAddColorView: View {
-  
-  let viewStore: ViewStore<ScheduleAddState, ScheduleAddAction>
-  let isFocused: Bool
-
-  init(viewStore: ViewStore<ScheduleAddState, ScheduleAddAction>) {
-    self.viewStore = viewStore
-    self.isFocused = viewStore.focusedType == .color
-  }
+  let store: StoreOf<ScheduleAddCore>
 
   var body: some View {
-    CommonFocusedView(isFocused: self.isFocused) {
-      Text(R.string.localizable.add_schedule_color)
-        .font(.pretendard(size: 16))
-        .foregroundColor(self.isFocused ? .black : Color(R.color.gray06))
-        .frame(maxWidth: .infinity, alignment: .leading)
+    WithViewStore(self.store, observe: { $0 }) { viewStore in
+      CommonFocusedView(isFocused: viewStore.focusedType == .color) {
+        Text(R.string.localizable.add_schedule_color)
+          .font(.pretendard(size: 16))
+          .foregroundColor(viewStore.focusedType == .color ? .black : Color(R.color.gray06))
+          .frame(maxWidth: .infinity, alignment: .leading)
 
-      Circle()
-        .fill(self.viewStore.color.color)
-        .frame(width: 12, height: 12)
+        Circle()
+          .fill(viewStore.color.color)
+          .frame(width: 12, height: 12)
 
-      Text(self.viewStore.color.description)
-        .font(.pretendard(size: 16, weight: .bold))
-        .foregroundColor(.black)
+        Text(viewStore.color.description)
+          .font(.pretendard(size: 16, weight: .bold))
+          .foregroundColor(.black)
 
-      Image(R.image.ic_arrow_drop_down)
-    }
-    .onTapGesture {
-      self.viewStore.send(.contentTapped(.color))
+        Image(R.image.ic_arrow_drop_down)
+      }
+      .onTapGesture {
+        viewStore.send(.contentTapped(.color))
+      }
     }
   }
 }
 
-//struct AddScheduleColorView_Previews: PreviewProvider {
-//  static var previews: some View {
-//    AddScheduleColorView()
-//  }
-//}
+struct ScheduleAddColorView_Previews: PreviewProvider {
+  static var previews: some View {
+    ScheduleAddColorView(
+      store: .init(
+        initialState: ScheduleAddState(schedule: .dummy),
+        reducer: ScheduleAddCore()
+      )
+    )
+  }
+}

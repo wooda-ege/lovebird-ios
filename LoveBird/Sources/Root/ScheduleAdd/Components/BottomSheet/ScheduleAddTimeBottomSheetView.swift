@@ -9,23 +9,34 @@ import ComposableArchitecture
 import SwiftUI
 
 struct ScheduleAddTimeBottomSheetView: View {
-
-  let viewStore: ViewStore<ScheduleAddState, ScheduleAddAction>
+  let store: StoreOf<ScheduleAddCore>
 
   var body: some View {
-    BottomSheetView(isOpen: self.viewStore.binding(get: \.showTimeBottomSheet, send: .hideTimeBottomSheet)) {
-      ScheduleAddTimePickerView(viewStore: self.viewStore)
+    WithViewStore(self.store, observe: { $0 }) { viewStore in
+      BottomSheetView(
+        isOpen: viewStore.binding(
+          get: \.showTimeBottomSheet,
+          send: .hideTimeBottomSheet
+        )
+      ) {
+        ScheduleAddTimePickerView(viewStore: viewStore)
 
-      CommonBottomSheetButtonView(
-        initialAction: { self.viewStore.send(.timeInitialied) },
-        confirmAction: { self.viewStore.send(.hideTimeBottomSheet) }
-      )
+        CommonBottomSheetButtonView(
+          initialAction: { viewStore.send(.timeInitialied) },
+          confirmAction: { viewStore.send(.hideTimeBottomSheet) }
+        )
+      }
     }
   }
 }
 
-//struct AddScheduleTimeBottomSheetView_Previews: PreviewProvider {
-//  static var previews: some View {
-//    AddScheduleTimeBottomSheetView()
-//  }
-//}
+struct ScheduleAddTimeBottomSheetView_Previews: PreviewProvider {
+  static var previews: some View {
+    ScheduleAddTimeBottomSheetView(
+      store: .init(
+        initialState: ScheduleAddState(schedule: .dummy),
+        reducer: ScheduleAddCore()
+      )
+    )
+  }
+}

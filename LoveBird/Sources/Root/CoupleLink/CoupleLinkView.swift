@@ -154,11 +154,16 @@ struct CoupleLinkView: View {
   }
 }
 
-//struct OnboardingInviteView_Previews: PreviewProvider {
-//  static var previews: some View {
-//    OnboardingInvitationView(store: Store(initialState: OnboardingCore.State(), reducer: OnboardingCore()))
-//  }
-//}
+struct CoupleLinkView_Previews: PreviewProvider {
+  static var previews: some View {
+    CoupleLinkView(
+      store: Store(
+        initialState: CoupleLinkState(),
+        reducer: CoupleLinkCore()
+      )
+    )
+  }
+}
 
 
 struct ActivityViewController: UIViewControllerRepresentable {

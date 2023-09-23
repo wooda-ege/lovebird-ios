@@ -172,7 +172,12 @@ struct DiaryView: View {
 
 struct DiaryView_Previews: PreviewProvider {
   static var previews: some View {
-    DiaryView(store: Store(initialState: DiaryCore.State(), reducer: DiaryCore()))
+    DiaryView(
+      store: Store(
+        initialState: DiaryCore.State(),
+        reducer: DiaryCore()
+      )
+    )
   }
 }
 
