@@ -18,6 +18,8 @@ struct Schedule: Decodable, Equatable, Sendable {
   let alarm: AlarmType?
 }
 
+// MARK: - Dummy
+
 extension Schedule {
   static let dummy: Self = .init(
     id: 0,

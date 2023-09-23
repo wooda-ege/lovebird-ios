@@ -14,11 +14,13 @@ struct CalendarPreviewContentView: View {
   var body: some View {
     WithViewStore(self.store, observe: { $0 }) { viewStore in
       VStack(alignment: .center, spacing: 0) {
-        let weekOfMonth = viewStore.currentPreviewDate.numberOfWeeksInMonth
-        ForEach(0..<weekOfMonth, id: \.self) { week in
+        let numberOfWeeks = viewStore.currentPreviewDate.numberOfWeeksInMonth
+
+        ForEach(0..<numberOfWeeks, id: \.self) { week in
           HStack(alignment: .center, spacing: 0) {
             ForEach(1..<8) { weekday in
               let date = self.dateString(currentDate: viewStore.currentPreviewDate, week: week, weekday: weekday)
+              
               VStack(alignment: .center) {
                 HStack(alignment: .center) {
                   Text(date.isThisMonth ? String(date.date.day) : "")

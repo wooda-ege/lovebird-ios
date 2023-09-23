@@ -73,8 +73,10 @@ struct Profile: Equatable, Codable, Sendable {
   }
 }
 
+// MARK: - Dummy
+
 extension Profile {
-  static let dummy: Profile =
+  static let dummy: Self =
     .init(
       memberId: 0,
       partnerId: 1,

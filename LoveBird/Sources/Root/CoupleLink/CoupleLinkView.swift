@@ -95,7 +95,7 @@ struct CoupleLinkView: View {
           Task {
             do {
               if viewStore.invitationInputCode.isEmpty { // 코드를 공유한 상황
-                let response = try await self.apiClient.requestRaw(.coupleCheckButtonClicked)
+                let response = try await self.apiClient.requestRaw(.fetchCoupleCode)
                 if response == "SUCCESS" {
                   viewStore.send(.isSuccessTryLink(true))
                 } else {

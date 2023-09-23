@@ -23,7 +23,7 @@ public enum APIClient {
 
   // coupleLink
   case linkCouple(linkCoupleRequest: LinkCoupleRequest)
-  case coupleCheckButtonClicked
+  case fetchCoupleCode
 
   // profile
   case registerProfile(image: UIImage?, profileRequest: RegisterProfileRequest)
@@ -79,7 +79,7 @@ extension APIClient: TargetType {
       case .linkCouple:
         return "/couple/link"
 
-      case .coupleCheckButtonClicked:
+      case .fetchCoupleCode:
         return "/couple/check"
 
       case .searchKakaoMap:
@@ -111,7 +111,7 @@ extension APIClient: TargetType {
       return .post
 
     case .fetchDiary, .fetchCalendars, .fetchDiaries, .fetchProfile,
-        .fetchSchedule, .invitationViewLoaded, .searchKakaoMap, .coupleCheckButtonClicked:
+        .fetchSchedule, .invitationViewLoaded, .searchKakaoMap, .fetchCoupleCode:
       return .get
 
     case .editSchedule, .editProfile, .linkCouple:
