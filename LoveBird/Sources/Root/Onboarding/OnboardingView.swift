@@ -83,11 +83,9 @@ struct OnboardingView: View {
 
 struct OnboardingView_Previews: PreviewProvider {
   static var previews: some View {
-    let currentPage: Page.Onboarding = .email
-
-    return OnboardingView(
+    OnboardingView(
       store: Store(
-        initialState: OnboardingCore.State(pageState: currentPage),
+        initialState: OnboardingState(),
         reducer: OnboardingCore()
       )
     )

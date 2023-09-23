@@ -35,8 +35,14 @@ struct OnboardingAnniversaryView: View {
     }
   }
 }
-//struct OnboardingAnniversaryView_Previews: PreviewProvider {
-//    static var previews: some View {
-//      OnboardingAnniversaryView(store: .init(initialState: OnboardingCore.State(), reducer: OnboardingCore()))
-//    }
-//}
+
+struct OnboardingAnniversaryView_Previews: PreviewProvider {
+    static var previews: some View {
+      OnboardingAnniversaryView(
+        store: Store(
+          initialState: OnboardingState(),
+          reducer: OnboardingCore()
+        )
+      )
+    }
+}

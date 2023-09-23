@@ -18,11 +18,11 @@ struct CoupleLinkCore: ReducerProtocol {
   struct State: Equatable {
     var invitationCode: String = ""
     var invitationInputCode: String = ""
-    var textFieldState: TextFieldState = .none
+    var textFieldState: OnboardingTextFieldState = .none
   }
   
   enum Action: Equatable {
-    case textFieldStateChanged(TextFieldState)
+    case textFieldStateChanged(OnboardingTextFieldState)
     case tryLinkResponse(TaskResult<TryLinkResponse>)
     case imageSelected(UIImage?)
     case circleClicked(Int)

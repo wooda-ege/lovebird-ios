@@ -1,33 +1,32 @@
 //
-//  OnboardingNicknameView.swift
+//  OnboardingEmailView.swift
 //  LoveBird
 //
-//  Created by 황득연 on 2023/05/20.
+//  Created by 이예은 on 2023/06/30.
 //
 
 import SwiftUI
 import ComposableArchitecture
 
-struct OnboardingNicknameView: View {
-  
+struct OnboardingEmailView: View {
   let store: StoreOf<OnboardingCore>
   @FocusState private var isFocused: Bool
-
+  
   var body: some View {
     WithViewStore(self.store, observe: { $0 }) { viewStore in
       VStack(spacing: 10) {
         CommonTextField(
-          text: viewStore.binding(get: \.nickname, send: OnboardingCore.Action.nicknameEdited),
-          placeholder: "ex. 러버",
-          borderColor: viewStore.nicknameTextFieldState.color,
+          text: viewStore.binding(get: \.email, send: OnboardingAction.emailEdited),
+          placeholder: "love@bird.com",
+          borderColor: viewStore.emailTextFieldState.color,
           isFocused: self.$isFocused
         )
         .padding(.top, 24)
         .padding(.horizontal, 16)
 
-        Text(viewStore.nicknameTextFieldState.description)
+        Text(viewStore.emailTextFieldState.description)
           .font(.pretendard(size: 16, weight: .regular))
-          .foregroundColor(viewStore.nicknameTextFieldState.color)
+          .foregroundColor(viewStore.emailTextFieldState.color)
           .frame(maxWidth: .infinity, alignment: .leading)
           .padding(.horizontal, 16)
         
@@ -35,7 +34,7 @@ struct OnboardingNicknameView: View {
 
         CommonHorizontalButton(
           title: "다음",
-          backgroundColor: viewStore.nicknameTextFieldState.isCorrect ? .black : Color(R.color.gray05)
+          backgroundColor: viewStore.emailTextFieldState.isCorrect ? .black : Color(R.color.gray05)
         ) {
           viewStore.send(.nextTapped)
         }
@@ -48,16 +47,22 @@ struct OnboardingNicknameView: View {
         self.isFocused = false
       }
       .onChange(of: self.isFocused) { isFocused in
-        if !isFocused, viewStore.state.nicknameTextFieldState.isEditing {
-          viewStore.send(.nicknameFocusFlashed)
+        if !isFocused, viewStore.state.emailTextFieldState.isEditing {
+          viewStore.send(.emailFocusFlashed)
         }
       }
     }
   }
 }
 
-//struct OnboardingNicknameView_Previews: PreviewProvider {
-//  static var previews: some View {
-//    OnboardingNicknameView(store: Store(initialState: OnboardingCore.State(), reducer: OnboardingCore()))
-//  }
-//}
+struct OnboardingEmailView_Previews: PreviewProvider {
+  static var previews: some View {
+    OnboardingEmailView(
+      store: Store(
+        initialState: OnboardingState(),
+        reducer: OnboardingCore()
+      )
+    )
+  }
+}
+
