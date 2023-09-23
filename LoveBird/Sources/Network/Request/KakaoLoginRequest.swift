@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct KakaoLoginRequest: Encodable {
+public struct KakaoLoginRequest: Encodable {
   let idToken: String
   let accessToken: String
 }

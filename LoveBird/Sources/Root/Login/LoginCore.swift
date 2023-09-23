@@ -31,8 +31,14 @@ struct LoginCore: ReducerProtocol {
       case .kakaoLoginTapped(let accessToken, let idToken):
         return .run { send in
           do {
-            let kakaoLoginResponse = try await self.apiClient.request(.kakaoLogin(idToken: idToken, accessToken: accessToken)) as LoginResponse
-            
+            let kakaoLoginResponse = try await self.apiClient.request(
+              .kakaoLogin(
+                kakaoLoginRequest: .init(
+                  idToken: idToken,
+                  accessToken: accessToken
+                )
+              )
+            ) as LoginResponse
             await send(.kakaoLoginResponse(.success(kakaoLoginResponse)))
           } catch {
             

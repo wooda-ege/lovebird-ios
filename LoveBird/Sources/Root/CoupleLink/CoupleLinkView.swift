@@ -102,7 +102,13 @@ struct CoupleLinkView: View {
                   viewStore.send(.isSuccessTryLink(false))
                 }
               } else { // 코드를 직접 입력한 상황
-                let response = try await self.apiClient.requestRaw(.coupleLinkButtonClicked(coupleCode: viewStore.invitationInputCode))
+                let response = try await self.apiClient.requestRaw(
+                  .linkCouple(
+                    linkCoupleRequest: .init(
+                      coupleCode: viewStore.invitationInputCode
+                    )
+                  )
+                )
                 if response == "SUCCESS" {
                   viewStore.send(.isSuccessTryLink(true))
                 } else {
