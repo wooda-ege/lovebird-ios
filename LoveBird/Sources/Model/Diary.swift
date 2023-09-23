@@ -82,3 +82,21 @@ extension Diary {
     )
   }
 }
+
+// MARK: - Dummy
+
+extension Diary {
+  static let dummy: Self = .init(
+    diaryId: 0,
+    memberId: 0,
+    title: "타이틀",
+    memoryDate: "2023-09-01",
+    place: "장소",
+    content: "내용",
+    imgUrls: [],
+    timeState: .previous,
+    type: .diary,
+    isFolded: false,
+    isTimelineDateShown: true
+  )
+}

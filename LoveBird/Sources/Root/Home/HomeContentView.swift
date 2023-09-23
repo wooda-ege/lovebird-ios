@@ -10,7 +10,6 @@ import SwiftUI
 import Kingfisher
 
 struct HomeContentView: View {
-  
   let store: StoreOf<HomeCore>
   let diary: Diary
   
@@ -145,8 +144,14 @@ struct HomeContentView: View {
   }
 }
 
-//struct HomeContentView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        HomeContentView(diary: Diary.dummy[0])
-//    }
-//}
+struct HomeContentView_Previews: PreviewProvider {
+  static var previews: some View {
+    HomeContentView(
+      store: .init(
+        initialState: HomeState(),
+        reducer: HomeCore()
+      ),
+      diary: .dummy
+    )
+  }
+}

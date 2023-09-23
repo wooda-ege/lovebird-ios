@@ -98,9 +98,13 @@ struct DiaryDetailView: View {
   }
 }
 
-//struct DiaryDetailView_Previews: PreviewProvider {
-//  static var previews: some View {
-//
-//    DiaryDetailView(diary: diaryMock)
-//  }
-//}
+struct DiaryDetailView_Previews: PreviewProvider {
+  static var previews: some View {
+    DiaryDetailView(
+      store: .init(
+        initialState: DiaryDetailState(diary: .dummy),
+        reducer: DiaryDetailCore()
+      )
+    )
+  }
+}

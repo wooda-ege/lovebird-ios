@@ -9,9 +9,6 @@ import ComposableArchitecture
 import SwiftUI
 
 struct CalendarWeekdayView: View {
-
-  let viewStore: ViewStore<CalendarState, CalendarAction>
-
   var body: some View {
     HStack(alignment: .center, spacing: 0) {
       ForEach(DateFormatter.daysOfWeek(), id: \.self) { day in
@@ -32,8 +29,8 @@ struct CalendarWeekdayView: View {
   }
 }
 
-//struct CalendarScheduleView_Previews: PreviewProvider {
-//  static var previews: some View {
-//    CalendarScheduleView()
-//  }
-//}
+struct CalendarWeekdayView_Previews: PreviewProvider {
+  static var previews: some View {
+    CalendarWeekdayView()
+  }
+}
