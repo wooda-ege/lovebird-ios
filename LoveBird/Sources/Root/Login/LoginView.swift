@@ -6,6 +6,7 @@
 //
 
 import ComposableArchitecture
+import UIKit
 import SwiftUI
 import SwiftUIPager
 import Foundation
@@ -16,6 +17,9 @@ import AuthenticationServices
 
 struct LoginView: View {
   let store: StoreOf<LoginCore>
+  @Environment(\.window) var window: UIWindow?
+  @State var appleSignInDelegates: SignInWithAppleDelegates! = nil
+
   
   init(store: StoreOf<LoginCore>) {
     self.store = store
@@ -108,22 +112,39 @@ struct LoginView: View {
             }
           }
         
-        SignInWithAppleButton(.continue) { request in
-          request.requestedScopes = [.email, .fullName]
-        } onCompletion: { result in
-          switch result {
-          case .success(let auth):
-            viewStore.send(.appleLoginTapped(auth))
-          case .failure(let error):
-            print(error)
-          }
-        }
-        .frame(width: 343, height: 60)
+        Image(R.image.img_appleLogin)
+                  .frame(width: 343, height: 60)
+                  .onTapGesture(perform: showAppleLogin)
         
         Spacer()
       }
     }
   }
+  
+  func showAppleLogin() {
+    let request = ASAuthorizationAppleIDProvider().createRequest()
+    request.requestedScopes = [.fullName, .email]
+    
+    performSignIn(using: [request])
+  }
+  
+  func performSignIn(using requests: [ASAuthorizationRequest]) {
+    appleSignInDelegates = SignInWithAppleDelegates(window: window) { success in
+      // 추후 수정 필요
+      if success {
+        
+      } else {
+        
+      }
+    }
+    
+    let controller = ASAuthorizationController(authorizationRequests: requests)
+    controller.delegate = appleSignInDelegates
+    controller.presentationContextProvider = appleSignInDelegates
+    
+    controller.performRequests()
+  }
+  
 }
 
 struct LoginView_Previews: PreviewProvider {
