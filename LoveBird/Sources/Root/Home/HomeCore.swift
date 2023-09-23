@@ -157,8 +157,8 @@ struct HomeCore: ReducerProtocol {
     }
     
     diariesForDomain.append(Diary.anniversaryDiary(
-      with: profile.nextAnniversary?.anniversaryDate,
-      title: profile.nextAnniversary?.kind.description
+      with: profile.nextAnniversary?.anniversaryDate ?? "",
+      title: profile.nextAnniversary?.kind.description ?? ""
     ))
 
     return diariesForDomain
