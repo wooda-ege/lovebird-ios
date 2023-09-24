@@ -16,9 +16,7 @@
 		42470D2A2A8FA8E0003E327E /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42470D292A8FA8E0003E327E /* Config.swift */; };
 		42470D2C2A908F67003E327E /* ImageAccessAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42470D2B2A908F67003E327E /* ImageAccessAuth.swift */; };
 		425640302A58463200EC962E /* KakaoSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 4256402F2A58463200EC962E /* KakaoSDK */; };
-		425640322A5AA78C00EC962E /* KakaoLoginRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 425640312A5AA78B00EC962E /* KakaoLoginRequest.swift */; };
 		425640342A5AB30900EC962E /* LoginResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 425640332A5AB30900EC962E /* LoginResponse.swift */; };
-		4256403E2A6454E100EC962E /* AppleLoginRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4256403D2A6454E100EC962E /* AppleLoginRequest.swift */; };
 		425F25B32A543B7200A333A5 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 425F25B22A543B7200A333A5 /* FirebaseAnalytics */; };
 		425F25B52A543B7200A333A5 /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 425F25B42A543B7200A333A5 /* FirebaseMessaging */; };
 		4260B0592A8CA257002A61B6 /* CoupleLinkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4260B0582A8CA257002A61B6 /* CoupleLinkView.swift */; };
@@ -187,9 +185,7 @@
 		422EE0E02ABECFA100A7FA52 /* WebApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebApi.swift; sourceTree = "<group>"; };
 		42470D292A8FA8E0003E327E /* Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
 		42470D2B2A908F67003E327E /* ImageAccessAuth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageAccessAuth.swift; sourceTree = "<group>"; };
-		425640312A5AA78B00EC962E /* KakaoLoginRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KakaoLoginRequest.swift; sourceTree = "<group>"; };
 		425640332A5AB30900EC962E /* LoginResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginResponse.swift; sourceTree = "<group>"; };
-		4256403D2A6454E100EC962E /* AppleLoginRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleLoginRequest.swift; sourceTree = "<group>"; };
 		425F25B02A54380F00A333A5 /* LoveBird.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = LoveBird.entitlements; sourceTree = "<group>"; };
 		4260B0582A8CA257002A61B6 /* CoupleLinkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoupleLinkView.swift; sourceTree = "<group>"; };
 		4260B05A2A8CA260002A61B6 /* CoupleLinkCore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoupleLinkCore.swift; sourceTree = "<group>"; };
@@ -548,9 +544,7 @@
 				4A1DDF2B2A2F38E800B3A72B /* FetchDiaryRequest.swift */,
 				42784F8A2A8A8E2600F39139 /* RegisterDiaryRequest.swift */,
 				42E064102A45B5A000B9EAC3 /* PlaceRequest.swift */,
-				425640312A5AA78B00EC962E /* KakaoLoginRequest.swift */,
 				422EE0DE2ABECC5C00A7FA52 /* AuthRequest.swift */,
-				4256403D2A6454E100EC962E /* AppleLoginRequest.swift */,
 				4A327D402A545509002EEB55 /* AddScheduleRequest.swift */,
 				4AD853C72A88E45C0005EAD5 /* EditProfileRequest.swift */,
 			);
@@ -1042,7 +1036,6 @@
 				4AE5CB5C2A232EFC0016C0B4 /* MyPageView.swift in Sources */,
 				4AE5CB542A21CA880016C0B4 /* MainTabCore.swift in Sources */,
 				425640342A5AB30900EC962E /* LoginResponse.swift in Sources */,
-				4256403E2A6454E100EC962E /* AppleLoginRequest.swift in Sources */,
 				4263E1BE2A2F33DB008B402B /* ResignKeyboardOnDragGesture.swift in Sources */,
 				4ACCB97E2A18F3C8009F1E22 /* OnboardingNicknameView.swift in Sources */,
 				4AD602932A4EB8D00029D7EB /* CalendarDateView.swift in Sources */,
@@ -1135,7 +1128,6 @@
 				4AD602D52A51AF7D0029D7EB /* ScheduleAddAlarmBottomSheetView.swift in Sources */,
 				4A1DDF222A2C7CC700B3A72B /* RegisterProfileRequest.swift in Sources */,
 				42E4D58B2A4DBB3500F4FA42 /* LoginCore.swift in Sources */,
-				425640322A5AA78C00EC962E /* KakaoLoginRequest.swift in Sources */,
 				42E4D58D2A4DD3D600F4FA42 /* SplashView.swift in Sources */,
 				422EE0D92ABEC99A00A7FA52 /* UserDataKeychain.swift in Sources */,
 				4AE5CB5A2A232E490016C0B4 /* DiaryView.swift in Sources */,
