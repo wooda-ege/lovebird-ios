@@ -24,26 +24,26 @@ struct ScheduleAddTimeView: View {
     CommonFocusedView(isFocused: self.viewStore.focusedType.isTime) {
       VStack(spacing: 16) {
         HStack {
-          Text(R.string.localizable.add_schedule_time)
+          Text(LoveBirdStrings.addScheduleTime)
             .font(.pretendard(size: 16))
-            .foregroundColor(self.isFocused ? .black : Color(R.color.gray06))
+            .foregroundColor(self.isFocused ? .black : Color(asset: LoveBirdAsset.gray06))
 
           Toggle(isOn: self.viewStore.binding(get: \.isTimeActive, send: ScheduleAddAction.timeToggleTapped)) { EmptyView() }
-            .toggleStyle(SwitchToggleStyle(tint: self.isOn.wrappedValue ? Color(R.color.green193) : Color(R.color.gray03)))
+            .toggleStyle(SwitchToggleStyle(tint: self.isOn.wrappedValue ? Color(asset: LoveBirdAsset.green193) : Color(asset: LoveBirdAsset.gray03)))
         }
 
         if self.viewStore.isTimeActive {
           HStack(spacing: 8) {
             VStack(alignment: .leading, spacing: 8) {
               HStack(alignment: .bottom, spacing: 4) {
-                Text(R.string.localizable.add_schedule_start_time)
+                Text(LoveBirdStrings.addScheduleStartTime)
                   .font(.pretendard(size: 14, weight: .bold))
-                  .foregroundColor(Color(R.color.gray06))
+                  .foregroundColor(Color(asset: LoveBirdAsset.gray06))
 
                 if self.viewStore.isEndDateActive {
                   Text(self.viewStore.startDate.to(dateFormat: Date.Format.YMDDotted))
                     .font(.pretendard(size: 12, weight: .bold))
-                    .foregroundColor(Color(R.color.secondary))
+                    .foregroundColor(Color(asset: LoveBirdAsset.secondary))
                 }
               }
 
@@ -52,7 +52,7 @@ struct ScheduleAddTimeView: View {
             }
             .padding(12)
             .frame(maxWidth: .infinity)
-            .background(self.isFocused ? Color(R.color.green246) : Color(R.color.gray03))
+            .background(self.isFocused ? Color(asset: LoveBirdAsset.green246) : Color(asset: LoveBirdAsset.gray03))
             .cornerRadius(12)
             .onTapGesture {
               self.viewStore.send(.contentTapped(.startTime))
@@ -60,14 +60,14 @@ struct ScheduleAddTimeView: View {
 
             VStack(alignment: .leading, spacing: 8) {
               HStack(alignment: .bottom, spacing: 4) {
-                Text(R.string.localizable.add_schedule_end_time)
+                Text(LoveBirdStrings.addScheduleEndTime)
                   .font(.pretendard(size: 14, weight: .bold))
-                  .foregroundColor(Color(R.color.gray06))
+                  .foregroundColor(Color(asset: LoveBirdAsset.gray06))
 
                 if self.viewStore.isEndDateActive {
                   Text(self.viewStore.endDate.to(dateFormat: Date.Format.YMDDotted))
                     .font(.pretendard(size: 12, weight: .bold))
-                    .foregroundColor(Color(R.color.secondary))
+                    .foregroundColor(Color(asset: LoveBirdAsset.secondary))
                 }
               }
 
@@ -76,7 +76,7 @@ struct ScheduleAddTimeView: View {
             }
             .padding(12)
             .frame(maxWidth: .infinity)
-            .background(self.isFocused ? Color(R.color.green246) : Color(R.color.gray03))
+            .background(self.isFocused ? Color(asset: LoveBirdAsset.green246) : Color(asset: LoveBirdAsset.gray03))
             .cornerRadius(12)
             .onTapGesture {
               self.viewStore.send(.contentTapped(.endTime))

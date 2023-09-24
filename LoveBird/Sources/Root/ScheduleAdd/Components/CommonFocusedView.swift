@@ -32,7 +32,7 @@ struct CommonFocusedView<Content: View>: View {
             .strokeBorder(.black, lineWidth: 1)
         } else {
           RoundedRectangle(cornerRadius: 12)
-            .fill(Color(R.color.gray02))
+            .fill(Color(asset: LoveBirdAsset.gray02))
         }
       }
     )

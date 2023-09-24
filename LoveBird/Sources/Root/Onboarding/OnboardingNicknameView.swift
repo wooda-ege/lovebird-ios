@@ -35,7 +35,7 @@ struct OnboardingNicknameView: View {
 
         CommonHorizontalButton(
           title: "다음",
-          backgroundColor: viewStore.nicknameTextFieldState.isCorrect ? .black : Color(R.color.gray05)
+          backgroundColor: viewStore.nicknameTextFieldState.isCorrect ? .black : Color(asset: LoveBirdAsset.gray05)
         ) {
           viewStore.send(.nextTapped)
         }

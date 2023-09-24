@@ -55,8 +55,8 @@ struct OnboardingView: View {
 
               HStack(spacing: 8) {
                 CommonHorizontalButton(
-                  title: String(resource: R.string.localizable.onboarding_date_initial),
-                  backgroundColor: Color(R.color.gray05)
+                  title: LoveBirdStrings.onboardingDateInitial,
+                  backgroundColor: Color(asset: LoveBirdAsset.gray05)
                 ) {
                   if viewStore.pageState == .birth {
                     viewStore.send(.birthInitialized)
@@ -66,7 +66,7 @@ struct OnboardingView: View {
                 }
 
                 CommonHorizontalButton(
-                  title: String(resource: R.string.localizable.common_confirm),
+                  title: LoveBirdStrings.commonConfirm,
                   backgroundColor: .black
                 ) {
                   viewStore.send(.hideBottomSheet)

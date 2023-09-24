@@ -34,7 +34,7 @@ struct OnboardingEmailView: View {
 
         CommonHorizontalButton(
           title: "다음",
-          backgroundColor: viewStore.emailTextFieldState.isCorrect ? .black : Color(R.color.gray05)
+          backgroundColor: viewStore.emailTextFieldState.isCorrect ? .black : Color(asset: LoveBirdAsset.gray05)
         ) {
           viewStore.send(.nextTapped)
         }

@@ -28,7 +28,7 @@ struct ScheduleAddColorBottomSheetView: View {
                 .frame(maxWidth: .infinity, alignment: .leading)
 
               if self.viewStore.color == color {
-                Image(R.image.ic_check_circle)
+                Image(asset: LoveBirdAsset.icCheckCircle)
                   .resizable()
                   .frame(width: 24, height: 24)
               }
@@ -37,7 +37,7 @@ struct ScheduleAddColorBottomSheetView: View {
             .padding(.horizontal, 16)
 
             Rectangle()
-              .fill(Color(R.color.gray03))
+              .fill(Color(asset: LoveBirdAsset.gray03))
               .frame(height: 1)
           }
           .frame(maxWidth: .infinity)

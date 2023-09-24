@@ -12,7 +12,7 @@ import ComposableArchitecture
 struct SplashView: View {
   var body: some View {
     VStack(alignment: .center, spacing: 0) {
-      Image(R.image.img_bird)
+      Image(asset: LoveBirdAsset.imgBird)
     }
     .padding(0)
     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)

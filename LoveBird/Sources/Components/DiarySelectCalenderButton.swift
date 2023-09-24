@@ -13,7 +13,7 @@ struct DiarySelectCalenderButton: View {
   var body: some View {
     ZStack {
       RoundedRectangle(cornerRadius: 10)
-        .foregroundColor(Color(R.color.gray02))
+        .foregroundColor(Color(asset: LoveBirdAsset.gray02))
         .background(.white)
         .frame(
           height: 44,
@@ -27,6 +27,6 @@ struct DiarySelectCalenderButton: View {
       }
       .padding(.leading, 15)
     }
-    .background(Color(R.color.gray02))
+    .background(Color(asset: LoveBirdAsset.gray02))
   }
 }

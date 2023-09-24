@@ -23,36 +23,36 @@ struct MainTabView: View {
         ) {
           HomeView(store: self.store.scope(state: \.home!, action: MainTabCore.Action.home))
             .tabItem {
-              Image(R.image.ic_timeline)
+              Image(asset: LoveBirdAsset.icTimeline)
               
-              Text(R.string.localizable.main_tab_home)
+              Text(LoveBirdStrings.mainTabHome)
                 .font(.pretendard(size: 12))
             }
             .tag(MainTabCore.Tab.home)
           
           CalendarView(store: self.store.scope(state: \.calander!, action: MainTabCore.Action.calander))
             .tabItem {
-              Image(R.image.ic_calendar)
+              Image(asset: LoveBirdAsset.icCalendar)
               
-              Text(R.string.localizable.main_tab_calendar)
+              Text(LoveBirdStrings.mainTabCalendar)
                 .font(.pretendard(size: 12))
             }
             .tag(MainTabCore.Tab.canlander)
           
           DiaryView(store: self.store.scope(state: \.diary!, action: MainTabCore.Action.diary))
             .tabItem {
-              Image(R.image.ic_note)
+              Image(asset: LoveBirdAsset.icNote)
               
-              Text(R.string.localizable.main_tab_note)
+              Text(LoveBirdStrings.mainTabNote)
                 .font(.pretendard(size: 12))
             }
             .tag(MainTabCore.Tab.diary)
           
           MyPageView(store: self.store.scope(state: \.myPage!, action: MainTabCore.Action.myPage))
             .tabItem {
-              Image(R.image.ic_person)
+              Image(asset: LoveBirdAsset.icPerson)
               
-              Text(R.string.localizable.main_tab_my_page)
+              Text(LoveBirdStrings.mainTabMyPage)
                 .font(.pretendard(size: 12))
             }
             .tag(MainTabCore.Tab.myPage)

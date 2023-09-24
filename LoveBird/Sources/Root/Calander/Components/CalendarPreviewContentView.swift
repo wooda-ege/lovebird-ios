@@ -52,7 +52,7 @@ struct CalendarPreviewContentView: View {
   ) -> some View {
     Group {
       if date == viewStore.currentPreviewDate, date.month == currentDate.month {
-        Circle().stroke(Color(R.color.secondary), lineWidth: 2)
+        Circle().stroke(Color(asset: LoveBirdAsset.secondary), lineWidth: 2)
       } else {
         EmptyView()
       }

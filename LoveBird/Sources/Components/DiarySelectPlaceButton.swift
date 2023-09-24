@@ -14,7 +14,7 @@ struct DiarySelectPlaceButton: View {
   var body: some View {
     ZStack {
       RoundedRectangle(cornerRadius: 10)
-        .foregroundColor(Color(R.color.gray02))
+        .foregroundColor(Color(asset: LoveBirdAsset.gray02))
         .background(.white)
         .frame(
           height: 44,
@@ -25,7 +25,7 @@ struct DiarySelectPlaceButton: View {
         Label {
           Text(title)
         } icon : {
-          Image(R.image.ic_map)
+          Image(asset: LoveBirdAsset.icMap)
             .resizable()
             .scaledToFit()
             .frame(
@@ -38,7 +38,7 @@ struct DiarySelectPlaceButton: View {
       }
       .padding(.leading, 15)
     }
-    .background(Color(R.color.gray02))
+    .background(Color(asset: LoveBirdAsset.gray02))
   }
 }
 
@@ -46,7 +46,7 @@ struct CompleteButton: View {
   @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
   
   var body: some View {
-    Button(String(resource: R.string.localizable.complete_text)) {
+    Button(LoveBirdStrings.completeText) {
       self.presentationMode.wrappedValue.dismiss()
     }
     .foregroundColor(.black)
@@ -60,7 +60,7 @@ struct BackButton: View {
     Button(action: {
       self.presentationMode.wrappedValue.dismiss()
     }) {
-      Image(R.image.ic_back)
+      Image(asset: LoveBirdAsset.icBack)
         .resizable()
         .frame(width: 24, height: 24)
     }
