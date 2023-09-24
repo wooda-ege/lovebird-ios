@@ -42,7 +42,7 @@ struct OnboardingView: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity)
 
         if viewStore.showBottomSheet {
-          BottomSheetView(isOpen: viewStore.binding(
+          CommonBottomSheetView(isOpen: viewStore.binding(
             get: \.showBottomSheet,
             send: .hideBottomSheet
           )) {

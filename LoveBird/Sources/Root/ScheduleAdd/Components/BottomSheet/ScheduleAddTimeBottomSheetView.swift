@@ -13,7 +13,7 @@ struct ScheduleAddTimeBottomSheetView: View {
   let viewStore: ViewStore<ScheduleAddState, ScheduleAddAction>
 
   var body: some View {
-    BottomSheetView(isOpen: self.viewStore.binding(get: \.showTimeBottomSheet, send: .hideTimeBottomSheet)) {
+    CommonBottomSheetView(isOpen: self.viewStore.binding(get: \.showTimeBottomSheet, send: .hideTimeBottomSheet)) {
       ScheduleAddTimePickerView(viewStore: self.viewStore)
 
       CommonBottomSheetButtonView(

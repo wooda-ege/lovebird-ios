@@ -1,5 +1,5 @@
 //
-//  BottomSheetView.swift
+//  CommonBottomSheetView.swift
 //  LoveBird
 //
 //  Created by 황득연 on 2023/05/21.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct BottomSheetView<Content: View>: View {
+struct CommonBottomSheetView<Content: View>: View {
 
   @State private var height: CGFloat = 0
   @Binding var isOpen: Bool

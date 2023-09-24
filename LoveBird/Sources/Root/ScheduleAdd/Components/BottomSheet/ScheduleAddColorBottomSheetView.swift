@@ -13,7 +13,7 @@ struct ScheduleAddColorBottomSheetView: View {
   let viewStore: ViewStore<ScheduleAddState, ScheduleAddAction>
 
   var body: some View {
-    BottomSheetView(isOpen: self.viewStore.binding(get: \.showColorBottomSheet, send: .hideColorBottomSheet)) {
+    CommonBottomSheetView(isOpen: self.viewStore.binding(get: \.showColorBottomSheet, send: .hideColorBottomSheet)) {
       VStack {
         ForEach(ScheduleColor.allCases.filter { $0 != .none }, id: \.color) { color in
           VStack(spacing: 0) {

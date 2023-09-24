@@ -20,14 +20,19 @@ extension Page {
       switch self {
       case .email:
         return LoveBirdStrings.onboardingEmailTitle
+
       case .nickname:
         return LoveBirdStrings.onboardingNicknameTitle
+
       case .profileImage:
         return LoveBirdStrings.onboardingProfileTitle
+
       case .birth:
         return LoveBirdStrings.onboardingBirthdateTitle
+
       case .gender:
         return LoveBirdStrings.onboardingGenderTitle
+
       case .anniversary:
         return LoveBirdStrings.onboardingDateTitle
       }
@@ -37,14 +42,19 @@ extension Page {
       switch self {
       case .email:
         return LoveBirdStrings.onboardingEmailDescription
+
       case .nickname:
         return LoveBirdStrings.onboardingNicknameDescription
+
       case .profileImage:
         return LoveBirdStrings.onboardingProfileDescription
+
       case .birth:
         return LoveBirdStrings.onboardingBirthdateDescription
+
       case .gender:
         return LoveBirdStrings.onboardingGenderDescription
+
       case .anniversary:
         return LoveBirdStrings.onboardingDateDescription
       }

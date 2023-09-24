@@ -13,7 +13,7 @@ struct ScheduleAddAlarmBottomSheetView: View {
   let viewStore: ViewStore<ScheduleAddState, ScheduleAddAction>
 
   var body: some View {
-    BottomSheetView(isOpen: self.viewStore.binding(get: \.showAlarmBottomSheet, send: .hideAlarmBottomSheet)) {
+    CommonBottomSheetView(isOpen: self.viewStore.binding(get: \.showAlarmBottomSheet, send: .hideAlarmBottomSheet)) {
       VStack {
         ForEach(ScheduleAlarm.allCases.filter { $0 != .none }, id: \.self) { alarm in
           VStack(spacing: 0) {
