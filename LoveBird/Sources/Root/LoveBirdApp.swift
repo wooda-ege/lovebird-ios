@@ -7,8 +7,6 @@
 
 import SwiftUI
 import ComposableArchitecture
-import Firebase
-import FirebaseMessaging
 import KakaoSDKCommon
 import KakaoSDKAuth
 import KakaoSDKUser
@@ -46,7 +44,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
     
     // 파이어베이스 설정
-    FirebaseApp.configure()
+//    FirebaseApp.configure()
     
     // Setting Up Notifications...
     // 원격 알림 등록
@@ -69,7 +67,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
     
     // Setting Up Cloud Messaging...
     // 메세징 델리겟
-    Messaging.messaging().delegate = self
+//    Messaging.messaging().delegate = self
     
     UNUserNotificationCenter.current().delegate = self
     return true
@@ -77,7 +75,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
   
   // fcm 토큰이 등록 되었을 때
   func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-    Messaging.messaging().apnsToken = deviceToken
+//    Messaging.messaging().apnsToken = deviceToken
     var token = ""
     for i in 0..<deviceToken.count {
       token += String(format: "%02.2hhx", deviceToken[i] as CVarArg)
@@ -89,14 +87,14 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 }
 
 // Cloud Messaging...
-extension AppDelegate: MessagingDelegate {
-  
-  // fcm 등록 토큰을 받았을 때
-  func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
-    
-    print("토큰을 받았다")
-  }
-}
+//extension AppDelegate: MessagingDelegate {
+//  
+//  // fcm 등록 토큰을 받았을 때
+//  func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
+//    
+//    print("토큰을 받았다")
+//  }
+//}
 
 // User Notifications...[AKA InApp Notification...]
 

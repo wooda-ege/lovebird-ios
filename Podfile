@@ -11,5 +11,7 @@ target 'LoveBird' do
   pod 'R.swift'
   pod 'SwiftUIPager'
   pod 'Moya'
+  pod 'KakaoSDKAuth'
+  pod 'KakaoSDKCommon'
 
 end
