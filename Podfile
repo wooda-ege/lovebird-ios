@@ -12,5 +12,6 @@ target 'LoveBird' do
   pod 'Moya'
   pod 'KakaoSDKAuth'
   pod 'KakaoSDKCommon'
+  pod 'KakaoSDKUser'
 
 end

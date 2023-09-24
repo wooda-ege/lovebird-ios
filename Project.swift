@@ -19,7 +19,9 @@ let project = Project(
       sources: ["LoveBird/Sources/**", "LoveBird/Config.swift"],
       resources: ["LoveBird/Resources/**"],
       dependencies: [
-        .package(product: "ComposableArchitecture")
+        .package(product: "ComposableArchitecture"),
+        .sdk(name: "SwiftUI", type: .framework, status: .optional),
+        .sdk(name: "WebKit", type: .framework)
       ]
     )
   ]
