@@ -5,23 +5,6 @@
 ## User settings
 xcuserdata/
 
-## compatibility with Xcode 8 and earlier (ignoring not required starting Xcode 9)
-*.xcscmblueprint
-*.xccheckout
-
-## compatibility with Xcode 3 and earlier (ignoring not required starting Xcode 4)
-build/
-DerivedData/
-*.moved-aside
-*.pbxuser
-!default.pbxuser
-*.mode1v3
-!default.mode1v3
-*.mode2v3
-!default.mode2v3
-*.perspectivev3
-!default.perspectivev3
-
 ## Obj-C/Swift specific
 *.hmap
 
@@ -33,6 +16,35 @@ DerivedData/
 ## Playgrounds
 timeline.xctimeline
 playground.xcworkspace
+
+## Various settings
+*.pbxuser
+!default.pbxuser
+*.mode1v3
+!default.mode1v3
+*.mode2v3
+!default.mode2v3
+*.perspectivev3
+!default.perspectivev3
+xcuserdata/
+
+# Xcode Patch
+*.xcodeproj/*
+!*.xcodeproj/project.pbxproj
+!*.xcodeproj/xcshareddata/
+!*.xcworkspace/contents.xcworkspacedata
+/*.gcno
+
+# Projects #
+*.xcodeproj
+*.xcworkspace
+
+# Tuist derived files
+graph.dot
+Derived/
+
+# Tuist managed dependencies
+Tuist/Dependencies
 
 # Swift Package Manager
 #
@@ -91,10 +103,3 @@ iOSInjectionProject/
 
 # Private
 LoveBird/Config.swift
-
-# Tuist derived files
-graph.dot
-Derived/
-
-# Tuist managed dependencies
-Tuist/Dependencies
