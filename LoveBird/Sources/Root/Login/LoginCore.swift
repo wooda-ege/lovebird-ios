@@ -31,7 +31,7 @@ struct LoginCore: ReducerProtocol {
       case .kakaoLoginTapped(let idToken, let name, let email):
         return .run { send in
           do {
-            let kakaoLoginResponse = try await self.apiClient.request(.login(idToken: idToken, name: name, email: email)) as LoginResponse
+            let kakaoLoginResponse = try await self.apiClient.request(.login(provider: "KAKAO", idToken: idToken, name: name, email: email)) as LoginResponse
             
             await send(.kakaoLoginResponse(.success(kakaoLoginResponse)))
           } catch {
@@ -49,7 +49,7 @@ struct LoginCore: ReducerProtocol {
           
           return .run { send in
             do {
-              let appleLoginResponse = try await self.apiClient.request(.login(idToken: tokenString, name: lastName+firstName, email: email)) as LoginResponse
+              let appleLoginResponse = try await self.apiClient.request(.login(provider: "APPLE", idToken: tokenString, name: lastName+firstName, email: email)) as LoginResponse
               
               await send(.appleLoginResponse(.success(appleLoginResponse)))
             } catch {
