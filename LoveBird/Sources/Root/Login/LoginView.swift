@@ -60,9 +60,10 @@ struct LoginView: View {
         .padding(.top, 10)
         .padding(.leading, 24)
         .padding(.bottom, 212)
+        
         Image(R.image.img_kakaoLogin)
           .resizable()
-          .frame(width: 343, height: 60)
+          .padding(.horizontal, 16)
           .onTapGesture {
             if (UserApi.isKakaoTalkLoginAvailable()) {
               UserApi.shared.loginWithKakaoTalk {(oauthToken, error) in
@@ -112,7 +113,7 @@ struct LoginView: View {
           }
         
         Image(R.image.img_appleLogin)
-                  .frame(width: 343, height: 60)
+          .padding(.horizontal, 16)
                   .onTapGesture(perform: showAppleLogin)
         
         Spacer()

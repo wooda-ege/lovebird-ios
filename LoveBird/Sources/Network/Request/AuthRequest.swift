@@ -8,8 +8,13 @@
 import Foundation
 
 struct AuthRequest: Encodable {
-  let provider: String
+  let provider: Provider
   let idToken: String
   let name: String
   let email: String?
+}
+
+enum Provider: Encodable {
+  case APPLE
+  case KAKAO
 }
