@@ -82,23 +82,7 @@ struct RootCore: Reducer {
       // MARK: - Login
 
       case .login(.kakaoLoginResponse(.success(let response))), .login(.appleLoginResponse(.success(let response))):
-        return .run { send in
-          userData.store(key: .accessToken, value: response.accessToken)
-          userData.store(key: .refreshToken, value: response.refreshToken)
-
-          if response.flag == true { // 신규
-            await send(.updateRootState(.onboarding(OnboardingCore.State())))
-          } else { // 기존
-            do {
-              let profile = try await apiClient.request(.fetchProfile) as Profile
-              if profile.partnerId == nil {
-                await send(.updateRootState(.coupleLink(CoupleLinkCore.State())))
-              } else {
-                await send(.updateRootState(.mainTab(MainTabCore.State())))
-              }
-            }
-          }
-        }
+        return .none
 
       case .login(.kakaoLoginResponse(.failure(let error))), .login(.appleLoginResponse(.failure(let error))):
         print(error)

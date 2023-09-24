@@ -17,7 +17,7 @@ import SwiftUI
 public enum APIClient {
 
   // onboarding
-  case login(idToken: String, name: String, email: String)
+  case login(provider: String, idToken: String, name: String, email: String)
   case invitationViewLoaded
   case coupleLinkButtonClicked(coupleCode: String)
   case coupleCheckButtonClicked
@@ -197,7 +197,8 @@ extension APIClient: TargetType {
       params["startTime"] = addSchedule.startTime
       params["endTime"] = addSchedule.endTime
       params["alarm"] = addSchedule.alarm
-    case .login(let idToken, let name, let email):
+    case .login(let provider, let idToken, let name, let email):
+      params["provider"] = provider
       params["idToken"] = idToken
       params["name"] = name
       params["email"] = email

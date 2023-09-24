@@ -13,8 +13,7 @@ class SignInWithAppleDelegates: NSObject {
   private let signInSucceeded: (Bool) -> Void
   private weak var window: UIWindow!
   
-  init(window: UIWindow?, onSignedIn: @escaping (Bool) -> Void) {
-    self.window = window
+  init(window: UIWindow? = UIWindow(), onSignedIn: @escaping (Bool) -> Void) {
     self.signInSucceeded = onSignedIn
   }
 }
@@ -48,9 +47,6 @@ extension SignInWithAppleDelegates: ASAuthorizationControllerDelegate {
   }
 
   private func signInWithExistingAccount(credential: ASAuthorizationAppleIDCredential) {
-    // You *should* have a fully registered account here.  If you get back an error from your server
-    // that the account doesn't exist, you can look in the keychain for the credentials and rerun setup
-
     do {
       let success = try WebApi.Login(user: credential.user, identityToken: credential.identityToken, authorizationCode: credential.authorizationCode)
     } catch {
@@ -61,12 +57,6 @@ extension SignInWithAppleDelegates: ASAuthorizationControllerDelegate {
   }
 
   private func signInWithUserAndPassword(credential: ASPasswordCredential) {
-    // You *should* have a fully registered account here.  If you get back an error from your server
-    // that the account doesn't exist, you can look in the keychain for the credentials and rerun setup
-
-//     if (WebAPI.Login(credential.user, credential.password)) {
-//       ...
-//     }
     self.signInSucceeded(true)
   }
   

@@ -17,7 +17,6 @@ import AuthenticationServices
 
 struct LoginView: View {
   let store: StoreOf<LoginCore>
-  @Environment(\.window) var window: UIWindow?
   @State var appleSignInDelegates: SignInWithAppleDelegates! = nil
 
   
@@ -129,7 +128,7 @@ struct LoginView: View {
   }
   
   func performSignIn(using requests: [ASAuthorizationRequest]) {
-    appleSignInDelegates = SignInWithAppleDelegates(window: window) { success in
+    appleSignInDelegates = SignInWithAppleDelegates { success in
       // 추후 수정 필요
       if success {
         
