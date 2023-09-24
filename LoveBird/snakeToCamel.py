@@ -17,8 +17,8 @@ for root, dirs, files in os.walk("."):
                 content = f.read()
                 
                 # 패턴에 맞는 문자열 찾아서 바꾸기
-                content = re.sub(r'Color\(R.color.(\w+)\)', lambda m: "LoveBirdAsset." + snake_to_camel(m.group(1)) + ".swiftUIColor", content)
-                content = re.sub(r'Image\(R.image.(\w+)\)', lambda m: "LoveBirdAsset." + snake_to_camel(m.group(1)) + ".swiftUIImage", content)
+                content = re.sub(r'Color\(R.color.(\w+)\)', lambda m: "Color(asset: LoveBirdAsset." + snake_to_camel(m.group(1)) + ")", content)
+                content = re.sub(r'Image\(R.image.(\w+)\)', lambda m: "Image(asset: LoveBirdAsset." + snake_to_camel(m.group(1)) + ")", content)
                 content = re.sub(r'String\(resource: R.string.localizable.(\w+)\)', lambda m: "LoveBirdStrings." + snake_to_camel(m.group(1)), content)
                 content = re.sub(r'Text\(R.string.localizable.(\w+)\)', lambda m: "Text(LoveBirdStrings." + snake_to_camel(m.group(1)) + ")", content)
             

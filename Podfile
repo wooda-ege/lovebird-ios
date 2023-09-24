@@ -8,7 +8,6 @@ target 'LoveBird' do
   # Pods for LoveBird
   pod 'SwiftLint'
   pod 'Kingfisher'
-  pod 'R.swift'
   pod 'SwiftUIPager'
   pod 'Moya'
   pod 'KakaoSDKAuth'
