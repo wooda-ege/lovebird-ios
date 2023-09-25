@@ -13,13 +13,14 @@ import KakaoSDKAuth
 
 struct LoginCore: ReducerProtocol {
   @Dependency(\.apiClient) var apiClient
+  @Dependency(\.userData) var userData
   
   struct State: Equatable {
   }
   
   enum Action: Equatable {
-    case kakaoLoginTapped(String, String, String)
-    case appleLoginTapped(ASAuthorization)
+    case kakaoLoginTapped(String, String)
+    case appleLoginTapped(String, ASAuthorization)
     case kakaoLoginResponse(TaskResult<LoginResponse>)
     case appleLoginResponse(TaskResult<LoginResponse>)
   }
@@ -28,31 +29,36 @@ struct LoginCore: ReducerProtocol {
   var body: some ReducerProtocol<State, Action> {
     Reduce { state, action in
       switch action {
-      case .kakaoLoginTapped(let idToken, let name, let email):
+      case .kakaoLoginTapped(let provider, let idToken):
+        userData.store(key: .idToken, value: idToken)
+        userData.store(key: .provider, value: provider)
+        
         return .run { send in
           do {
-            let kakaoLoginResponse = try await self.apiClient.request(.login(provider: "KAKAO", idToken: idToken, name: name, email: email)) as LoginResponse
+            let kakaoLoginResponse = try await self.apiClient.request(.login(provider: provider, idToken: idToken)) as LoginResponse
             
             await send(.kakaoLoginResponse(.success(kakaoLoginResponse)))
           } catch {
-            
+            await send(.kakaoLoginResponse(.failure(error)))
           }
         }
-      case .appleLoginTapped(let auth):
+        
+      case .appleLoginTapped(let provider, let auth):
         switch auth.credential {
         case let credential as ASAuthorizationAppleIDCredential:
           let tokenData = credential.identityToken
           let tokenString = String(decoding: tokenData!, as: UTF8.self)
-          let email = credential.email ?? ""
-          let firstName = credential.fullName?.givenName ?? ""
-          let lastName = credential.fullName?.familyName ?? ""
+          
+          userData.store(key: .idToken, value: tokenString)
+          userData.store(key: .provider, value: provider)
           
           return .run { send in
             do {
-              let appleLoginResponse = try await self.apiClient.request(.login(provider: "APPLE", idToken: tokenString, name: lastName+firstName, email: email)) as LoginResponse
+              let appleLoginResponse = try await self.apiClient.request(.login(provider: provider, idToken: tokenString)) as LoginResponse
               
               await send(.appleLoginResponse(.success(appleLoginResponse)))
             } catch {
+              await send(.appleLoginResponse(.failure(error)))
 
             }
           }

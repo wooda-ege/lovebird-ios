@@ -17,13 +17,13 @@ import SwiftUI
 public enum APIClient {
 
   // onboarding
-  case login(provider: String, idToken: String, name: String, email: String)
+  case login(provider: String, idToken: String)
   case invitationViewLoaded
   case coupleLinkButtonClicked(coupleCode: String)
   case coupleCheckButtonClicked
 
   // profile
-  case registerProfile(image: UIImage?, profileRequest: RegisterProfileRequest)
+  case registerProfile(image: UIImage?, signUpRequest: AuthRequest, profileRequest: RegisterProfileRequest)
   case fetchProfile
   case editProfile(image: UIImage?, editProfile: EditProfileRequest)
   case withdrawal
@@ -64,7 +64,7 @@ extension APIClient: TargetType {
       case .withdrawal:
         return "/auth"
       case .login:
-        return "/api/v1/auth"
+        return "/auth/sign-in"
       case .invitationViewLoaded:
         return "/couple/code"
       case .coupleLinkButtonClicked:
@@ -83,8 +83,10 @@ extension APIClient: TargetType {
         return "/diaries/\(id)"
       case .addSchedule, .fetchCalendars:
         return "/calendar"
-      case .registerProfile, .fetchProfile, .editProfile:
+      case .fetchProfile, .editProfile:
         return "/profile"
+      case .registerProfile:
+        return "/auth/sign-up"
       case .fetchSchedule(let id), .deleteSchedule(let id), .editSchedule(let id, _):
         return "/calendar/\(id)"
       }
@@ -106,7 +108,8 @@ extension APIClient: TargetType {
 
   public var task: Moya.Task {
     switch self {
-    case .registerProfile(let image, let profileRequest):
+    case .registerProfile(let image, let signUpRequest, let profileRequest):
+      let signUpData = try! JSONEncoder().encode(signUpRequest)
       let profileData = try! JSONEncoder().encode(profileRequest)
       var multiparts: [Moya.MultipartFormData] = []
 
@@ -119,7 +122,14 @@ extension APIClient: TargetType {
         )
         multiparts.append(imageData)
       }
-
+      
+      let signUpRequest = MultipartFormData(
+        provider: .data(signUpData),
+        name: "signUpRequest",
+        mimeType: "application/json"
+      )
+      multiparts.append(signUpRequest)
+      
       let profileRequest = MultipartFormData(
         provider: .data(profileData),
         name: "profileCreateRequest",
@@ -176,6 +186,7 @@ extension APIClient: TargetType {
   public var headers: [String: String]? {
     let accessToken = self.userData.get(key: .accessToken, type: String.self)
     let refreshToken = self.userData.get(key: .refreshToken, type: String.self)
+    
     if case .searchKakaoMap = self {
       return ["Authorization" : Config.kakaoMapKey]
     } else if let accessToken, let refreshToken  {
@@ -197,11 +208,9 @@ extension APIClient: TargetType {
       params["startTime"] = addSchedule.startTime
       params["endTime"] = addSchedule.endTime
       params["alarm"] = addSchedule.alarm
-    case .login(let provider, let idToken, let name, let email):
+    case .login(let provider, let idToken):
       params["provider"] = provider
       params["idToken"] = idToken
-      params["name"] = name
-      params["email"] = email
     case .coupleLinkButtonClicked(let coupleCode):
       params["coupleCode"] = coupleCode
     case .searchKakaoMap(let searchTerm):

@@ -7,12 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		422EE0D72ABEC91E00A7FA52 /* SignInWithAppleDelegates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 422EE0D62ABEC91E00A7FA52 /* SignInWithAppleDelegates.swift */; };
-		422EE0D92ABEC99A00A7FA52 /* UserDataKeychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 422EE0D82ABEC99A00A7FA52 /* UserDataKeychain.swift */; };
-		422EE0DB2ABEC9CA00A7FA52 /* Keychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 422EE0DA2ABEC9CA00A7FA52 /* Keychain.swift */; };
 		422EE0DD2ABECA5B00A7FA52 /* UserInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 422EE0DC2ABECA5B00A7FA52 /* UserInformation.swift */; };
 		422EE0DF2ABECC5C00A7FA52 /* AuthRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 422EE0DE2ABECC5C00A7FA52 /* AuthRequest.swift */; };
 		422EE0E12ABECFA100A7FA52 /* WebApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 422EE0E02ABECFA100A7FA52 /* WebApi.swift */; };
+		422EE0E32AC187B500A7FA52 /* SignUpResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 422EE0E22AC187B500A7FA52 /* SignUpResponse.swift */; };
 		42470D2A2A8FA8E0003E327E /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42470D292A8FA8E0003E327E /* Config.swift */; };
 		42470D2C2A908F67003E327E /* ImageAccessAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42470D2B2A908F67003E327E /* ImageAccessAuth.swift */; };
 		425640302A58463200EC962E /* KakaoSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 4256402F2A58463200EC962E /* KakaoSDK */; };
@@ -64,7 +62,7 @@
 		4A1B9BCD2A8B5717009832EF /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4A1B9BCC2A8B5717009832EF /* GoogleService-Info.plist */; };
 		4A1DDF1E2A2C338100B3A72B /* TouchableStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A1DDF1D2A2C338100B3A72B /* TouchableStack.swift */; };
 		4A1DDF222A2C7CC700B3A72B /* RegisterProfileRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A1DDF212A2C7CC700B3A72B /* RegisterProfileRequest.swift */; };
-		4A1DDF242A2C7CCD00B3A72B /* SignUpResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A1DDF232A2C7CCD00B3A72B /* SignUpResponse.swift */; };
+		4A1DDF242A2C7CCD00B3A72B /* FetchProfileResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A1DDF232A2C7CCD00B3A72B /* FetchProfileResponse.swift */; };
 		4A1DDF2A2A2F2DDA00B3A72B /* UserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A1DDF292A2F2DDA00B3A72B /* UserData.swift */; };
 		4A1DDF2C2A2F38E800B3A72B /* FetchDiaryRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A1DDF2B2A2F38E800B3A72B /* FetchDiaryRequest.swift */; };
 		4A1DDF2E2A2F3D3600B3A72B /* NetworkResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A1DDF2D2A2F3D3600B3A72B /* NetworkResponse.swift */; };
@@ -177,12 +175,10 @@
 		1F72EB125740F5145C2ECE5E /* Pods-LoveBird.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LoveBird.debug.xcconfig"; path = "Target Support Files/Pods-LoveBird/Pods-LoveBird.debug.xcconfig"; sourceTree = "<group>"; };
 		212E893A725E4BE7E73B96EB /* Pods_LoveBird.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LoveBird.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		30556E224283EEA95E9817D2 /* Pods-LoveBird.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LoveBird.release.xcconfig"; path = "Target Support Files/Pods-LoveBird/Pods-LoveBird.release.xcconfig"; sourceTree = "<group>"; };
-		422EE0D62ABEC91E00A7FA52 /* SignInWithAppleDelegates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInWithAppleDelegates.swift; sourceTree = "<group>"; };
-		422EE0D82ABEC99A00A7FA52 /* UserDataKeychain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDataKeychain.swift; sourceTree = "<group>"; };
-		422EE0DA2ABEC9CA00A7FA52 /* Keychain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Keychain.swift; sourceTree = "<group>"; };
 		422EE0DC2ABECA5B00A7FA52 /* UserInformation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInformation.swift; sourceTree = "<group>"; };
 		422EE0DE2ABECC5C00A7FA52 /* AuthRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthRequest.swift; sourceTree = "<group>"; };
 		422EE0E02ABECFA100A7FA52 /* WebApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebApi.swift; sourceTree = "<group>"; };
+		422EE0E22AC187B500A7FA52 /* SignUpResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpResponse.swift; sourceTree = "<group>"; };
 		42470D292A8FA8E0003E327E /* Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
 		42470D2B2A908F67003E327E /* ImageAccessAuth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageAccessAuth.swift; sourceTree = "<group>"; };
 		425640332A5AB30900EC962E /* LoginResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginResponse.swift; sourceTree = "<group>"; };
@@ -234,7 +230,7 @@
 		4A1B9BCC2A8B5717009832EF /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		4A1DDF1D2A2C338100B3A72B /* TouchableStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TouchableStack.swift; sourceTree = "<group>"; };
 		4A1DDF212A2C7CC700B3A72B /* RegisterProfileRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterProfileRequest.swift; sourceTree = "<group>"; };
-		4A1DDF232A2C7CCD00B3A72B /* SignUpResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpResponse.swift; sourceTree = "<group>"; };
+		4A1DDF232A2C7CCD00B3A72B /* FetchProfileResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchProfileResponse.swift; sourceTree = "<group>"; };
 		4A1DDF292A2F2DDA00B3A72B /* UserData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserData.swift; sourceTree = "<group>"; };
 		4A1DDF2B2A2F38E800B3A72B /* FetchDiaryRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchDiaryRequest.swift; sourceTree = "<group>"; };
 		4A1DDF2D2A2F3D3600B3A72B /* NetworkResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkResponse.swift; sourceTree = "<group>"; };
@@ -391,9 +387,6 @@
 			children = (
 				42E4D5882A4DBB2E00F4FA42 /* LoginView.swift */,
 				42E4D58A2A4DBB3500F4FA42 /* LoginCore.swift */,
-				422EE0D62ABEC91E00A7FA52 /* SignInWithAppleDelegates.swift */,
-				422EE0D82ABEC99A00A7FA52 /* UserDataKeychain.swift */,
-				422EE0DA2ABEC9CA00A7FA52 /* Keychain.swift */,
 			);
 			path = Login;
 			sourceTree = "<group>";
@@ -526,7 +519,8 @@
 		4A1DDF1F2A2C7CA700B3A72B /* Response */ = {
 			isa = PBXGroup;
 			children = (
-				4A1DDF232A2C7CCD00B3A72B /* SignUpResponse.swift */,
+				4A1DDF232A2C7CCD00B3A72B /* FetchProfileResponse.swift */,
+				422EE0E22AC187B500A7FA52 /* SignUpResponse.swift */,
 				42784F862A8A1A0F00F39139 /* TryLinkResponse.swift */,
 				42E064152A45C11600B9EAC3 /* SearchPlaceResponse.swift */,
 				4260B05C2A8CE1AE002A61B6 /* TryDiaryResponse.swift */,
@@ -1042,7 +1036,6 @@
 				4AD602BA2A5011110029D7EB /* ScheduleAddTitleView.swift in Sources */,
 				4AE5CB5E2A232F6C0016C0B4 /* MyPageCore.swift in Sources */,
 				427573F02A4F06DD00A8FD33 /* OnboardingEmailView.swift in Sources */,
-				422EE0D72ABEC91E00A7FA52 /* SignInWithAppleDelegates.swift in Sources */,
 				427573F22A519A3200A8FD33 /* OnboardingProfileView.swift in Sources */,
 				4ACCB9782A18F0A6009F1E22 /* UIScreen+Extension.swift in Sources */,
 				4AB2DB362A19AE4F003EFD95 /* KeyboardResponder.swift in Sources */,
@@ -1071,6 +1064,7 @@
 				4AE5CB612A232FCA0016C0B4 /* CalendarCore.swift in Sources */,
 				4263E1CD2A2F3563008B402B /* SearchPlaceView.swift in Sources */,
 				4AD853D32A89B5D40005EAD5 /* CustomImagePicker.swift in Sources */,
+				422EE0E32AC187B500A7FA52 /* SignUpResponse.swift in Sources */,
 				42E064162A45C11600B9EAC3 /* SearchPlaceResponse.swift in Sources */,
 				4A35E31A2AB342A3003C9033 /* OnboardingDateView.swift in Sources */,
 				4263E1C82A2F3522008B402B /* SearchPlaceCore.swift in Sources */,
@@ -1081,9 +1075,8 @@
 				4A8269FE2A6387B20060CE7F /* CalendarPreviewTabView.swift in Sources */,
 				4AD602C12A506BEE0029D7EB /* ScheduleAddColorBottomSheetView.swift in Sources */,
 				4A327D432A5459EF002EEB55 /* AddScheduleResponse.swift in Sources */,
-				422EE0DB2ABEC9CA00A7FA52 /* Keychain.swift in Sources */,
 				4AD602A52A4F10510029D7EB /* CommonTextField.swift in Sources */,
-				4A1DDF242A2C7CCD00B3A72B /* SignUpResponse.swift in Sources */,
+				4A1DDF242A2C7CCD00B3A72B /* FetchProfileResponse.swift in Sources */,
 				4A0396832A0FA5B600EB062D /* LoveBirdApp.swift in Sources */,
 				4AD602952A4EB9F40029D7EB /* CalendarScheduleView.swift in Sources */,
 				4AB2DB3C2A19B9F4003EFD95 /* BottomSheetView.swift in Sources */,
@@ -1129,7 +1122,6 @@
 				4A1DDF222A2C7CC700B3A72B /* RegisterProfileRequest.swift in Sources */,
 				42E4D58B2A4DBB3500F4FA42 /* LoginCore.swift in Sources */,
 				42E4D58D2A4DD3D600F4FA42 /* SplashView.swift in Sources */,
-				422EE0D92ABEC99A00A7FA52 /* UserDataKeychain.swift in Sources */,
 				4AE5CB5A2A232E490016C0B4 /* DiaryView.swift in Sources */,
 				4ACCB98A2A18F7ED009F1E22 /* Font+Extension.swift in Sources */,
 				427573F62A52883500A8FD33 /* OnboardingBirthDateView.swift in Sources */,
@@ -1275,7 +1267,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = LoveBird/LoveBird.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.0.0.1;
+				CURRENT_PROJECT_VERSION = 1.0.0.6;
 				DEVELOPMENT_ASSET_PATHS = "\"LoveBird/Preview Content\"";
 				DEVELOPMENT_TEAM = 79K7D639YK;
 				ENABLE_PREVIEWS = YES;
@@ -1311,7 +1303,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = LoveBird/LoveBird.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.0.0.1;
+				CURRENT_PROJECT_VERSION = 1.0.0.6;
 				DEVELOPMENT_ASSET_PATHS = "\"LoveBird/Preview Content\"";
 				DEVELOPMENT_TEAM = 79K7D639YK;
 				ENABLE_PREVIEWS = YES;

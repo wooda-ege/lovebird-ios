@@ -17,8 +17,6 @@ import AuthenticationServices
 
 struct LoginView: View {
   let store: StoreOf<LoginCore>
-  @State var appleSignInDelegates: SignInWithAppleDelegates! = nil
-
   
   init(store: StoreOf<LoginCore>) {
     self.store = store
@@ -63,6 +61,7 @@ struct LoginView: View {
         
         Image(R.image.img_kakaoLogin)
           .resizable()
+          .frame(height: 56)
           .padding(.horizontal, 16)
           .onTapGesture {
             if (UserApi.isKakaoTalkLoginAvailable()) {
@@ -73,16 +72,12 @@ struct LoginView: View {
                   guard let idToken = oauthToken?.idToken else {
                     return
                   }
-                    
+                  
                   UserApi.shared.me {(user, error) in
                     if let error = error {
                       print(error)
                     } else {
-                      guard let name = user?.kakaoAccount?.name,
-                            let email = user?.kakaoAccount?.email else {
-                        return
-                      }
-                      viewStore.send(.kakaoLoginTapped(idToken, name, email))
+                      viewStore.send(.kakaoLoginTapped(Provider.KAKAO.rawValue, idToken))
                     }
                   }
                 }
@@ -95,16 +90,12 @@ struct LoginView: View {
                   guard let idToken = oauthToken?.idToken else {
                     return
                   }
-                    
+                  
                   UserApi.shared.me {(user, error) in
                     if let error = error {
                       print(error)
                     } else {
-                      guard let name = user?.kakaoAccount?.name,
-                            let email = user?.kakaoAccount?.email else {
-                        return
-                      }
-                      viewStore.send(.kakaoLoginTapped(idToken, name, email))
+                      viewStore.send(.kakaoLoginTapped(Provider.KAKAO.rawValue, idToken))
                     }
                   }
                 }
@@ -112,39 +103,23 @@ struct LoginView: View {
             }
           }
         
-        Image(R.image.img_appleLogin)
-          .padding(.horizontal, 16)
-                  .onTapGesture(perform: showAppleLogin)
+        SignInWithAppleButton(.continue) { request in
+          request.requestedScopes = [.email, .fullName]
+        } onCompletion: { result in
+          switch result {
+          case .success(let auth):
+            viewStore.send(.appleLoginTapped(Provider.APPLE.rawValue, auth))
+          case .failure(let error):
+            print(error)
+          }
+        }
+        .padding(.horizontal, 16)
+        .frame(height: 56)
         
         Spacer()
       }
     }
   }
-  
-  func showAppleLogin() {
-    let request = ASAuthorizationAppleIDProvider().createRequest()
-    request.requestedScopes = [.fullName, .email]
-    
-    performSignIn(using: [request])
-  }
-  
-  func performSignIn(using requests: [ASAuthorizationRequest]) {
-    appleSignInDelegates = SignInWithAppleDelegates { success in
-      // 추후 수정 필요
-      if success {
-        
-      } else {
-        
-      }
-    }
-    
-    let controller = ASAuthorizationController(authorizationRequests: requests)
-    controller.delegate = appleSignInDelegates
-    controller.presentationContextProvider = appleSignInDelegates
-    
-    controller.performRequests()
-  }
-  
 }
 
 struct LoginView_Previews: PreviewProvider {

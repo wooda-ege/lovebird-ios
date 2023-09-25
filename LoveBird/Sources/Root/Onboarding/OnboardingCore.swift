@@ -29,7 +29,7 @@ struct OnboardingCore: ReducerProtocol {
     var nicknameTextFieldState: TextFieldState = .none
     var showBottomSheet = false
     var skipPages: [Page.Onboarding] = []
-
+    
     var canSkip: Bool {
       self.pageState.canSkip
     }
@@ -88,7 +88,7 @@ struct OnboardingCore: ReducerProtocol {
     case anniversaryUpdated(SimpleDate)
 
     // Network
-    case registerProfileResponse(TaskResult<Profile>)
+    case registerProfileResponse(TaskResult<SignUpResponse>)
   }
 
   @Dependency(\.apiClient) var apiClient
@@ -108,6 +108,7 @@ struct OnboardingCore: ReducerProtocol {
             let profile = try await self.apiClient.request(
               .registerProfile(
                 image: state.skipPages.contains(.profileImage) ? nil : state.profileImage,
+                signUpRequest: AuthRequest.init(provider: Provider(rawValue: userData.get(key: .provider, type: String.self)!) ?? Provider.APPLE, idToken: userData.get(key: .idToken, type: String.self)!),
                 profileRequest: RegisterProfileRequest.init(
                   email: state.email,
                   nickname: state.nickname,
@@ -116,7 +117,7 @@ struct OnboardingCore: ReducerProtocol {
                   gender: state.gender?.rawValue ?? "UNKNOWN",
                   deviceToken: "fcm")
               )
-            ) as Profile
+            ) as SignUpResponse
             await send(.registerProfileResponse(.success(profile)))
           } catch {
             print("프로필 등록 실패")

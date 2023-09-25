@@ -7,14 +7,12 @@
 
 import Foundation
 
-struct AuthRequest: Encodable {
+public struct AuthRequest: Encodable {
   let provider: Provider
   let idToken: String
-  let name: String
-  let email: String?
 }
 
-enum Provider: Encodable {
+enum Provider: String, Encodable {
   case APPLE
   case KAKAO
 }

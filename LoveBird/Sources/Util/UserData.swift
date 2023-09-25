@@ -11,6 +11,8 @@ import ComposableArchitecture
 public struct UserData {
   enum Keys: String, CaseIterable {
     case user
+    case provider
+    case idToken
     case accessToken
     case refreshToken
   }

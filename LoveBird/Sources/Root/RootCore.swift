@@ -65,6 +65,11 @@ struct RootCore: Reducer {
 
       case .viewAppear:
         return .run { send in
+//          userData.remove(key: .accessToken)
+//          userData.remove(key: .refreshToken)
+//          userData.remove(key: .idToken)
+//          userData.remove(key: .user)
+//          userData.remove(key: .provider)
           try await Task.sleep(nanoseconds: Constants.delayOfSplash)
           let user = self.userData.get(key: .user, type: Profile.self)
           var rootState: State
@@ -75,23 +80,43 @@ struct RootCore: Reducer {
           } else {
             rootState = .mainTab(MainTabCore.State())
           }
-          rootState = .onboarding(OnboardingCore.State())
+//          rootState = .onboarding(OnboardingCore.State())
           await send(.updateRootState(rootState), animation: .default)
         }
         
       // MARK: - Login
 
       case .login(.kakaoLoginResponse(.success(let response))), .login(.appleLoginResponse(.success(let response))):
-        return .none
-
+        userData.store(key: .accessToken, value: response.accessToken)
+        userData.store(key: .refreshToken, value: response.refreshToken)
+        
+        if response.linkedFlag == true {
+          return .send(.updateRootState(.mainTab(MainTabCore.State())))
+        } else {
+          return .send(.updateRootState(.coupleLink(CoupleLinkCore.State())))
+        }
       case .login(.kakaoLoginResponse(.failure(let error))), .login(.appleLoginResponse(.failure(let error))):
         print(error)
-        return .none
+        
+        return .send(.updateRootState(.onboarding(OnboardingCore.State())))
         
       // MARK: - Onboarding
         
-      case .onboarding(.registerProfileResponse(.success)):
-        return .send(.updateRootState(.coupleLink(CoupleLinkCore.State())))
+      case .onboarding(.registerProfileResponse(.success(let response))):
+        userData.store(key: .accessToken, value: response.accessToken)
+        userData.store(key: .refreshToken, value: response.refreshToken)
+        
+        return .run { send in
+          do {
+            let profile = try await apiClient.request(.fetchProfile) as Profile
+            userData.store(key: .user, value: profile)
+            
+            await send(.updateRootState(.coupleLink(CoupleLinkCore.State())))
+          } catch {
+            await send(.updateRootState(.coupleLink(CoupleLinkCore.State())))
+            
+          }
+        }
 
         // MARK: - CoupleLink
         
@@ -109,6 +134,8 @@ struct RootCore: Reducer {
         self.userData.remove(key: .user)
         self.userData.remove(key: .accessToken)
         self.userData.remove(key: .refreshToken)
+        self.userData.remove(key: .idToken)
+        self.userData.remove(key: .provider)
         state = .login(LoginCore.State())
         return .none
 
