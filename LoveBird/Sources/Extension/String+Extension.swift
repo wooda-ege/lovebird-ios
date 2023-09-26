@@ -29,10 +29,6 @@ extension String {
     return !self.isEmpty
   }
 
-  var isWeekend: Bool {
-    return self == "일" || self == "토"
-  }
-
   // MARK: - Date Properties
 
   // "2023-02-10"
@@ -51,6 +47,10 @@ extension String {
     return Int(components[2]) ?? 1
   }
 
+  var isWeekend: Bool {
+    return self == "일" || self == "토"
+  }
+
   func toDate() -> Date {
     let dateFormatter = DateFormatter()
     dateFormatter.dateFormat = Date.Format.YMDDivided
@@ -62,31 +62,26 @@ extension String {
   // "23:00" -> "오후 11:00"
   func toScheduleTime() -> Self {
     let components = self.components(separatedBy: ":")
-    guard components.count == 2 else { return "" }
-    let meridiam = Int(components[0])! / 12 == 1 ? "오후" : "오전"
-    return "\(meridiam) \((Int(components[0])! + 11) % 12 + 1):\(components[1])"
+    guard components.count == 2,
+          let hour = Int(components[0]),
+          let minute = Int(components[1]) else { return "" }
+
+    let meridiam = hour / 12 == 1 ? "오후" : "오전"
+    return "\(meridiam) \(hour + 11 % 12 + 1):\(minute)"
   }
 
   // "08:00" -> ScheduleTime(hour: 8, minute: 0, meridiem: .am)
   func toTime() -> ScheduleTime {
     let components = self.components(separatedBy: ":")
-    guard components.count == 2 else { return .default }
-    let meridiam = Int(components[0])! / 12 == 1 ? "오후" : "오전"
-    return .init(hour: (Int(components[0])! + 11) % 12 + 1, minute: Int(components[1])!, meridiem: Int(components[0])! / 12 == 1 ? .pm : .am)
-  }
+    guard components.count == 2,
+          let hour = Int(components[0]),
+          let minute = Int(components[1]) else { return .default }
 
-  // "PRIMARY" -> ScheduleColor(.primary)
-  func toColor() -> ScheduleColor {
-    switch self {
-    case "SECONDARY":
-      return .secondary
-    case "PRIMARY":
-      return .primary
-    case "GRAY":
-      return .gray
-    default:
-      return .none
-    }
+    return .init(
+      hour: (hour + 11) % 12 + 1,
+      minute: minute,
+      meridiem: hour / 12 == 1 ? .pm : .am
+    )
   }
 
   // MARK: - Static Method
@@ -100,15 +95,16 @@ extension String {
     if let startTime = startTime, let endTime = endTime {
       if startTime == endTime {
         return "\(date) \(startTime.toScheduleTime())"
+      } else {
+        return "\(date) \(startTime.toScheduleTime()) ~ \(endTime.toScheduleTime())"
       }
-      return "\(date) \(startTime.toScheduleTime()) ~ \(endTime.toScheduleTime())"
     }
     return date
   }
 
   static func intervalDates(startDate: String, endDate: String) -> [String] {
     let dateFormatter = DateFormatter()
-    dateFormatter.dateFormat = "yyyy-MM-dd"
+    dateFormatter.dateFormat = Date.Format.YMDDivided
     dateFormatter.timeZone = TimeZone(abbreviation: "KST")
 
     guard let startDate = dateFormatter.date(from: startDate),

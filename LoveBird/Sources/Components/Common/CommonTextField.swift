@@ -17,7 +17,7 @@ struct CommonTextField: View {
   init(
     text: Binding<String>,
     placeholder: String,
-    borderColor: Color = Color(R.color.gray05),
+    borderColor: Color = Color(asset: LoveBirdAsset.gray05),
     clearButtonTrailingPadding: CGFloat = 16,
     isFocused: FocusState<Bool>.Binding
   ) {

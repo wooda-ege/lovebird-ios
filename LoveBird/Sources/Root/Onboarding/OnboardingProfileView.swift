@@ -12,20 +12,23 @@ import UIKit
 struct OnboardingProfileView: View {
   let store: StoreOf<OnboardingCore>
   @State var image: UIImage?
-  @StateObject private var keyboard = KeyboardResponder()
   
   var body: some View {
     WithViewStore(self.store, observe: { $0 }) { viewStore in
       VStack(alignment: .center) {
-        ImagePickerView(use: "profile", selectedUIImage: self.$image, representImage: Image(R.image.ic_profile))
-          .frame(width: 124, height: 124, alignment: .center)
-          .padding(.top, 16)
+        ImagePickerView(
+          use: "profile",
+          selectedUIImage: self.$image,
+          representImage: Image(asset: LoveBirdAsset.icProfile)
+        )
+        .frame(width: 124, height: 124, alignment: .center)
+        .padding(.top, 16)
         
         Spacer()
 
         CommonHorizontalButton(
           title: "다음",
-          backgroundColor: self.image != nil ? .black : Color(R.color.gray05)
+          backgroundColor: self.image != nil ? .black : Color(asset: LoveBirdAsset.gray05)
         ) {
           viewStore.send(.imageSelected(self.image))
           viewStore.send(.nextTapped)

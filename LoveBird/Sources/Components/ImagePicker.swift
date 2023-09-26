@@ -52,12 +52,12 @@ struct ImagePickerView: View {
   @Binding var selectedUIImage: UIImage?
   @State var image: Image?
   var representImage: Image
-  
+
   func loadImage() {
     guard let selectedImage = selectedUIImage else { return }
     image = Image(uiImage: selectedImage)
   }
-  
+
   var body: some View {
     HStack() {
       Button {

@@ -42,8 +42,8 @@ struct DiaryView: View {
                 viewStore.send(.completeTapped)
                 
               } label: {
-                Text(R.string.localizable.common_complete)
-                  .foregroundColor((viewStore.title.isEmpty || viewStore.content.isEmpty) ? Color(R.color.green234) : Color(R.color.primary))
+                Text(LoveBirdStrings.commonComplete)
+                  .foregroundColor((viewStore.title.isEmpty || viewStore.content.isEmpty) ? Color(asset: LoveBirdAsset.green234) : Color(asset: LoveBirdAsset.primary))
                   .font(.pretendard(size: 16, weight: .bold))
                   .frame(maxWidth: .infinity, alignment: .trailing)
                   .padding(.trailing, 16)
@@ -53,7 +53,7 @@ struct DiaryView: View {
 
             VStack(spacing: 8) {
               CommonFocusedView(isFocused: viewStore.focusedType == .date) {
-                Image(R.image.ic_calendar)
+                Image(asset: LoveBirdAsset.icCalendar)
 
                 Text(viewStore.date.to(dateFormat: Date.Format.YMD))
                   .foregroundColor(.black)
@@ -90,13 +90,13 @@ struct DiaryView: View {
               } label: {
                 CommonFocusedView(isFocused: viewStore.focusedType == .place) {
                   HStack(spacing: 6) {
-                    Image(R.image.ic_map)
+                    Image(asset: LoveBirdAsset.icMap)
                       .changeSize(to: .init(width: 24, height: 24))
-                      .changeColor(to: Color(viewStore.place.isEmpty ? R.color.gray06 : R.color.gray12))
+                      .changeColor(to: Color(asset: viewStore.place.isEmpty ? LoveBirdAsset.gray06 : LoveBirdAsset.gray12))
 
                     if viewStore.place.isEmpty {
                       Text("장소 선택")
-                        .foregroundColor(Color(R.color.gray06))
+                        .foregroundColor(Color(asset: LoveBirdAsset.gray06))
                         .font(.pretendard(size: 17))
                     } else {
                       Text(viewStore.place)
@@ -113,11 +113,11 @@ struct DiaryView: View {
                 VStack(spacing: 12) {
                   Text("내용")
                     .font(.pretendard(size: 16))
-                    .foregroundColor(Color(R.color.gray06))
+                    .foregroundColor(Color(asset: LoveBirdAsset.gray06))
                     .frame(maxWidth: .infinity, alignment: .leading)
 
                   TextEditor(text: viewStore.binding(get: \.content, send: DiaryAction.contentEdited))
-                    .colorMultiply(Color(viewStore.focusedType == .content ? R.color.gray01 : R.color.gray02))
+                    .colorMultiply(Color(asset: viewStore.focusedType == .content ? LoveBirdAsset.gray01 : LoveBirdAsset.gray02))
                     .focused($isContentFocused)
                     .frame(height: 250)
                     .frame(maxWidth: .infinity, alignment: .leading)
@@ -129,7 +129,7 @@ struct DiaryView: View {
               }
 
               HStack {
-                ImagePickerView(use: "diary", selectedUIImage: $image, representImage: Image(R.image.img_addImage))
+                ImagePickerView(use: "diary", selectedUIImage: $image, representImage: Image(asset: LoveBirdAsset.imgAddImage))
                   .frame(width: 64, height: 64)
 
                 Spacer()

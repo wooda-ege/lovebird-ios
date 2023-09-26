@@ -52,7 +52,7 @@ struct DiaryPreviewContentView: View {
   ) -> some View {
     Group {
       if date == viewStore.date, date.month == currentDate.month {
-        Circle().stroke(Color(R.color.secondary), lineWidth: 2)
+        Circle().stroke(Color(asset: LoveBirdAsset.secondary), lineWidth: 2)
       } else {
         EmptyView()
       }

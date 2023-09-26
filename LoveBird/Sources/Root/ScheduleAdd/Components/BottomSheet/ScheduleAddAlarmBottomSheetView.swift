@@ -13,7 +13,7 @@ struct ScheduleAddAlarmBottomSheetView: View {
   let viewStore: ViewStore<ScheduleAddState, ScheduleAddAction>
 
   var body: some View {
-    BottomSheetView(isOpen: self.viewStore.binding(get: \.showAlarmBottomSheet, send: .hideAlarmBottomSheet)) {
+    CommonBottomSheetView(isOpen: self.viewStore.binding(get: \.showAlarmBottomSheet, send: .hideAlarmBottomSheet)) {
       VStack {
         ForEach(ScheduleAlarm.allCases.filter { $0 != .none }, id: \.self) { alarm in
           VStack(spacing: 0) {
@@ -24,7 +24,7 @@ struct ScheduleAddAlarmBottomSheetView: View {
                 .frame(maxWidth: .infinity, alignment: .leading)
 
               if self.viewStore.alarm == alarm {
-                Image(R.image.ic_check_circle)
+                Image(asset: LoveBirdAsset.icCheckCircle)
                   .resizable()
                   .frame(width: 24, height: 24)
               }
@@ -33,7 +33,7 @@ struct ScheduleAddAlarmBottomSheetView: View {
             .padding(.horizontal, 16)
 
             Rectangle()
-              .fill(Color(R.color.gray03))
+              .fill(Color(asset: LoveBirdAsset.gray03))
               .frame(height: 1)
           }
           .frame(maxWidth: .infinity)

@@ -16,24 +16,24 @@ enum ScheduleColor: String, Codable, CaseIterable {
   var description: String {
     switch self {
     case .secondary:
-      return String(resource: R.string.localizable.color_secondary)
+      return LoveBirdStrings.colorSecondary
     case .primary:
-      return String(resource: R.string.localizable.color_primary)
+      return LoveBirdStrings.colorPrimary
     case .gray:
-      return String(resource: R.string.localizable.color_gray)
+      return LoveBirdStrings.colorGray
     case .none:
-      return String(resource: R.string.localizable.add_schedule_color)
+      return LoveBirdStrings.addScheduleColor
     }
   }
 
   var color: Color {
     switch self {
     case .secondary:
-      return Color(R.color.secondary)
+      return Color(asset: LoveBirdAsset.secondary)
     case .primary:
-      return Color(R.color.primary)
+      return Color(asset: LoveBirdAsset.primary)
     case .gray:
-      return Color(R.color.gray04)
+      return Color(asset: LoveBirdAsset.gray04)
     case .none:
       return .white
     }

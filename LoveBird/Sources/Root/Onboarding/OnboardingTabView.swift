@@ -17,9 +17,9 @@ struct OnboardingTabView: View {
       HStack(alignment: .center) {
         Button { viewStore.send(.previousTapped) } label: {
           Image(
-            viewStore.page.isFisrt
-            ? R.image.ic_navigate_previous_inactive
-            : R.image.ic_navigate_previous_active
+            asset: viewStore.page.isFisrt
+                ? LoveBirdAsset.icNavigatePreviousInactive
+                : LoveBirdAsset.icNavigatePreviousActive
           )
           .frame(maxWidth: .infinity, alignment: .leading)
         }
@@ -30,7 +30,7 @@ struct OnboardingTabView: View {
           ForEach(Page.Onboarding.allCases, id: \.self) {
             Circle()
               .frame(width: 10, height: 10)
-              .foregroundColor(viewStore.page.index == $0.rawValue ? Color(R.color.primary) : Color(R.color.green164))
+              .foregroundColor(viewStore.page.index == $0.rawValue ? Color(asset: LoveBirdAsset.primary) : Color(asset: LoveBirdAsset.green164))
           }
         }
         .frame(maxWidth: .infinity)
@@ -42,15 +42,15 @@ struct OnboardingTabView: View {
             Button { viewStore.send(.skipTapped) } label: {
               Text("건너뛰기")
                 .font(.pretendard(size: 16, weight: .bold))
-                .foregroundColor(Color(R.color.primary))
+                .foregroundColor(Color(asset: LoveBirdAsset.primary))
             }
 
           } else {
             Button { viewStore.send(.nextTapped) } label: {
               Image(
-                viewStore.page.isLast
-                ? R.image.ic_navigate_next_inactive
-                : R.image.ic_navigate_next_active
+                asset: viewStore.page.isLast
+                  ? LoveBirdAsset.icNavigateNextInactive
+                  : LoveBirdAsset.icNavigateNextActive
               )
             }
           }

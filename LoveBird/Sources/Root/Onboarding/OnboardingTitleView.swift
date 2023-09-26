@@ -22,7 +22,7 @@ struct OnboardingTitleView: View {
         Text(viewStore.state.pageState.description)
           .frame(maxWidth: .infinity, alignment: .leading)
           .font(.pretendard(size: 16, weight: .regular))
-          .foregroundColor(Color(R.color.gray07))
+          .foregroundColor(Color(asset: LoveBirdAsset.gray07))
       }
       .padding(.leading, 16)
     }
