@@ -13,7 +13,7 @@ struct ScheduleAddTimeBottomSheetView: View {
 
   var body: some View {
     WithViewStore(self.store, observe: { $0 }) { viewStore in
-      BottomSheetView(
+      CommonBottomSheetView(
         isOpen: viewStore.binding(
           get: \.showTimeBottomSheet,
           send: .hideTimeBottomSheet

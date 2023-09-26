@@ -13,7 +13,7 @@ struct ScheduleAddColorBottomSheetView: View {
 
   var body: some View {
     WithViewStore(self.store, observe: { $0 }) { viewStore in
-      BottomSheetView(
+      CommonBottomSheetView(
         isOpen: viewStore.binding(
           get: \.showColorBottomSheet,
           send: .hideColorBottomSheet
@@ -33,9 +33,9 @@ struct ScheduleAddColorBottomSheetView: View {
                   .frame(maxWidth: .infinity, alignment: .leading)
 
                 if viewStore.color == color {
-                    Image(asset: LoveBirdAsset.icCheckCircle)
-                        .resizable()
-                        .frame(width: 24, height: 24)
+                  Image(asset: LoveBirdAsset.icCheckCircle)
+                    .resizable()
+                    .frame(width: 24, height: 24)
                 }
               }
               .padding(.vertical, 18)

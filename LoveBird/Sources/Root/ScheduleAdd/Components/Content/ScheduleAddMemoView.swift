@@ -19,11 +19,11 @@ struct ScheduleAddMemoView: View {
         VStack(spacing: 12) {
           Text("메모")
             .font(.pretendard(size: 16))
-            .foregroundColor(Color(R.color.gray06))
+            .foregroundColor(Color(asset: LoveBirdAsset.gray06))
             .frame(maxWidth: .infinity, alignment: .leading)
 
           TextEditor(text: viewStore.binding(get: \.memo, send: ScheduleAddAction.memoEdited))
-            .colorMultiply(Color(viewStore.focusedType == .memo ? R.color.gray01 : R.color.gray02))
+            .colorMultiply(Color(asset: viewStore.focusedType == .memo ? LoveBirdAsset.gray01 : LoveBirdAsset.gray02))
             .focused($isKeyboardFocused)
             .frame(height: 200) // TODO: 득연 - 논의 해봐야 함
             .frame(maxWidth: .infinity, alignment: .leading)

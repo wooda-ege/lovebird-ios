@@ -16,7 +16,7 @@ struct ScheduleAddTitleView: View {
     WithViewStore(self.store, observe: { $0 }) { viewStore in
       CommonFocusedView(isFocused: viewStore.focusedType == .title) {
         let textBinding = viewStore.binding(get: \.title, send: ScheduleAddAction.titleEdited)
-        TextField(LocalizedStringKey(R.string.localizable.add_schedule_title_placeholder.value), text: textBinding)
+        TextField("일정 제목을 입력해 주세요", text: textBinding)
           .font(.pretendard(size: 18))
           .background(.clear)
           .padding(.trailing, 32)

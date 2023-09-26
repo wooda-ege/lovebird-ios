@@ -16,9 +16,9 @@ struct ScheduleAddEndDateView: View {
       CommonFocusedView(isFocused: viewStore.focusedType == .endDate) {
         VStack {
           HStack {
-            Text(R.string.localizable.add_schedule_end_date)
+            Text(LoveBirdStrings.addScheduleEndDate)
               .font(.pretendard(size: 16))
-              .foregroundColor(viewStore.focusedType == .endDate ? .black : Color(R.color.gray06))
+              .foregroundColor(viewStore.focusedType == .endDate ? .black : Color(asset: LoveBirdAsset.gray06))
 
             Toggle(
               isOn: viewStore.binding(
@@ -29,15 +29,15 @@ struct ScheduleAddEndDateView: View {
               .toggleStyle(
                 SwitchToggleStyle(
                   tint: viewStore.isEndDateActive
-                  ? Color(R.color.green193)
-                  : Color(R.color.gray03)
+                  ? Color(asset: LoveBirdAsset.green193)
+                  : Color(asset: LoveBirdAsset.gray03)
                 )
               )
           }
 
           if viewStore.isEndDateActive {
             HStack {
-              Image(R.image.ic_calendar)
+              Image(asset: LoveBirdAsset.icCalendar)
 
               Text(viewStore.endDate.to(dateFormat: Date.Format.YMD))
                 .font(.pretendard(size: 18))
@@ -46,7 +46,7 @@ struct ScheduleAddEndDateView: View {
             }
             .padding(.horizontal, 16)
             .padding(.vertical, 12)
-            .background(viewStore.focusedType == .endDate ? Color(R.color.green246) : Color(R.color.gray03))
+            .background(viewStore.focusedType == .endDate ? Color(asset: LoveBirdAsset.green246) : Color(asset: LoveBirdAsset.gray03))
             .cornerRadius(12)
           }
         }

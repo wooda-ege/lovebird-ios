@@ -16,9 +16,9 @@ struct ScheduleAddAlarmView: View {
       CommonFocusedView(isFocused: viewStore.focusedType == .alarm) {
         VStack {
           HStack {
-            Text(R.string.localizable.add_schedule_alarm)
+            Text(LoveBirdStrings.addScheduleAlarm)
               .font(.pretendard(size: 16))
-              .foregroundColor(viewStore.focusedType == .alarm ? .black : Color(R.color.gray06))
+              .foregroundColor(viewStore.focusedType == .alarm ? .black : Color(asset: LoveBirdAsset.gray06))
 
             Toggle(isOn: viewStore.binding(
               get: \.isAlarmActive,
@@ -27,8 +27,8 @@ struct ScheduleAddAlarmView: View {
               .toggleStyle(
                 SwitchToggleStyle(
                   tint: viewStore.isAlarmActive
-                    ? Color(R.color.gray01)
-                    : Color(R.color.gray03)
+                    ? Color(asset: LoveBirdAsset.gray01)
+                    : Color(asset: LoveBirdAsset.gray03)
                 )
               )
           }
@@ -40,13 +40,13 @@ struct ScheduleAddAlarmView: View {
 
               Spacer()
 
-              Image(R.image.ic_arrow_drop_down)
+              Image(asset: LoveBirdAsset.icArrowDropDown)
                 .resizable()
                 .frame(width: 24, height: 24)
             }
             .padding(.horizontal, 16)
             .padding(.vertical, 12)
-            .background(viewStore.focusedType == .alarm ? Color(R.color.gray01) : Color(R.color.gray03))
+            .background(viewStore.focusedType == .alarm ? Color(asset: LoveBirdAsset.gray01) : Color(asset: LoveBirdAsset.gray03))
             .cornerRadius(12)
             .onTapGesture {
               viewStore.send(.alarmOptionTapped)

@@ -71,7 +71,7 @@ struct CalendarDateView: View {
               .overlay(
                 Rectangle()
                   .frame(height: 1)
-                  .foregroundColor(Color(R.color.gray03)),
+                  .foregroundColor(Color(asset: LoveBirdAsset.gray03)),
                 alignment: .bottom
               )
               .onTapGesture {

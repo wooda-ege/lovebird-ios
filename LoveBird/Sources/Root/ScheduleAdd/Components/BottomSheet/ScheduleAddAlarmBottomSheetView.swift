@@ -13,9 +13,9 @@ struct ScheduleAddAlarmBottomSheetView: View {
 
   var body: some View {
     WithViewStore(self.store, observe: { $0 }) { viewStore in
-      BottomSheetView(
+      CommonBottomSheetView(
         isOpen: viewStore.binding(
-          get: \.showAlarmBottomSheet, 
+          get: \.showAlarmBottomSheet,
           send: .hideAlarmBottomSheet
         )
       ) {
@@ -27,12 +27,13 @@ struct ScheduleAddAlarmBottomSheetView: View {
                   .font(.pretendard(size: 16))
                   .foregroundColor(.black)
                   .frame(maxWidth: .infinity, alignment: .leading)
-
+                
                 if viewStore.alarm == alarm {
                   Image(asset: LoveBirdAsset.icCheckCircle)
                     .resizable()
                     .frame(width: 24, height: 24)
                 }
+              }
               .padding(.vertical, 18)
               .padding(.horizontal, 16)
 

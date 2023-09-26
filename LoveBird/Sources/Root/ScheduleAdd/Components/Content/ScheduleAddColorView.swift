@@ -14,9 +14,9 @@ struct ScheduleAddColorView: View {
   var body: some View {
     WithViewStore(self.store, observe: { $0 }) { viewStore in
       CommonFocusedView(isFocused: viewStore.focusedType == .color) {
-        Text(R.string.localizable.add_schedule_color)
+        Text(LoveBirdStrings.addScheduleColor)
           .font(.pretendard(size: 16))
-          .foregroundColor(viewStore.focusedType == .color ? .black : Color(R.color.gray06))
+          .foregroundColor(viewStore.focusedType == .color ? .black : Color(asset: LoveBirdAsset.gray06))
           .frame(maxWidth: .infinity, alignment: .leading)
 
         Circle()
@@ -27,7 +27,7 @@ struct ScheduleAddColorView: View {
           .font(.pretendard(size: 16, weight: .bold))
           .foregroundColor(.black)
 
-        Image(R.image.ic_arrow_drop_down)
+        Image(asset: LoveBirdAsset.icArrowDropDown)
       }
       .onTapGesture {
         viewStore.send(.contentTapped(.color))
