@@ -66,7 +66,7 @@ struct CalendarScheduleView: View {
             NavigationLinkStore(
               self.store.scope(state: \.$scheduleDetail, action: CalendarAction.scheduleDetail)
             ) {
-              viewStore.send(.scheduleTapped(.aDummy))
+              viewStore.send(.scheduleTapped(.dummy))
             } destination: { store in
               ScheduleDetailView(store: store)
             } label: {
@@ -83,8 +83,13 @@ struct CalendarScheduleView: View {
   }
 }
 
-//struct CalendarScheduleView_Previews: PreviewProvider {
-//  static var previews: some View {
-//    CalendarScheduleView()
-//  }
-//}
+struct CalendarScheduleView_Previews: PreviewProvider {
+  static var previews: some View {
+    CalendarScheduleView(
+      store: Store(
+        initialState: CalendarState(),
+        reducer: CalendarCore()
+      )
+    )
+  }
+}

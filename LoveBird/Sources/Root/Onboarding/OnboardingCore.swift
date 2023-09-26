@@ -25,8 +25,8 @@ struct OnboardingCore: ReducerProtocol {
     // common
     var page: Page = .first()
     var pageState: Page.Onboarding = .email
-    var emailTextFieldState: TextFieldState = .none
-    var nicknameTextFieldState: TextFieldState = .none
+    var emailTextFieldState: OnboardingTextFieldState = .none
+    var nicknameTextFieldState: OnboardingTextFieldState = .none
     var showBottomSheet = false
     var skipPages: [Page.Onboarding] = []
 

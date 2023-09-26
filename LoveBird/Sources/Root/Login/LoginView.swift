@@ -110,7 +110,12 @@ struct LoginView: View {
 
 struct LoginView_Previews: PreviewProvider {
   static var previews: some View {
-    LoginView(store: Store(initialState: LoginCore.State(), reducer: LoginCore()))
+    LoginView(
+      store: Store(
+        initialState: LoginCore.State(),
+        reducer: LoginCore()
+      )
+    )
   }
 }
 

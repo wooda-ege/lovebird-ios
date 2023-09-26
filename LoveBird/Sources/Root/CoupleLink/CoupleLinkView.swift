@@ -95,14 +95,20 @@ struct CoupleLinkView: View {
           Task {
             do {
               if viewStore.invitationInputCode.isEmpty { // 코드를 공유한 상황
-                let response = try await self.apiClient.requestRaw(.coupleCheckButtonClicked)
+                let response = try await self.apiClient.requestRaw(.fetchCoupleCode)
                 if response == "SUCCESS" {
                   viewStore.send(.isSuccessTryLink(true))
                 } else {
                   viewStore.send(.isSuccessTryLink(false))
                 }
               } else { // 코드를 직접 입력한 상황
-                let response = try await self.apiClient.requestRaw(.coupleLinkButtonClicked(coupleCode: viewStore.invitationInputCode))
+                let response = try await self.apiClient.requestRaw(
+                  .linkCouple(
+                    linkCoupleRequest: .init(
+                      coupleCode: viewStore.invitationInputCode
+                    )
+                  )
+                )
                 if response == "SUCCESS" {
                   viewStore.send(.isSuccessTryLink(true))
                 } else {
@@ -154,11 +160,16 @@ struct CoupleLinkView: View {
   }
 }
 
-//struct OnboardingInviteView_Previews: PreviewProvider {
-//  static var previews: some View {
-//    OnboardingInvitationView(store: Store(initialState: OnboardingCore.State(), reducer: OnboardingCore()))
-//  }
-//}
+struct CoupleLinkView_Previews: PreviewProvider {
+  static var previews: some View {
+    CoupleLinkView(
+      store: Store(
+        initialState: CoupleLinkState(),
+        reducer: CoupleLinkCore()
+      )
+    )
+  }
+}
 
 
 struct ActivityViewController: UIViewControllerRepresentable {

@@ -85,7 +85,12 @@ struct HomeView: View {
 
 struct HomeView_Previews: PreviewProvider {
     static var previews: some View {
-        HomeView(store: Store(initialState: HomeCore.State(), reducer: HomeCore()))
+        HomeView(
+          store: Store(
+            initialState: HomeState(),
+            reducer: HomeCore()
+          )
+        )
     }
 }
 

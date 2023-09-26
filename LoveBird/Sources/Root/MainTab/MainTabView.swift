@@ -74,9 +74,14 @@ struct MainTabView: View {
 }
 
 // MARK: - Preview
-//
-//struct MainTabView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        MainTabView()
-//    }
-//}
+
+struct MainTabView_Previews: PreviewProvider {
+    static var previews: some View {
+      MainTabView(
+        store: Store(
+          initialState: MainTabState(),
+          reducer: MainTabCore()
+        )
+      )
+    }
+}

@@ -55,9 +55,14 @@ struct OnboardingEmailView: View {
   }
 }
 
-//struct OnboardingEmailView_Previews: PreviewProvider {
-//  static var previews: some View {
-//    OnboardingEmailView(store: Store(initialState: OnboardingCore.State(), reducer: OnboardingCore()))
-//  }
-//}
+struct OnboardingEmailView_Previews: PreviewProvider {
+  static var previews: some View {
+    OnboardingEmailView(
+      store: Store(
+        initialState: OnboardingState(),
+        reducer: OnboardingCore()
+      )
+    )
+  }
+}
 

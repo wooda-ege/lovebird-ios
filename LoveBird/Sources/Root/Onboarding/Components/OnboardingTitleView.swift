@@ -29,8 +29,13 @@ struct OnboardingTitleView: View {
   }
 }
 
-//struct OnboardingTitleView_Previews: PreviewProvider {
-//  static var previews: some View {
-//    OnboardingTitleView()
-//  }
-//}
+struct OnboardingTitleView_Previews: PreviewProvider {
+  static var previews: some View {
+    OnboardingTitleView(
+      store: Store(
+        initialState: OnboardingState(),
+        reducer: OnboardingCore()
+      )
+    )
+  }
+}

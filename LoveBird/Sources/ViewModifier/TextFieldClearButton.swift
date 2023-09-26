@@ -18,12 +18,10 @@ struct TextFieldClearButton: ViewModifier {
         if self.fieldText.isNotEmpty, self.isFocused {
           HStack {
             Spacer()
-            Button {
-              self.fieldText = ""
-            } label: {
+
+            Button { self.fieldText = "" } label: {
               Image(systemName: "multiply.circle.fill")
             }
-            .foregroundColor(.secondary)
             .padding(.trailing, self.trailingPadding)
           }
         }

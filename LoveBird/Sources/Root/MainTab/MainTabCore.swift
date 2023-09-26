@@ -8,6 +8,9 @@
 import Foundation
 import ComposableArchitecture
 
+typealias MainTabState = MainTabCore.State
+typealias MainTabAction = MainTabCore.Action
+
 struct MainTabCore: ReducerProtocol {
 
   // MARK: - Tab

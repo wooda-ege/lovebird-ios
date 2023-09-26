@@ -116,8 +116,13 @@ struct MyPageProfileEditView: View {
   }
 }
 
-//struct MyPageProfileEditView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        MyPageProfileEditView()
-//    }
-//}
+struct MyPageProfileEditView_Previews: PreviewProvider {
+  static var previews: some View {
+    MyPageProfileEditView(
+      store: .init(
+        initialState: MyPageProfileEditState(),
+        reducer: MyPageProfileEditCore()
+      )
+    )
+  }
+}

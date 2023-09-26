@@ -9,7 +9,6 @@ import ComposableArchitecture
 import SwiftUI
 
 struct ScheduleAddView: View {
-
   let store: StoreOf<ScheduleAddCore>
 
   var body: some View {
@@ -33,24 +32,28 @@ struct ScheduleAddView: View {
             }
           }
 
-          ScheduleAddContentView(viewStore: viewStore)
+          ScheduleAddContentView(store: self.store)
         }
         .navigationBarBackButtonHidden(true)
 
-        ScheduleAddColorBottomSheetView(viewStore: viewStore)
+        // MARK: BottomSheet
 
-        ScheduleAddDateBottomSheetView(viewStore: viewStore)
-
-        ScheduleAddTimeBottomSheetView(viewStore: viewStore)
-
-        ScheduleAddAlarmBottomSheetView(viewStore: viewStore)
+        ScheduleAddColorBottomSheetView(store: self.store)
+        ScheduleAddDateBottomSheetView(store: self.store)
+        ScheduleAddTimeBottomSheetView(store: self.store)
+        ScheduleAddAlarmBottomSheetView(store: self.store)
       }
     }
   }
 }
 
-//struct AddScheduleView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        AddScheduleView()
-//    }
-//}
+struct ScheduleAddView_Previews: PreviewProvider {
+  static var previews: some View {
+    ScheduleAddView(
+      store: .init(
+        initialState: ScheduleAddState(schedule: .dummy),
+        reducer: ScheduleAddCore()
+      )
+    )
+  }
+}

@@ -66,7 +66,7 @@ extension Date {
     }
   }
 
-  var calculateWeekOfMonth: Int {
+  var numberOfWeeksInMonth: Int {
     return Calendar.current.range(of: .weekOfMonth, in: .month, for: self)!.count
   }
 

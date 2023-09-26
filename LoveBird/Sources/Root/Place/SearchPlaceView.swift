@@ -76,6 +76,11 @@ struct SearchPlaceView: View {
 
 struct SearchPlaceView_Previews: PreviewProvider {
   static var previews: some View {
-    SearchPlaceView(store: Store(initialState: SearchPlaceCore.State(), reducer: SearchPlaceCore()))
+    SearchPlaceView(
+      store: Store(
+        initialState: SearchPlaceCore.State(),
+        reducer: SearchPlaceCore()
+      )
+    )
   }
 }

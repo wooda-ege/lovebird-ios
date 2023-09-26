@@ -39,8 +39,15 @@ struct CommonFocusedView<Content: View>: View {
   }
 }
 
-//struct CommonFocusedView_Previews: PreviewProvider {
-//  static var previews: some View {
-//    CommonFocusedView()
-//  }
-//}
+struct CommonFocusedView_Previews: PreviewProvider {
+  static var previews: some View {
+    CommonFocusedView(isFocused: true) {
+      Text("타이틀")
+        .font(.pretendard(size: 16))
+        .lineLimit(0)
+        .foregroundColor(.black)
+
+      Spacer()
+    }
+  }
+}
