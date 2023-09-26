@@ -77,7 +77,7 @@ struct LoginView: View {
                     if let error = error {
                       print(error)
                     } else {
-                      viewStore.send(.kakaoLoginTapped(Provider.KAKAO.rawValue, idToken))
+                      viewStore.send(.kakaoLoginTapped(SNSProvider.kakao.rawValue, idToken))
                     }
                   }
                 }
@@ -95,7 +95,7 @@ struct LoginView: View {
                     if let error = error {
                       print(error)
                     } else {
-                      viewStore.send(.kakaoLoginTapped(Provider.KAKAO.rawValue, idToken))
+                      viewStore.send(.kakaoLoginTapped(SNSProvider.kakao.rawValue, idToken))
                     }
                   }
                 }
@@ -108,7 +108,7 @@ struct LoginView: View {
         } onCompletion: { result in
           switch result {
           case .success(let auth):
-            viewStore.send(.appleLoginTapped(Provider.APPLE.rawValue, auth))
+            viewStore.send(.appleLoginTapped(SNSProvider.apple.rawValue, auth))
           case .failure(let error):
             print(error)
           }
