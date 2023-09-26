@@ -19,34 +19,44 @@ extension Page {
     var title: String {
       switch self {
       case .email:
-        return String(resource: R.string.localizable.onboarding_email_title)
+        return LoveBirdStrings.onboardingEmailTitle
+
       case .nickname:
-        return String(resource: R.string.localizable.onboarding_nickname_title)
+        return LoveBirdStrings.onboardingNicknameTitle
+
       case .profileImage:
-        return String(resource: R.string.localizable.onboarding_profile_title)
+        return LoveBirdStrings.onboardingProfileTitle
+
       case .birth:
-        return String(resource: R.string.localizable.onboarding_birthdate_title)
+        return LoveBirdStrings.onboardingBirthdateTitle
+
       case .gender:
-        return String(resource: R.string.localizable.onboarding_gender_title)
+        return LoveBirdStrings.onboardingGenderTitle
+
       case .anniversary:
-        return String(resource: R.string.localizable.onboarding_date_title)
+        return LoveBirdStrings.onboardingDateTitle
       }
     }
 
     var description: String {
       switch self {
       case .email:
-        return String(resource: R.string.localizable.onboarding_email_description)
+        return LoveBirdStrings.onboardingEmailDescription
+
       case .nickname:
-        return String(resource: R.string.localizable.onboarding_nickname_description)
+        return LoveBirdStrings.onboardingNicknameDescription
+
       case .profileImage:
-        return String(resource: R.string.localizable.onboarding_profile_description)
+        return LoveBirdStrings.onboardingProfileDescription
+
       case .birth:
-        return String(resource: R.string.localizable.onboarding_birthdate_description)
+        return LoveBirdStrings.onboardingBirthdateDescription
+
       case .gender:
-        return String(resource: R.string.localizable.onboarding_gender_description)
+        return LoveBirdStrings.onboardingGenderDescription
+
       case .anniversary:
-        return String(resource: R.string.localizable.onboarding_date_description)
+        return LoveBirdStrings.onboardingDateDescription
       }
     }
 

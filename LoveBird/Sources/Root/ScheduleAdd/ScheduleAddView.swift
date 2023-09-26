@@ -16,7 +16,7 @@ struct ScheduleAddView: View {
       ZStack {
         VStack {
           CommonToolBar(
-            title: String(resource: R.string.localizable.add_schedule_title),
+            title: LoveBirdStrings.addScheduleTitle,
             backButtonTapped: { viewStore.send(.backButtonTapped) }
           ) {
             NavigationLinkStore(
@@ -26,8 +26,8 @@ struct ScheduleAddView: View {
             } destination: { store in
               ScheduleDetailView(store: store)
             } label: {
-              Text(R.string.localizable.common_complete)
-                .foregroundColor(viewStore.title.isEmpty ? Color(R.color.green234) : Color(R.color.primary))
+              Text(LoveBirdStrings.commonComplete)
+                .foregroundColor(viewStore.title.isEmpty ? Color(asset: LoveBirdAsset.green234) : Color(asset: LoveBirdAsset.primary))
                 .font(.pretendard(size: 16, weight: .bold))
             }
           }

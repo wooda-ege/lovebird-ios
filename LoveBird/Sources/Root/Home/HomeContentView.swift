@@ -26,7 +26,7 @@ struct HomeContentView: View {
 
           Spacer()
 
-          Image(R.image.ic_navigate_next)
+          Image(asset: LoveBirdAsset.icNavigateNext)
             .padding(.trailing, 20)
         }
         .background(.white)
@@ -50,7 +50,7 @@ struct HomeContentView: View {
 
             Spacer()
           }
-          .background(self.diary.isFolded ? Color(R.color.gray03) : .white)
+          .background(self.diary.isFolded ? Color(asset: LoveBirdAsset.gray03) : .white)
           .onTapGesture {
             viewStore.send(.diaryTitleTapped(self.diary))
           }
@@ -66,18 +66,18 @@ struct HomeContentView: View {
               VStack(spacing: 12) {
                 if let place = self.diary.place, place.isNotEmpty {
                   HStack(spacing: 8) {
-                    Image(R.image.ic_place)
+                    Image(asset: LoveBirdAsset.icPlace)
                       .padding(.leading, 8)
                       .padding(.vertical, 5)
 
                     Text(place)
                       .lineLimit(1)
                       .font(.pretendard(size: 14))
-                      .foregroundColor(Color(R.color.gray07))
+                      .foregroundColor(Color(asset: LoveBirdAsset.gray07))
 
                     Spacer()
                   }
-                  .background(Color(R.color.gray03))
+                  .background(Color(asset: LoveBirdAsset.gray03))
                   .cornerRadius(4)
                 }
 
@@ -117,7 +117,7 @@ struct HomeContentView: View {
       case .initial:
         HStack {
           Text("D+1")
-            .foregroundColor(Color(R.color.primary))
+            .foregroundColor(Color(asset: LoveBirdAsset.primary))
             .font(.pretendard(size: 18, weight: .bold))
 
           Spacer()
@@ -129,7 +129,7 @@ struct HomeContentView: View {
         HStack(alignment: .top) {
           VStack {
             Text(diary.title)
-              .foregroundColor(Color(R.color.gray05))
+              .foregroundColor(Color(asset: LoveBirdAsset.gray05))
               .font(.pretendard(size: 18, weight: .bold))
               .padding(.leading, 2)
               .padding(.top, 36)

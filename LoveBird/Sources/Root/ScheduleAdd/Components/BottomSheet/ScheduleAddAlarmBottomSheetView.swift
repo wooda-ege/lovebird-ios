@@ -29,16 +29,15 @@ struct ScheduleAddAlarmBottomSheetView: View {
                   .frame(maxWidth: .infinity, alignment: .leading)
 
                 if viewStore.alarm == alarm {
-                  Image(R.image.ic_check_circle)
+                  Image(asset: LoveBirdAsset.icCheckCircle)
                     .resizable()
                     .frame(width: 24, height: 24)
                 }
-              }
               .padding(.vertical, 18)
               .padding(.horizontal, 16)
 
               Rectangle()
-                .fill(Color(R.color.gray03))
+                .fill(Color(asset: LoveBirdAsset.gray03))
                 .frame(height: 1)
             }
             .frame(maxWidth: .infinity)

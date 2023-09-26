@@ -15,13 +15,13 @@ enum Gender: String, CaseIterable {
   var description: String {
     switch self {
     case .male:
-      return String(resource: R.string.localizable.onboarding_gender_male)
+      return LoveBirdStrings.onboardingGenderMale
 
     case .female:
-      return String(resource: R.string.localizable.onboarding_gender_female)
+      return LoveBirdStrings.onboardingGenderFemale
 
     case .none:
-      return String(resource: R.string.localizable.onboarding_gender_private)
+      return LoveBirdStrings.onboardingGenderPrivate
     }
   }
 }

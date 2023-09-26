@@ -29,7 +29,7 @@ struct CommonToolBar<Content: View>: View {
   var body: some View {
     HStack(alignment: .center) {
       Button(action: self.backButtonTapped, label: {
-        Image(R.image.ic_back)
+        Image(asset: LoveBirdAsset.icBack)
           .resizable()
           .frame(width: 24, height: 24)
       })

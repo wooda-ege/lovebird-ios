@@ -28,15 +28,15 @@ struct HomeItem: View {
       if diary.isTimelineDateShown {
         VStack(alignment: .trailing) {
           Text(String(diary.memoryDate.month))
-            .foregroundColor(diary.type == .anniversary ? Color(R.color.gray05) : Color.black)
+            .foregroundColor(diary.type == .anniversary ? Color(asset: LoveBirdAsset.gray05) : Color.black)
             .font(.pretendard(size: 14, weight: .bold))
 
           Text(String(diary.memoryDate.day))
-            .foregroundColor(diary.type == .anniversary ? Color(R.color.gray05) : Color.black)
+            .foregroundColor(diary.type == .anniversary ? Color(asset: LoveBirdAsset.gray05) : Color.black)
             .font(.pretendard(size: 16, weight: .regular))
 
           Text(String(diary.memoryDate.year))
-            .foregroundColor(diary.type == .anniversary ? Color(R.color.gray05) : Color(R.color.gray07))
+            .foregroundColor(diary.type == .anniversary ? Color(asset: LoveBirdAsset.gray05) : Color(asset: LoveBirdAsset.gray07))
             .font(.pretendard(size: 8, weight: .bold))
 
           Spacer()

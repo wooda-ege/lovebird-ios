@@ -20,12 +20,12 @@ struct OnboardingDateView: View {
         Text(String(self.date.year))
 
         Text("/")
-          .foregroundColor(Color(R.color.gray05))
+          .foregroundColor(Color(asset: LoveBirdAsset.gray05))
 
         Text(String(self.date.month))
 
         Text("/")
-          .foregroundColor(Color(R.color.gray05))
+          .foregroundColor(Color(asset: LoveBirdAsset.gray05))
 
         Text(String(self.date.day))
 
@@ -36,7 +36,7 @@ struct OnboardingDateView: View {
     .font(.pretendard(size: 18))
     .foregroundColor(.black)
     .frame(height: 56)
-    .roundedBackground(cornerRadius: 12, color: Color(R.color.primary))
+    .roundedBackground(cornerRadius: 12, color: Color(asset: LoveBirdAsset.primary))
     .onTapGesture { self.onTap() }
   }
 }

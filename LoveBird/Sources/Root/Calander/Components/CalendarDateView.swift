@@ -97,9 +97,9 @@ struct CalendarDateView: View {
     Group {
       if date == currentDate {
         if date == Date() {
-          Circle().fill(Color(R.color.secondary))
+          Circle().fill(Color(asset: LoveBirdAsset.secondary))
         } else {
-          Circle().stroke(Color(R.color.secondary), lineWidth: 2)
+          Circle().stroke(Color(asset: LoveBirdAsset.secondary), lineWidth: 2)
         }
       } else {
         EmptyView()

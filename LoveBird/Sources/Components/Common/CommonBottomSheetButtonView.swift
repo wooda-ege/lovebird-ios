@@ -16,15 +16,15 @@ struct CommonBottomSheetButtonView: View {
   var body: some View {
     HStack(spacing: 8) {
       Button(action: self.initialAction) {
-        Text(R.string.localizable.onboarding_date_initial)
+        Text(LoveBirdStrings.onboardingDateInitial)
           .font(.pretendard(size: 16, weight: .semiBold))
           .frame(maxWidth: .infinity, maxHeight: 56)
-          .background(Color(R.color.gray05))
+          .background(Color(asset: LoveBirdAsset.gray05))
           .cornerRadius(12)
       }
       
       Button(action: self.confirmAction) {
-        Text(R.string.localizable.common_next)
+        Text(LoveBirdStrings.commonNext)
           .font(.pretendard(size: 16, weight: .semiBold))
           .frame(maxWidth: .infinity, maxHeight: 56)
           .background(.black)

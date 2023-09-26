@@ -29,7 +29,7 @@ struct MyPageView: View {
               .font(.pretendard(size: 16, weight: .bold))
 
             Text(String(viewStore.user?.dayCount ?? 0))
-              .foregroundColor(Color(R.color.primary))
+              .foregroundColor(Color(asset: LoveBirdAsset.primary))
               .font(.pretendard(size: 16, weight: .bold))
 
             Spacer()
@@ -38,7 +38,7 @@ struct MyPageView: View {
           .padding(.top, 8)
 
           Rectangle()
-            .fill(Color(R.color.gray03))
+            .fill(Color(asset: LoveBirdAsset.gray03))
             .frame(height: 1)
             .padding(.horizontal, 10)
 
@@ -53,14 +53,14 @@ struct MyPageView: View {
                 .frame(maxWidth: .infinity, alignment: .leading)
             }
 
-            Image(R.image.ic_bird)
+            Image(asset: LoveBirdAsset.icBird)
               .changeSize(to: .init(width: 24, height: 24))
-              .changeColor(to: Color(R.color.primary))
+              .changeColor(to: Color(asset: LoveBirdAsset.primary))
           }
           .frame(height: 34)
           .padding(.bottom, 8)
         }
-        .roundedBackground(cornerRadius: 12, color: Color(R.color.primary))
+        .roundedBackground(cornerRadius: 12, color: Color(asset: LoveBirdAsset.primary))
         .background(.white)
         .cornerRadius(12)
         .shadow(color: .black.opacity(0.08), radius: 6, x: 0, y: 2)
@@ -68,7 +68,7 @@ struct MyPageView: View {
         .padding(.horizontal, 16)
 
         Rectangle()
-          .fill(Color(R.color.gray02))
+          .fill(Color(asset: LoveBirdAsset.gray02))
           .frame(height: 20)
           .padding(.top, 30)
 

@@ -22,17 +22,17 @@ struct OnboardingGenderView: View {
                 HStack {
                   Text(gender.description)
                     .font(.pretendard(size: 18, weight: viewStore.gender == gender ? .bold : .regular))
-                    .foregroundColor((viewStore.gender == gender ? Color.black : Color(R.color.gray07)))
+                    .foregroundColor((viewStore.gender == gender ? Color.black : Color(asset: LoveBirdAsset.gray07)))
                     .padding(.leading, 20)
 
                   Spacer()
 
-                  Image(viewStore.gender == gender ? R.image.ic_checkbox_on : R.image.ic_checkbox_off)
+                  Image(asset: viewStore.gender == gender ? LoveBirdAsset.icCheckboxOn : LoveBirdAsset.icCheckboxOff)
                     .padding(.trailing, 20)
                 }
               }
               .frame(height: 56)
-              .background(viewStore.gender == gender ? Color.white : Color(R.color.gray02))
+              .background(viewStore.gender == gender ? Color.white : Color(asset: LoveBirdAsset.gray02))
               .cornerRadius(12)
               .shadow(color: viewStore.gender == gender ? .black.opacity(0.08) : .clear, radius: 12)
               .onTapGesture {
@@ -47,7 +47,7 @@ struct OnboardingGenderView: View {
 
           CommonHorizontalButton(
             title: "다음",
-            backgroundColor: viewStore.gender == nil ? Color(R.color.gray05) : .black
+            backgroundColor: viewStore.gender == nil ? Color(asset: LoveBirdAsset.gray05) : .black
           ) {
             viewStore.send(.nextTapped)
           }

@@ -22,7 +22,7 @@ struct DiaryDetailView: View {
             viewStore.send(.deleteDiary)
           } label: {
             Text("삭제")
-              .foregroundColor(Color(R.color.primary))
+              .foregroundColor(Color(asset: LoveBirdAsset.primary))
               .font(.pretendard(size: 16, weight: .bold))
           }
         }
@@ -38,7 +38,7 @@ struct DiaryDetailView: View {
             if let nickname = viewStore.nickname {
               HStack {
                 Text("작성자 : \(nickname)")
-                  .foregroundColor(Color(R.color.gray07))
+                  .foregroundColor(Color(asset: LoveBirdAsset.gray07))
                   .font(.pretendard(size: 12))
                   .frame(alignment: .leading)
 
@@ -63,10 +63,10 @@ struct DiaryDetailView: View {
 
             VStack(spacing: 12) {
               Divider()
-                .background(Color(R.color.gray04))
+                .background(Color(asset: LoveBirdAsset.gray04))
 
               HStack(spacing: 6) {
-                Image(R.image.ic_map)
+                Image(asset: LoveBirdAsset.icMap)
                   .changeSize(to: .init(width: 24, height: 24))
                   .changeColor(to: .black)
 
@@ -77,7 +77,7 @@ struct DiaryDetailView: View {
               }
 
               Divider()
-                .background(Color(R.color.gray04))
+                .background(Color(asset: LoveBirdAsset.gray04))
             }
             .padding(.horizontal, 16)
 

@@ -27,11 +27,11 @@ struct ScheduleDetailView: View {
             } destination: { store in
               ScheduleAddView(store: store)
             } label: {
-              Image(R.image.ic_edit)
+              Image(asset: LoveBirdAsset.icEdit)
             }
 
             Button { viewStore.send(.deleteTapped) } label: {
-              Image(R.image.ic_delete)
+              Image(asset: LoveBirdAsset.icDelete)
             }
           }
         }
@@ -63,8 +63,8 @@ struct ScheduleDetailView: View {
             CommonFocusedView {
               let schedule = viewStore.schedule
               if schedule.startDate == schedule.endDate {
-                Image(R.image.ic_calendar)
-                  .changeColor(to: Color(R.color.primary))
+                Image(asset: LoveBirdAsset.icCalendar)
+                  .changeColor(to: Color(asset: LoveBirdAsset.primary))
                   .changeSize(to: .init(width: 24, height: 24))
 
                 Text(String.toScheduleDateWith(
@@ -79,8 +79,8 @@ struct ScheduleDetailView: View {
                 Spacer()
               } else {
                 VStack {
-                  Image(R.image.ic_calendar)
-                    .changeColor(to: Color(R.color.primary))
+                  Image(asset: LoveBirdAsset.icCalendar)
+                    .changeColor(to: Color(asset: LoveBirdAsset.primary))
                     .changeSize(to: .init(width: 24, height: 24))
 
                   Spacer()
@@ -90,7 +90,7 @@ struct ScheduleDetailView: View {
                   VStack(spacing: 4) {
                     Text("시작")
                       .font(.pretendard(size: 12, weight: .bold))
-                      .foregroundColor(Color(R.color.gray06))
+                      .foregroundColor(Color(asset: LoveBirdAsset.gray06))
                       .frame(maxWidth: .infinity, alignment: .leading)
 
                     Text(String.toScheduleDateWith(
@@ -110,7 +110,7 @@ struct ScheduleDetailView: View {
                   VStack(spacing: 4) {
                     Text("종료")
                       .font(.pretendard(size: 12, weight: .bold))
-                      .foregroundColor(Color(R.color.gray06))
+                      .foregroundColor(Color(asset: LoveBirdAsset.gray06))
                       .frame(maxWidth: .infinity, alignment: .leading)
 
                     Text(String.toScheduleDateWith(
@@ -132,8 +132,8 @@ struct ScheduleDetailView: View {
 
             if let alarm = viewStore.schedule.alarm {
               CommonFocusedView {
-                Image(R.image.ic_notification_primary)
-                  .changeColor(to: Color(R.color.primary))
+                Image(asset: LoveBirdAsset.icNotificationPrimary)
+                  .changeColor(to: Color(asset: LoveBirdAsset.primary))
                   .changeSize(to: .init(width: 24, height: 24))
 
                 Text(alarm.description)
@@ -150,7 +150,7 @@ struct ScheduleDetailView: View {
                   VStack(spacing: 12) {
                     Text("메모")
                       .font(.pretendard(size: 16))
-                      .foregroundColor(Color(R.color.gray06))
+                      .foregroundColor(Color(asset: LoveBirdAsset.gray06))
                       .frame(maxWidth: .infinity, alignment: .leading)
 
                     Text(viewStore.schedule.memo ?? "")

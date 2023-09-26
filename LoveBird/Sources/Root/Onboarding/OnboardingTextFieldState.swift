@@ -48,13 +48,13 @@ enum OnboardingTextFieldState: Equatable {
   var color: Color {
     switch self {
     case .correct:
-      return Color(R.color.primary)
+      return Color(asset: LoveBirdAsset.primary)
     case .editing:
-      return Color(R.color.gray10)
+      return Color(asset: LoveBirdAsset.gray10)
     case .error:
-      return Color(R.color.error)
+      return Color(asset: LoveBirdAsset.error)
     case .none:
-      return Color(R.color.gray05)
+      return Color(asset: LoveBirdAsset.gray05)
     }
   }
   
