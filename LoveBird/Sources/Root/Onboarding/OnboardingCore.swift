@@ -108,7 +108,7 @@ struct OnboardingCore: ReducerProtocol {
             let profile = try await self.apiClient.request(
               .registerProfile(
                 image: state.skipPages.contains(.profileImage) ? nil : state.profileImage,
-                signUpRequest: AuthRequest.init(provider: Provider(rawValue: userData.get(key: .provider, type: String.self)!) ?? Provider.APPLE, idToken: userData.get(key: .idToken, type: String.self)!),
+                signUpRequest: AuthRequest.init(provider: SNSProvider(rawValue: userData.get(key: .provider, type: String.self)!) ?? SNSProvider.apple, idToken: userData.get(key: .idToken, type: String.self)!),
                 profileRequest: RegisterProfileRequest.init(
                   email: state.email,
                   nickname: state.nickname,
