@@ -23,8 +23,6 @@ struct OnboardingView: View {
 
           Pager(page: viewStore.page, data: Page.Onboarding.allCases, id: \.self) {
             switch $0 {
-            case .email:
-              OnboardingEmailView(store: self.store)
             case .nickname:
               OnboardingNicknameView(store: self.store)
             case .profileImage:

@@ -65,11 +65,9 @@ struct RootCore: Reducer {
 
       case .viewAppear:
         return .run { send in
-//          userData.remove(key: .accessToken)
-//          userData.remove(key: .refreshToken)
-//          userData.remove(key: .idToken)
-//          userData.remove(key: .user)
-//          userData.remove(key: .provider)
+          userData.remove(key: .accessToken)
+          userData.remove(key: .refreshToken)
+          userData.remove(key: .user)
           try await Task.sleep(nanoseconds: Constants.delayOfSplash)
           let user = self.userData.get(key: .user, type: Profile.self)
           var rootState: State
@@ -80,7 +78,6 @@ struct RootCore: Reducer {
           } else {
             rootState = .mainTab(MainTabCore.State())
           }
-//          rootState = .onboarding(OnboardingCore.State())
           await send(.updateRootState(rootState), animation: .default)
         }
         
@@ -134,8 +131,6 @@ struct RootCore: Reducer {
         self.userData.remove(key: .user)
         self.userData.remove(key: .accessToken)
         self.userData.remove(key: .refreshToken)
-        self.userData.remove(key: .idToken)
-        self.userData.remove(key: .provider)
         state = .login(LoginCore.State())
         return .none
 

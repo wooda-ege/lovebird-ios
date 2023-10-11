@@ -24,7 +24,7 @@ struct OnboardingCore: ReducerProtocol {
   struct State: Equatable {
     // common
     var page: Page = .first()
-    var pageState: Page.Onboarding = .email
+    var pageState: Page.Onboarding = .nickname
     var emailTextFieldState: TextFieldState = .none
     var nicknameTextFieldState: TextFieldState = .none
     var showBottomSheet = false
@@ -34,7 +34,6 @@ struct OnboardingCore: ReducerProtocol {
       self.pageState.canSkip
     }
 
-    // page1 - email
     var email: String = ""
 
     // page2 - nickname
@@ -51,6 +50,9 @@ struct OnboardingCore: ReducerProtocol {
 
     // page6 - anniversary
     var anniversary: SimpleDate = .init()
+    
+    var provider: SNSProvider = .apple
+    var idToken: String = ""
   }
 
   enum Action: Equatable {
@@ -63,10 +65,6 @@ struct OnboardingCore: ReducerProtocol {
     case hideBottomSheet
     case doneButtonTapped
     case flush
-
-    // page1 - email
-    case emailFocusFlashed
-    case emailEdited(String)
 
     // page2 - nickname
     case nicknameFocusFlashed
@@ -89,6 +87,7 @@ struct OnboardingCore: ReducerProtocol {
 
     // Network
     case registerProfileResponse(TaskResult<SignUpResponse>)
+    case getInfo(SNSProvider, String, String)
   }
 
   @Dependency(\.apiClient) var apiClient
@@ -100,7 +99,13 @@ struct OnboardingCore: ReducerProtocol {
       case .nextTapped, .nextButtonTapped:
         self.handleNext(state: &state)
         return .send(.flush)
-
+        
+      case .getInfo(let provider, let idToken, let email):
+        state.provider = provider
+        state.idToken = idToken
+        state.email = email
+        return .none
+//
       case .doneButtonTapped:
         return .run { [state = state] send in
           do {
@@ -108,7 +113,7 @@ struct OnboardingCore: ReducerProtocol {
             let profile = try await self.apiClient.request(
               .registerProfile(
                 image: state.skipPages.contains(.profileImage) ? nil : state.profileImage,
-                signUpRequest: AuthRequest.init(provider: SNSProvider(rawValue: userData.get(key: .provider, type: String.self)!) ?? SNSProvider.apple, idToken: userData.get(key: .idToken, type: String.self)!),
+                signUpRequest: AuthRequest.init(provider: state.provider, idToken: state.idToken),
                 profileRequest: RegisterProfileRequest.init(
                   email: state.email,
                   nickname: state.nickname,
@@ -139,18 +144,7 @@ struct OnboardingCore: ReducerProtocol {
           state.pageState = state.page.state
         }
         return .send(.flush)
-
-      case .emailFocusFlashed:
-        state.emailTextFieldState = .none
-        return .none
-
-      case .emailEdited(let email):
-        state.email = email
-        state.emailTextFieldState = email.isEmailValid ? .correct(.email)
-        : email.isEmpty ? .editing(.email)
-        : .error(.email)
-        return .none
-
+        
       case .nicknameFocusFlashed:
         state.nicknameTextFieldState = .none
         return .none
@@ -207,9 +201,6 @@ struct OnboardingCore: ReducerProtocol {
   // MARK: - Private Method
   private func handleNext(state: inout State) {
     switch state.pageState {
-    case .email:
-      guard state.emailTextFieldState.isCorrect else { return }
-
     case .nickname:
       guard state.nicknameTextFieldState.isCorrect else { return }
 

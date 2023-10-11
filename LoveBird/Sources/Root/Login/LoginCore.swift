@@ -16,10 +16,12 @@ struct LoginCore: ReducerProtocol {
   @Dependency(\.userData) var userData
   
   struct State: Equatable {
+    var onboarding = OnboardingCore.State()
   }
   
   enum Action: Equatable {
-    case kakaoLoginTapped(SNSProvider, String)
+    case transferInfo(OnboardingCore.Action)
+    case kakaoLoginTapped(SNSProvider, String, String)
     case appleLoginTapped(SNSProvider, ASAuthorization)
     case kakaoLoginResponse(TaskResult<LoginResponse>)
     case appleLoginResponse(TaskResult<LoginResponse>)
@@ -27,13 +29,16 @@ struct LoginCore: ReducerProtocol {
   
   
   var body: some ReducerProtocol<State, Action> {
+    Scope(state: \.onboarding, action: /Action.transferInfo) {
+      OnboardingCore()
+    }
+    
     Reduce { state, action in
       switch action {
-      case .kakaoLoginTapped(let provider, let idToken):
-        userData.store(key: .idToken, value: idToken)
-        userData.store(key: .provider, value: provider.rawValue)
-        
+      case .kakaoLoginTapped(let provider, let idToken, let email):
         return .run { send in
+          await send(.transferInfo(.getInfo(provider, idToken, email)))
+          
           do {
             let kakaoLoginResponse = try await self.apiClient.request(.login(provider: provider.rawValue, idToken: idToken)) as LoginResponse
             
@@ -47,14 +52,17 @@ struct LoginCore: ReducerProtocol {
         switch auth.credential {
         case let credential as ASAuthorizationAppleIDCredential:
           let tokenData = credential.identityToken
-          let tokenString = String(decoding: tokenData!, as: UTF8.self)
+          let idToken = String(decoding: tokenData!, as: UTF8.self)
           
-          userData.store(key: .idToken, value: tokenString)
-          userData.store(key: .provider, value: provider)
+          guard let email = credential.email else {
+            return .none
+          }
           
           return .run { send in
+//            await send(.transferInfo(provider, idToken, email))
+            
             do {
-              let appleLoginResponse = try await self.apiClient.request(.login(provider: provider.rawValue, idToken: tokenString)) as LoginResponse
+              let appleLoginResponse = try await self.apiClient.request(.login(provider: provider.rawValue, idToken: idToken)) as LoginResponse
               
               await send(.appleLoginResponse(.success(appleLoginResponse)))
             } catch {

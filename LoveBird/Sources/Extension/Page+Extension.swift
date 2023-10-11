@@ -9,7 +9,6 @@ import SwiftUIPager
 
 extension Page {
   enum Onboarding: Int, CaseIterable {
-    case email
     case nickname
     case profileImage
     case birth
@@ -18,8 +17,6 @@ extension Page {
 
     var title: String {
       switch self {
-      case .email:
-        return String(resource: R.string.localizable.onboarding_email_title)
       case .nickname:
         return String(resource: R.string.localizable.onboarding_nickname_title)
       case .profileImage:
@@ -35,8 +32,6 @@ extension Page {
 
     var description: String {
       switch self {
-      case .email:
-        return String(resource: R.string.localizable.onboarding_email_description)
       case .nickname:
         return String(resource: R.string.localizable.onboarding_nickname_description)
       case .profileImage:
@@ -56,11 +51,11 @@ extension Page {
   }
 
   var state: Onboarding {
-    return Onboarding(rawValue: self.index) ?? .email
+    return Onboarding(rawValue: self.index) ?? .nickname
   }
 
   var isFisrt: Bool {
-    return self.index == Onboarding.email.rawValue
+    return self.index == Onboarding.nickname.rawValue
   }
 
   var isLast: Bool {
