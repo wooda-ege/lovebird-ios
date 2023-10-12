@@ -77,7 +77,7 @@ struct LoginView: View {
                     if let error = error {
                       print(error)
                     } else {
-                      viewStore.send(.kakaoLoginTapped(SNSProvider.kakao, idToken, user?.kakaoAccount?.email ?? ""))
+                      viewStore.send(.kakaoLoginTapped(SNSProvider.kakao, idToken))
                     }
                   }
                 }
@@ -95,7 +95,7 @@ struct LoginView: View {
                     if let error = error {
                       print(error)
                     } else {
-                      viewStore.send(.kakaoLoginTapped(SNSProvider.kakao, idToken, user?.kakaoAccount?.email ?? ""))
+                      viewStore.send(.kakaoLoginTapped(SNSProvider.kakao, idToken))
                     }
                   }
                 }

@@ -33,9 +33,9 @@ struct OnboardingBirthDateView: View {
   }
 }
 
-struct OnboardingBirthDateView_Previews: PreviewProvider {
-  static var previews: some View {
-    OnboardingBirthDateView(store: Store(initialState: OnboardingCore.State(), reducer: OnboardingCore()))
-  }
-}
+//struct OnboardingBirthDateView_Previews: PreviewProvider {
+//  static var previews: some View {
+//    OnboardingBirthDateView(store: Store(initialState: OnboardingCore.State(), reducer: OnboardingCore()))
+//  }
+//}
 

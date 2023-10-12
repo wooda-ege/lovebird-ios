@@ -65,9 +65,6 @@ struct RootCore: Reducer {
 
       case .viewAppear:
         return .run { send in
-          userData.remove(key: .accessToken)
-          userData.remove(key: .refreshToken)
-          userData.remove(key: .user)
           try await Task.sleep(nanoseconds: Constants.delayOfSplash)
           let user = self.userData.get(key: .user, type: Profile.self)
           var rootState: State
@@ -83,7 +80,7 @@ struct RootCore: Reducer {
         
       // MARK: - Login
 
-      case .login(.kakaoLoginResponse(.success(let response))), .login(.appleLoginResponse(.success(let response))):
+      case .login(.kakaoLoginResponse(.success(let response), _)), .login(.appleLoginResponse(.success(let response), _)):
         userData.store(key: .accessToken, value: response.accessToken)
         userData.store(key: .refreshToken, value: response.refreshToken)
         
@@ -92,10 +89,11 @@ struct RootCore: Reducer {
         } else {
           return .send(.updateRootState(.coupleLink(CoupleLinkCore.State())))
         }
-      case .login(.kakaoLoginResponse(.failure(let error))), .login(.appleLoginResponse(.failure(let error))):
+        
+      case .login(.kakaoLoginResponse(.failure(let error), let info)), .login(.appleLoginResponse(.failure(let error), let info)):
         print(error)
         
-        return .send(.updateRootState(.onboarding(OnboardingCore.State())))
+        return .send(.updateRootState(.onboarding(OnboardingCore.State(provider: .kakao, idToken: info.idToken))))
         
       // MARK: - Onboarding
         

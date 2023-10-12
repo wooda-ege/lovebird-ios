@@ -51,8 +51,8 @@ struct OnboardingCore: ReducerProtocol {
     // page6 - anniversary
     var anniversary: SimpleDate = .init()
     
-    var provider: SNSProvider = .apple
-    var idToken: String = ""
+    var provider: SNSProvider
+    var idToken: String
   }
 
   enum Action: Equatable {
@@ -65,7 +65,11 @@ struct OnboardingCore: ReducerProtocol {
     case hideBottomSheet
     case doneButtonTapped
     case flush
-
+    
+    // page1 - email
+    case emailFocusFlashed
+    case emailEdited(String)
+    
     // page2 - nickname
     case nicknameFocusFlashed
     case nicknameEdited(String)
@@ -87,7 +91,6 @@ struct OnboardingCore: ReducerProtocol {
 
     // Network
     case registerProfileResponse(TaskResult<SignUpResponse>)
-    case getInfo(SNSProvider, String, String)
   }
 
   @Dependency(\.apiClient) var apiClient
@@ -99,13 +102,7 @@ struct OnboardingCore: ReducerProtocol {
       case .nextTapped, .nextButtonTapped:
         self.handleNext(state: &state)
         return .send(.flush)
-        
-      case .getInfo(let provider, let idToken, let email):
-        state.provider = provider
-        state.idToken = idToken
-        state.email = email
-        return .none
-//
+
       case .doneButtonTapped:
         return .run { [state = state] send in
           do {
@@ -115,7 +112,7 @@ struct OnboardingCore: ReducerProtocol {
                 image: state.skipPages.contains(.profileImage) ? nil : state.profileImage,
                 signUpRequest: AuthRequest.init(provider: state.provider, idToken: state.idToken),
                 profileRequest: RegisterProfileRequest.init(
-                  email: state.email,
+                  email: state.email == "" ? nil : state.email,
                   nickname: state.nickname,
                   birthDay: state.skipPages.contains(.birth) ? nil : state.birth.toYMDFormat(),
                   firstDate: state.skipPages.contains(.anniversary) ? nil : state.anniversary.toYMDFormat(),
@@ -137,13 +134,24 @@ struct OnboardingCore: ReducerProtocol {
 
         self.handleSkip(state: &state)
         return .send(.flush)
-
+        
       case .previousTapped:
         if !state.page.isFisrt {
           state.page.update(.previous)
           state.pageState = state.page.state
         }
         return .send(.flush)
+        
+      case .emailFocusFlashed:
+        state.emailTextFieldState = .none
+        return .none
+        
+      case .emailEdited(let email):
+        state.email = email
+        state.emailTextFieldState = email.isEmailValid ? .correct(.email)
+        : email.isEmpty ? .editing(.email)
+        : .error(.email)
+        return .none
         
       case .nicknameFocusFlashed:
         state.nicknameTextFieldState = .none
@@ -201,6 +209,8 @@ struct OnboardingCore: ReducerProtocol {
   // MARK: - Private Method
   private func handleNext(state: inout State) {
     switch state.pageState {
+    case .email:
+      guard state.emailTextFieldState.isCorrect else { return }
     case .nickname:
       guard state.nicknameTextFieldState.isCorrect else { return }
 
