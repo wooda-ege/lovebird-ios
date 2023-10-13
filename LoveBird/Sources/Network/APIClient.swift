@@ -209,7 +209,7 @@ extension APIClient: TargetType {
       params["endTime"] = addSchedule.endTime
       params["alarm"] = addSchedule.alarm
     case .login(let provider, let idToken):
-      params["provider"] = provider
+      params["provider"] = provider.rawValue
       params["idToken"] = idToken
     case .coupleLinkButtonClicked(let coupleCode):
       params["coupleCode"] = coupleCode
