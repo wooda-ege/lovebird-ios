@@ -17,7 +17,7 @@ import SwiftUI
 public enum APIClient {
 
   // onboarding
-  case login(provider: String, idToken: String)
+  case login(provider: SNSProvider, idToken: String)
   case invitationViewLoaded
   case coupleLinkButtonClicked(coupleCode: String)
   case coupleCheckButtonClicked

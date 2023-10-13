@@ -12,7 +12,7 @@ public struct AuthRequest: Encodable, Equatable, Sendable {
   let idToken: String
 }
 
-enum SNSProvider: String, Encodable, Equatable, Sendable {
+public enum SNSProvider: String, Encodable, Equatable, Sendable {
   case apple = "APPLE"
   case kakao = "KAKAO"
 }

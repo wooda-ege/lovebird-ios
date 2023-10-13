@@ -66,6 +66,7 @@ struct RootCore: Reducer {
       case .viewAppear:
         return .run { send in
           try await Task.sleep(nanoseconds: Constants.delayOfSplash)
+          self.userData.remove(key: .user)
           let user = self.userData.get(key: .user, type: Profile.self)
           var rootState: State
           if user == nil {
@@ -80,21 +81,21 @@ struct RootCore: Reducer {
         
       // MARK: - Login
 
-      case .login(.kakaoLoginResponse(.success(let response), _)), .login(.appleLoginResponse(.success(let response), _)):
-        userData.store(key: .accessToken, value: response.accessToken)
-        userData.store(key: .refreshToken, value: response.refreshToken)
-        
+      case .login(.loginResponse(.success(let response), _)):
+        self.userData.store(key: .accessToken, value: response.accessToken)
+        self.userData.store(key: .refreshToken, value: response.refreshToken)
+
         if response.linkedFlag == true {
           return .send(.updateRootState(.mainTab(MainTabCore.State())))
         } else {
           return .send(.updateRootState(.coupleLink(CoupleLinkCore.State())))
         }
         
-      case .login(.kakaoLoginResponse(.failure(let error), let info)), .login(.appleLoginResponse(.failure(let error), let info)):
-        print(error)
-        
-        return .send(.updateRootState(.onboarding(OnboardingCore.State(provider: .kakao, idToken: info.idToken))))
-        
+      case .login(.loginResponse(.failure(let _), let auth)):
+//        if 특정 약속된 로그인 실패 인경우 { ... } 현석이랑 약속해서 처리하면 좋음
+//        else 그외 네트워크 오류 등등 일 경우 { ... }
+        return .send(.updateRootState(.onboarding(OnboardingCore.State(auth: auth))))
+
       // MARK: - Onboarding
         
       case .onboarding(.registerProfileResponse(.success(let response))):

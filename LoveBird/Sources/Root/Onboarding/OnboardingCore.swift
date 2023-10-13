@@ -23,8 +23,17 @@ struct OnboardingCore: ReducerProtocol {
 
   struct State: Equatable {
     // common
+
+    init(auth: AuthRequest) {
+      self.auth = auth
+      self.pageState = auth.provider == .apple ? .nickname : .email
+      if auth.provider == .apple {
+        self.page.update(.next)
+      }
+    }
+    let auth: AuthRequest
     var page: Page = .first()
-    var pageState: Page.Onboarding = .nickname
+    var pageState: Page.Onboarding
     var emailTextFieldState: TextFieldState = .none
     var nicknameTextFieldState: TextFieldState = .none
     var showBottomSheet = false
@@ -50,9 +59,6 @@ struct OnboardingCore: ReducerProtocol {
 
     // page6 - anniversary
     var anniversary: SimpleDate = .init()
-    
-    var provider: SNSProvider
-    var idToken: String
   }
 
   enum Action: Equatable {
@@ -110,9 +116,9 @@ struct OnboardingCore: ReducerProtocol {
             let profile = try await self.apiClient.request(
               .registerProfile(
                 image: state.skipPages.contains(.profileImage) ? nil : state.profileImage,
-                signUpRequest: AuthRequest.init(provider: state.provider, idToken: state.idToken),
+                signUpRequest: AuthRequest.init(provider: state.auth.provider, idToken: state.auth.idToken),
                 profileRequest: RegisterProfileRequest.init(
-                  email: state.email == "" ? nil : state.email,
+                  email: state.email.isEmpty ? nil : state.email,
                   nickname: state.nickname,
                   birthDay: state.skipPages.contains(.birth) ? nil : state.birth.toYMDFormat(),
                   firstDate: state.skipPages.contains(.anniversary) ? nil : state.anniversary.toYMDFormat(),
@@ -136,7 +142,7 @@ struct OnboardingCore: ReducerProtocol {
         return .send(.flush)
         
       case .previousTapped:
-        if !state.page.isFisrt {
+        if !state.page.isFisrt && !(state.auth.provider == .apple && state.page.index == 1)  {
           state.page.update(.previous)
           state.pageState = state.page.state
         }
