@@ -66,7 +66,6 @@ struct RootCore: Reducer {
       case .viewAppear:
         return .run { send in
           try await Task.sleep(nanoseconds: Constants.delayOfSplash)
-          self.userData.remove(key: .user)
           let user = self.userData.get(key: .user, type: Profile.self)
           var rootState: State
           if user == nil {
@@ -90,7 +89,7 @@ struct RootCore: Reducer {
         } else {
           return .send(.updateRootState(.coupleLink(CoupleLinkCore.State())))
         }
-        
+
       case .login(.loginResponse(.failure(let _), let auth)):
 //        if 특정 약속된 로그인 실패 인경우 { ... } 현석이랑 약속해서 처리하면 좋음
 //        else 그외 네트워크 오류 등등 일 경우 { ... }
