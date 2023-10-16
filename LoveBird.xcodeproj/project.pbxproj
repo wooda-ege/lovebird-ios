@@ -11,6 +11,7 @@
 		422EE0DF2ABECC5C00A7FA52 /* AuthRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 422EE0DE2ABECC5C00A7FA52 /* AuthRequest.swift */; };
 		422EE0E12ABECFA100A7FA52 /* WebApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 422EE0E02ABECFA100A7FA52 /* WebApi.swift */; };
 		422EE0E32AC187B500A7FA52 /* SignUpResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 422EE0E22AC187B500A7FA52 /* SignUpResponse.swift */; };
+		424470022ADD713D00472B0B /* SignInWithAppleDelegates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 424470012ADD713D00472B0B /* SignInWithAppleDelegates.swift */; };
 		42470D2A2A8FA8E0003E327E /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42470D292A8FA8E0003E327E /* Config.swift */; };
 		42470D2C2A908F67003E327E /* ImageAccessAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42470D2B2A908F67003E327E /* ImageAccessAuth.swift */; };
 		425640302A58463200EC962E /* KakaoSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 4256402F2A58463200EC962E /* KakaoSDK */; };
@@ -179,6 +180,7 @@
 		422EE0DE2ABECC5C00A7FA52 /* AuthRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthRequest.swift; sourceTree = "<group>"; };
 		422EE0E02ABECFA100A7FA52 /* WebApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebApi.swift; sourceTree = "<group>"; };
 		422EE0E22AC187B500A7FA52 /* SignUpResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpResponse.swift; sourceTree = "<group>"; };
+		424470012ADD713D00472B0B /* SignInWithAppleDelegates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInWithAppleDelegates.swift; sourceTree = "<group>"; };
 		42470D292A8FA8E0003E327E /* Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
 		42470D2B2A908F67003E327E /* ImageAccessAuth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageAccessAuth.swift; sourceTree = "<group>"; };
 		425640332A5AB30900EC962E /* LoginResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginResponse.swift; sourceTree = "<group>"; };
@@ -386,6 +388,7 @@
 			isa = PBXGroup;
 			children = (
 				42E4D5882A4DBB2E00F4FA42 /* LoginView.swift */,
+				424470012ADD713D00472B0B /* SignInWithAppleDelegates.swift */,
 				42E4D58A2A4DBB3500F4FA42 /* LoginCore.swift */,
 			);
 			path = Login;
@@ -1111,6 +1114,7 @@
 				4AB2DB2E2A19A24D003EFD95 /* View+Extension.swift in Sources */,
 				4AD853CC2A88EE030005EAD5 /* WebView.swift in Sources */,
 				4AD602CD2A5167250029D7EB /* Int+Extension.swift in Sources */,
+				424470022ADD713D00472B0B /* SignInWithAppleDelegates.swift in Sources */,
 				4AD602A32A4F0F840029D7EB /* ScheduleAddMemoView.swift in Sources */,
 				4A1DDF2A2A2F2DDA00B3A72B /* UserData.swift in Sources */,
 				4AD602D92A5316BE0029D7EB /* UINavigationController+Extension.swift in Sources */,
@@ -1267,7 +1271,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = LoveBird/LoveBird.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.0.0.7;
+				CURRENT_PROJECT_VERSION = 1.0.0.9;
 				DEVELOPMENT_ASSET_PATHS = "\"LoveBird/Preview Content\"";
 				DEVELOPMENT_TEAM = 79K7D639YK;
 				ENABLE_PREVIEWS = YES;
@@ -1304,7 +1308,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = LoveBird/LoveBird.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.0.0.7;
+				CURRENT_PROJECT_VERSION = 1.0.0.9;
 				DEVELOPMENT_ASSET_PATHS = "\"LoveBird/Preview Content\"";
 				DEVELOPMENT_TEAM = 79K7D639YK;
 				ENABLE_PREVIEWS = YES;

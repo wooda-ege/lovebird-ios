@@ -17,6 +17,8 @@ import AuthenticationServices
 
 struct LoginView: View {
   let store: StoreOf<LoginCore>
+  @State var appleSignInDelegates: SignInWithAppleDelegates! = nil
+  var window: UIWindow?
   
   init(store: StoreOf<LoginCore>) {
     self.store = store
@@ -103,22 +105,46 @@ struct LoginView: View {
             }
           }
         
-        SignInWithAppleButton(.continue) { request in
-          request.requestedScopes = [.email, .fullName]
-        } onCompletion: { result in
-          switch result {
-          case .success(let auth):
-            viewStore.send(.appleLoginTapped(auth))
-          case .failure(let error):
-            print(error)
-          }
-        }
-        .padding(.horizontal, 16)
-        .frame(height: 56)
+        Image(R.image.img_appleLogin)
+          .frame(height: 56)
+          .padding(.horizontal, 16)
+          .onTapGesture(perform: showAppleLogin)
         
         Spacer()
       }
+      .onAppear {
+        self.performExistingAccountSetupFlows()
+      }
     }
+  }
+  
+  private func showAppleLogin() {
+    let request = ASAuthorizationAppleIDProvider().createRequest()
+    
+    request.requestedScopes = [.fullName, .email]
+    performSignIn(using: [request])
+  }
+  
+  private func performExistingAccountSetupFlows() {
+    #if !targetEnvironment(simulator)
+    
+    let requests = [
+      ASAuthorizationAppleIDProvider().createRequest(),
+      ASAuthorizationPasswordProvider().createRequest()
+    ]
+
+    performSignIn(using: requests)
+    #endif
+  }
+  
+  private func performSignIn(using requests: [ASAuthorizationRequest]) {
+    appleSignInDelegates = SignInWithAppleDelegates(window: window, store: store)
+
+    let controller = ASAuthorizationController(authorizationRequests: requests)
+    controller.delegate = appleSignInDelegates
+    controller.presentationContextProvider = appleSignInDelegates
+
+    controller.performRequests()
   }
 }
 
