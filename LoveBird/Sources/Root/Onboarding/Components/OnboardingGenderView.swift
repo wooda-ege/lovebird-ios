@@ -63,7 +63,7 @@ struct OnboardingGenderView_Previews: PreviewProvider {
     static var previews: some View {
         OnboardingGenderView(
           store: Store(
-            initialState: OnboardingState(),
+            initialState: OnboardingState(auth: AuthRequest.dummy),
             reducer: OnboardingCore()
           )
         )

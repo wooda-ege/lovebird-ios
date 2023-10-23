@@ -33,7 +33,7 @@ struct OnboardingTitleView_Previews: PreviewProvider {
   static var previews: some View {
     OnboardingTitleView(
       store: Store(
-        initialState: OnboardingState(),
+        initialState: OnboardingState(auth: AuthRequest.dummy),
         reducer: OnboardingCore()
       )
     )

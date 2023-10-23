@@ -59,7 +59,7 @@ struct OnboardingEmailView_Previews: PreviewProvider {
   static var previews: some View {
     OnboardingEmailView(
       store: Store(
-        initialState: OnboardingState(),
+        initialState: OnboardingState(auth: AuthRequest.dummy),
         reducer: OnboardingCore()
       )
     )

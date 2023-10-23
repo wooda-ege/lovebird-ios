@@ -126,8 +126,6 @@ extension APIClient: TargetType {
       )
 
     case
-        .kakaoLogin(let encodable as Encodable),
-        .appleLogin(let encodable as Encodable),
         .addSchedule(let encodable as Encodable),
         .editSchedule(_, let encodable as Encodable),
         .linkCouple(let encodable as Encodable):
@@ -144,8 +142,8 @@ extension APIClient: TargetType {
   }
   
   public var headers: [String: String]? {
-    let accessToken = self.userDate.get(key: .accessToken, type: String.self)
-    let refreshToken = self.userDate.get(key: .refreshToken, type: String.self)
+    let accessToken = self.userData.get(key: .accessToken, type: String.self)
+    let refreshToken = self.userData.get(key: .refreshToken, type: String.self)
     if case .searchKakaoMap = self {
       return ["Authorization" : Config.kakaoMapKey]
     } 

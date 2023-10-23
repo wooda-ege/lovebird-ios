@@ -103,8 +103,7 @@ struct LoginView: View {
               }
             }
           }
-        
-        Image(R.image.img_appleLogin)
+        Image(asset: LoveBirdAsset.imgAppleLogin)
           .frame(height: 56)
           .padding(.horizontal, 16)
           .onTapGesture(perform: showAppleLogin)

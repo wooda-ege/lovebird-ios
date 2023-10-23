@@ -60,7 +60,7 @@ struct OnboardingNicknameView_Previews: PreviewProvider {
   static var previews: some View {
     OnboardingNicknameView(
       store: Store(
-        initialState: OnboardingState(),
+        initialState: OnboardingState(auth: AuthRequest.dummy),
         reducer: OnboardingCore()
       )
     )

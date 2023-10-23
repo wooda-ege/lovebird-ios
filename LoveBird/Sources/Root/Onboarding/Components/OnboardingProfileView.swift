@@ -44,7 +44,7 @@ struct OnboardingProfileView_Previews: PreviewProvider {
   static var previews: some View {
     OnboardingProfileView(
       store: Store(
-        initialState: OnboardingState(),
+        initialState: OnboardingState(auth: AuthRequest.dummy),
         reducer: OnboardingCore()
       )
     )

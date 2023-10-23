@@ -37,7 +37,7 @@ struct OnboardingBirthDateView_Previews: PreviewProvider {
   static var previews: some View {
     OnboardingBirthDateView(
       store: Store(
-        initialState: OnboardingState(),
+        initialState: OnboardingState(auth: AuthRequest.dummy),
         reducer: OnboardingCore()
       )
     )
