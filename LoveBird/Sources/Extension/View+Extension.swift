@@ -37,7 +37,7 @@ extension View {
   func bottomBorder() -> some View {
     return self.overlay(
       Rectangle()
-        .fill(Color(R.color.gray04))
+        .fill(Color(asset: LoveBirdAsset.gray04))
         .frame(height: 1),
       alignment: .bottom
     )

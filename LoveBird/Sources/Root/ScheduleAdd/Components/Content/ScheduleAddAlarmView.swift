@@ -9,58 +9,65 @@ import ComposableArchitecture
 import SwiftUI
 
 struct ScheduleAddAlarmView: View {
-
-  let viewStore: ViewStore<ScheduleAddState, ScheduleAddAction>
-  let isFocused: Bool
-  let isOn: Binding<Bool>
-
-  init(viewStore: ViewStore<ScheduleAddState, ScheduleAddAction>) {
-    self.viewStore = viewStore
-    self.isFocused = viewStore.focusedType == .alarm
-    self.isOn = viewStore.binding(get: \.isAlarmActive, send: ScheduleAddAction.alarmToggleTapped)
-  }
+  let store: StoreOf<ScheduleAddCore>
 
   var body: some View {
-    CommonFocusedView(isFocused: self.isFocused) {
-      VStack {
-        HStack {
-          Text(R.string.localizable.add_schedule_alarm)
-            .font(.pretendard(size: 16))
-            .foregroundColor(self.isFocused ? .black : Color(R.color.gray06))
-
-          Toggle(isOn: self.isOn) { EmptyView() }
-            .toggleStyle(SwitchToggleStyle(tint: self.isOn.wrappedValue ? Color(R.color.gray01) : Color(R.color.gray03)))
-        }
-
-        if self.viewStore.isAlarmActive {
+    WithViewStore(self.store, observe: { $0 }) { viewStore in
+      CommonFocusedView(isFocused: viewStore.focusedType == .alarm) {
+        VStack {
           HStack {
-            Text(self.viewStore.alarm.description)
+            Text(LoveBirdStrings.addScheduleAlarm)
               .font(.pretendard(size: 16))
+              .foregroundColor(viewStore.focusedType == .alarm ? .black : Color(asset: LoveBirdAsset.gray06))
 
-            Spacer()
-
-            Image(R.image.ic_arrow_drop_down)
-              .resizable()
-              .frame(width: 24, height: 24)
+            Toggle(isOn: viewStore.binding(
+              get: \.isAlarmActive,
+              send: ScheduleAddAction.alarmToggleTapped
+            )) { EmptyView() }
+              .toggleStyle(
+                SwitchToggleStyle(
+                  tint: viewStore.isAlarmActive
+                    ? Color(asset: LoveBirdAsset.gray01)
+                    : Color(asset: LoveBirdAsset.gray03)
+                )
+              )
           }
-          .padding(.horizontal, 16)
-          .padding(.vertical, 12)
-          .background(self.isFocused ? Color(R.color.gray01) : Color(R.color.gray03))
-          .cornerRadius(12)
-          .onTapGesture {
-            self.viewStore.send(.alarmOptionTapped)
+
+          if viewStore.isAlarmActive {
+            HStack {
+              Text(viewStore.alarm.description)
+                .font(.pretendard(size: 16))
+
+              Spacer()
+
+              Image(asset: LoveBirdAsset.icArrowDropDown)
+                .resizable()
+                .frame(width: 24, height: 24)
+            }
+            .padding(.horizontal, 16)
+            .padding(.vertical, 12)
+            .background(viewStore.focusedType == .alarm ? Color(asset: LoveBirdAsset.gray01) : Color(asset: LoveBirdAsset.gray03))
+            .cornerRadius(12)
+            .onTapGesture {
+              viewStore.send(.alarmOptionTapped)
+            }
           }
         }
       }
-    }
-    .onTapGesture {
-      self.viewStore.send(.contentTapped(.alarm))
+      .onTapGesture {
+        viewStore.send(.contentTapped(.alarm))
+      }
     }
   }
 }
 
-//struct AddScheduleAlarmView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        AddScheduleAlarmView()
-//    }
-//}
+struct ScheduleAddAlarmView_Previews: PreviewProvider {
+  static var previews: some View {
+    ScheduleAddAlarmView(
+      store: .init(
+        initialState: ScheduleAddState(schedule: .dummy),
+        reducer: ScheduleAddCore()
+      )
+    )
+  }
+}

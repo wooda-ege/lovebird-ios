@@ -12,13 +12,15 @@ struct CalendarPreviewContentView: View {
   let store: StoreOf<CalendarCore>
 
   var body: some View {
-    WithViewStore(self.store) { viewStore in
+    WithViewStore(self.store, observe: { $0 }) { viewStore in
       VStack(alignment: .center, spacing: 0) {
-        let weekOfMonth = viewStore.currentPreviewDate.calculateWeekOfMonth
-        ForEach(0..<weekOfMonth, id: \.self) { week in
+        let numberOfWeeks = viewStore.currentPreviewDate.numberOfWeeksInMonth
+
+        ForEach(0..<numberOfWeeks, id: \.self) { week in
           HStack(alignment: .center, spacing: 0) {
             ForEach(1..<8) { weekday in
               let date = self.dateString(currentDate: viewStore.currentPreviewDate, week: week, weekday: weekday)
+              
               VStack(alignment: .center) {
                 HStack(alignment: .center) {
                   Text(date.isThisMonth ? String(date.date.day) : "")
@@ -52,7 +54,7 @@ struct CalendarPreviewContentView: View {
   ) -> some View {
     Group {
       if date == viewStore.currentPreviewDate, date.month == currentDate.month {
-        Circle().stroke(Color(R.color.secondary), lineWidth: 2)
+        Circle().stroke(Color(asset: LoveBirdAsset.secondary), lineWidth: 2)
       } else {
         EmptyView()
       }
@@ -73,8 +75,13 @@ struct CalendarPreviewContentView: View {
   }
 }
 
-//struct CalendarPreviewContentView_Previews: PreviewProvider {
-//    static var previews: some View {
-//      CalendarPreviewContentView(store: Store(initialState: CalendarCore.State(), reducer: CalendarCore()))
-//    }
-//}
+struct CalendarPreviewContentView_Previews: PreviewProvider {
+    static var previews: some View {
+      CalendarPreviewContentView(
+        store: Store(
+          initialState: CalendarCore.State(),
+          reducer: CalendarCore()
+        )
+      )
+    }
+}

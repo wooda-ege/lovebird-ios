@@ -30,7 +30,7 @@ struct CalendarScheduleView: View {
           Text("일정 없음")
             .font(.pretendard(size: 16))
             .multilineTextAlignment(.center)
-            .foregroundColor(Color(R.color.gray05))
+            .foregroundColor(Color(asset: LoveBirdAsset.gray05))
             .frame(maxWidth: .infinity)
             .frame(height: 40, alignment: .center)
         } else {
@@ -66,7 +66,7 @@ struct CalendarScheduleView: View {
             NavigationLinkStore(
               self.store.scope(state: \.$scheduleDetail, action: CalendarAction.scheduleDetail)
             ) {
-              viewStore.send(.scheduleTapped(.aDummy))
+              viewStore.send(.scheduleTapped(.dummy))
             } destination: { store in
               ScheduleDetailView(store: store)
             } label: {
@@ -77,14 +77,19 @@ struct CalendarScheduleView: View {
       }
       .padding([.top, .horizontal], 16)
       .padding(.bottom, viewStore.schedulesOfDay.count == 2 ? 8 : 16)
-      .background(Color(R.color.gray03))
+      .background(Color(asset: LoveBirdAsset.gray03))
       .cornerRadius(12)
     }
   }
 }
 
-//struct CalendarScheduleView_Previews: PreviewProvider {
-//  static var previews: some View {
-//    CalendarScheduleView()
-//  }
-//}
+struct CalendarScheduleView_Previews: PreviewProvider {
+  static var previews: some View {
+    CalendarScheduleView(
+      store: Store(
+        initialState: CalendarState(),
+        reducer: CalendarCore()
+      )
+    )
+  }
+}

@@ -9,7 +9,6 @@ import ComposableArchitecture
 import SwiftUI
 
 struct ScheduleAddView: View {
-
   let store: StoreOf<ScheduleAddCore>
 
   var body: some View {
@@ -17,7 +16,7 @@ struct ScheduleAddView: View {
       ZStack {
         VStack {
           CommonToolBar(
-            title: String(resource: R.string.localizable.add_schedule_title),
+            title: LoveBirdStrings.addScheduleTitle,
             backButtonTapped: { viewStore.send(.backButtonTapped) }
           ) {
             NavigationLinkStore(
@@ -27,30 +26,34 @@ struct ScheduleAddView: View {
             } destination: { store in
               ScheduleDetailView(store: store)
             } label: {
-              Text(R.string.localizable.common_complete)
-                .foregroundColor(viewStore.title.isEmpty ? Color(R.color.green234) : Color(R.color.primary))
+              Text(LoveBirdStrings.commonComplete)
+                .foregroundColor(viewStore.title.isEmpty ? Color(asset: LoveBirdAsset.green234) : Color(asset: LoveBirdAsset.primary))
                 .font(.pretendard(size: 16, weight: .bold))
             }
           }
 
-          ScheduleAddContentView(viewStore: viewStore)
+          ScheduleAddContentView(store: self.store)
         }
         .navigationBarBackButtonHidden(true)
 
-        ScheduleAddColorBottomSheetView(viewStore: viewStore)
+        // MARK: BottomSheet
 
-        ScheduleAddDateBottomSheetView(viewStore: viewStore)
-
-        ScheduleAddTimeBottomSheetView(viewStore: viewStore)
-
-        ScheduleAddAlarmBottomSheetView(viewStore: viewStore)
+        ScheduleAddColorBottomSheetView(store: self.store)
+        ScheduleAddDateBottomSheetView(store: self.store)
+        ScheduleAddTimeBottomSheetView(store: self.store)
+        ScheduleAddAlarmBottomSheetView(store: self.store)
       }
     }
   }
 }
 
-//struct AddScheduleView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        AddScheduleView()
-//    }
-//}
+struct ScheduleAddView_Previews: PreviewProvider {
+  static var previews: some View {
+    ScheduleAddView(
+      store: .init(
+        initialState: ScheduleAddState(schedule: .dummy),
+        reducer: ScheduleAddCore()
+      )
+    )
+  }
+}

@@ -32,15 +32,22 @@ struct CommonFocusedView<Content: View>: View {
             .strokeBorder(.black, lineWidth: 1)
         } else {
           RoundedRectangle(cornerRadius: 12)
-            .fill(Color(R.color.gray02))
+            .fill(Color(asset: LoveBirdAsset.gray02))
         }
       }
     )
   }
 }
 
-//struct CommonFocusedView_Previews: PreviewProvider {
-//  static var previews: some View {
-//    CommonFocusedView()
-//  }
-//}
+struct CommonFocusedView_Previews: PreviewProvider {
+  static var previews: some View {
+    CommonFocusedView(isFocused: true) {
+      Text("타이틀")
+        .font(.pretendard(size: 16))
+        .lineLimit(0)
+        .foregroundColor(.black)
+
+      Spacer()
+    }
+  }
+}

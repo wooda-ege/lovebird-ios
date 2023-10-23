@@ -17,8 +17,8 @@ struct DiaryPreviewTabView: View {
         Button {
           viewStore.send(.previewFollowingTapped)
         } label: {
-          Image(R.image.ic_navigate_previous_active)
-            .changeColor(to: Color(R.color.gray08))
+          Image(asset: LoveBirdAsset.icNavigatePreviousActive)
+            .changeColor(to: Color(asset: LoveBirdAsset.gray08))
             .changeSize(to: .init(width: 44, height: 44))
         }
 
@@ -33,21 +33,26 @@ struct DiaryPreviewTabView: View {
         Button {
           viewStore.send(.previewNextTapped)
         } label: {
-          Image(R.image.ic_navigate_next_active)
-            .changeColor(to: Color(R.color.gray08))
+          Image(asset: LoveBirdAsset.icNavigateNextActive)
+            .changeColor(to: Color(asset: LoveBirdAsset.gray08))
             .changeSize(to: .init(width: 44, height: 44))
         }
       }
       .padding(8)
       .frame(width: 237, alignment: .center)
-      .background(Color(R.color.gray03))
+      .background(Color(asset: LoveBirdAsset.gray03))
       .cornerRadius(12)
     }
   }
 }
 
-//struct DiaryPreviewTabView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        DiaryPreviewTabView()
-//    }
-//}
+struct DiaryPreviewTabView_Previews: PreviewProvider {
+    static var previews: some View {
+        DiaryPreviewTabView(
+          store: Store(
+            initialState: DiaryState(),
+            reducer: DiaryCore()
+          )
+        )
+    }
+}

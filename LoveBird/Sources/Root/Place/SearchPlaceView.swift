@@ -24,7 +24,7 @@ struct SearchPlaceView: View {
           viewStore.send(.completeTapped(viewStore.searchTerm))
         } label: {
           Text("완료")
-            .foregroundColor(viewStore.searchTerm.isEmpty ? Color(R.color.green234) : Color(R.color.primary))
+            .foregroundColor(viewStore.searchTerm.isEmpty ? Color(asset: LoveBirdAsset.green234) : Color(asset: LoveBirdAsset.primary))
             .font(.pretendard(size: 16, weight: .bold))
         }
       }
@@ -32,7 +32,7 @@ struct SearchPlaceView: View {
       VStack(spacing: 20) {
         let textBinding = viewStore.binding(get: \.searchTerm, send: SearchPlaceCore.Action.textFieldDidEditting)
         CommonFocusedView {
-          TextField(String(resource: R.string.localizable.diary_place_address_title), text: textBinding)
+          TextField(LoveBirdStrings.diaryPlaceAddressTitle, text: textBinding)
             .font(.pretendard(size: 17))
             .background(.clear)
             .padding(.trailing, 32)
@@ -50,7 +50,7 @@ struct SearchPlaceView: View {
                 .padding(.bottom, 2)
               Text(place.addressName)
                 .font(.caption)
-                .foregroundColor(Color(R.color.gray115))
+                .foregroundColor(Color(asset: LoveBirdAsset.gray115))
             }
           }
         }
@@ -76,6 +76,11 @@ struct SearchPlaceView: View {
 
 struct SearchPlaceView_Previews: PreviewProvider {
   static var previews: some View {
-    SearchPlaceView(store: Store(initialState: SearchPlaceCore.State(), reducer: SearchPlaceCore()))
+    SearchPlaceView(
+      store: Store(
+        initialState: SearchPlaceCore.State(),
+        reducer: SearchPlaceCore()
+      )
+    )
   }
 }

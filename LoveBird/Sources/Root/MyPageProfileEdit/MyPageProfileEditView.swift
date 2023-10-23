@@ -27,7 +27,7 @@ struct MyPageProfileEditView: View {
             viewStore.send(.editTapped)
           } label: {
             Text("수정")
-              .foregroundColor(viewStore.nickname.isEmpty || viewStore.email.isEmpty ? Color(R.color.green234) : Color(R.color.primary))
+              .foregroundColor(viewStore.nickname.isEmpty || viewStore.email.isEmpty ? Color(asset: LoveBirdAsset.green234) : Color(asset: LoveBirdAsset.primary))
               .font(.pretendard(size: 16, weight: .bold))
           }
         }
@@ -35,11 +35,11 @@ struct MyPageProfileEditView: View {
         // TODO: 득연 - iOS 16.0 으로 올리고 NavigationStack으로 리팩토링 후 진행할 예정
         //        ZStack() {
         //          Circle()
-        //            .fill(Color(R.color.gray03))
+        //            .fill(Color(asset: LoveBirdAsset.gray03))
         //            .frame(width: 80, height: 80)
-        //            .overlay(Image(R.image.ic_bird_edit), alignment: .center)
+        //            .overlay(Image(asset: LoveBirdAsset.icBirdEdit), alignment: .center)
         //        }
-        //        .overlay(Image(R.image.ic_camera_edit), alignment: .bottomTrailing)
+        //        .overlay(Image(asset: LoveBirdAsset.icCameraEdit), alignment: .bottomTrailing)
         //        .onTapGesture {
         //          viewStore.send(.presentImagePicker)
         //        }
@@ -56,7 +56,7 @@ struct MyPageProfileEditView: View {
           CommonTextField(
             text: viewStore.binding(get: \.nickname, send: MyPageProfileEditAction.nicknameEdited),
             placeholder: viewStore.profile?.nickname ?? "",
-            borderColor: viewStore.isNicknameFocused ? .black : Color(R.color.gray06),
+            borderColor: viewStore.isNicknameFocused ? .black : Color(asset: LoveBirdAsset.gray06),
             clearButtonTrailingPadding: 16,
             isFocused: self.$isNicknameFocused
           )
@@ -75,7 +75,7 @@ struct MyPageProfileEditView: View {
           CommonTextField(
             text: viewStore.binding(get: \.email, send: MyPageProfileEditAction.emailEdited),
             placeholder: viewStore.profile?.email ?? "",
-            borderColor: viewStore.isEmailFocused ? .black : Color(R.color.gray06),
+            borderColor: viewStore.isEmailFocused ? .black : Color(asset: LoveBirdAsset.gray06),
             clearButtonTrailingPadding: 16,
             isFocused: self.$isEmailFocused
           )
@@ -89,7 +89,7 @@ struct MyPageProfileEditView: View {
           viewStore.send(.withdrawal)
         } label: {
           Text("회원탈퇴")
-            .foregroundColor(Color(R.color.gray06))
+            .foregroundColor(Color(asset: LoveBirdAsset.gray06))
             .font(.pretendard(size: 14))
             .padding(.bottom, 30)
         }
@@ -116,8 +116,13 @@ struct MyPageProfileEditView: View {
   }
 }
 
-//struct MyPageProfileEditView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        MyPageProfileEditView()
-//    }
-//}
+struct MyPageProfileEditView_Previews: PreviewProvider {
+  static var previews: some View {
+    MyPageProfileEditView(
+      store: .init(
+        initialState: MyPageProfileEditState(),
+        reducer: MyPageProfileEditCore()
+      )
+    )
+  }
+}

@@ -20,7 +20,6 @@ struct MyPageProfileEditCore: ReducerProtocol {
   }
 
   struct State: Equatable {
-    @PresentationState var imagePicker: ImagePickerCore.State?
     var profile: Profile?
     var nickname = ""
     var email = ""

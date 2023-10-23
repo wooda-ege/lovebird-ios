@@ -16,10 +16,10 @@ struct HomeLeftLineView: View {
     case .previous:
       ZStack(alignment: .top) {
         Rectangle()
-          .fill(Color(R.color.primary))
+          .fill(Color(asset: LoveBirdAsset.primary))
           .frame(maxWidth: 2, maxHeight: .infinity)
         Circle()
-          .fill(Color(R.color.primary))
+          .fill(Color(asset: LoveBirdAsset.primary))
           .frame(width: 8, height: 8)
           .padding(.top, 41)
       }
@@ -28,16 +28,16 @@ struct HomeLeftLineView: View {
       ZStack(alignment: .top) {
         VStack(alignment: .leading, spacing: 0) {
           Rectangle()
-            .fill(Color(R.color.primary))
+            .fill(Color(asset: LoveBirdAsset.primary))
             .frame(width: 2, height: 40)
           Spacer()
         }.frame(width: 2)
         ZStack {
           Circle()
-            .stroke(Color(R.color.primary), lineWidth: 1.2)
+            .stroke(Color(asset: LoveBirdAsset.primary), lineWidth: 1.2)
             .frame(width: 12, height: 12)
           Circle()
-            .fill(Color(R.color.primary))
+            .fill(Color(asset: LoveBirdAsset.primary))
             .frame(width: 6, height: 6)
         }
         .background(.white)
@@ -46,7 +46,7 @@ struct HomeLeftLineView: View {
     case .following:
       VStack {
         Circle()
-          .stroke(Color(R.color.primary), lineWidth: 1)
+          .stroke(Color(asset: LoveBirdAsset.primary), lineWidth: 1)
           .frame(width: 8, height: 8)
           .background(.white)
           .padding(.top, 41)

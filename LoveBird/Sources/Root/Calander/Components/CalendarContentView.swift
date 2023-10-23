@@ -12,27 +12,28 @@ struct CalendarContentView: View {
   let store: StoreOf<CalendarCore>
 
   var body: some View {
-    WithViewStore(self.store, observe: { $0 }) { viewStore in
-      GeometryReader { geometry in
-        ScrollView(.vertical) {
-          VStack(spacing: 0) {
-            CalendarWeekdayView(viewStore: viewStore)
-
-            CalendarDateView(viewStore: viewStore)
-
-            CalendarScheduleView(store: self.store)
-          }
-          .padding(.horizontal, 16)
+    GeometryReader { geometry in
+      ScrollView(.vertical) {
+        VStack(spacing: 0) {
+          CalendarWeekdayView()
+          CalendarDateView(store: self.store)
+          CalendarScheduleView(store: self.store)
         }
-        .frame(width: geometry.size.width)
-        .frame(maxHeight: .infinity)
+        .padding(.horizontal, 16)
       }
+      .frame(width: geometry.size.width)
+      .frame(maxHeight: .infinity)
     }
   }
 }
 
-//struct CalendarScrollView_Previews: PreviewProvider {
-//  static var previews: some View {
-//    CalendarScrollView()
-//  }
-//}
+struct CalendarContentView_Previews: PreviewProvider {
+  static var previews: some View {
+    CalendarContentView(
+      store: Store(
+        initialState: CalendarState(),
+        reducer: CalendarCore()
+      )
+    )
+  }
+}

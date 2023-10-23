@@ -19,7 +19,7 @@ struct CalendarTabView: View {
             .font(.pretendard(size: 22, weight: .bold))
             .foregroundColor(.black)
 
-          Image(R.image.ic_arrow_drop_down)
+          Image(asset: LoveBirdAsset.icArrowDropDown)
             .frame(width: 24, height: 24)
         }
         .onTapGesture {
@@ -36,7 +36,7 @@ struct CalendarTabView: View {
           } destination: { store in
             ScheduleAddView(store: store)
           } label: {
-            Image(R.image.ic_plus)
+            Image(asset: LoveBirdAsset.icPlus)
           }
         }
       }
@@ -46,8 +46,13 @@ struct CalendarTabView: View {
   }
 }
 
-//struct CalendarTabView_Previews: PreviewProvider {
-//  static var previews: some View {
-//    CalendarTabView()
-//  }
-//}
+struct CalendarTabView_Previews: PreviewProvider {
+  static var previews: some View {
+    CalendarTabView(
+      store: Store(
+        initialState: CalendarState(),
+        reducer: CalendarCore()
+      )
+    )
+  }
+}

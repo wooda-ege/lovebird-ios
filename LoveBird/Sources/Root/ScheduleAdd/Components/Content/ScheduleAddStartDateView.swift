@@ -9,26 +9,32 @@ import ComposableArchitecture
 import SwiftUI
 
 struct ScheduleAddStartDateView: View {
-  
-  let viewStore: ViewStore<ScheduleAddState, ScheduleAddAction>
-  
-  var body: some View {
-    CommonFocusedView(isFocused: self.viewStore.focusedType == .startDate) {
-      Image(R.image.ic_calendar)
+  let store: StoreOf<ScheduleAddCore>
 
-      Text(self.viewStore.startDate.to(dateFormat: Date.Format.YMD))
-        .font(.pretendard(size: 18))
-        .foregroundColor(.black)
-        .frame(maxWidth: .infinity, alignment: .leading)
-    }
-    .onTapGesture {
-      self.viewStore.send(.contentTapped(.startDate))
+  var body: some View {
+    WithViewStore(self.store, observe: { $0 }) { viewStore in
+      CommonFocusedView(isFocused: viewStore.focusedType == .startDate) {
+        Image(asset: LoveBirdAsset.icCalendar)
+
+        Text(viewStore.startDate.to(dateFormat: Date.Format.YMD))
+          .font(.pretendard(size: 18))
+          .foregroundColor(.black)
+          .frame(maxWidth: .infinity, alignment: .leading)
+      }
+      .onTapGesture {
+        viewStore.send(.contentTapped(.startDate))
+      }
     }
   }
 }
 
-//struct AddScheduleStartDateView_Previews: PreviewProvider {
-//  static var previews: some View {
-//    AddScheduleStartDateView()
-//  }
-//}
+struct ScheduleAddStartDateView_Previews: PreviewProvider {
+  static var previews: some View {
+    ScheduleAddStartDateView(
+      store: .init(
+        initialState: ScheduleAddState(schedule: .dummy),
+        reducer: ScheduleAddCore()
+      )
+    )
+  }
+}

@@ -15,7 +15,7 @@ struct HomeView: View {
     WithViewStore(self.store, observe: { $0 }) { viewStore in
       VStack(spacing: 0) {
         HStack(alignment: .center) {
-          Image(R.image.img_pinkbird)
+          Image(asset: LoveBirdAsset.imgPinkbird)
             .changeSize(to: .init(width: 36, height: 36))
 
           Spacer()
@@ -29,13 +29,13 @@ struct HomeView: View {
           Line()
             .stroke(style: StrokeStyle(lineWidth: 1, dash: [2]))
             .frame(maxWidth: 1, maxHeight: .infinity)
-            .foregroundColor(Color(R.color.primary))
+            .foregroundColor(Color(asset: LoveBirdAsset.primary))
             .padding(.leading, 22)
           
           VStack(alignment: .leading) {
             GeometryReader { proxy in
               Rectangle()
-                .fill(Color(R.color.primary))
+                .fill(Color(asset: LoveBirdAsset.primary))
                 .frame(width: 2, height: min(
                   UIScreen.height,
                   max(0, UIScreen.height - 550 + viewStore.state.offsetY))
@@ -85,7 +85,12 @@ struct HomeView: View {
 
 struct HomeView_Previews: PreviewProvider {
     static var previews: some View {
-        HomeView(store: Store(initialState: HomeCore.State(), reducer: HomeCore()))
+        HomeView(
+          store: Store(
+            initialState: HomeState(),
+            reducer: HomeCore()
+          )
+        )
     }
 }
 

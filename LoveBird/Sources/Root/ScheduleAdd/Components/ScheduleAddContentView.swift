@@ -9,25 +9,18 @@ import ComposableArchitecture
 import SwiftUI
 
 struct ScheduleAddContentView: View {
-
-  let viewStore: ViewStore<ScheduleAddState, ScheduleAddAction>
+  let store: StoreOf<ScheduleAddCore>
   
   var body: some View {
     ScrollView {
       VStack(spacing: 8) {
-        ScheduleAddTitleView(viewStore: self.viewStore)
-        
-        ScheduleAddColorView(viewStore: self.viewStore)
-
-        ScheduleAddStartDateView(viewStore: self.viewStore)
-
-        ScheduleAddEndDateView(viewStore: self.viewStore)
-
-        ScheduleAddTimeView(viewStore: self.viewStore)
-
-        ScheduleAddAlarmView(viewStore: self.viewStore)
-
-        ScheduleAddMemoView(viewStore: self.viewStore)
+        ScheduleAddTitleView(store: self.store)
+        ScheduleAddColorView(store: self.store)
+        ScheduleAddStartDateView(store: self.store)
+        ScheduleAddEndDateView(store: self.store)
+        ScheduleAddTimeView(store: self.store)
+        ScheduleAddAlarmView(store: self.store)
+        ScheduleAddMemoView(store: self.store)
       }
       .padding(.horizontal, 16)
     }
@@ -35,8 +28,13 @@ struct ScheduleAddContentView: View {
   }
 }
 
-//struct AddScheduleContentView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        AddScheduleContentView()
-//    }
-//}
+struct ScheduleAddContentView_Previews: PreviewProvider {
+  static var previews: some View {
+    ScheduleAddContentView(
+      store: .init(
+        initialState: ScheduleAddState(schedule: .dummy),
+        reducer: ScheduleAddCore()
+      )
+    )
+  }
+}
