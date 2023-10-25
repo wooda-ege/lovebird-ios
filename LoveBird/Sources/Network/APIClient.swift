@@ -17,8 +17,7 @@ import SwiftUI
 public enum APIClient {
 
   // onboarding
-  case kakaoLogin(kakaoLoginRequest: KakaoLoginRequest)
-  case appleLogin(appleLoginRequest: AppleLoginRequest)
+  case login(provider: SNSProvider, idToken: String)
   case invitationViewLoaded
 
   // coupleLink
@@ -26,7 +25,7 @@ public enum APIClient {
   case fetchCoupleCode
 
   // profile
-  case registerProfile(image: UIImage?, profileRequest: RegisterProfileRequest)
+  case registerProfile(image: UIImage?, signUpRequest: AuthRequest, profileRequest: RegisterProfileRequest)
   case fetchProfile
   case editProfile(image: UIImage?, editProfile: EditProfileRequest)
   case withdrawal
@@ -67,11 +66,8 @@ extension APIClient: TargetType {
       case .withdrawal:
         return "/auth"
 
-      case .kakaoLogin:
-        return "/auth/kakao"
-
-      case .appleLogin:
-        return "/auth/apple"
+      case .login:
+        return "/auth/sign-in"
 
       case .invitationViewLoaded:
         return "/couple/code"
@@ -97,7 +93,10 @@ extension APIClient: TargetType {
       case .addSchedule, .fetchCalendars:
         return "/calendar"
 
-      case .registerProfile, .fetchProfile, .editProfile:
+      case .registerProfile:
+        return "/auth/sign-up"
+        
+      case .fetchProfile, .editProfile:
         return "/profile"
 
       case .fetchSchedule(let id), .deleteSchedule(let id), .editSchedule(let id, _):
@@ -107,7 +106,7 @@ extension APIClient: TargetType {
 
   public var method: Moya.Method {
     switch self {
-    case .registerProfile, .addSchedule, .kakaoLogin, .appleLogin, .registerDiary:
+    case .registerProfile, .addSchedule, .login, .registerDiary:
       return .post
 
     case .fetchDiary, .fetchCalendars, .fetchDiaries, .fetchProfile,
@@ -125,20 +124,23 @@ extension APIClient: TargetType {
   public var task: Moya.Task {
     switch self {
     case .searchKakaoMap(let searchTerm):
-      return .requestParameters(
-        parameters: ["query": searchTerm],
-        encoding: URLEncoding.queryString
-      )
-
-    case
-        .kakaoLogin(let encodable as Encodable),
-        .appleLogin(let encodable as Encodable),
-        .addSchedule(let encodable as Encodable),
-        .editSchedule(_, let encodable as Encodable),
-        .linkCouple(let encodable as Encodable):
-      return .requestJSONEncodable(encodable)
-
-      // MARK: - Multiparts
+        return .requestParameters(
+            parameters: ["query": searchTerm],
+            encoding: URLEncoding.queryString
+        )
+        
+    case .login(let provider, let idToken):
+        return .requestParameters(
+            parameters: ["provider": provider.rawValue, "idToken": idToken],
+            encoding: JSONEncoding.default
+        )
+        
+    case .addSchedule(let encodable as Encodable),
+            .editSchedule(_, let encodable as Encodable),
+            .linkCouple(let encodable as Encodable):
+        return .requestJSONEncodable(encodable)
+        
+        // MARK: - Multiparts
 
     case .editProfile, .registerDiary, .registerProfile:
       return .uploadMultipart(self.multiparts)
@@ -184,7 +186,8 @@ extension APIClient: TargetType {
         )
       }
 
-    case .registerProfile(let image, let profileRequest):
+    case .registerProfile(let image, let signUpRequest, let profileRequest):
+      let signUpData = try! JSONEncoder().encode(signUpRequest)
       let profileData = try! JSONEncoder().encode(profileRequest)
 
       if let image = image?.jpegData(compressionQuality: 0.5) {
@@ -196,7 +199,14 @@ extension APIClient: TargetType {
         )
         multiparts.append(imageData)
       }
-
+      
+      let signUpRequest = MultipartFormData(
+        provider: .data(signUpData),
+        name: "signUpRequest",
+        mimeType: "application/json"
+      )
+      multiparts.append(signUpRequest)
+      
       let profileRequest = MultipartFormData(
         provider: .data(profileData),
         name: "profileCreateRequest",

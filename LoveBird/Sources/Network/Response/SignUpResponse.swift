@@ -2,20 +2,12 @@
 //  SignUpResponse.swift
 //  LoveBird
 //
-//  Created by 황득연 on 2023/06/04.
+//  Created by 이예은 on 2023/10/25.
 //
 
-struct SignUpResponse: Codable, Equatable, Sendable {
-  let nickname: String
-  let partnerNickname: String?
-  let firstDate: String
-  let dayCount: Int
-  let nextAnniversary: NextAnniversary
-  let profileImageUrl: String?
-  let partnerImageUrl: String?
-}
+import Foundation
 
-struct NextAnniversary: Codable, Equatable, Sendable {
-  let kind: String
-  let anniversaryDate: String
+struct SignUpResponse: Codable, Equatable, Sendable {
+  let accessToken: String
+  let refreshToken: String
 }

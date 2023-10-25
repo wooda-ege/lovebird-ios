@@ -67,45 +67,51 @@ struct RootCore: Reducer {
         return .run { send in
           try await Task.sleep(nanoseconds: Constants.delayOfSplash)
           let user = self.userData.get(key: .user, type: Profile.self)
-          let rootState: State = if user == nil {
-            .login(LoginCore.State())
+          var rootState: State
+          if user == nil {
+            rootState = .login(LoginCore.State())
           } else if user?.partnerId == nil {
-            .coupleLink(CoupleLinkCore.State())
+            rootState = .coupleLink(CoupleLinkCore.State())
           } else {
-            .mainTab(MainTabCore.State())
+            rootState = .mainTab(MainTabCore.State())
           }
           await send(.updateRootState(rootState), animation: .default)
         }
         
       // MARK: - Login
 
-      case .login(.kakaoLoginResponse(.success(let response))), .login(.appleLoginResponse(.success(let response))):
-        return .run { send in
-          userData.store(key: .accessToken, value: response.accessToken)
-          userData.store(key: .refreshToken, value: response.refreshToken)
+      case .login(.loginResponse(.success(let response), _)):
+        self.userData.store(key: .accessToken, value: response.accessToken)
+        self.userData.store(key: .refreshToken, value: response.refreshToken)
 
-          if response.flag == true { // 신규
-            await send(.updateRootState(.onboarding(OnboardingCore.State())))
-          } else { // 기존
-            do {
-              let profile = try await apiClient.request(.fetchProfile) as Profile
-              if profile.partnerId == nil {
-                await send(.updateRootState(.coupleLink(CoupleLinkCore.State())))
-              } else {
-                await send(.updateRootState(.mainTab(MainTabCore.State())))
-              }
-            }
-          }
+        if response.linkedFlag == true {
+          return .send(.updateRootState(.mainTab(MainTabCore.State())))
+        } else {
+          return .send(.updateRootState(.coupleLink(CoupleLinkCore.State())))
         }
 
-      case .login(.kakaoLoginResponse(.failure(let error))), .login(.appleLoginResponse(.failure(let error))):
-        print(error)
-        return .none
-        
+      case .login(.loginResponse(.failure(let _), let auth)):
+//        if 특정 약속된 로그인 실패 인경우 { ... } 현석이랑 약속해서 처리하면 좋음
+//        else 그외 네트워크 오류 등등 일 경우 { ... }
+        return .send(.updateRootState(.onboarding(OnboardingCore.State(auth: auth))))
+
       // MARK: - Onboarding
         
-      case .onboarding(.registerProfileResponse(.success)):
-        return .send(.updateRootState(.coupleLink(CoupleLinkCore.State())))
+      case .onboarding(.registerProfileResponse(.success(let response))):
+        userData.store(key: .accessToken, value: response.accessToken)
+        userData.store(key: .refreshToken, value: response.refreshToken)
+        
+        return .run { send in
+          do {
+            let profile = try await apiClient.request(.fetchProfile) as Profile
+            userData.store(key: .user, value: profile)
+            
+            await send(.updateRootState(.coupleLink(CoupleLinkCore.State())))
+          } catch {
+            await send(.updateRootState(.coupleLink(CoupleLinkCore.State())))
+            
+          }
+        }
 
         // MARK: - CoupleLink
         
@@ -153,3 +159,4 @@ struct RootCore: Reducer {
     }
   }
 }
+

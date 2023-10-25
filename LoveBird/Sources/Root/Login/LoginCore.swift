@@ -13,53 +13,43 @@ import KakaoSDKAuth
 
 struct LoginCore: ReducerProtocol {
   @Dependency(\.apiClient) var apiClient
+  @Dependency(\.userData) var userData
   
   struct State: Equatable {
   }
   
   enum Action: Equatable {
-    case kakaoLoginTapped(String, String)
+    case kakaoLoginTapped(String)
     case appleLoginTapped(ASAuthorization)
-    case kakaoLoginResponse(TaskResult<LoginResponse>)
-    case appleLoginResponse(TaskResult<LoginResponse>)
+    case loginResponse(TaskResult<LoginResponse>, AuthRequest)
   }
   
   
   var body: some ReducerProtocol<State, Action> {
     Reduce { state, action in
       switch action {
-      case .kakaoLoginTapped(let accessToken, let idToken):
+      case .kakaoLoginTapped(let idToken):
         return .run { send in
           do {
-            let kakaoLoginResponse = try await self.apiClient.request(
-              .kakaoLogin(
-                kakaoLoginRequest: .init(
-                  idToken: idToken,
-                  accessToken: accessToken
-                )
-              )
-            ) as LoginResponse
-            await send(.kakaoLoginResponse(.success(kakaoLoginResponse)))
+            let kakaoLoginResponse = try await self.apiClient.request(.login(provider: SNSProvider.kakao, idToken: idToken)) as LoginResponse
+            await send(.loginResponse(.success(kakaoLoginResponse), .init(provider: SNSProvider.kakao, idToken: idToken)))
           } catch {
-            
+            await send(.loginResponse(.failure(error), .init(provider: SNSProvider.kakao, idToken: idToken)))
           }
         }
+
       case .appleLoginTapped(let auth):
         switch auth.credential {
         case let credential as ASAuthorizationAppleIDCredential:
           let tokenData = credential.identityToken
-          let tokenString = String(decoding: tokenData!, as: UTF8.self)
-          let email = credential.email ?? ""
-          let firstName = credential.fullName?.givenName ?? ""
-          let lastName = credential.fullName?.familyName ?? ""
+          let idToken = String(decoding: tokenData!, as: UTF8.self)
           
           return .run { send in
             do {
-              let appleLoginResponse = try await self.apiClient.request(.appleLogin(appleLoginRequest: .init(idToken: tokenString, user: .init(email: email, name: .init(firstName: firstName, lastName: lastName))))) as LoginResponse
-              
-              await send(.appleLoginResponse(.success(appleLoginResponse)))
+              let appleLoginResponse = try await self.apiClient.request(.login(provider: SNSProvider.apple, idToken: idToken)) as LoginResponse
+              await send(.loginResponse(.success(appleLoginResponse), .init(provider: SNSProvider.apple, idToken: idToken)))
             } catch {
-
+              await send(.loginResponse(.failure(error), .init(provider: SNSProvider.apple, idToken: idToken)))
             }
           }
         default:
@@ -72,3 +62,4 @@ struct LoginCore: ReducerProtocol {
     }
   }
 }
+

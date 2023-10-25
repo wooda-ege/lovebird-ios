@@ -20,9 +20,18 @@ struct OnboardingCore: ReducerProtocol {
     static let maxNicknameLength = 20
     static let minNicknameLength = 2
   }
-
+  
   struct State: Equatable {
+    init(auth: AuthRequest) {
+      self.auth = auth
+      self.pageState = auth.provider == .apple ? .nickname : .email
+      if auth.provider == .apple {
+        self.page.update(.next)
+      }
+    }
+    
     // common
+    let auth: AuthRequest
     var page: Page = .first()
     var pageState: Page.Onboarding = .email
     var emailTextFieldState: OnboardingTextFieldState = .none
@@ -88,7 +97,7 @@ struct OnboardingCore: ReducerProtocol {
     case anniversaryUpdated(SimpleDate)
 
     // Network
-    case registerProfileResponse(TaskResult<Profile>)
+    case registerProfileResponse(TaskResult<SignUpResponse>)
   }
 
   @Dependency(\.apiClient) var apiClient
@@ -108,6 +117,7 @@ struct OnboardingCore: ReducerProtocol {
             let profile = try await self.apiClient.request(
               .registerProfile(
                 image: state.skipPages.contains(.profileImage) ? nil : state.profileImage,
+                signUpRequest: AuthRequest.init(provider: state.auth.provider, idToken: state.auth.idToken),
                 profileRequest: RegisterProfileRequest.init(
                   email: state.email,
                   nickname: state.nickname,
@@ -116,7 +126,7 @@ struct OnboardingCore: ReducerProtocol {
                   gender: state.gender?.rawValue ?? "UNKNOWN",
                   deviceToken: "fcm")
               )
-            ) as Profile
+            ) as SignUpResponse
             await send(.registerProfileResponse(.success(profile)))
           } catch {
             print("프로필 등록 실패")
