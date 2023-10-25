@@ -66,8 +66,10 @@ extension APIClient: TargetType {
       switch self {
       case .withdrawal:
         return "/auth"
+        
       case .login:
         return "/auth/sign-in"
+        
       case .invitationViewLoaded:
         return "/couple/code"
 
@@ -91,10 +93,13 @@ extension APIClient: TargetType {
 
       case .addSchedule, .fetchCalendars:
         return "/calendar"
+        
       case .fetchProfile, .editProfile:
         return "/profile"
+        
       case .registerProfile:
         return "/auth/sign-up"
+        
       case .fetchSchedule(let id), .deleteSchedule(let id), .editSchedule(let id, _):
         return "/calendar/\(id)"
       }
