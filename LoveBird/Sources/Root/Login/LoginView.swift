@@ -16,13 +16,9 @@ import AuthenticationServices
 
 struct LoginView: View {
   let store: StoreOf<LoginCore>
-  
-  init(store: StoreOf<LoginCore>) {
-    self.store = store
-  }
-  
-  var body: some View {
-    WithViewStore(self.store) { viewStore in
+
+	var body: some View {
+		WithViewStore(self.store, observe: { $0 }) { viewStore in
       VStack {
         HStack {
           Image(asset: LoveBirdAsset.imgPinkbird)
@@ -108,14 +104,11 @@ struct LoginView: View {
   }
 }
 
-struct LoginView_Previews: PreviewProvider {
-  static var previews: some View {
-    LoginView(
-      store: Store(
-        initialState: LoginCore.State(),
-        reducer: LoginCore()
-      )
-    )
-  }
+#Preview {
+	LoginView(
+		store: Store(
+			initialState: LoginCore.State(),
+			reducer: { LoginCore() }
+		)
+	)
 }
-

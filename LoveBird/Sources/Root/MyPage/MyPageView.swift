@@ -133,13 +133,11 @@ struct MyPageView: View {
   }
 }
 
-struct MyPageView_Previews: PreviewProvider {
-  static var previews: some View {
-    MyPageView(
-      store: .init(
-        initialState: MyPageState(user: Profile.dummy),
-        reducer: MyPageCore()
-      )
-    )
-  }
+#Preview {
+	MyPageView(
+		store: .init(
+			initialState: MyPageState(user: Profile.dummy),
+			reducer: { MyPageCore() }
+		)
+	)
 }

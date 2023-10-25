@@ -11,7 +11,7 @@ import ComposableArchitecture
 typealias DiaryDetailState = DiaryDetailCore.State
 typealias DiaryDetailAction = DiaryDetailCore.Action
 
-struct DiaryDetailCore: ReducerProtocol {
+struct DiaryDetailCore: Reducer {
 
   struct State: Equatable {
     let diary: Diary
@@ -27,17 +27,19 @@ struct DiaryDetailCore: ReducerProtocol {
   @Dependency(\.apiClient) var apiClient
   @Dependency(\.userData) var userData
 
-  var body: some ReducerProtocol<State, Action> {
+  var body: some Reducer<State, Action> {
     Reduce { state, action in
       switch action {
       case .deleteDiary:
-        return .task { [id = state.diary.diaryId] in
-          .deleteDiaryResponse(
-            await TaskResult {
-              try await self.apiClient.requestRaw(.deleteDiary(id: id))
-            }
-          )
-        }
+				return .run { [id = state.diary.diaryId] send in
+					await send(
+						.deleteDiaryResponse(
+							await TaskResult {
+								try await self.apiClient.requestRaw(.deleteDiary(id: id))
+							}
+						)
+					)
+				}
 
       default:
         return .none

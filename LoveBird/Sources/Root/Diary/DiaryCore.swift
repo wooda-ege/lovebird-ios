@@ -11,7 +11,7 @@ import SwiftUI
 typealias DiaryState = DiaryCore.State
 typealias DiaryAction = DiaryCore.Action
 
-struct DiaryCore: ReducerProtocol {
+struct DiaryCore: Reducer {
   struct State: Equatable {
     @PresentationState var searchPlace: SearchPlaceState?
 
@@ -49,7 +49,7 @@ struct DiaryCore: ReducerProtocol {
   @Dependency(\.apiClient) var apiClient
   @Dependency(\.userData) var userData
   
-  var body: some ReducerProtocol<State, Action> {
+  var body: some Reducer<State, Action> {
     Reduce<State, Action> { state, action in
       switch action {
       case .titleEdited(let title):
@@ -106,22 +106,18 @@ struct DiaryCore: ReducerProtocol {
 
       case .completeTapped:
         if state.title.isEmpty || state.content.isEmpty { return .none }
-        return .task { [state = state] in
-          .registerDiaryResponse(
-            await TaskResult {
-              try await self.apiClient.requestRaw(
-                .registerDiary(
-                  image: state.image,
-                  diary: .init(
-                    title: state.title,
-                    memoryDate: state.date.to(dateFormat: Date.Format.YMDDivided),
-                    place: state.place.isEmpty ? nil : state.place,
-                    content: state.content)
-                )
-              )
-            }
-          )
-        }
+				return .run { [state = state] send in
+					_ = try await self.apiClient.requestRaw(
+						.registerDiary(
+							image: state.image,
+							diary: .init(
+								title: state.title,
+								memoryDate: state.date.to(dateFormat: Date.Format.YMDDivided),
+								place: state.place.isEmpty ? nil : state.place,
+								content: state.content)
+						)
+					)
+				}
 
       case .editImage(let image):
         state.image = image

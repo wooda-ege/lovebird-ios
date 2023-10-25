@@ -58,13 +58,11 @@ struct ScheduleAddEndDateView: View {
   }
 }
 
-struct ScheduleAddEndDateView_Previews: PreviewProvider {
-    static var previews: some View {
-      ScheduleAddEndDateView(
-        store: .init(
-          initialState: ScheduleAddState(schedule: .dummy),
-          reducer: ScheduleAddCore()
-        )
-      )
-    }
+#Preview {
+	ScheduleAddEndDateView(
+		store: .init(
+			initialState: ScheduleAddState(schedule: .dummy),
+			reducer: { ScheduleAddCore() }
+		)
+	)
 }

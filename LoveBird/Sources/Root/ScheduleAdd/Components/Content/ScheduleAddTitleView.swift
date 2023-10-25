@@ -40,13 +40,11 @@ struct ScheduleAddTitleView: View {
   }
 }
 
-struct ScheduleAddTitleView_Previews: PreviewProvider {
-  static var previews: some View {
-    ScheduleAddTitleView(
-      store: .init(
-        initialState: ScheduleAddState(schedule: .dummy),
-        reducer: ScheduleAddCore()
-      )
-    )
-  }
+#Preview {
+	ScheduleAddTitleView(
+		store: .init(
+			initialState: ScheduleAddState(schedule: .dummy),
+			reducer: { ScheduleAddCore() }
+		)
+	)
 }

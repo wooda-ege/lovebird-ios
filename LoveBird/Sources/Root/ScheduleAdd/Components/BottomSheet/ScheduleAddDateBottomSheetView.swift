@@ -30,13 +30,11 @@ struct ScheduleAddDateBottomSheetView: View {
   }
 }
 
-struct ScheduleAddDateBottomSheetView_Previews: PreviewProvider {
-  static var previews: some View {
-    ScheduleAddDateBottomSheetView(
-      store: .init(
-        initialState: ScheduleAddState(schedule: .dummy),
-        reducer: ScheduleAddCore()
-      )
-    )
-  }
+#Preview {
+	ScheduleAddDateBottomSheetView(
+		store: .init(
+			initialState: ScheduleAddState(schedule: .dummy),
+			reducer: { ScheduleAddCore() }
+		)
+	)
 }

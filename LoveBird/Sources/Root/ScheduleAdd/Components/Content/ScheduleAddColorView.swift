@@ -36,13 +36,11 @@ struct ScheduleAddColorView: View {
   }
 }
 
-struct ScheduleAddColorView_Previews: PreviewProvider {
-  static var previews: some View {
-    ScheduleAddColorView(
-      store: .init(
-        initialState: ScheduleAddState(schedule: .dummy),
-        reducer: ScheduleAddCore()
-      )
-    )
-  }
+#Preview {
+	ScheduleAddColorView(
+		store: .init(
+			initialState: ScheduleAddState(schedule: .dummy),
+			reducer: { ScheduleAddCore() }
+		)
+	)
 }

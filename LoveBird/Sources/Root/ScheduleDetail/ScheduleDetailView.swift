@@ -170,14 +170,11 @@ struct ScheduleDetailView: View {
   }
 }
 
-struct ScheduleDetailView_Previews: PreviewProvider {
-  static var previews: some View {
-    ScheduleDetailView(
-      store: .init(
-        initialState: ScheduleDetailState(schedule: .dummy),
-        reducer: ScheduleDetailCore()
-      )
-    )
-  }
+#Preview {
+	ScheduleDetailView(
+		store: .init(
+			initialState: ScheduleDetailState(schedule: .dummy),
+			reducer: { ScheduleDetailCore() }
+		)
+	)
 }
-

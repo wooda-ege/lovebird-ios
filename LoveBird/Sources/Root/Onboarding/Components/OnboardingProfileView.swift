@@ -40,15 +40,11 @@ struct OnboardingProfileView: View {
   }
 }
 
-struct OnboardingProfileView_Previews: PreviewProvider {
-  static var previews: some View {
-    OnboardingProfileView(
-      store: Store(
-        initialState: OnboardingState(),
-        reducer: OnboardingCore()
-      )
-    )
-  }
+#Preview {
+	OnboardingProfileView(
+		store: Store(
+			initialState: OnboardingState(),
+			reducer: { OnboardingCore() }
+		)
+	)
 }
-
-

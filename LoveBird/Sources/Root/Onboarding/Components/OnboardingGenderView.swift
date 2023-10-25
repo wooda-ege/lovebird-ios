@@ -59,15 +59,11 @@ struct OnboardingGenderView: View {
   }
 }
 
-struct OnboardingGenderView_Previews: PreviewProvider {
-    static var previews: some View {
-        OnboardingGenderView(
-          store: Store(
-            initialState: OnboardingState(),
-            reducer: OnboardingCore()
-          )
-        )
-    }
+#Preview {
+	OnboardingGenderView(
+		store: Store(
+			initialState: OnboardingState(),
+			reducer: { OnboardingCore() }
+		)
+	)
 }
-
-

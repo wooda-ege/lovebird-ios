@@ -121,13 +121,11 @@ struct CalendarDateView: View {
   }
 }
 
-struct CalendarDateView_Previews: PreviewProvider {
-    static var previews: some View {
-      CalendarDateView(
-        store: Store(
-          initialState: CalendarState(),
-          reducer: CalendarCore()
-        )
-      )
-    }
+#Preview {
+	CalendarDateView(
+		store: Store(
+			initialState: CalendarState(),
+			reducer: { CalendarCore() }
+		)
+	)
 }

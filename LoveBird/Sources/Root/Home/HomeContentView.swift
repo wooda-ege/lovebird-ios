@@ -144,14 +144,12 @@ struct HomeContentView: View {
   }
 }
 
-struct HomeContentView_Previews: PreviewProvider {
-  static var previews: some View {
-    HomeContentView(
-      store: .init(
-        initialState: HomeState(),
-        reducer: HomeCore()
-      ),
-      diary: .dummy
-    )
-  }
+#Preview {
+	HomeContentView(
+		store: .init(
+			initialState: HomeState(),
+			reducer: { HomeCore() }
+		),
+		diary: .dummy
+	)
 }

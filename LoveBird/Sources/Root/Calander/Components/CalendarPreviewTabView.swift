@@ -47,13 +47,12 @@ struct CalendarPreviewTabView: View {
   }
 }
 
-struct CalendarPreviewTabView_Previews: PreviewProvider {
-    static var previews: some View {
-        CalendarPreviewTabView(
-          store: Store(
-            initialState: CalendarState(),
-            reducer: CalendarCore()
-          )
-        )
-    }
+
+#Preview {
+	CalendarPreviewTabView(
+		store: Store(
+			initialState: CalendarState(),
+			reducer: { CalendarCore() }
+		)
+	)
 }

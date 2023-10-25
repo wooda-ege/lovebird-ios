@@ -75,13 +75,11 @@ struct DiaryPreviewContentView: View {
   }
 }
 
-struct DiaryPreviewContentView_Previews: PreviewProvider {
-    static var previews: some View {
-      DiaryPreviewContentView(
-          store: Store(
-            initialState: DiaryState(),
-            reducer: DiaryCore()
-          )
-        )
-    }
+#Preview {
+	DiaryPreviewContentView(
+		store: Store(
+			initialState: DiaryState(),
+			reducer: { DiaryCore() }
+		)
+	)
 }

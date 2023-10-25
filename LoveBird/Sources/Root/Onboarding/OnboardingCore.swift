@@ -13,7 +13,7 @@ import UIKit
 typealias OnboardingState = OnboardingCore.State
 typealias OnboardingAction = OnboardingCore.Action
 
-struct OnboardingCore: ReducerProtocol {
+struct OnboardingCore: Reducer {
 
   enum Constant {
     static let nicknamePageIdx = 0
@@ -94,7 +94,7 @@ struct OnboardingCore: ReducerProtocol {
   @Dependency(\.apiClient) var apiClient
   @Dependency(\.userData) var userData
 
-  var body: some ReducerProtocol<State, Action> {
+  var body: some Reducer<State, Action> {
     Reduce { state, action in
       switch action {
       case .nextTapped, .nextButtonTapped:

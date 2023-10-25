@@ -58,13 +58,11 @@ struct ScheduleAddColorBottomSheetView: View {
   }
 }
 
-struct ScheduleAddColorBottomSheetView_Previews: PreviewProvider {
-  static var previews: some View {
-    ScheduleAddColorBottomSheetView(
-      store: .init(
-        initialState: ScheduleAddState(schedule: .dummy),
-        reducer: ScheduleAddCore()
-      )
-    )
-  }
+#Preview {
+	ScheduleAddColorBottomSheetView(
+		store: .init(
+			initialState: ScheduleAddState(schedule: .dummy),
+			reducer: { ScheduleAddCore() }
+		)
+	)
 }

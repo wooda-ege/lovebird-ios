@@ -28,13 +28,11 @@ struct ScheduleAddContentView: View {
   }
 }
 
-struct ScheduleAddContentView_Previews: PreviewProvider {
-  static var previews: some View {
-    ScheduleAddContentView(
-      store: .init(
-        initialState: ScheduleAddState(schedule: .dummy),
-        reducer: ScheduleAddCore()
-      )
-    )
-  }
+#Preview {
+	ScheduleAddContentView(
+		store: .init(
+			initialState: ScheduleAddState(schedule: .dummy),
+			reducer: { ScheduleAddCore() }
+		)
+	)
 }
