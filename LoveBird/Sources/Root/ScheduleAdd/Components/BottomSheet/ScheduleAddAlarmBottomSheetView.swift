@@ -54,10 +54,10 @@ struct ScheduleAddAlarmBottomSheetView: View {
 }
 
 #Preview {
-	ScheduleAddAlarmBottomSheetView(
-		store: .init(
-			initialState: ScheduleAddState(schedule: .dummy),
-			reducer: { ScheduleAddCore() }
-		)
-	)
+  ScheduleAddAlarmBottomSheetView(
+    store: .init(
+      initialState: ScheduleAddState(schedule: .dummy),
+      reducer: { ScheduleAddCore() }
+    )
+  )
 }

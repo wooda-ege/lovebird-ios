@@ -56,10 +56,10 @@ struct OnboardingEmailView: View {
 }
 
 #Preview {
-	OnboardingEmailView(
-		store: Store(
-			initialState: OnboardingState(),
-			reducer: { OnboardingCore() }
-		)
-	)
+  OnboardingEmailView(
+    store: Store(
+      initialState: OnboardingState(),
+      reducer: { OnboardingCore() }
+    )
+  )
 }

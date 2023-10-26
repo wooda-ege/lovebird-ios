@@ -49,10 +49,10 @@ struct CalendarPreviewTabView: View {
 
 
 #Preview {
-	CalendarPreviewTabView(
-		store: Store(
-			initialState: CalendarState(),
-			reducer: { CalendarCore() }
-		)
-	)
+  CalendarPreviewTabView(
+    store: Store(
+      initialState: CalendarState(),
+      reducer: { CalendarCore() }
+    )
+  )
 }

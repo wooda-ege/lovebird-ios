@@ -171,10 +171,10 @@ struct DiaryView: View {
 }
 
 #Preview {
-	DiaryView(
-		store: Store(
-			initialState: DiaryState(),
-			reducer: { DiaryCore() }
-		)
-	)
+  DiaryView(
+    store: Store(
+      initialState: DiaryState(),
+      reducer: { DiaryCore() }
+    )
+  )
 }

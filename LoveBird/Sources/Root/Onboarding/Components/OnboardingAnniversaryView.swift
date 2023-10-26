@@ -37,10 +37,10 @@ struct OnboardingAnniversaryView: View {
 }
 
 #Preview {
-	OnboardingAnniversaryView(
-		store: Store(
-			initialState: OnboardingState(),
-			reducer: { OnboardingCore() }
-		)
-	)
+  OnboardingAnniversaryView(
+    store: Store(
+      initialState: OnboardingState(),
+      reducer: { OnboardingCore() }
+    )
+  )
 }

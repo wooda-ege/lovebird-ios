@@ -60,10 +60,10 @@ struct OnboardingGenderView: View {
 }
 
 #Preview {
-	OnboardingGenderView(
-		store: Store(
-			initialState: OnboardingState(),
-			reducer: { OnboardingCore() }
-		)
-	)
+  OnboardingGenderView(
+    store: Store(
+      initialState: OnboardingState(),
+      reducer: { OnboardingCore() }
+    )
+  )
 }

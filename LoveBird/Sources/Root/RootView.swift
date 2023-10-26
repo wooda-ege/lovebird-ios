@@ -58,3 +58,11 @@ struct RootView: View {
   }
 }
 
+#Preview {
+  RootView(
+    store: .init(
+      initialState: RootState(),
+      reducer: { RootCore() }
+    )
+  )
+}

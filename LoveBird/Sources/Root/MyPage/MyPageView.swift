@@ -134,10 +134,10 @@ struct MyPageView: View {
 }
 
 #Preview {
-	MyPageView(
-		store: .init(
-			initialState: MyPageState(user: Profile.dummy),
-			reducer: { MyPageCore() }
-		)
-	)
+  MyPageView(
+    store: .init(
+      initialState: MyPageState(user: Profile.dummy),
+      reducer: { MyPageCore() }
+    )
+  )
 }

@@ -29,8 +29,6 @@ struct CalendarWeekdayView: View {
   }
 }
 
-struct CalendarWeekdayView_Previews: PreviewProvider {
-  static var previews: some View {
-    CalendarWeekdayView()
-  }
+#Preview {
+  CalendarWeekdayView()
 }

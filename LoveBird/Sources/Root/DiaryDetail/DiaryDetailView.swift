@@ -99,10 +99,10 @@ struct DiaryDetailView: View {
 }
 
 #Preview {
-	DiaryDetailView(
-		store: .init(
-			initialState: DiaryDetailState(diary: .dummy),
-			reducer: { DiaryDetailCore() }
-		)
-	)
+  DiaryDetailView(
+    store: .init(
+      initialState: DiaryDetailState(diary: .dummy),
+      reducer: { DiaryDetailCore() }
+    )
+  )
 }

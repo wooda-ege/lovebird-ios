@@ -31,10 +31,10 @@ struct ScheduleAddTimeBottomSheetView: View {
 }
 
 #Preview {
-	ScheduleAddTimeBottomSheetView(
-		store: .init(
-			initialState: ScheduleAddState(schedule: .dummy),
-			reducer: { ScheduleAddCore() }
-		)
-	)
+  ScheduleAddTimeBottomSheetView(
+    store: .init(
+      initialState: ScheduleAddState(schedule: .dummy),
+      reducer: { ScheduleAddCore() }
+    )
+  )
 }

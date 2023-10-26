@@ -84,10 +84,10 @@ struct CalendarScheduleView: View {
 }
 
 #Preview {
-	CalendarScheduleView(
-		store: Store(
-			initialState: CalendarState(),
-			reducer: { CalendarCore() }
-		)
-	)
+  CalendarScheduleView(
+    store: Store(
+      initialState: CalendarState(),
+      reducer: { CalendarCore() }
+    )
+  )
 }

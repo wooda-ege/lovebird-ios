@@ -161,12 +161,12 @@ struct CoupleLinkView: View {
 }
 
 #Preview {
-	CoupleLinkView(
-		store: Store(
-			initialState: CoupleLinkState(),
-			reducer: { CoupleLinkCore() }
-		)
-	)
+  CoupleLinkView(
+    store: Store(
+      initialState: CoupleLinkState(),
+      reducer: { CoupleLinkCore() }
+    )
+  )
 }
 
 struct ActivityViewController: UIViewControllerRepresentable {

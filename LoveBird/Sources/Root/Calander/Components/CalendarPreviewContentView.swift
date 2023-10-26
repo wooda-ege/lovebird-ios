@@ -76,10 +76,10 @@ struct CalendarPreviewContentView: View {
 }
 
 #Preview {
-	CalendarPreviewContentView(
-		store: Store(
-			initialState: CalendarCore.State(),
-			reducer: { CalendarCore() }
-		)
-	)
+  CalendarPreviewContentView(
+    store: Store(
+      initialState: CalendarCore.State(),
+      reducer: { CalendarCore() }
+    )
+  )
 }

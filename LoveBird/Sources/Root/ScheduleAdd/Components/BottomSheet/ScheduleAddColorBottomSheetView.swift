@@ -59,10 +59,10 @@ struct ScheduleAddColorBottomSheetView: View {
 }
 
 #Preview {
-	ScheduleAddColorBottomSheetView(
-		store: .init(
-			initialState: ScheduleAddState(schedule: .dummy),
-			reducer: { ScheduleAddCore() }
-		)
-	)
+  ScheduleAddColorBottomSheetView(
+    store: .init(
+      initialState: ScheduleAddState(schedule: .dummy),
+      reducer: { ScheduleAddCore() }
+    )
+  )
 }

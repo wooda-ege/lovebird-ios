@@ -57,10 +57,10 @@ struct OnboardingNicknameView: View {
 }
 
 #Preview {
-	OnboardingNicknameView(
-		store: Store(
-			initialState: OnboardingState(),
-			reducer: { OnboardingCore() }
-		)
-	)
+  OnboardingNicknameView(
+    store: Store(
+      initialState: OnboardingState(),
+      reducer: { OnboardingCore() }
+    )
+  )
 }

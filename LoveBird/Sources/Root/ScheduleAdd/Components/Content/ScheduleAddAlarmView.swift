@@ -62,10 +62,10 @@ struct ScheduleAddAlarmView: View {
 }
 
 #Preview {
-	ScheduleAddAlarmView(
-		store: .init(
-			initialState: ScheduleAddState(schedule: .dummy),
-			reducer: { ScheduleAddCore() }
-		)
-	)
+  ScheduleAddAlarmView(
+    store: .init(
+      initialState: ScheduleAddState(schedule: .dummy),
+      reducer: { ScheduleAddCore() }
+    )
+  )
 }

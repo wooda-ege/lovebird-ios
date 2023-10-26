@@ -59,10 +59,10 @@ struct ScheduleAddEndDateView: View {
 }
 
 #Preview {
-	ScheduleAddEndDateView(
-		store: .init(
-			initialState: ScheduleAddState(schedule: .dummy),
-			reducer: { ScheduleAddCore() }
-		)
-	)
+  ScheduleAddEndDateView(
+    store: .init(
+      initialState: ScheduleAddState(schedule: .dummy),
+      reducer: { ScheduleAddCore() }
+    )
+  )
 }

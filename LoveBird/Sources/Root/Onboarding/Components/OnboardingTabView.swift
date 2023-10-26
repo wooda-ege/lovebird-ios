@@ -65,10 +65,10 @@ struct OnboardingTabView: View {
 }
 
 #Preview {
-	OnboardingTabView(
-		store: Store(
-			initialState: OnboardingState(),
-			reducer: { OnboardingCore() }
-		)
-	)
+  OnboardingTabView(
+    store: Store(
+      initialState: OnboardingState(),
+      reducer: { OnboardingCore() }
+    )
+  )
 }

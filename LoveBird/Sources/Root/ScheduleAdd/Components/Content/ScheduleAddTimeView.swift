@@ -96,10 +96,10 @@ struct ScheduleAddTimeView: View {
 }
 
 #Preview {
-	ScheduleAddTimeView(
-		store: .init(
-			initialState: ScheduleAddState(schedule: .dummy),
-			reducer: { ScheduleAddCore() }
-		)
-	)
+  ScheduleAddTimeView(
+    store: .init(
+      initialState: ScheduleAddState(schedule: .dummy),
+      reducer: { ScheduleAddCore() }
+    )
+  )
 }

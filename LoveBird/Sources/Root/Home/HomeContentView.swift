@@ -145,11 +145,11 @@ struct HomeContentView: View {
 }
 
 #Preview {
-	HomeContentView(
-		store: .init(
-			initialState: HomeState(),
-			reducer: { HomeCore() }
-		),
-		diary: .dummy
-	)
+  HomeContentView(
+    store: .init(
+      initialState: HomeState(),
+      reducer: { HomeCore() }
+    ),
+    diary: .dummy
+  )
 }

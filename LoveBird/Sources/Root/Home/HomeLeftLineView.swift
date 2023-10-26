@@ -57,8 +57,6 @@ struct HomeLeftLineView: View {
   }
 }
 
-struct HomeLeftLineView_Previews: PreviewProvider {
-  static var previews: some View {
-    HomeLeftLineView(timeState: .current)
-  }
+#Preview {
+  HomeLeftLineView(timeState: .current)
 }

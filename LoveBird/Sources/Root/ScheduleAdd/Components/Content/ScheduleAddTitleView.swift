@@ -41,10 +41,10 @@ struct ScheduleAddTitleView: View {
 }
 
 #Preview {
-	ScheduleAddTitleView(
-		store: .init(
-			initialState: ScheduleAddState(schedule: .dummy),
-			reducer: { ScheduleAddCore() }
-		)
-	)
+  ScheduleAddTitleView(
+    store: .init(
+      initialState: ScheduleAddState(schedule: .dummy),
+      reducer: { ScheduleAddCore() }
+    )
+  )
 }

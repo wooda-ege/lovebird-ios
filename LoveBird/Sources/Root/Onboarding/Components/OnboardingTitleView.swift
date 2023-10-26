@@ -30,10 +30,10 @@ struct OnboardingTitleView: View {
 }
 
 #Preview {
-	OnboardingTitleView(
-		store: Store(
-			initialState: OnboardingState(),
-			reducer: { OnboardingCore() }
-		)
-	)
+  OnboardingTitleView(
+    store: Store(
+      initialState: OnboardingState(),
+      reducer: { OnboardingCore() }
+    )
+  )
 }

@@ -34,11 +34,11 @@ struct OnboardingBirthDateView: View {
 }
 
 #Preview {
-	OnboardingBirthDateView(
-		store: Store(
-			initialState: OnboardingState(),
-			reducer: { OnboardingCore() }
-		)
-	)
+  OnboardingBirthDateView(
+    store: Store(
+      initialState: OnboardingState(),
+      reducer: { OnboardingCore() }
+    )
+  )
 }
 

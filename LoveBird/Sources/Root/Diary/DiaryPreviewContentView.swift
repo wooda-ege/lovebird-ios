@@ -76,10 +76,10 @@ struct DiaryPreviewContentView: View {
 }
 
 #Preview {
-	DiaryPreviewContentView(
-		store: Store(
-			initialState: DiaryState(),
-			reducer: { DiaryCore() }
-		)
-	)
+  DiaryPreviewContentView(
+    store: Store(
+      initialState: DiaryState(),
+      reducer: { DiaryCore() }
+    )
+  )
 }

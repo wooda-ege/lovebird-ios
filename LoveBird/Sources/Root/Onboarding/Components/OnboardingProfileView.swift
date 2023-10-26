@@ -41,10 +41,10 @@ struct OnboardingProfileView: View {
 }
 
 #Preview {
-	OnboardingProfileView(
-		store: Store(
-			initialState: OnboardingState(),
-			reducer: { OnboardingCore() }
-		)
-	)
+  OnboardingProfileView(
+    store: Store(
+      initialState: OnboardingState(),
+      reducer: { OnboardingCore() }
+    )
+  )
 }

@@ -105,10 +105,10 @@ struct LoginView: View {
 }
 
 #Preview {
-	LoginView(
-		store: Store(
-			initialState: LoginCore.State(),
-			reducer: { LoginCore() }
-		)
-	)
+  LoginView(
+    store: Store(
+      initialState: LoginCore.State(),
+      reducer: { LoginCore() }
+    )
+  )
 }

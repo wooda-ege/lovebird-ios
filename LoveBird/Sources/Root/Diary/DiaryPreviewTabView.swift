@@ -47,10 +47,10 @@ struct DiaryPreviewTabView: View {
 }
 
 #Preview {
-	DiaryPreviewTabView(
-		store: Store(
-			initialState: DiaryState(),
-			reducer: { DiaryCore() }
-		)
-	)
+  DiaryPreviewTabView(
+    store: Store(
+      initialState: DiaryState(),
+      reducer: { DiaryCore() }
+    )
+  )
 }

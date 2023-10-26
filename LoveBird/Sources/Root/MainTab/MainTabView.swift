@@ -76,10 +76,10 @@ struct MainTabView: View {
 // MARK: - Preview
 
 #Preview {
-	MainTabView(
-		store: Store(
-			initialState: MainTabState(),
-			reducer: { MainTabCore() }
-		)
-	)
+  MainTabView(
+    store: Store(
+      initialState: MainTabState(),
+      reducer: { MainTabCore() }
+    )
+  )
 }

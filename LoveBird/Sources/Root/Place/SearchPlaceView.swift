@@ -75,10 +75,10 @@ struct SearchPlaceView: View {
 }
 
 #Preview {
-	SearchPlaceView(
-		store: Store(
-			initialState: SearchPlaceCore.State(),
-			reducer: { SearchPlaceCore() }
-		)
-	)
+  SearchPlaceView(
+    store: Store(
+      initialState: SearchPlaceCore.State(),
+      reducer: { SearchPlaceCore() }
+    )
+  )
 }

@@ -171,10 +171,10 @@ struct ScheduleDetailView: View {
 }
 
 #Preview {
-	ScheduleDetailView(
-		store: .init(
-			initialState: ScheduleDetailState(schedule: .dummy),
-			reducer: { ScheduleDetailCore() }
-		)
-	)
+  ScheduleDetailView(
+    store: .init(
+      initialState: ScheduleDetailState(schedule: .dummy),
+      reducer: { ScheduleDetailCore() }
+    )
+  )
 }

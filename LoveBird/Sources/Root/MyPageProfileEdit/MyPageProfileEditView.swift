@@ -117,10 +117,10 @@ struct MyPageProfileEditView: View {
 }
 
 #Preview {
-	MyPageProfileEditView(
-		store: .init(
-			initialState: MyPageProfileEditState(),
-			reducer: { MyPageProfileEditCore() }
-		)
-	)
+  MyPageProfileEditView(
+    store: .init(
+      initialState: MyPageProfileEditState(),
+      reducer: { MyPageProfileEditCore() }
+    )
+  )
 }

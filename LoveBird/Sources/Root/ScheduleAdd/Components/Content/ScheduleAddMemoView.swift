@@ -42,10 +42,10 @@ struct ScheduleAddMemoView: View {
 }
 
 #Preview {
-	ScheduleAddMemoView(
-		store: .init(
-			initialState: ScheduleAddState(schedule: .dummy),
-			reducer: { ScheduleAddCore() }
-		)
-	)
+  ScheduleAddMemoView(
+    store: .init(
+      initialState: ScheduleAddState(schedule: .dummy),
+      reducer: { ScheduleAddCore() }
+    )
+  )
 }

@@ -82,10 +82,10 @@ struct OnboardingView: View {
 }
 
 #Preview {
-	OnboardingView(
-		store: Store(
-			initialState: OnboardingState(),
-			reducer: { OnboardingCore() }
-		)
-	)
+  OnboardingView(
+    store: Store(
+      initialState: OnboardingState(),
+      reducer: { OnboardingCore() }
+    )
+  )
 }
