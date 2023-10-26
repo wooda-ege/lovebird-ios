@@ -2,8 +2,7 @@ import ProjectDescription
 
 let project = Project(
   name: "LoveBird",
-  organizationName: "Deukyeon Hwang",
-  options: .options(textSettings: .textSettings(usesTabs: true, indentWidth: 2, tabWidth: 2, wrapsLines: true)),
+  options: .options(textSettings: .textSettings(usesTabs: false, indentWidth: 2, tabWidth: 2, wrapsLines: true)),
   packages: [
     .remote(
       url: "https://github.com/pointfreeco/swift-composable-architecture",
@@ -24,10 +23,7 @@ let project = Project(
         .package(product: "ComposableArchitecture"),
         .sdk(name: "SwiftUI", type: .framework, status: .optional),
         .sdk(name: "WebKit", type: .framework)
-      ],
-      settings: .settings(base: [:],
-                          configurations: []
-                          )
+      ]
     )
   ]
 )

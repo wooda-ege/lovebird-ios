@@ -31,7 +31,7 @@ struct CalendarCore: Reducer {
   }
 
   // MARK: - Action
-  
+
   enum Action: Equatable {
     case viewAppear
     case dataLoaded(TaskResult<Schedules>)
@@ -58,15 +58,15 @@ struct CalendarCore: Reducer {
     Reduce { state, action in
       switch action {
       case .viewAppear:
-				return .run { send in
-					await send(
-						.dataLoaded(
-							await TaskResult {
-								try await (self.apiClient.request(.fetchCalendars) as Schedules)
-							}
-						)
-					)
-				}
+        return .run { send in
+          await send(
+            .dataLoaded(
+              await TaskResult {
+                try await (self.apiClient.request(.fetchCalendars) as Schedules)
+              }
+            )
+          )
+        }
 
       case .plusTapped:
         state.scheduleAdd = ScheduleAddState(date: state.currentDate)
