@@ -18,7 +18,7 @@ import AuthenticationServices
 struct LoginView: View {
   let store: StoreOf<LoginCore>
   @State var appleSignInDelegates: SignInWithAppleDelegates! = nil
-  var window: UIWindow?
+  @Environment(\.window) var window: UIWindow?
   
   init(store: StoreOf<LoginCore>) {
     self.store = store
@@ -60,9 +60,10 @@ struct LoginView: View {
         .padding(.top, 10)
         .padding(.leading, 24)
         .padding(.bottom, 212)
+        
         Image(asset: LoveBirdAsset.imgKakaoLogin)
           .resizable()
-          .frame(height: 56)
+          .frame(height: 60)
           .padding(.horizontal, 16)
           .onTapGesture {
             if (UserApi.isKakaoTalkLoginAvailable()) {
@@ -103,8 +104,10 @@ struct LoginView: View {
               }
             }
           }
+        
         Image(asset: LoveBirdAsset.imgAppleLogin)
-          .frame(height: 56)
+          .resizable()
+          .frame(height: 60)
           .padding(.horizontal, 16)
           .onTapGesture(perform: showAppleLogin)
         
