@@ -64,13 +64,11 @@ struct OnboardingTabView: View {
   }
 }
 
-//struct OnboardingTabView_Previews: PreviewProvider {
-//  static var previews: some View {
-//    OnboardingTabView(
-//      store: Store(
-//        initialState: OnboardingState(),
-//        reducer: OnboardingCore()
-//      )
-//    )
-//  }
-//}
+#Preview {
+  OnboardingTabView(
+    store: Store(
+      initialState: OnboardingState(),
+      reducer: { OnboardingCore() }
+    )
+  )
+}

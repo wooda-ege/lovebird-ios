@@ -15,7 +15,7 @@ protocol PreviewState: Equatable {
   var currentPreviewDate: Date { get }
 }
 
-struct CalendarCore: ReducerProtocol {
+struct CalendarCore: Reducer {
 
   // MARK: - State
 
@@ -31,7 +31,7 @@ struct CalendarCore: ReducerProtocol {
   }
 
   // MARK: - Action
-  
+
   enum Action: Equatable {
     case viewAppear
     case dataLoaded(TaskResult<Schedules>)
@@ -54,15 +54,17 @@ struct CalendarCore: ReducerProtocol {
 
   // MARK: - Body
 
-  var body: some ReducerProtocolOf<Self> {
+  var body: some ReducerOf<Self> {
     Reduce { state, action in
       switch action {
       case .viewAppear:
-        return .task {
-          .dataLoaded(
-            await TaskResult {
-              try await (self.apiClient.request(.fetchCalendars) as Schedules)
-            }
+        return .run { send in
+          await send(
+            .dataLoaded(
+              await TaskResult {
+                try await (self.apiClient.request(.fetchCalendars) as Schedules)
+              }
+            )
           )
         }
 

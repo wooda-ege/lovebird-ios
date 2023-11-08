@@ -41,13 +41,11 @@ struct ScheduleAddMemoView: View {
   }
 }
 
-struct ScheduleAddMemoView_Previews: PreviewProvider {
-  static var previews: some View {
-    ScheduleAddMemoView(
-      store: .init(
-        initialState: ScheduleAddState(schedule: .dummy),
-        reducer: ScheduleAddCore()
-      )
+#Preview {
+  ScheduleAddMemoView(
+    store: .init(
+      initialState: ScheduleAddState(schedule: .dummy),
+      reducer: { ScheduleAddCore() }
     )
-  }
+  )
 }

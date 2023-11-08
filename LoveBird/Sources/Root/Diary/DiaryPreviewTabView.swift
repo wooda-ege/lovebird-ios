@@ -46,13 +46,11 @@ struct DiaryPreviewTabView: View {
   }
 }
 
-struct DiaryPreviewTabView_Previews: PreviewProvider {
-    static var previews: some View {
-        DiaryPreviewTabView(
-          store: Store(
-            initialState: DiaryState(),
-            reducer: DiaryCore()
-          )
-        )
-    }
+#Preview {
+  DiaryPreviewTabView(
+    store: Store(
+      initialState: DiaryState(),
+      reducer: { DiaryCore() }
+    )
+  )
 }

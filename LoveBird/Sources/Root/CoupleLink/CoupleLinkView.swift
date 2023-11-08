@@ -21,7 +21,7 @@ struct CoupleLinkView: View {
   @Dependency(\.userData) var userData
   
   var body: some View {
-    WithViewStore(self.store) { viewStore in
+		WithViewStore(self.store, observe: { $0 }) { viewStore in
       VStack {
         Spacer().frame(height: 24)
         
@@ -53,8 +53,9 @@ struct CoupleLinkView: View {
               .font(.pretendard(size: 14, weight: .bold))
               .foregroundColor(.white)
           }
-          .background(.black)
           .frame(width: 48, height: 32)
+          .roundedBackground(cornerRadius: 8, color: .black)
+          .background(.black)
           .cornerRadius(8)
           .padding(.trailing, 32)
           .onTapGesture {
@@ -160,17 +161,14 @@ struct CoupleLinkView: View {
   }
 }
 
-struct CoupleLinkView_Previews: PreviewProvider {
-  static var previews: some View {
-    CoupleLinkView(
-      store: Store(
-        initialState: CoupleLinkState(),
-        reducer: CoupleLinkCore()
-      )
+#Preview {
+  CoupleLinkView(
+    store: Store(
+      initialState: CoupleLinkState(),
+      reducer: { CoupleLinkCore() }
     )
-  }
+  )
 }
-
 
 struct ActivityViewController: UIViewControllerRepresentable {
   var activityItems: [Any]

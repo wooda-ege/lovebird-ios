@@ -13,7 +13,7 @@ import Combine
 typealias HomeState = HomeCore.State
 typealias HomeAction = HomeCore.Action
 
-struct HomeCore: ReducerProtocol {
+struct HomeCore: Reducer {
 
   // MARK: - State
 
@@ -43,7 +43,7 @@ struct HomeCore: ReducerProtocol {
   @Dependency(\.apiClient) var apiClient
   @Dependency(\.userData) var userData
 
-  var body: some ReducerProtocol<State, Action> {
+  var body: some Reducer<State, Action> {
     Reduce { state, action in
       switch action {
 
@@ -118,7 +118,7 @@ struct HomeCore: ReducerProtocol {
     var isTodayDiaryAppended = false
 
     // D + 1
-    var diariesForDomain: [Diary] = [Diary.initialDiary(with: profile.firstDate ?? "")]
+    var diariesForDomain: [Diary] = [Diary.initialDiary(with: profile.firstDate ?? "0000-00-00")]
     diaries.enumerated().forEach { idx, diary in
       var diaryUpdated = diary
 
@@ -152,9 +152,13 @@ struct HomeCore: ReducerProtocol {
     }
 
     // 다음 기념일
+    guard let  nextAnniversary = profile.nextAnniversary else {
+      return diariesForDomain
+    }
+    
     diariesForDomain.append(Diary.anniversaryDiary(
-      with: profile.nextAnniversary?.anniversaryDate ?? "",
-      title: profile.nextAnniversary?.kind.description ?? ""
+      with: nextAnniversary.anniversaryDate,
+      title: nextAnniversary.kind.description 
     ))
 
     return diariesForDomain

@@ -46,7 +46,8 @@ public enum APIClient {
 }
 
 extension APIClient: TargetType {
-  public var userDate: UserData {
+
+  public var userData: UserData {
     @Dependency(\.userData) var userData
     return userData
   }
@@ -92,13 +93,13 @@ extension APIClient: TargetType {
 
       case .addSchedule, .fetchCalendars:
         return "/calendar"
-
-      case .registerProfile:
-        return "/auth/sign-up"
         
       case .fetchProfile, .editProfile:
         return "/profile"
-
+        
+      case .registerProfile:
+        return "/auth/sign-up"
+        
       case .fetchSchedule(let id), .deleteSchedule(let id), .editSchedule(let id, _):
         return "/calendar/\(id)"
       }
@@ -151,8 +152,8 @@ extension APIClient: TargetType {
   }
   
   public var headers: [String: String]? {
-    let accessToken = self.userDate.get(key: .accessToken, type: String.self)
-    let refreshToken = self.userDate.get(key: .refreshToken, type: String.self)
+    let accessToken = self.userData.get(key: .accessToken, type: String.self)
+    let refreshToken = self.userData.get(key: .refreshToken, type: String.self)
     if case .searchKakaoMap = self {
       return ["Authorization" : Config.kakaoMapKey]
     } 
@@ -187,8 +188,8 @@ extension APIClient: TargetType {
       }
 
     case .registerProfile(let image, let signUpRequest, let profileRequest):
-      let signUpData = try! JSONEncoder().encode(signUpRequest)
       let profileData = try! JSONEncoder().encode(profileRequest)
+      let signUpData = try! JSONEncoder().encode(signUpRequest)
 
       if let image = image?.jpegData(compressionQuality: 0.5) {
         let imageData = MultipartFormData(

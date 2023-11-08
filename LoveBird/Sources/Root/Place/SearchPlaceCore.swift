@@ -11,7 +11,7 @@ import SwiftUI
 typealias SearchPlaceState = SearchPlaceCore.State
 typealias SearchPlaceAction = SearchPlaceCore.Action
 
-struct SearchPlaceCore: ReducerProtocol {
+struct SearchPlaceCore: Reducer {
   struct State: Equatable {
     var placeList: [PlaceInfo] = []
     var searchTerm: String = ""
@@ -29,7 +29,7 @@ struct SearchPlaceCore: ReducerProtocol {
   
   @Dependency(\.apiClient) var apiClient
   
-  var body: some ReducerProtocol<State, Action> {
+  var body: some Reducer<State, Action> {
     Reduce { state, action in
       switch action {
       case .textFieldDidEditting(let searchTerm):

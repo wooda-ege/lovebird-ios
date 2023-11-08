@@ -6,6 +6,7 @@
 //
 
 import ComposableArchitecture
+import UIKit
 import SwiftUI
 import SwiftUIPager
 import Foundation
@@ -17,14 +18,14 @@ import AuthenticationServices
 struct LoginView: View {
   let store: StoreOf<LoginCore>
   @State var appleSignInDelegates: SignInWithAppleDelegates! = nil
-  var window: UIWindow?
+  @Environment(\.window) var window: UIWindow?
   
   init(store: StoreOf<LoginCore>) {
     self.store = store
   }
   
   var body: some View {
-    WithViewStore(self.store) { viewStore in
+    WithViewStore(self.store, observe: { $0 }) { viewStore in
       VStack {
         HStack {
           Image(asset: LoveBirdAsset.imgPinkbird)
@@ -62,7 +63,8 @@ struct LoginView: View {
         
         Image(asset: LoveBirdAsset.imgKakaoLogin)
           .resizable()
-          .frame(width: 343, height: 60)
+          .frame(height: 60)
+          .padding(.horizontal, 16)
           .onTapGesture {
             if (UserApi.isKakaoTalkLoginAvailable()) {
               UserApi.shared.loginWithKakaoTalk {(oauthToken, error) in
@@ -86,8 +88,7 @@ struct LoginView: View {
               UserApi.shared.loginWithKakaoAccount {(oauthToken, error) in
                 if let error = error {
                   print(error)
-                }
-                else {
+                } else {
                   guard let idToken = oauthToken?.idToken else {
                     return
                   }
@@ -105,7 +106,8 @@ struct LoginView: View {
           }
         
         Image(asset: LoveBirdAsset.imgAppleLogin)
-          .frame(height: 56)
+          .resizable()
+          .frame(height: 60)
           .padding(.horizontal, 16)
           .onTapGesture(perform: showAppleLogin)
         
@@ -116,7 +118,6 @@ struct LoginView: View {
       }
     }
   }
-  
   
   private func showAppleLogin() {
     let request = ASAuthorizationAppleIDProvider().createRequest()
@@ -132,7 +133,7 @@ struct LoginView: View {
       ASAuthorizationAppleIDProvider().createRequest(),
       ASAuthorizationPasswordProvider().createRequest()
     ]
-    
+
     performSignIn(using: requests)
     #endif
   }
@@ -148,14 +149,11 @@ struct LoginView: View {
   }
 }
 
-struct LoginView_Previews: PreviewProvider {
-  static var previews: some View {
-    LoginView(
-      store: Store(
-        initialState: LoginCore.State(),
-        reducer: LoginCore()
-      )
+#Preview {
+  LoginView(
+    store: Store(
+      initialState: LoginCore.State(),
+      reducer: { LoginCore() }
     )
-  }
+  )
 }
-

@@ -56,13 +56,11 @@ struct OnboardingNicknameView: View {
   }
 }
 
-//struct OnboardingNicknameView_Previews: PreviewProvider {
-//  static var previews: some View {
-//    OnboardingNicknameView(
-//      store: Store(
-//        initialState: OnboardingState(),
-//        reducer: OnboardingCore()
-//      )
-//    )
-//  }
-//}
+#Preview {
+  OnboardingNicknameView(
+    store: Store(
+      initialState: OnboardingState(),
+      reducer: { OnboardingCore() }
+    )
+  )
+}

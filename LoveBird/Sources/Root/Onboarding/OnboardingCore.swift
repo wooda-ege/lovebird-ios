@@ -13,7 +13,7 @@ import UIKit
 typealias OnboardingState = OnboardingCore.State
 typealias OnboardingAction = OnboardingCore.Action
 
-struct OnboardingCore: ReducerProtocol {
+struct OnboardingCore: Reducer {
 
   enum Constant {
     static let nicknamePageIdx = 0
@@ -33,17 +33,16 @@ struct OnboardingCore: ReducerProtocol {
     // common
     let auth: AuthRequest
     var page: Page = .first()
-    var pageState: Page.Onboarding = .email
-    var emailTextFieldState: OnboardingTextFieldState = .none
-    var nicknameTextFieldState: OnboardingTextFieldState = .none
+    var pageState: Page.Onboarding
+    var emailTextFieldState: TextFieldState = .none
+    var nicknameTextFieldState: TextFieldState = .none
     var showBottomSheet = false
     var skipPages: [Page.Onboarding] = []
-
+    
     var canSkip: Bool {
       self.pageState.canSkip
     }
 
-    // page1 - email
     var email: String = ""
 
     // page2 - nickname
@@ -72,11 +71,11 @@ struct OnboardingCore: ReducerProtocol {
     case hideBottomSheet
     case doneButtonTapped
     case flush
-
+    
     // page1 - email
     case emailFocusFlashed
     case emailEdited(String)
-
+    
     // page2 - nickname
     case nicknameFocusFlashed
     case nicknameEdited(String)
@@ -103,7 +102,7 @@ struct OnboardingCore: ReducerProtocol {
   @Dependency(\.apiClient) var apiClient
   @Dependency(\.userData) var userData
 
-  var body: some ReducerProtocol<State, Action> {
+  var body: some Reducer<State, Action> {
     Reduce { state, action in
       switch action {
       case .nextTapped, .nextButtonTapped:
@@ -119,7 +118,7 @@ struct OnboardingCore: ReducerProtocol {
                 image: state.skipPages.contains(.profileImage) ? nil : state.profileImage,
                 signUpRequest: AuthRequest.init(provider: state.auth.provider, idToken: state.auth.idToken),
                 profileRequest: RegisterProfileRequest.init(
-                  email: state.email,
+                  email: state.email.isEmpty ? nil : state.email,
                   nickname: state.nickname,
                   birthDay: state.skipPages.contains(.birth) ? nil : state.birth.toYMDFormat(),
                   firstDate: state.skipPages.contains(.anniversary) ? nil : state.anniversary.toYMDFormat(),
@@ -141,25 +140,25 @@ struct OnboardingCore: ReducerProtocol {
 
         self.handleSkip(state: &state)
         return .send(.flush)
-
+        
       case .previousTapped:
-        if !state.page.isFisrt {
+        if !state.page.isFisrt && !(state.auth.provider == .apple && state.page.index == 1)  {
           state.page.update(.previous)
           state.pageState = state.page.state
         }
         return .send(.flush)
-
+        
       case .emailFocusFlashed:
         state.emailTextFieldState = .none
         return .none
-
+        
       case .emailEdited(let email):
         state.email = email
         state.emailTextFieldState = email.isEmailValid ? .correct(.email)
         : email.isEmpty ? .editing(.email)
         : .error(.email)
         return .none
-
+        
       case .nicknameFocusFlashed:
         state.nicknameTextFieldState = .none
         return .none
@@ -218,7 +217,6 @@ struct OnboardingCore: ReducerProtocol {
     switch state.pageState {
     case .email:
       guard state.emailTextFieldState.isCorrect else { return }
-
     case .nickname:
       guard state.nicknameTextFieldState.isCorrect else { return }
 

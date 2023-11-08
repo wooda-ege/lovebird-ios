@@ -2,10 +2,11 @@ import ProjectDescription
 
 let project = Project(
   name: "LoveBird",
+  options: .options(textSettings: .textSettings(usesTabs: false, indentWidth: 2, tabWidth: 2, wrapsLines: true)),
   packages: [
     .remote(
       url: "https://github.com/pointfreeco/swift-composable-architecture",
-      requirement: .upToNextMajor(from: "0.59.0")
+      requirement: .upToNextMajor(from: "1.2.0")
     )
   ],
   targets: [

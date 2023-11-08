@@ -14,15 +14,15 @@ import UIKit
 typealias CoupleLinkState = CoupleLinkCore.State
 typealias CoupleLinkAction = CoupleLinkCore.Action
 
-struct CoupleLinkCore: ReducerProtocol {
+struct CoupleLinkCore: Reducer {
   struct State: Equatable {
     var invitationCode: String = ""
     var invitationInputCode: String = ""
-    var textFieldState: OnboardingTextFieldState = .none
+    var textFieldState: TextFieldState = .none
   }
   
   enum Action: Equatable {
-    case textFieldStateChanged(OnboardingTextFieldState)
+    case textFieldStateChanged(TextFieldState)
     case tryLinkResponse(TaskResult<TryLinkResponse>)
     case imageSelected(UIImage?)
     case circleClicked(Int)
@@ -34,7 +34,7 @@ struct CoupleLinkCore: ReducerProtocol {
   
   @Dependency(\.apiClient) var apiClient
   
-  var body: some ReducerProtocol<State, Action> {
+  var body: some Reducer<State, Action> {
     Reduce { state, action in
       switch action {
       case .textFieldStateChanged(let state):

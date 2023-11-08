@@ -83,15 +83,11 @@ struct HomeView: View {
   }
 }
 
-struct HomeView_Previews: PreviewProvider {
-    static var previews: some View {
-        HomeView(
-          store: Store(
-            initialState: HomeState(),
-            reducer: HomeCore()
-          )
-        )
-    }
+#Preview {
+  HomeView(
+    store: Store(
+      initialState: HomeState(),
+      reducer: { HomeCore() }
+    )
+  )
 }
-
-

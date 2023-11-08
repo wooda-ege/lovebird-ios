@@ -33,14 +33,12 @@ struct OnboardingBirthDateView: View {
   }
 }
 
-//struct OnboardingBirthDateView_Previews: PreviewProvider {
-//  static var previews: some View {
-//    OnboardingBirthDateView(
-//      store: Store(
-//        initialState: OnboardingState(),
-//        reducer: OnboardingCore()
-//      )
-//    )
-//  }
-//}
-//
+#Preview {
+  OnboardingBirthDateView(
+    store: Store(
+      initialState: OnboardingState(),
+      reducer: { OnboardingCore() }
+    )
+  )
+}
+
