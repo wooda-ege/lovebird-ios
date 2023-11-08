@@ -83,13 +83,11 @@ struct CalendarScheduleView: View {
   }
 }
 
-struct CalendarScheduleView_Previews: PreviewProvider {
-  static var previews: some View {
-    CalendarScheduleView(
-      store: Store(
-        initialState: CalendarState(),
-        reducer: CalendarCore()
-      )
+#Preview {
+  CalendarScheduleView(
+    store: Store(
+      initialState: CalendarState(),
+      reducer: { CalendarCore() }
     )
-  }
+  )
 }

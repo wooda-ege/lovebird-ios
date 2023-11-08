@@ -11,7 +11,7 @@ import ComposableArchitecture
 typealias ScheduleAddState = ScheduleAddCore.State
 typealias ScheduleAddAction = ScheduleAddCore.Action
 
-struct ScheduleAddCore: ReducerProtocol {
+struct ScheduleAddCore: Reducer {
   struct State: Equatable {
 
     init(date: Date) {
@@ -106,7 +106,7 @@ struct ScheduleAddCore: ReducerProtocol {
 
   @Dependency(\.apiClient) var apiClient
 
-  var body: some ReducerProtocolOf<Self> {
+  var body: some ReducerOf<Self> {
     Reduce { state, action in
       switch action {
       case .contentTapped(let type):
@@ -311,21 +311,25 @@ struct ScheduleAddCore: ReducerProtocol {
         if state.title.isEmpty { return .none }
         let request = self.addScheduleRequest(state: &state)
         if let _ = state.idForEditing {
-          return .task { [scheduleId = state.idForEditing!] in
-              .editScheduleResponse(
-                await TaskResult {
-                  try await self.apiClient.request(.editSchedule(id: scheduleId, addSchedule: request))
-                }
-              )
-          }
+					return .run { [scheduleId = state.idForEditing!] send in
+						await send(
+							.editScheduleResponse(
+								await TaskResult {
+									try await self.apiClient.request(.editSchedule(id: scheduleId, addSchedule: request))
+								}
+							)
+						)
+					}
         } else {
-          return .task {
-              .addScheduleResponse(
-                await TaskResult {
-                  try await self.apiClient.request(.addSchedule(addSchedule: request))
-                }
-              )
-          }
+					return .run { send in
+						await send(
+							.addScheduleResponse(
+								await TaskResult {
+									try await self.apiClient.request(.addSchedule(addSchedule: request))
+								}
+							)
+						)
+					}
         }
       default:
         return .none

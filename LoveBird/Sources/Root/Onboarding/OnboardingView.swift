@@ -81,13 +81,11 @@ struct OnboardingView: View {
   }
 }
 
-struct OnboardingView_Previews: PreviewProvider {
-  static var previews: some View {
-    OnboardingView(
-      store: Store(
-        initialState: OnboardingState(auth: AuthRequest.dummy),
-        reducer: OnboardingCore()
-      )
+#Preview {
+  OnboardingView(
+    store: Store(
+      initialState: OnboardingState(),
+      reducer: { OnboardingCore() }
     )
-  }
+  )
 }

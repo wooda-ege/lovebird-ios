@@ -95,13 +95,11 @@ struct ScheduleAddTimeView: View {
   }
 }
 
-struct ScheduleAddTimeView_Previews: PreviewProvider {
-  static var previews: some View {
-    ScheduleAddTimeView(
-      store: .init(
-        initialState: ScheduleAddState(schedule: .dummy),
-        reducer: ScheduleAddCore()
-      )
+#Preview {
+  ScheduleAddTimeView(
+    store: .init(
+      initialState: ScheduleAddState(schedule: .dummy),
+      reducer: { ScheduleAddCore() }
     )
-  }
+  )
 }

@@ -11,7 +11,7 @@ import ComposableArchitecture
 typealias ScheduleDetailState = ScheduleDetailCore.State
 typealias ScheduleDetailAction = ScheduleDetailCore.Action
 
-struct ScheduleDetailCore: ReducerProtocol {
+struct ScheduleDetailCore: Reducer {
 
   // MARK: - State
 
@@ -43,7 +43,7 @@ struct ScheduleDetailCore: ReducerProtocol {
 
   // MARK: - Body
   
-  var body: some ReducerProtocol<State, Action> {
+  var body: some Reducer<State, Action> {
     Reduce { state, action in
       switch action {
       case .editTapped:
@@ -51,23 +51,27 @@ struct ScheduleDetailCore: ReducerProtocol {
         return .none
 
       case .deleteTapped:
-        return .task { [scheduleId = state.schedule.id] in
-          .deleteScheduleResponse(
-            await TaskResult {
-              try await self.apiClient.requestRaw(.deleteSchedule(scheduleId))
-            }
-          )
-        }
+				return .run { [scheduleId = state.schedule.id] send in
+					await send(
+						.deleteScheduleResponse(
+							await TaskResult {
+								try await self.apiClient.requestRaw(.deleteSchedule(scheduleId))
+							}
+						)
+					)
+				}
 
       case .scheduleAdd(.presented(.editScheduleResponse(.success))):
         state.scheduleAdd = nil
-        return .task { [id = state.schedule.id] in
-          .fetchScheduleResponse(
-            await TaskResult {
-              try await (self.apiClient.request(.fetchSchedule(id: id)) as Schedule)
-            }
-          )
-        }
+				return .run { [id = state.schedule.id] send in
+					await send(
+						.fetchScheduleResponse(
+							await TaskResult {
+								try await (self.apiClient.request(.fetchSchedule(id: id)) as Schedule)
+							}
+						)
+					)
+				}
 
       case .fetchScheduleResponse(.success(let schedule)):
         state.schedule = schedule

@@ -11,7 +11,7 @@ import SwiftUI
 import AuthenticationServices
 import KakaoSDKAuth
 
-struct LoginCore: ReducerProtocol {
+struct LoginCore: Reducer {
   @Dependency(\.apiClient) var apiClient
   @Dependency(\.userData) var userData
   
@@ -25,7 +25,7 @@ struct LoginCore: ReducerProtocol {
   }
   
   
-  var body: some ReducerProtocol<State, Action> {
+  var body: some Reducer<State, Action> {
     Reduce { state, action in
       switch action {
       case .kakaoLoginTapped(let idToken):

@@ -11,7 +11,7 @@ import ComposableArchitecture
 typealias MainTabState = MainTabCore.State
 typealias MainTabAction = MainTabCore.Action
 
-struct MainTabCore: ReducerProtocol {
+struct MainTabCore: Reducer {
 
   // MARK: - Tab
 
@@ -44,7 +44,7 @@ struct MainTabCore: ReducerProtocol {
 
   // MARK: - Body
   
-  var body: some ReducerProtocol<State, Action> {
+  var body: some Reducer<State, Action> {
     Reduce { state, action in
       switch action {
       case .tabSelected(let tab):

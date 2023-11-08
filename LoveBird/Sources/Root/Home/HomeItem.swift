@@ -56,9 +56,12 @@ struct HomeItem: View {
   }
 }
 
-//struct HomeItem_Previews: PreviewProvider {
-//    static var previews: some View {
-//        HomeItem(diary: Diary.dummy[0])
-//    }
-//}
-
+#Preview {
+  HomeItem(
+    store: .init(
+      initialState: HomeState(),
+      reducer: { HomeCore() }
+    ),
+    diary: .dummy
+  )
+}

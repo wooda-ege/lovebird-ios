@@ -11,7 +11,7 @@ import ComposableArchitecture
 typealias MyPageProfileEditState = MyPageProfileEditCore.State
 typealias MyPageProfileEditAction = MyPageProfileEditCore.Action
 
-struct MyPageProfileEditCore: ReducerProtocol {
+struct MyPageProfileEditCore: Reducer {
 
   enum FocusedType {
     case nickname
@@ -42,7 +42,7 @@ struct MyPageProfileEditCore: ReducerProtocol {
   @Dependency(\.apiClient) var apiClient
   @Dependency(\.userData) var userData
 
-  var body: some ReducerProtocol<State, Action> {
+  var body: some Reducer<State, Action> {
     Reduce { state, action in
       switch action {
       case .viewAppear:
@@ -70,22 +70,26 @@ struct MyPageProfileEditCore: ReducerProtocol {
           nickname: state.nickname,
           email: state.email
         )
-        return .task {
-          .editProfileResponse(
-            await TaskResult {
-              try await (self.apiClient.request(.editProfile(image: nil, editProfile: request))) as Profile
-            }
-          )
-        }
+				return .run { send in
+					await send(
+						.editProfileResponse(
+							await TaskResult {
+								try await (self.apiClient.request(.editProfile(image: nil, editProfile: request))) as Profile
+							}
+						)
+					)
+				}
 
       case .withdrawal:
-        return .task {
-          .withdrawalResponse(
-            await TaskResult {
-              try await (self.apiClient.requestRaw(.withdrawal))
-            }
-          )
-        }
+				return .run { send in
+					await send(
+						.withdrawalResponse(
+							await TaskResult {
+								try await (self.apiClient.requestRaw(.withdrawal))
+							}
+						)
+					)
+				}
 
       default:
         return .none

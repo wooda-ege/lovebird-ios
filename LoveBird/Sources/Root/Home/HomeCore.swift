@@ -13,7 +13,7 @@ import Combine
 typealias HomeState = HomeCore.State
 typealias HomeAction = HomeCore.Action
 
-struct HomeCore: ReducerProtocol {
+struct HomeCore: Reducer {
 
   // MARK: - State
 
@@ -43,7 +43,7 @@ struct HomeCore: ReducerProtocol {
   @Dependency(\.apiClient) var apiClient
   @Dependency(\.userData) var userData
 
-  var body: some ReducerProtocol<State, Action> {
+  var body: some Reducer<State, Action> {
     Reduce { state, action in
       switch action {
 

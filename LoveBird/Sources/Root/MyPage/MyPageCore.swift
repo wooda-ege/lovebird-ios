@@ -10,7 +10,7 @@ import ComposableArchitecture
 typealias MyPageState = MyPageCore.State
 typealias MyPageAction = MyPageCore.Action
 
-struct MyPageCore: ReducerProtocol {
+struct MyPageCore: Reducer {
 
   // MARK: - State
 
@@ -34,7 +34,7 @@ struct MyPageCore: ReducerProtocol {
 
   // MARK: - Body
 
-  var body: some ReducerProtocol<State, Action> {
+  var body: some Reducer<State, Action> {
     Reduce { state, action in
       switch action {
       case .viewAppear:

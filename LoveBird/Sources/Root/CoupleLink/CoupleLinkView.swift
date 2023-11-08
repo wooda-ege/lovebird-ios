@@ -21,7 +21,7 @@ struct CoupleLinkView: View {
   @Dependency(\.userData) var userData
   
   var body: some View {
-    WithViewStore(self.store) { viewStore in
+		WithViewStore(self.store, observe: { $0 }) { viewStore in
       VStack {
         Spacer().frame(height: 24)
         
@@ -161,17 +161,14 @@ struct CoupleLinkView: View {
   }
 }
 
-struct CoupleLinkView_Previews: PreviewProvider {
-  static var previews: some View {
-    CoupleLinkView(
-      store: Store(
-        initialState: CoupleLinkState(),
-        reducer: CoupleLinkCore()
-      )
+#Preview {
+  CoupleLinkView(
+    store: Store(
+      initialState: CoupleLinkState(),
+      reducer: { CoupleLinkCore() }
     )
-  }
+  )
 }
-
 
 struct ActivityViewController: UIViewControllerRepresentable {
   var activityItems: [Any]

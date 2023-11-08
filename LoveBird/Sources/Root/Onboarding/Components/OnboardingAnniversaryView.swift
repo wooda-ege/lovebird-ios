@@ -36,13 +36,11 @@ struct OnboardingAnniversaryView: View {
   }
 }
 
-struct OnboardingAnniversaryView_Previews: PreviewProvider {
-    static var previews: some View {
-      OnboardingAnniversaryView(
-        store: Store(
-          initialState: OnboardingState(auth: AuthRequest.dummy),
-          reducer: OnboardingCore()
-        )
-      )
-    }
+#Preview {
+  OnboardingAnniversaryView(
+    store: Store(
+      initialState: OnboardingState(),
+      reducer: { OnboardingCore() }
+    )
+  )
 }
