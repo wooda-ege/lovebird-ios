@@ -68,7 +68,7 @@ struct OnboardingTabView_Previews: PreviewProvider {
   static var previews: some View {
     OnboardingTabView(
       store: Store(
-        initialState: OnboardingState(),
+        initialState: OnboardingState(auth: AuthRequest.dummy),
         reducer: OnboardingCore()
       )
     )

@@ -1,22 +1,22 @@
 PODS:
-  - Alamofire (5.8.0)
-  - KakaoSDKAuth (2.18.1):
-    - KakaoSDKCommon (= 2.18.1)
-  - KakaoSDKCommon (2.18.1):
-    - KakaoSDKCommon/Common (= 2.18.1)
-    - KakaoSDKCommon/Network (= 2.18.1)
-  - KakaoSDKCommon/Common (2.18.1)
-  - KakaoSDKCommon/Network (2.18.1):
+  - Alamofire (5.7.1)
+  - KakaoSDKAuth (2.18.0):
+    - KakaoSDKCommon (= 2.18.0)
+  - KakaoSDKCommon (2.18.0):
+    - KakaoSDKCommon/Common (= 2.18.0)
+    - KakaoSDKCommon/Network (= 2.18.0)
+  - KakaoSDKCommon/Common (2.18.0)
+  - KakaoSDKCommon/Network (2.18.0):
     - Alamofire (~> 5.1)
-    - KakaoSDKCommon/Common (= 2.18.1)
-  - KakaoSDKUser (2.18.1):
-    - KakaoSDKAuth (= 2.18.1)
-  - Kingfisher (7.9.1)
+    - KakaoSDKCommon/Common (= 2.18.0)
+  - KakaoSDKUser (2.18.0):
+    - KakaoSDKAuth (= 2.18.0)
+  - Kingfisher (7.9.0)
   - Moya (15.0.0):
     - Moya/Core (= 15.0.0)
   - Moya/Core (15.0.0):
     - Alamofire (~> 5.0)
-  - SwiftLint (0.53.0)
+  - SwiftLint (0.52.4)
   - SwiftUIPager (2.5.0)
 
 DEPENDENCIES:
@@ -40,15 +40,15 @@ SPEC REPOS:
     - SwiftUIPager
 
 SPEC CHECKSUMS:
-  Alamofire: 0e92e751b3e9e66d7982db43919d01f313b8eb91
-  KakaoSDKAuth: 303975500e97d5e20ddbf0acff9b332b545a1f3c
-  KakaoSDKCommon: e8928c15b6239f74ea4b48a772dbbf7a5dd79134
-  KakaoSDKUser: 0c285d9837fa0cbf7713934a6e1f79c15678903d
-  Kingfisher: 1d14e9f59cbe19389f591c929000332bf70efd32
+  Alamofire: 0123a34370cb170936ae79a8df46cc62b2edeb88
+  KakaoSDKAuth: 17becef98c04ce53d2e81081c3d0903f7cda2b0d
+  KakaoSDKCommon: 41d97223aece4275d142c03d8a4e47a91d8122f1
+  KakaoSDKUser: 1cd1f31d8be7de1460320737674a7022ab25c257
+  Kingfisher: 59f908b6d2f403b0a3e539debb0eec05cb27002c
   Moya: 138f0573e53411fb3dc17016add0b748dfbd78ee
-  SwiftLint: 5ce4d6a8ff83f1b5fd5ad5dbf30965d35af65e44
+  SwiftLint: 1cc5cd61ba9bacb2194e340aeb47a2a37fda00b3
   SwiftUIPager: b314d8923bef0bde743c904bb74fcc7a05fd3422
 
-PODFILE CHECKSUM: 7447f67aa815c907563956deed786cb05e081549
+PODFILE CHECKSUM: 4c2fb8cb548936ab9870d33585634cccc21a6048
 
-COCOAPODS: 1.13.0
+COCOAPODS: 1.12.1

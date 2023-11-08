@@ -29,7 +29,7 @@ struct OnboardingEmailView: View {
           .foregroundColor(viewStore.emailTextFieldState.color)
           .frame(maxWidth: .infinity, alignment: .leading)
           .padding(.horizontal, 16)
-        
+
         Spacer()
 
         CommonHorizontalButton(
@@ -59,7 +59,7 @@ struct OnboardingEmailView_Previews: PreviewProvider {
   static var previews: some View {
     OnboardingEmailView(
       store: Store(
-        initialState: OnboardingState(),
+        initialState: OnboardingState(auth: AuthRequest.dummy),
         reducer: OnboardingCore()
       )
     )

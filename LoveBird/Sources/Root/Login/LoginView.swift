@@ -6,6 +6,7 @@
 //
 
 import ComposableArchitecture
+import UIKit
 import SwiftUI
 import SwiftUIPager
 import Foundation
@@ -16,6 +17,8 @@ import AuthenticationServices
 
 struct LoginView: View {
   let store: StoreOf<LoginCore>
+  @State var appleSignInDelegates: SignInWithAppleDelegates! = nil
+  @Environment(\.window) var window: UIWindow?
   
   init(store: StoreOf<LoginCore>) {
     self.store = store
@@ -57,54 +60,92 @@ struct LoginView: View {
         .padding(.top, 10)
         .padding(.leading, 24)
         .padding(.bottom, 212)
+        
         Image(asset: LoveBirdAsset.imgKakaoLogin)
           .resizable()
-          .frame(width: 343, height: 60)
+          .frame(height: 60)
+          .padding(.horizontal, 16)
           .onTapGesture {
             if (UserApi.isKakaoTalkLoginAvailable()) {
               UserApi.shared.loginWithKakaoTalk {(oauthToken, error) in
                 if let error = error {
                   print(error)
-                }
-                else {
-                  guard let accessToken = oauthToken?.accessToken,
-                        let idToken = oauthToken?.idToken else {
+                } else {
+                  guard let idToken = oauthToken?.idToken else {
                     return
                   }
-                  viewStore.send(.kakaoLoginTapped(accessToken, idToken))
+                  
+                  UserApi.shared.me {(user, error) in
+                    if let error = error {
+                      print(error)
+                    } else {
+                      viewStore.send(.kakaoLoginTapped(idToken))
+                    }
+                  }
                 }
               }
             } else {
               UserApi.shared.loginWithKakaoAccount {(oauthToken, error) in
                 if let error = error {
                   print(error)
-                }
-                else {
-                  guard let accessToken = oauthToken?.accessToken,
-                        let idToken = oauthToken?.idToken else {
+                } else {
+                  guard let idToken = oauthToken?.idToken else {
                     return
                   }
-                  viewStore.send(.kakaoLoginTapped(accessToken, idToken))
+                  
+                  UserApi.shared.me {(user, error) in
+                    if let error = error {
+                      print(error)
+                    } else {
+                      viewStore.send(.kakaoLoginTapped(idToken))
+                    }
+                  }
                 }
               }
             }
           }
         
-        SignInWithAppleButton(.continue) { request in
-          request.requestedScopes = [.email, .fullName]
-        } onCompletion: { result in
-          switch result {
-          case .success(let auth):
-            viewStore.send(.appleLoginTapped(auth))
-          case .failure(let error):
-            print(error)
-          }
-        }
-        .frame(width: 343, height: 60)
+        Image(asset: LoveBirdAsset.imgAppleLogin)
+          .resizable()
+          .frame(height: 60)
+          .padding(.horizontal, 16)
+          .onTapGesture(perform: showAppleLogin)
         
         Spacer()
       }
+      .onAppear {
+        self.performExistingAccountSetupFlows()
+      }
     }
+  }
+  
+  private func showAppleLogin() {
+    let request = ASAuthorizationAppleIDProvider().createRequest()
+    
+    request.requestedScopes = [.fullName, .email]
+    performSignIn(using: [request])
+  }
+  
+  private func performExistingAccountSetupFlows() {
+    #if !targetEnvironment(simulator)
+    
+    let requests = [
+      ASAuthorizationAppleIDProvider().createRequest(),
+      ASAuthorizationPasswordProvider().createRequest()
+    ]
+
+    performSignIn(using: requests)
+    #endif
+  }
+  
+  private func performSignIn(using requests: [ASAuthorizationRequest]) {
+    appleSignInDelegates = SignInWithAppleDelegates(window: window, store: store)
+
+    let controller = ASAuthorizationController(authorizationRequests: requests)
+    controller.delegate = appleSignInDelegates
+    controller.presentationContextProvider = appleSignInDelegates
+
+    controller.performRequests()
   }
 }
 

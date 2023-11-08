@@ -53,8 +53,9 @@ struct CoupleLinkView: View {
               .font(.pretendard(size: 14, weight: .bold))
               .foregroundColor(.white)
           }
-          .background(.black)
           .frame(width: 48, height: 32)
+          .roundedBackground(cornerRadius: 8, color: .black)
+          .background(.black)
           .cornerRadius(8)
           .padding(.trailing, 32)
           .onTapGesture {

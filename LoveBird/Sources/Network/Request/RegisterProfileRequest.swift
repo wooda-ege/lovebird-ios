@@ -6,7 +6,7 @@
 //
 
 public struct RegisterProfileRequest: Encodable {
-  let email: String
+  let email: String?
   let nickname: String
   let birthDay: String?
   let firstDate: String?
