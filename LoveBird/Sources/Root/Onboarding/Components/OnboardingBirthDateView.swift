@@ -36,8 +36,15 @@ struct OnboardingBirthDateView: View {
 #Preview {
   OnboardingBirthDateView(
     store: Store(
-      initialState: OnboardingState(),
-      reducer: { OnboardingCore() }
+      initialState: OnboardingState(
+        auth: .init(
+          provider: .kakao,
+          idToken: ""
+        )
+      ),
+      reducer: {
+        OnboardingCore()
+      }
     )
   )
 }

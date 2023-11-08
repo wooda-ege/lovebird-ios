@@ -43,8 +43,15 @@ struct OnboardingProfileView: View {
 #Preview {
   OnboardingProfileView(
     store: Store(
-      initialState: OnboardingState(),
-      reducer: { OnboardingCore() }
+      initialState: OnboardingState(
+        auth: .init(
+          provider: .kakao,
+          idToken: ""
+        )
+      ),
+      reducer: {
+        OnboardingCore()
+      }
     )
   )
 }
