@@ -9,6 +9,6 @@ import Foundation
 
 struct LoginResponse: Decodable, Equatable, Sendable {
   let accessToken: String
-  let refreshToken: String?
-  let flag: Bool
+  let refreshToken: String
+  let linkedFlag: Bool
 }

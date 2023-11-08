@@ -48,9 +48,10 @@ struct ImagePicker: UIViewControllerRepresentable {
 
 struct ImagePickerView: View {
   var use: String
-  @State var showImagePicker = false
   @Binding var selectedUIImage: UIImage?
+  @State var showImagePicker = false
   @State var image: Image?
+  @State private var showingAlert = false
   var representImage: Image
 
   func loadImage() {
@@ -62,8 +63,16 @@ struct ImagePickerView: View {
     HStack() {
       Button {
         ImageAccessAuth.checkAlbumPermission { status in
-          if status == "허용" {
+          if status == .authorized {
             showImagePicker.toggle()
+          } else {
+            Button("Alert") {
+              self.showingAlert.toggle()
+            }
+            .alert(isPresented: $showingAlert) {
+              Alert(title: Text("사진 접근 권한이 없습니다."), message: Text("설정으로 이동하여 권한 설정을 해주세요."),
+                    dismissButton: .default(Text("확인")))
+            }
           }
         }
       } label: {

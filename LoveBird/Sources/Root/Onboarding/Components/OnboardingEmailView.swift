@@ -29,7 +29,7 @@ struct OnboardingEmailView: View {
           .foregroundColor(viewStore.emailTextFieldState.color)
           .frame(maxWidth: .infinity, alignment: .leading)
           .padding(.horizontal, 16)
-        
+
         Spacer()
 
         CommonHorizontalButton(

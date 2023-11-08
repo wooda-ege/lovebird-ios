@@ -1,5 +1,5 @@
 //
-//  OnboardingTextFieldState.swift
+//  TextFieldState.swift
 //  LoveBird
 //
 //  Created by 황득연 on 2023/05/21.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-enum OnboardingTextFieldState: Equatable {
+enum TextFieldState: Equatable {
 
   enum `Type`: Equatable {
     case email, nickname
@@ -90,7 +90,7 @@ enum OnboardingTextFieldState: Equatable {
     
   }
 
-  static func == (ltf: OnboardingTextFieldState, rtf: OnboardingTextFieldState) -> Bool {
+  static func == (ltf: TextFieldState, rtf: TextFieldState) -> Bool {
     switch (ltf, rtf) {
     case (.correct(let lt), .correct(let rt)), (.error(let lt), .error(let rt)), (.editing(let lt), .editing(let rt)):
       return lt == rt
