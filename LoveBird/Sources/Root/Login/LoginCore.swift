@@ -31,7 +31,7 @@ struct LoginCore: Reducer {
       case .kakaoLoginTapped(let idToken):
         return .run { send in
           do {
-            let kakaoLoginResponse = try await self.apiClient.request(.login(provider: SNSProvider.kakao, idToken: idToken)) as LoginResponse
+            let kakaoLoginResponse = try await self.apiClient.request(.login(info: .init(provider: SNSProvider.kakao, idToken: idToken))) as LoginResponse
             await send(.loginResponse(.success(kakaoLoginResponse), .init(provider: SNSProvider.kakao, idToken: idToken)))
           } catch {
             await send(.loginResponse(.failure(error), .init(provider: SNSProvider.kakao, idToken: idToken)))
@@ -46,7 +46,7 @@ struct LoginCore: Reducer {
           
           return .run { send in
             do {
-              let appleLoginResponse = try await self.apiClient.request(.login(provider: SNSProvider.apple, idToken: idToken)) as LoginResponse
+              let appleLoginResponse = try await self.apiClient.request(.login(info: TokenInfo.init(provider: SNSProvider.apple, idToken: idToken))) as LoginResponse
               await send(.loginResponse(.success(appleLoginResponse), .init(provider: SNSProvider.apple, idToken: idToken)))
             } catch {
               await send(.loginResponse(.failure(error), .init(provider: SNSProvider.apple, idToken: idToken)))
@@ -63,3 +63,7 @@ struct LoginCore: Reducer {
   }
 }
 
+public struct TokenInfo: Encodable {
+  let provider: SNSProvider
+  let idToken: String
+}
