@@ -58,7 +58,7 @@ struct SearchPlaceView: View {
         .onChange(of: viewStore.searchTerm) { placeTerm in
           Task {
             do {
-              let places = try await apiClient.requestKakaoMap(.searchKakaoMap(searchTerm: placeTerm)) as [PlaceInfo]
+              let places = try await apiClient.requestKakaoMap(.searchKakaoMap(query: .init(query: placeTerm))) as [PlaceInfo]
               viewStore.send(.changePlaceInfo(places))
             } catch {
               print(error)

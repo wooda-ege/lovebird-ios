@@ -11,25 +11,21 @@ import Contacts
 import SwiftUI
 import ComposableArchitecture
 
-class SignInWithAppleDelegates: NSObject {
-  private weak var window: UIWindow!
-  let store: StoreOf<LoginCore>
-  
-  init(window: UIWindow?, store: StoreOf<LoginCore>) {
-    self.window = window
-    self.store = store
-  }
+final class SignInWithAppleDelegates: NSObject {
+  var authCallback: ((AuthRequest) -> Void)?
 }
 
 extension SignInWithAppleDelegates: ASAuthorizationControllerDelegate {
   func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
     switch authorization.credential {
     case let appleIdCredential as ASAuthorizationAppleIDCredential:
-      if let _ = appleIdCredential.email, let _ = appleIdCredential.fullName {
-        store.send(.appleLoginTapped(authorization))
+      if let token = appleIdCredential.identityToken,
+         let encodedToken = String(data: token, encoding: .utf8){
+        let auth = AuthRequest(provider: .apple, idToken: encodedToken)
+        self.authCallback?(auth)
       }
-
       break
+
     default:
       break
     }
@@ -42,6 +38,6 @@ extension SignInWithAppleDelegates: ASAuthorizationControllerDelegate {
 
 extension SignInWithAppleDelegates: ASAuthorizationControllerPresentationContextProviding {
   func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
-    return self.window
+    return UIApplication.keyWindow!
   }
 }
