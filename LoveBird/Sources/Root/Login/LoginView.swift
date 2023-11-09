@@ -18,7 +18,6 @@ import AuthenticationServices
 struct LoginView: View {
   let store: StoreOf<LoginCore>
   let appleSignInDelegates = SignInWithAppleDelegates()
-  @Environment(\.window) var window: UIWindow?
 
   init(store: StoreOf<LoginCore>) {
     self.store = store
