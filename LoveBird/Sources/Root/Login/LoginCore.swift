@@ -37,6 +37,7 @@ struct LoginCore: Reducer {
             await send(.loginResponse(.failure(error), auth))
           }
         }
+
       default:
         break
       }
