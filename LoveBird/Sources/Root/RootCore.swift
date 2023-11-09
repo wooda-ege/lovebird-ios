@@ -67,7 +67,8 @@ struct RootCore: Reducer {
         return .run { send in
           try await Task.sleep(nanoseconds: Constants.delayOfSplash)
           let user = self.userData.get(key: .user, type: Profile.self)
-          var rootState: State
+          let rootState: State
+          
           if user == nil {
             rootState = .login(LoginCore.State())
           } else if user?.partnerId == nil {
