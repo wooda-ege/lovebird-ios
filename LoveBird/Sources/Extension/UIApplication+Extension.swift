@@ -12,12 +12,15 @@ extension UIApplication {
     let scene = Self.shared.connectedScenes.first as? UIWindowScene
     return scene?.windows.first?.safeAreaInsets ?? .zero
   }
-  
-  func endEditing(_ force: Bool) {
+
+  static var keyWindow: UIWindow? {
     let scenes = UIApplication.shared.connectedScenes
     let windowScene = scenes.first as? UIWindowScene
-    let window = windowScene?.windows.first
-    window?.endEditing(force)
+    return windowScene?.windows.first
+  }
+
+  func endEditing(_ force: Bool) {
+    Self.keyWindow?.endEditing(force)
   }
 }
 

@@ -17,9 +17,8 @@ import AuthenticationServices
 
 struct LoginView: View {
   let store: StoreOf<LoginCore>
-  @State var appleSignInDelegates: SignInWithAppleDelegates! = nil
-  @Environment(\.window) var window: UIWindow?
-  
+  let appleSignInDelegates = SignInWithAppleDelegates()
+
   init(store: StoreOf<LoginCore>) {
     self.store = store
   }
@@ -79,7 +78,9 @@ struct LoginView: View {
                     if let error = error {
                       print(error)
                     } else {
-                      viewStore.send(.kakaoLoginTapped(idToken))
+                      viewStore.send(
+                        .login( .init(provider: .kakao, idToken: idToken))
+                      )
                     }
                   }
                 }
@@ -97,7 +98,9 @@ struct LoginView: View {
                     if let error = error {
                       print(error)
                     } else {
-                      viewStore.send(.kakaoLoginTapped(idToken))
+                      viewStore.send(
+                        .login( .init(provider: .kakao, idToken: idToken))
+                      )
                     }
                   }
                 }
@@ -115,6 +118,11 @@ struct LoginView: View {
       }
       .onAppear {
         self.performExistingAccountSetupFlows()
+
+        // TODO: Swift Concurrency
+        self.appleSignInDelegates.authCallback = {
+          viewStore.send(.login($0))
+        }
       }
     }
   }
@@ -139,11 +147,9 @@ struct LoginView: View {
   }
   
   private func performSignIn(using requests: [ASAuthorizationRequest]) {
-    appleSignInDelegates = SignInWithAppleDelegates(window: window, store: store)
-
     let controller = ASAuthorizationController(authorizationRequests: requests)
-    controller.delegate = appleSignInDelegates
-    controller.presentationContextProvider = appleSignInDelegates
+    controller.delegate = self.appleSignInDelegates
+    controller.presentationContextProvider = self.appleSignInDelegates
 
     controller.performRequests()
   }

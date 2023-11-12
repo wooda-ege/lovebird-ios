@@ -17,7 +17,7 @@ import SwiftUI
 public enum APIClient {
 
   // onboarding
-  case login(info: AuthRequest)
+  case login(authRequest: AuthRequest)
   case invitationViewLoaded
 
   // coupleLink
@@ -35,7 +35,7 @@ public enum APIClient {
   case registerDiary(image: UIImage?, diary: RegisterDiaryRequest)
   case deleteDiary(id: Int)
   case fetchDiary(id: Int)
-  case searchKakaoMap(searchTerm: String)
+  case searchKakaoMap(query: KakaoMapQueryRequest)
 
   // schedule
   case fetchCalendars
@@ -124,18 +124,14 @@ extension APIClient: TargetType {
 
   public var task: Moya.Task {
     switch self {
-    case .searchKakaoMap(let encodable as Encodable):
-        return .requestJSONEncodable(encodable)
-        
-    case .login(let encodable as Encodable):
-        return .requestJSONEncodable(encodable)
-        
     case .addSchedule(let encodable as Encodable),
-            .editSchedule(_, let encodable as Encodable),
-            .linkCouple(let encodable as Encodable):
-        return .requestJSONEncodable(encodable)
-        
-        // MARK: - Multiparts
+        .editSchedule(_, let encodable as Encodable),
+        .linkCouple(let encodable as Encodable),
+        .login(let encodable as Encodable),
+        .searchKakaoMap(let encodable as Encodable):
+      return .requestJSONEncodable(encodable)
+
+      // MARK: - Multiparts
 
     case .editProfile, .registerDiary, .registerProfile:
       return .uploadMultipart(self.multiparts)
