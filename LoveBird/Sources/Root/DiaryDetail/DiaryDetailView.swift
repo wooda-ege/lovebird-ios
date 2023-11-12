@@ -21,13 +21,13 @@ struct DiaryDetailView: View {
           Button {
             viewStore.send(.editDeleteButtonTapped)
           } label: {
-            ZStack {
+            ZStack(alignment: .trailing) {
               Image(asset: LoveBirdAsset.icEditDelete)
                 .resizable()
                 .frame(width: 24, height: 24)
               
               if viewStore.state.showBottomSheet {
-                VStack {
+                VStack(alignment: .leading) {
                   Text("수정하기")
                     .onTapGesture {
                       viewStore.send(.editButtonTapped)
@@ -39,12 +39,11 @@ struct DiaryDetailView: View {
                     }
                 }
                 .foregroundColor(.black)
-                .padding([.horizontal, .top], 12)
-                .padding(.bottom, 20)
+                .padding([.vertical, .leading], 10)
+                .padding(.trailing, 10)
                 .background(.white)
                 .cornerRadius(12)
-                .shadow(color: .black.opacity(0.16), radius: 8, x: 0, y: 4)
-                .offset(x: 2, y: 44)
+                .offset(x: 2, y: 58)
               }
             }
           }

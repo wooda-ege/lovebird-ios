@@ -36,6 +36,9 @@ struct DiaryDetailCore: Reducer {
       case .editDeleteButtonTapped:
         state.showBottomSheet = true
         return .none
+      case .editButtonTapped:
+        // TODO:: 수정하기 구현
+        return .none
       case .deleteButtonTapped:
 				return .run { [id = state.diary.diaryId] send in
 					await send(
@@ -46,12 +49,6 @@ struct DiaryDetailCore: Reducer {
 						)
 					)
 				}
-      case .editButtonTapped:
-        return .run { [id = state.diary.diaryId] send in
-          await send(
-            .edit
-          )
-        }
       default:
         return .none
       }
