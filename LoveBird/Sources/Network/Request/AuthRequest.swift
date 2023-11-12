@@ -2,7 +2,7 @@
 //  AuthRequest.swift
 //  LoveBird
 //
-//  Created by 이예은 on 2023/09/23.
+//  Created by 이예은 on 2023/10/25.
 //
 
 import Foundation

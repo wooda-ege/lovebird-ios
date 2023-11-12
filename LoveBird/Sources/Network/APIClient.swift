@@ -17,7 +17,7 @@ import SwiftUI
 public enum APIClient {
 
   // onboarding
-  case login(provider: SNSProvider, idToken: String)
+  case login(info: AuthRequest)
   case invitationViewLoaded
 
   // coupleLink
@@ -66,10 +66,10 @@ extension APIClient: TargetType {
       switch self {
       case .withdrawal:
         return "/auth"
-        
+
       case .login:
         return "/auth/sign-in"
-        
+
       case .invitationViewLoaded:
         return "/couple/code"
 
@@ -124,19 +124,18 @@ extension APIClient: TargetType {
 
   public var task: Moya.Task {
     switch self {
-    case .searchKakaoMap(let searchTerm):
-      return .requestParameters(
-        parameters: ["query": searchTerm],
-        encoding: URLEncoding.queryString
-      )
-
-    case
-        .addSchedule(let encodable as Encodable),
-        .editSchedule(_, let encodable as Encodable),
-        .linkCouple(let encodable as Encodable):
-      return .requestJSONEncodable(encodable)
-
-      // MARK: - Multiparts
+    case .searchKakaoMap(let encodable as Encodable):
+        return .requestJSONEncodable(encodable)
+        
+    case .login(let encodable as Encodable):
+        return .requestJSONEncodable(encodable)
+        
+    case .addSchedule(let encodable as Encodable),
+            .editSchedule(_, let encodable as Encodable),
+            .linkCouple(let encodable as Encodable):
+        return .requestJSONEncodable(encodable)
+        
+        // MARK: - Multiparts
 
     case .editProfile, .registerDiary, .registerProfile:
       return .uploadMultipart(self.multiparts)

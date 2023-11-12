@@ -20,10 +20,8 @@ struct OnboardingCore: Reducer {
     static let maxNicknameLength = 20
     static let minNicknameLength = 2
   }
-
+  
   struct State: Equatable {
-    // common
-
     init(auth: AuthRequest) {
       self.auth = auth
       self.pageState = auth.provider == .apple ? .nickname : .email
@@ -31,6 +29,8 @@ struct OnboardingCore: Reducer {
         self.page.update(.next)
       }
     }
+    
+    // common
     let auth: AuthRequest
     var page: Page = .first()
     var pageState: Page.Onboarding
