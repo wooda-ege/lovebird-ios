@@ -17,7 +17,7 @@ import SwiftUI
 public enum APIClient {
 
   // onboarding
-  case login(info: TokenInfo)
+  case login(info: AuthRequest)
   case invitationViewLoaded
 
   // coupleLink
