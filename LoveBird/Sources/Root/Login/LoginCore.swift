@@ -37,16 +37,10 @@ struct LoginCore: Reducer {
             await send(.loginResponse(.failure(error), auth))
           }
         }
-
       default:
         break
       }
       return .none
     }
   }
-}
-
-public struct TokenInfo: Encodable {
-  let provider: SNSProvider
-  let idToken: String
 }
