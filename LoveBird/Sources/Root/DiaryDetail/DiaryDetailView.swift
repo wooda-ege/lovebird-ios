@@ -19,14 +19,37 @@ struct DiaryDetailView: View {
           viewStore.send(.backTapped)
         } content: {
           Button {
-            viewStore.send(.deleteDiary)
+            viewStore.send(.editDeleteButtonTapped)
           } label: {
-            Text("삭제")
-              .foregroundColor(Color(asset: LoveBirdAsset.primary))
-              .font(.pretendard(size: 16, weight: .bold))
+            ZStack {
+              Image(asset: LoveBirdAsset.icEditDelete)
+                .resizable()
+                .frame(width: 24, height: 24)
+              
+              if viewStore.state.showBottomSheet {
+                VStack {
+                  Text("수정하기")
+                    .onTapGesture {
+                      viewStore.send(.editButtonTapped)
+                    }
+                  Divider()
+                  Text("삭제하기")
+                    .onTapGesture {
+                      viewStore.send(.deleteButtonTapped)
+                    }
+                }
+                .foregroundColor(.black)
+                .padding([.horizontal, .top], 12)
+                .padding(.bottom, 20)
+                .background(.white)
+                .cornerRadius(12)
+                .shadow(color: .black.opacity(0.16), radius: 8, x: 0, y: 4)
+                .offset(x: 2, y: 44)
+              }
+            }
           }
         }
-
+        
         ScrollView {
           VStack(spacing: 16) {
             Text(viewStore.diary.title)

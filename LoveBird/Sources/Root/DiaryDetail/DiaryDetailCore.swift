@@ -16,11 +16,14 @@ struct DiaryDetailCore: Reducer {
   struct State: Equatable {
     let diary: Diary
     var nickname: String?
+    var showBottomSheet = false
   }
 
   enum Action: Equatable {
     case backTapped
-    case deleteDiary
+    case editDeleteButtonTapped
+    case editButtonTapped
+    case deleteButtonTapped
     case deleteDiaryResponse(TaskResult<String>)
   }
 
@@ -30,7 +33,10 @@ struct DiaryDetailCore: Reducer {
   var body: some Reducer<State, Action> {
     Reduce { state, action in
       switch action {
-      case .deleteDiary:
+      case .editDeleteButtonTapped:
+        state.showBottomSheet = true
+        return .none
+      case .deleteButtonTapped:
 				return .run { [id = state.diary.diaryId] send in
 					await send(
 						.deleteDiaryResponse(
@@ -40,7 +46,12 @@ struct DiaryDetailCore: Reducer {
 						)
 					)
 				}
-
+      case .editButtonTapped:
+        return .run { [id = state.diary.diaryId] send in
+          await send(
+            .edit
+          )
+        }
       default:
         return .none
       }
