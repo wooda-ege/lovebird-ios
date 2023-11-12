@@ -20,7 +20,8 @@ struct HomeCore: Reducer {
   struct State: Equatable {
     @PresentationState var diaryDetail: DiaryDetailState?
 
-    var diaries: [Diary] = []
+    var path = StackState<DiaryDetailState>()
+    var diaries: [Diary] = [Diary.dummy]
     var offsetY: CGFloat = 0.0
     var contentHeight: CGFloat = 0.0
     var isScrolledToBottom: Bool = false
@@ -29,6 +30,8 @@ struct HomeCore: Reducer {
   // MARK: - Action
   
   enum Action: Equatable {
+    case path(StackAction<DiaryDetailState, DiaryDetailAction>)
+
     case diaryDetail(PresentationAction<DiaryDetailAction>)
     case viewAppear
     case dataLoaded([Diary])
@@ -108,7 +111,7 @@ struct HomeCore: Reducer {
         return .none
       }
     }
-    .ifLet(\.$diaryDetail, action: /Action.diaryDetail) {
+    .forEach(\.path, action: /Action.path) {
       DiaryDetailCore()
     }
   }
