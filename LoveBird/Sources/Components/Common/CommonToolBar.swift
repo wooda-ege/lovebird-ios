@@ -25,7 +25,7 @@ struct CommonToolBar<Content: View>: View {
     self.backButtonTapped = backButtonTapped
     self.content = nil
   }
-
+  
   var body: some View {
     HStack(alignment: .center) {
       Button(action: self.backButtonTapped, label: {
