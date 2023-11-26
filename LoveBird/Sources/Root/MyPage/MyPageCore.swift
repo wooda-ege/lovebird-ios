@@ -15,14 +15,12 @@ struct MyPageCore: Reducer {
   // MARK: - State
 
   struct State: Equatable {
-    @PresentationState var myPageProfileEdit: MyPageProfileEditState?
     var user: Profile?
   }
 
   // MARK: - Action
 
   enum Action: Equatable {
-    case myPageProfileEdit(PresentationAction<MyPageProfileEditAction>)
     case editTapped
     case privacyPolicyTapped
     case viewAppear
@@ -42,26 +40,9 @@ struct MyPageCore: Reducer {
         if let user { state.user = user }
         return .none
 
-      case .editTapped:
-        state.myPageProfileEdit = MyPageProfileEditState()
-        return .none
-
-      case .myPageProfileEdit(.presented(.backButtonTapped)):
-        state.myPageProfileEdit = nil
-        return .none
-        
-        // MyPageProfileEdit
-      case .myPageProfileEdit(.presented(.editProfileResponse(.success(let profile)))):
-        self.userData.store(key: .user, value: profile)
-        state.myPageProfileEdit = nil
-        return .none
-
       default:
         return .none
       }
-    }
-    .ifLet(\.$myPageProfileEdit, action: /Action.myPageProfileEdit) {
-      MyPageProfileEditCore()
     }
   }
 }

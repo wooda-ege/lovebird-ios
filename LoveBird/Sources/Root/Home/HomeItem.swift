@@ -11,7 +11,7 @@ import Kingfisher
 
 struct HomeItem: View {
 
-  enum ContentType: Decodable, Encodable, Sendable {
+  enum ContentType: Codable {
     case empty
     case diary
     case initial
@@ -195,7 +195,6 @@ extension HomeItem {
         }
 
         if !diary.isFolded {
-          NavigationLink(state: DiaryDetailState(diary: diary)) {
             VStack(spacing: 12) {
               if let place = diary.place, place.isNotEmpty {
                 HStack(spacing: 8) {
@@ -236,7 +235,6 @@ extension HomeItem {
             }
             .padding(.horizontal, 20)
 
-          }
         }
       }
       .background(.white)

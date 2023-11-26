@@ -62,16 +62,13 @@ struct ScheduleAddCore: Reducer {
     var month = Date().month
     var day = Date().day
     var time = ScheduleTime(hour: 2, minute: 0, meridiem: .pm)
-    
-    // ScheduleDetail
-    @PresentationState var scheduleDetail: ScheduleDetailState?
   }
   
   
   enum Action: Equatable {
     case titleEdited(String)
     case memoEdited(String)
-    case backButtonTapped
+    case backTapped
     case confirmTapped
     case contentTapped(ScheduleAddFocusedType)
     case fisrtDateTapped
@@ -79,6 +76,12 @@ struct ScheduleAddCore: Reducer {
     case timeToggleTapped
     case alarmToggleTapped
     case alarmOptionTapped
+
+    // delegate
+    case delegate(Delegate)
+    enum Delegate {
+      case editTapped
+    }
     
     // BottomSheet
     case dateInitialied
@@ -99,13 +102,11 @@ struct ScheduleAddCore: Reducer {
     // Network
     case addScheduleResponse(TaskResult<Int>)
     case editScheduleResponse(TaskResult<Int>)
-    
-    // Navigation
-    case scheduleDetail(PresentationAction<ScheduleDetailAction>)
   }
   
   @Dependency(\.apiClient) var apiClient
-  
+  @Dependency(\.dismiss) var dismiss
+
   var body: some ReducerOf<Self> {
     Reduce { state, action in
       switch action {
@@ -301,12 +302,10 @@ struct ScheduleAddCore: Reducer {
       case .timeInitialied:
         self.handleTimeInitialized(state: &state)
         return .none
-        
-      case .scheduleDetail(.presented(.backButtonTapped)):
-        state.scheduleDetail = nil
-        return .none
-        
-        // Network
+
+      case .backTapped:
+        return .run { _ in await dismiss() }
+
       case .confirmTapped:
         if state.title.isEmpty { return .none }
         let request = self.addScheduleRequest(state: &state)
@@ -331,12 +330,25 @@ struct ScheduleAddCore: Reducer {
             )
           }
         }
+
+        // Network
+      case .addScheduleResponse(.success):
+        return .run { _ in await dismiss() }
+
+      case let .addScheduleResponse(.failure(error)):
+        print("AddSchedule Error: \(error)")
+        return .none
+
+      case .editScheduleResponse(.success):
+        return .run { _ in await dismiss() }
+
+      case let .editScheduleResponse(.failure(error)):
+        print("EditSchedule Error: \(error)")
+        return .none
+
       default:
         return .none
       }
-    }
-    .ifLet(\.$scheduleDetail, action: /ScheduleAddAction.scheduleDetail) {
-      ScheduleDetailCore()
     }
   }
   

@@ -14,14 +14,14 @@ struct RootView: View {
 
   // RootState의 Equatable를 상속받기 위해 구현
   struct State: Equatable {
-      init(state: RootState) {}
+    init(state: RootState) {}
   }
 
   init(store: StoreOf<RootCore>) {
     self.store = store
     self.viewStore = ViewStore(store, observe: State.init)
   }
-  
+
   var body: some View {
     SwitchStore(self.store) { state in
       switch state {
@@ -37,7 +37,7 @@ struct RootView: View {
         CaseLet(/RootCore.State.mainTab, action: RootCore.Action.mainTab) { store in
           MainTabView(store: store)
         }
-        
+
       case .login:
         CaseLet(/RootCore.State.login, action: RootCore.Action.login) { store in
           LoginView(store: store)

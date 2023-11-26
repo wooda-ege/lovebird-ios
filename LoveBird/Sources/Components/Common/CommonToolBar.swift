@@ -12,23 +12,27 @@ struct CommonToolBar<Content: View>: View {
 
   let title: String
   let content: Content?
-  let backButtonTapped: () -> Void
+  let backAction: () -> Void
 
-  init(title: String, backButtonTapped: @escaping () -> Void, @ViewBuilder content: () -> Content) {
+  init(backAction: @escaping () -> Void, @ViewBuilder content: () -> Content) {
+    self.init(title: "", backAction: backAction, content: content)
+  }
+  
+  init(title: String, backAction: @escaping () -> Void, @ViewBuilder content: () -> Content) {
     self.title = title
-    self.backButtonTapped = backButtonTapped
+    self.backAction = backAction
     self.content = content()
   }
 
-  init(title: String, backButtonTapped: @escaping () -> Void) {
+  init(title: String, backAction: @escaping () -> Void) {
     self.title = title
-    self.backButtonTapped = backButtonTapped
+    self.backAction = backAction
     self.content = nil
   }
 
   var body: some View {
     HStack(alignment: .center) {
-      Button(action: self.backButtonTapped, label: {
+      Button(action: backAction, label: {
         Image(asset: LoveBirdAsset.icBack)
           .resizable()
           .frame(width: 24, height: 24)
@@ -37,7 +41,7 @@ struct CommonToolBar<Content: View>: View {
 
       Spacer()
 
-      Text(self.title)
+      Text(title)
         .foregroundColor(.black)
         .lineLimit(1)
         .font(.pretendard(size: 18, weight: .bold))
@@ -45,12 +49,12 @@ struct CommonToolBar<Content: View>: View {
 
       Spacer()
 
-      if self.content == nil {
+      if content == nil {
         Rectangle()
           .fill(Color(.white))
           .frame(maxWidth: .infinity, alignment: .trailing)
       } else {
-        self.content
+        content
           .frame(maxWidth: .infinity, alignment: .trailing)
       }
     }

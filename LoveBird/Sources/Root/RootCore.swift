@@ -125,13 +125,14 @@ struct RootCore: Reducer {
         }
 
       // MARK: - My Page
-        
-      case .mainTab(.myPage(.myPageProfileEdit(.presented(.withdrawalResponse(.success))))):
-        self.userData.remove(key: .user)
-        self.userData.remove(key: .accessToken)
-        self.userData.remove(key: .refreshToken)
-        state = .login(LoginCore.State())
-        return .none
+
+      case let .mainTab(.path(.element(id: _, action: .myPageProfileEdit(.delegate(action))))):
+        switch action {
+        case .withdrawal:
+          self.userData.removeAll()
+          state = .login(LoginCore.State())
+          return .none
+        }
 
       // MARK: - Etc
         

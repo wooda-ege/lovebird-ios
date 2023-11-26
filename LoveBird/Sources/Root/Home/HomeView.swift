@@ -12,22 +12,18 @@ struct HomeView: View {
   let store: StoreOf<HomeCore>
 
   var body: some View {
-    NavigationStackStore(store.scope(state: \.path, action: { .path($0)})) {
-      WithViewStore(store, observe: { $0 }) { viewStore in
-        VStack(spacing: 0) {
-          navigationBarView
+    WithViewStore(store, observe: { $0 }) { viewStore in
+      VStack(spacing: 0) {
+        navigationBarView
 
-          ZStack(alignment: .leading) {
-            leftLineView
-            timeLineView
-          }
-        }
-        .onAppear {
-          viewStore.send(.viewAppear)
+        ZStack(alignment: .leading) {
+          leftLineView
+          timeLineView
         }
       }
-    } destination: { store in
-      DiaryDetailView(store: store)
+      .onAppear {
+        viewStore.send(.viewAppear)
+      }
     }
   }
 }

@@ -20,9 +20,7 @@ struct MyPageProfileEditView: View {
   var body: some View {
     WithViewStore(self.store, observe: { $0 }) { viewStore in
       VStack(spacing: 20) {
-        CommonToolBar(title: "프로필 정보") {
-          viewStore.send(.backButtonTapped)
-        } content: {
+        CommonToolBar(title: "프로필 정보", backAction: { viewStore.send(.backTapped) }) {
           Button {
             viewStore.send(.editTapped)
           } label: {
@@ -86,7 +84,7 @@ struct MyPageProfileEditView: View {
         
         Button {
           self.showingAlert.toggle()
-          viewStore.send(.withdrawal)
+          viewStore.send(.withdrawalTapped)
         } label: {
           Text("회원탈퇴")
             .foregroundColor(Color(asset: LoveBirdAsset.gray06))

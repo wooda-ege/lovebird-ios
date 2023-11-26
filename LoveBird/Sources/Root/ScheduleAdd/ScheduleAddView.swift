@@ -17,19 +17,14 @@ struct ScheduleAddView: View {
         VStack {
           CommonToolBar(
             title: LoveBirdStrings.addScheduleTitle,
-            backButtonTapped: { viewStore.send(.backButtonTapped) }
+            backAction: { viewStore.send(.backTapped) }
           ) {
-            NavigationLinkStore(
-              self.store.scope(state: \.$scheduleDetail, action: ScheduleAddAction.scheduleDetail)
-            ) {
-              viewStore.send(.confirmTapped)
-            } destination: { store in
-              ScheduleDetailView(store: store)
-            } label: {
-              Text(LoveBirdStrings.commonComplete)
-                .foregroundColor(viewStore.title.isEmpty ? Color(asset: LoveBirdAsset.green234) : Color(asset: LoveBirdAsset.primary))
-                .font(.pretendard(size: 16, weight: .bold))
-            }
+            Text(LoveBirdStrings.commonComplete)
+              .foregroundColor(viewStore.title.isEmpty ? Color(asset: LoveBirdAsset.green234) : Color(asset: LoveBirdAsset.primary))
+              .font(.pretendard(size: 16, weight: .bold))
+              .onTapGesture {
+                viewStore.send(.confirmTapped)
+              }
           }
 
           ScheduleAddContentView(store: self.store)

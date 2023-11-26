@@ -10,18 +10,12 @@ import ComposableArchitecture
 import SwiftUI
 import Combine
 
-typealias HomeState = HomeCore.State
-typealias HomeAction = HomeCore.Action
-
 struct HomeCore: Reducer {
 
   // MARK: - State
 
   struct State: Equatable {
-    @PresentationState var diaryDetail: DiaryDetailState?
-
-    var path = StackState<DiaryDetailState>()
-    var diaries: [Diary] = [Diary.dummy]
+    var diaries: [Diary] = []
     var offsetY: CGFloat = 0.0
     var contentHeight: CGFloat = 0.0
     var isScrolledToBottom: Bool = false
@@ -30,9 +24,6 @@ struct HomeCore: Reducer {
   // MARK: - Action
   
   enum Action: Equatable {
-    case path(StackAction<DiaryDetailState, DiaryDetailAction>)
-
-    case diaryDetail(PresentationAction<DiaryDetailAction>)
     case viewAppear
     case dataLoaded([Diary])
     case diaryTitleTapped(Diary)
@@ -78,17 +69,6 @@ struct HomeCore: Reducer {
         }
         return .none
 
-      case .diaryTapped(let diary):
-        guard let user = self.userData.get(key: .user, type: Profile.self) else { return .none}
-        var nickname: String?
-        if let partnerNickname = user.partnerNickname {
-          nickname = user.memberId == diary.memberId ? user.nickname : partnerNickname
-        } else {
-          nickname = nil
-        }
-        state.diaryDetail = DiaryDetailState(diary: diary, nickname: nickname)
-        return .none
-
       case .offsetYChanged(let y):
         state.offsetY = y
         return .none
@@ -101,18 +81,9 @@ struct HomeCore: Reducer {
         state.isScrolledToBottom = true
         return .none
 
-        // MARK: - DiaryDetail
-
-      case .diaryDetail(.presented(.backTapped)), .diaryDetail(.presented(.deleteDiaryResponse(.success))):
-        state.diaryDetail = nil
-        return .none
-
       default:
         return .none
       }
-    }
-    .forEach(\.path, action: /Action.path) {
-      DiaryDetailCore()
     }
   }
 
@@ -168,3 +139,5 @@ struct HomeCore: Reducer {
   }
 }
 
+typealias HomeState = HomeCore.State
+typealias HomeAction = HomeCore.Action
