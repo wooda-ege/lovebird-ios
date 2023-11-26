@@ -16,7 +16,11 @@ struct CoupleLinkView: View {
   @StateObject private var keyboard = KeyboardResponder()
   @State var showShare: Bool = false
   var invitationCode: String = ""
-  
+
+  init(store: StoreOf<CoupleLinkCore>) {
+    self.store = store
+  }
+
   @Dependency(\.apiClient) var apiClient
   @Dependency(\.userData) var userData
   

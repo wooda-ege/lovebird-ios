@@ -76,6 +76,9 @@ extension HomeView {
           viewStore.send(.offsetYChanged(point.y))
         })
       }
+//      .refreshable {
+//        viewStore.send(.dataLoaded(<#T##[Diary]#>))
+//      }
     }
   }
 }
