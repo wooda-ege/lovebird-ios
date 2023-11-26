@@ -81,7 +81,7 @@ struct DiaryView: View {
                 viewStore.send(.focusedTypeChanged(.title))
               }
 
-              Button {viewStore.send(.placeTapped)} label: {
+              Button { viewStore.send(.placeTapped) } label: {
                 CommonFocusedView(isFocused: viewStore.focusedType == .place) {
                   HStack(spacing: 6) {
                     Image(asset: LoveBirdAsset.icMap)

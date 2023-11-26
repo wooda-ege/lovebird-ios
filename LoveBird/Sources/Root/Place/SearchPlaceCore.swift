@@ -19,7 +19,7 @@ struct SearchPlaceCore: Reducer {
   }
   
   enum Action: Equatable {
-    case textFieldDidEditting(String)
+    case termEdited(String)
     case selectPlace(String)
     case changePlaceInfo([PlaceInfo])
     case backTapped
@@ -38,7 +38,7 @@ struct SearchPlaceCore: Reducer {
   var body: some Reducer<State, Action> {
     Reduce { state, action in
       switch action {
-      case let .textFieldDidEditting(searchTerm):
+      case let .termEdited(searchTerm):
         return .run { send in
           await send(
             .searchPlaceResponse(
@@ -51,6 +51,10 @@ struct SearchPlaceCore: Reducer {
 
       case let .searchPlaceResponse(.success(response)):
         state.placeList = response.place
+        return .none
+
+      case let .searchPlaceResponse(.failure(error)):
+        print("SearchPlace Error: \(error)")
         return .none
 
       case let .selectPlace(place), let .completeTapped(place):

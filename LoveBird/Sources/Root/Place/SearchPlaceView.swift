@@ -25,7 +25,7 @@ struct SearchPlaceView: View {
       }
 
       VStack(spacing: 20) {
-        let textBinding = viewStore.binding(get: \.searchTerm, send: SearchPlaceCore.Action.textFieldDidEditting)
+        let textBinding = viewStore.binding(get: \.searchTerm, send: SearchPlaceCore.Action.termEdited)
         CommonFocusedView {
           TextField(LoveBirdStrings.diaryPlaceAddressTitle, text: textBinding)
             .font(.pretendard(size: 17))
@@ -50,9 +50,7 @@ struct SearchPlaceView: View {
           }
         }
         .listStyle(.plain)
-        .onChange(of: viewStore.searchTerm) { placeTerm in
-          viewStore.send(.textFieldDidEditting(placeTerm))
-        }
+        
         Spacer()
       }
       .padding(.horizontal, 16)

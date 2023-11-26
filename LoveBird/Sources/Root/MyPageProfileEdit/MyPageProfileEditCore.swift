@@ -45,8 +45,8 @@ struct MyPageProfileEditCore: Reducer {
   }
 
   @Dependency(\.apiClient) var apiClient
-  @Dependency(\.userData) var userData
   @Dependency(\.dismiss) var dismiss
+  @Dependency(\.userData) var userData
 
   var body: some Reducer<State, Action> {
     Reduce { state, action in
