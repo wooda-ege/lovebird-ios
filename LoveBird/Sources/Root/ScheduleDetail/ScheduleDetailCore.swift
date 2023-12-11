@@ -37,13 +37,13 @@ struct ScheduleDetailCore: Reducer {
     }
 
     // Network
-    case deleteScheduleResponse(TaskResult<String>)
+    case deleteScheduleResponse(TaskResult<StatusCode>)
     case fetchScheduleResponse(TaskResult<Schedule>)
   }
 
   // MARK: - Dependency
 
-  @Dependency(\.apiClient) var apiClient
+  @Dependency(\.lovebirdApi) var lovebirdApi
   @Dependency(\.dismiss) var dismiss
 
   // MARK: - Body
@@ -63,7 +63,7 @@ struct ScheduleDetailCore: Reducer {
 					await send(
 						.deleteScheduleResponse(
 							await TaskResult {
-								try await self.apiClient.requestRaw(.deleteSchedule(scheduleId))
+                try await self.lovebirdApi.deleteSchedule(id: scheduleId)
 							}
 						)
 					)

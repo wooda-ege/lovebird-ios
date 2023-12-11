@@ -22,42 +22,50 @@ struct CoupleLinkCore: Reducer {
   }
   
   enum Action: Equatable {
-    case textFieldStateChanged(TextFieldState)
-    case tryLinkResponse(TaskResult<TryLinkResponse>)
+    case viewAppear
+    case successToLink
+    case initialInvitationCode(String)
     case imageSelected(UIImage?)
-    case circleClicked(Int)
-    case invitationViewLoaded(String)
-    case invitationcodeEdited(String)
-    case isSuccessTryLink(Bool)
-    case none
+    case invitationCodeEdited(String)
+    case confirmButtonTapped
   }
   
-  @Dependency(\.apiClient) var apiClient
-  
+  @Dependency(\.lovebirdApi) var lovebirdApi
+
   var body: some Reducer<State, Action> {
     Reduce { state, action in
       switch action {
-      case .textFieldStateChanged(let state):
-//        state.textFieldState = state
-        print("??")
-      case .invitationcodeEdited(let code):
-        state.invitationInputCode = code
-      case .invitationViewLoaded(let code):
-            state.invitationCode = code
-      case .isSuccessTryLink(let bool):
+      case .viewAppear:
         return .run { send in
-          do {
-            let tryLinkResponse = TryLinkResponse(isSuccess: bool)
-            
-            await send(.tryLinkResponse(.success(tryLinkResponse)))
-          } catch {
-            print("link error!")
+          let coupleCode = try await lovebirdApi.fetchCoupleCode()
+          await send(.initialInvitationCode(coupleCode.coupleCode))
+        }
+
+      case let .initialInvitationCode(code):
+        state.invitationInputCode = code
+        return .none
+
+      case .confirmButtonTapped:
+        return .run { [code = state.invitationInputCode] send in
+          let status = if code.isEmpty {
+            try await lovebirdApi.checkIsLinked()
+          } else {
+            try await lovebirdApi.linkCouple(linkCouple: .init(coupleCode: code))
+          }
+          if status == "SUCCESS" {
+            await send(.successToLink)
+          } else {
+            print("Failure to Link")
           }
         }
+
+      case .invitationCodeEdited(let code):
+        state.invitationInputCode = code
+        return .none
+
       default:
-        break
+        return .none
       }
-      return .none
     }
   }
 }

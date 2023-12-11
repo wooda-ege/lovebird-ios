@@ -16,10 +16,28 @@ struct HomeItem: View {
     case diary
     case initial
     case anniversary
+
+    var yearColor: LoveBirdColors {
+      switch self {
+      case .anniversary:
+        return LoveBirdAsset.gray05
+      default:
+        return LoveBirdAsset.gray07
+      }
+    }
+
+    var monthOrDayColor: LoveBirdColors {
+      switch self {
+      case .anniversary:
+        return LoveBirdAsset.gray05
+      default:
+        return LoveBirdAsset.gray12
+      }
+    }
   }
 
   let store: StoreOf<HomeCore>
-  let diary: Diary
+  let diary: HomeDiary
 
   var body: some View {
     HStack(spacing: 12) {
@@ -30,7 +48,7 @@ struct HomeItem: View {
   }
 }
 
-// MARK: - UI Componenets
+// MARK: - Child Views
 
 extension HomeItem {
 
@@ -47,7 +65,6 @@ extension HomeItem {
 
       case .following:
         self.followingLeftLineView
-
       }
     }
     .padding(.leading, 16)
@@ -58,29 +75,46 @@ extension HomeItem {
       Rectangle()
         .fill(Color(asset: LoveBirdAsset.primary))
         .frame(maxWidth: 2, maxHeight: .infinity)
-      Circle()
-        .fill(Color(asset: LoveBirdAsset.primary))
-        .frame(width: 8, height: 8)
-        .padding(.top, 41)
+
+      if diary.isMine {
+        Circle()
+          .fill(Color(asset: LoveBirdAsset.primary))
+          .frame(width: 8, height: 8)
+          .padding(.top, 41)
+      } else {
+        ZStack {
+          Circle()
+            .fill(.white)
+            .frame(size: 12)
+
+          Circle()
+            .fill(Color(asset: LoveBirdAsset.secondary))
+            .frame(size: 6)
+        }
+        .padding(.top, 39)
+      }
     }
-    .padding(.leading, 2)
+    .padding(.leading, diary.isMine ? 2 : 0)
   }
 
   var currentLeftLineView: some View {
     ZStack(alignment: .top) {
-      VStack(alignment: .leading, spacing: 0) {
+      VStack(alignment: .leading) {
         Rectangle()
           .fill(Color(asset: LoveBirdAsset.primary))
           .frame(width: 2, height: 40)
+
         Spacer()
-      }.frame(width: 2)
+      }
+
       ZStack {
         Circle()
           .stroke(Color(asset: LoveBirdAsset.primary), lineWidth: 1.2)
-          .frame(width: 12, height: 12)
+          .frame(size: 12)
+
         Circle()
           .fill(Color(asset: LoveBirdAsset.primary))
-          .frame(width: 6, height: 6)
+          .frame(size: 6)
       }
       .background(.white)
       .padding(.top, 39)
@@ -91,9 +125,10 @@ extension HomeItem {
     VStack {
       Circle()
         .stroke(Color(asset: LoveBirdAsset.primary), lineWidth: 1)
-        .frame(width: 8, height: 8)
+        .frame(size: 8)
         .background(.white)
         .padding(.top, 41)
+
       Spacer()
     }
     .padding(.leading, 2)
@@ -106,15 +141,15 @@ extension HomeItem {
       if diary.isTimelineDateShown {
         VStack(alignment: .trailing) {
           Text(String(diary.memoryDate.month))
-            .foregroundColor(diary.type == .anniversary ? Color(asset: LoveBirdAsset.gray05) : Color.black)
+            .foregroundColor(Color(asset: diary.type.monthOrDayColor))
             .font(.pretendard(size: 14, weight: .bold))
 
           Text(String(diary.memoryDate.day))
-            .foregroundColor(diary.type == .anniversary ? Color(asset: LoveBirdAsset.gray05) : Color.black)
+            .foregroundColor(Color(asset: diary.type.monthOrDayColor))
             .font(.pretendard(size: 16, weight: .regular))
 
           Text(String(diary.memoryDate.year))
-            .foregroundColor(diary.type == .anniversary ? Color(asset: LoveBirdAsset.gray05) : Color(asset: LoveBirdAsset.gray07))
+            .foregroundColor(Color(asset: diary.type.yearColor))
             .font(.pretendard(size: 8, weight: .bold))
 
           Spacer()
@@ -165,11 +200,10 @@ extension HomeItem {
         Image(asset: LoveBirdAsset.icNavigateNext)
           .padding(.trailing, 20)
       }
-      .background(.white)
+      .background(Color(asset: LoveBirdAsset.gray03))
       .cornerRadius(12)
       .padding(.top, 37)
       .padding(.trailing, 16)
-      .shadow(color: .black.opacity(0.08), radius: 12)
       .onTapGesture {
         viewStore.send(.todoDiaryTapped)
       }
@@ -177,73 +211,128 @@ extension HomeItem {
   }
   
   var diaryContentView: some View {
-    WithViewStore(store, observe: { $0 }) { viewStore in
-      VStack {
-        HStack {
-          Text(diary.title)
-            .lineLimit(1)
-            .foregroundColor(Color.black)
-            .font(.pretendard(size: 18, weight: .bold))
-            .padding([.horizontal, .top], 20)
-            .padding(.bottom, diary.isFolded ? 20 : 12)
-
-          Spacer()
-        }
-        .background(diary.isFolded ? Color(asset: LoveBirdAsset.gray03) : .white)
-        .onTapGesture {
-          viewStore.send(.diaryTitleTapped(diary))
-        }
-
-        if !diary.isFolded {
-            VStack(spacing: 12) {
-              if let place = diary.place, place.isNotEmpty {
-                HStack(spacing: 8) {
-                  Image(asset: LoveBirdAsset.icPlace)
-                    .padding(.leading, 8)
-                    .padding(.vertical, 5)
-
-                  Text(place)
-                    .lineLimit(1)
-                    .font(.pretendard(size: 14))
-                    .foregroundColor(Color(asset: LoveBirdAsset.gray07))
-
-                  Spacer()
-                }
-                .background(Color(asset: LoveBirdAsset.gray03))
-                .cornerRadius(4)
-              }
-
-              HStack(spacing: 8) {
-                Text(diary.content)
-                  .font(.pretendard(size: 14))
-                  .foregroundColor(Color.black)
-                  .font(.pretendard(size: 18, weight: .bold))
-
-                Spacer()
-              }
-
-              if let urlString = diary.imgUrls.first, let url = URL(string: urlString) {
-                KFImage(url)
-                  .resizable()
-                  .aspectRatio(contentMode: .fill)
-                  .frame(height: 100)
-                  .clipped()
-                  .cornerRadius(4)
-              }
-
-              Spacer(minLength: 4)
-            }
-            .padding(.horizontal, 20)
-
-        }
+    Group {
+      if diary.isFolded {
+        foldedDiaryContentView
+      } else {
+        unfoldedDiaryContentView
       }
-      .background(.white)
+    }
+  }
+
+  var foldedDiaryContentView: some View {
+    WithViewStore(store, observe: { $0 }) { viewStore in
+      HStack {
+        Text(diary.title)
+          .lineLimit(1)
+          .foregroundColor(.black)
+          .font(.pretendard(size: 18, weight: .bold))
+          .padding(20)
+
+        Spacer()
+      }
+      .background(Color(asset: LoveBirdAsset.gray03))
       .cornerRadius(12)
       .padding(.top, 37)
       .padding(.trailing, 16)
-      .shadow(color: diary.isFolded ? .clear : .black.opacity(0.08), radius: 12)
       .onTapGesture {
-        viewStore.send(.diaryTapped(diary))
+        viewStore.send(.diaryTitleTapped(diary))
+      }
+    }
+  }
+
+  var unfoldedDiaryContentView: some View {
+    WithViewStore(store, observe: { $0 }) { viewStore in
+      VStack {
+        VStack {
+          HStack {
+            Text(diary.title)
+              .lineLimit(1)
+              .foregroundColor(Color.black)
+              .font(.pretendard(size: 18, weight: .bold))
+              .padding([.horizontal, .top], 20)
+              .padding(.bottom, 12)
+
+            Spacer()
+          }
+          .background(.white)
+          .onTapGesture {
+            viewStore.send(.diaryTitleTapped(diary))
+          }
+
+          VStack(spacing: 12) {
+            if let place = diary.place, place.isNotEmpty {
+              HStack(spacing: 8) {
+                Image(asset: LoveBirdAsset.icPlace)
+                  .padding(.leading, 8)
+                  .padding(.vertical, 5)
+
+                Text(place)
+                  .lineLimit(1)
+                  .font(.pretendard(size: 14))
+                  .foregroundColor(Color(asset: LoveBirdAsset.gray07))
+
+                Spacer()
+              }
+              .background(Color(asset: LoveBirdAsset.gray03))
+              .cornerRadius(4)
+            }
+
+            HStack(spacing: 8) {
+              Text(diary.content)
+                .font(.pretendard(size: 14))
+                .foregroundColor(Color.black)
+                .font(.pretendard(size: 18, weight: .bold))
+
+              Spacer()
+            }
+
+            if let urlString = diary.imgUrls.first, let url = URL(string: urlString) {
+              KFImage(url)
+                .resizable()
+                .aspectRatio(contentMode: .fill)
+                .frame(maxHeight: 100)
+                .clipped()
+                .cornerRadius(4)
+            }
+
+            Spacer(minLength: 4)
+          }
+          .padding(.horizontal, 20)
+        }
+        .background(.white)
+        .cornerRadius(12)
+        .padding(.top, 37)
+        .padding(.trailing, 16)
+        .shadow(color: .black.opacity(0.08), radius: 12)
+        .onTapGesture {
+          viewStore.send(.diaryTapped(diary))
+        }
+
+        if viewStore.mode == .couple {
+          HStack(alignment: .center, spacing: 0) {
+            Spacer()
+
+            Text("작성자")
+              .foregroundColor(Color(asset: LoveBirdAsset.gray06))
+              .font(.pretendard(size: 12))
+
+            Spacer().frame(width: 8)
+
+            Image(asset: LoveBirdAsset.icProfile)
+              .changeSize(to: .init(width: 16, height: 16))
+              .clipped()
+              .cornerRadius(10)
+
+            Spacer().frame(width: 4)
+
+            Text("\(viewStore.profile?.authorName(with: diary.memberId) ?? "")")
+              .foregroundColor(.black)
+              .font(.pretendard(size: 12))
+          }
+          .padding(.top, 10)
+          .padding(.trailing, 16)
+        }
       }
     }
   }

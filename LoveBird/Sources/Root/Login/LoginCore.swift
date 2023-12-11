@@ -15,15 +15,15 @@ typealias LoginState = LoginCore.State
 typealias LoginAction = LoginCore.Action
 
 struct LoginCore: Reducer {
-  @Dependency(\.apiClient) var apiClient
-  @Dependency(\.userData) var userData
-  
   struct State: Equatable {}
   
   enum Action: Equatable {
-    case login(AuthRequest)
-    case loginResponse(TaskResult<LoginResponse>, AuthRequest)
+    case login(Authenticate)
+    case loginResponse(TaskResult<Token>, Authenticate)
   }
+
+  @Dependency(\.lovebirdApi) var lovebirdApi
+  @Dependency(\.userData) var userData
 
   var body: some Reducer<State, Action> {
     Reduce { state, action in
@@ -31,8 +31,8 @@ struct LoginCore: Reducer {
       case .login(let auth):
         return .run { send in
           do {
-            let loginResponse = try await self.apiClient.request(.login(authRequest: auth)) as LoginResponse
-            await send(.loginResponse(.success(loginResponse), auth))
+            let token = try await lovebirdApi.authenticate(auth: auth)
+            await send(.loginResponse(.success(token), auth))
           } catch {
             await send(.loginResponse(.failure(error), auth))
           }

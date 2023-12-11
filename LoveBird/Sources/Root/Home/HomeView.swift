@@ -11,6 +11,8 @@ import SwiftUI
 struct HomeView: View {
   let store: StoreOf<HomeCore>
 
+  // MARK: - Body
+
   var body: some View {
     WithViewStore(store, observe: { $0 }) { viewStore in
       VStack(spacing: 0) {
@@ -28,6 +30,8 @@ struct HomeView: View {
   }
 }
 
+// MARK: - Child Views
+
 extension HomeView {
   var navigationBarView: some View {
     HStack(alignment: .center) {
@@ -42,53 +46,30 @@ extension HomeView {
 
   var leftLineView: some View {
     WithViewStore(store, observe: { $0 }) { viewStore in
-      Line()
-        .stroke(style: StrokeStyle(lineWidth: 1, dash: [2]))
-        .frame(maxWidth: 1, maxHeight: .infinity)
-        .foregroundColor(Color(asset: LoveBirdAsset.primary))
+      VLine(property: .timelineDotted)
         .padding(.leading, 22)
 
       VStack(alignment: .leading) {
-        GeometryReader { proxy in
-          Rectangle()
-            .fill(Color(asset: LoveBirdAsset.primary))
-            .frame(width: 2, height: min(
-              UIScreen.height,
-              max(0, UIScreen.height - 550 + viewStore.state.offsetY))
-            )
-            .padding(.leading, 21)
+        VLine(property: .timeline)
+          .frame(height: viewStore.state.lineHeight)
+          .padding(.leading, 22)
 
-          Spacer()
-        }
+        Spacer()
       }
     }
   }
 
   var timeLineView: some View {
     WithViewStore(store, observe: { $0 }) { viewStore in
-      GeometryReader { proxy in
-        ScrollViewReader { scrollProxy in
-          ScrollView {
-            VStack {
-              Spacer(minLength: max(proxy.size.height - viewStore.contentHeight - 44, 0))
-                .scrollViewOrigin { viewStore.send(.offsetYChanged($0.y)) }
-
-              LazyVGrid(columns: [GridItem(.flexible())], spacing: 0) {
-                ForEach(viewStore.diaries, id: \.diaryId) { diary in
-                  HomeItem(store: store, diary: diary)
-                }
-              }
-              .sizeChanges {
-                viewStore.send(.contentHeightChanged($0.height))
-                guard let id = viewStore.diaries.last?.diaryId,
-                      !viewStore.isScrolledToBottom else { return }
-                scrollProxy.scrollTo(id)
-                viewStore.send(.scrolledToBottom)
-              }
-            }
+      TimelineScrollView {
+        LazyVGrid(columns: [GridItem(.flexible())], spacing: 0) {
+          ForEach(viewStore.diaries, id: \.diaryId) { diary in
+            HomeItem(store: store, diary: diary)
           }
-          .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
+        .scrollViewOrigin(callback: { point in
+          viewStore.send(.offsetYChanged(point.y))
+        })
       }
     }
   }

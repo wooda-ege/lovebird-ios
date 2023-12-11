@@ -58,7 +58,3 @@ extension Date {
     return lhs.year == rhs.year && lhs.month == rhs.month && lhs.day == rhs.day
   }
 }
-
-enum DateFormat: String {
-  case `default` = "yyyy-MM-dd'T'HH:mm:ss"
-}

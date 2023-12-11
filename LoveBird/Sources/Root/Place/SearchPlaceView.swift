@@ -36,7 +36,7 @@ struct SearchPlaceView: View {
             .showClearButton(textBinding, trailingPadding: 2)
         }
 
-        List(viewStore.placeList, id:\.id) { place in
+        List(viewStore.places, id:\.id) { place in
           Button {
             viewStore.send(.selectPlace(place.placeName))
           } label: {
