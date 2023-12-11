@@ -68,15 +68,4 @@ extension View {
       }
     )
   }
-
-  func measureWidth(_ width: Binding<CGFloat>) -> some View {
-    self.background(
-      GeometryReader { geometry in
-        Color.clear.preference(key: ViewWidthKey.self, value: geometry.size.width)
-      }
-    )
-    .onPreferenceChange(ViewWidthKey.self) { widthValue in
-      width.wrappedValue = widthValue
-    }
-  }
 }

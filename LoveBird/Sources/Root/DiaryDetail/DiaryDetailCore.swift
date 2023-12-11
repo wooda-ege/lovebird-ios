@@ -38,15 +38,15 @@ struct DiaryDetailCore: Reducer {
         return .run { _ in await dismiss() }
 
       case .deleteDiary:
-				return .run { [id = state.diary.diaryId] send in
-					await send(
-						.deleteDiaryResponse(
-							await TaskResult {
+        return .run { [id = state.diary.diaryId] send in
+          await send(
+            .deleteDiaryResponse(
+              await TaskResult {
                 try await lovebirdApi.deleteDiary(id: id)
-							}
-						)
-					)
-				}
+              }
+            )
+          )
+        }
 
       default:
         return .none

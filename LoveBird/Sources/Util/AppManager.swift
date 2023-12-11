@@ -27,14 +27,3 @@ public class AppConfiguration {
     return profile?.isLinked == true ? .couple : .single
   }
 }
-
-extension DependencyValues {
-  var appConfiguration: AppConfiguration {
-    get { self[AppConfiguration.self] }
-    set { self[AppConfiguration.self] = newValue }
-  }
-}
-
-extension AppConfiguration: DependencyKey {
-  static public let liveValue = AppConfiguration()
-}

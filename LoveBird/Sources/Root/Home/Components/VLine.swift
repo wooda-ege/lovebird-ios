@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct VLine: Shape {
-
   struct Property {
     let color: Color
     let lineWidth: CGFloat

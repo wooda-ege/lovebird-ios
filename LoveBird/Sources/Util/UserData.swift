@@ -42,14 +42,3 @@ public struct UserData {
     }
   }
 }
-
-extension DependencyValues {
-  var userData: UserData {
-    get { self[UserData.self] }
-    set { self[UserData.self] = newValue }
-  }
-}
-
-extension UserData: DependencyKey {
-  static public let liveValue = Self()
-}

@@ -44,9 +44,7 @@ struct DiaryCore: Reducer {
   @Dependency(\.userData) var userData
   
   var body: some Reducer<State, Action> {
-    Reduce<State, Action> {
-      state,
-      action in
+    Reduce { state, action in
       switch action {
       case .titleEdited(let title):
         state.title = title
@@ -86,7 +84,7 @@ struct DiaryCore: Reducer {
         
       case .completeTapped:
         if state.title.isEmpty || state.content.isEmpty { return .none }
-        return .run { [state = state] send in
+        return .run { [state] send in
           await send(
             .addDiaryResponse(
               await TaskResult {

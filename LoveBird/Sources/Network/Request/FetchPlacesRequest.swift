@@ -1,5 +1,5 @@
 //
-//  SearchPlacesRequest.swift
+//  FetchPlacesRequest.swift
 //  LoveBird
 //
 //  Created by 황득연 on 11/9/23.
