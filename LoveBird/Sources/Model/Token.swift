@@ -5,7 +5,8 @@
 //  Created by 이예은 on 2023/09/25.
 //
 
-struct SignUpResponse: Codable, Equatable, Sendable {
+struct Token: Codable, Equatable {
   let accessToken: String
   let refreshToken: String
+  let linkedFlag: Bool?
 }

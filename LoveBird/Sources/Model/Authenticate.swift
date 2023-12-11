@@ -1,5 +1,5 @@
 //
-//  AuthRequest.swift
+//  SignUpRequest.swift
 //  LoveBird
 //
 //  Created by 이예은 on 2023/10/25.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct AuthRequest: Encodable, Equatable, Sendable {
+public struct Authenticate: Encodable, Equatable, Sendable {
   let provider: SNSProvider
   let idToken: String
 

@@ -11,6 +11,8 @@ import SwiftUI
 struct HomeView: View {
   let store: StoreOf<HomeCore>
 
+  // MARK: - Body
+
   var body: some View {
     WithViewStore(store, observe: { $0 }) { viewStore in
       VStack(spacing: 0) {
@@ -25,13 +27,6 @@ struct HomeView: View {
         viewStore.send(.viewAppear)
       }
     }
-  }
-
-  private func lineHeight(offsetY: CGFloat) -> CGFloat {
-    min(
-      UIScreen.heightExceptSafeArea,
-      max(0, offsetY - (UIApplication.edgeInsets.top + 44))
-    )
   }
 }
 
@@ -56,7 +51,7 @@ extension HomeView {
 
       VStack(alignment: .leading) {
         VLine(property: .timeline)
-          .frame(height: lineHeight(offsetY: viewStore.state.offsetY))
+          .frame(height: viewStore.state.lineHeight)
           .padding(.leading, 22)
 
         Spacer()
@@ -76,9 +71,6 @@ extension HomeView {
           viewStore.send(.offsetYChanged(point.y))
         })
       }
-//      .refreshable {
-//        viewStore.send(.dataLoaded(<#T##[Diary]#>))
-//      }
     }
   }
 }

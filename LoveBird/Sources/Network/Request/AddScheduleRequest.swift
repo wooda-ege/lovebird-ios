@@ -1,5 +1,5 @@
 //
-//  AddCalendarRequest.swift
+//  AddScheduleRequest.swift
 //  LoveBird
 //
 //  Created by 황득연 on 2023/07/04.

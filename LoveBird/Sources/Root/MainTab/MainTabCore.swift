@@ -136,13 +136,13 @@ struct MainTabCore: Reducer {
       state.path.append(.searchPlace(.init()))
       return .none
       
-    case .diary(.registerDiaryResponse(.success(let response))):
+    case .diary(.addDiaryResponse(.success(let response))):
       if response == "SUCCESS" {
         state.selectedTab = .home
       }
       return .none
       
-    case .diary(.registerDiaryResponse(.failure)):
+    case .diary(.addDiaryResponse(.failure)):
       print("다이어리 등록 실패")
       return .none
 

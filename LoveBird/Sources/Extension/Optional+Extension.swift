@@ -8,5 +8,17 @@
 import Foundation
 
 extension Optional {
-  var isEmpty: Bool { self == nil }
+  var isNil: Bool { self == nil }
+  var isNotNil: Bool { self != nil }
+}
+
+extension Optional where Wrapped == String {
+  var isEmptyOrNil: Bool {
+      return self?.isEmpty ?? true
+  }
+
+  var isNotEmpty: Bool {
+      guard let self else { return false }
+      return self.isNotEmpty
+  }
 }

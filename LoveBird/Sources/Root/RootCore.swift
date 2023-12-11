@@ -51,9 +51,10 @@ struct RootCore: Reducer {
   
   // MARK: - Dependency
   
-  @Dependency(\.apiClient) var apiClient
+  @Dependency(\.lovebirdApi) var lovebirdApi
   @Dependency(\.userData) var userData
-  
+  @Dependency(\.continuousClock) var continuousClock
+
   // MARK: - Body
 
   var body: some Reducer<State, Action> {
@@ -72,7 +73,7 @@ struct RootCore: Reducer {
 
     case .splash(.viewAppear):
       return .run { send in
-        try await Task.sleep(for: .seconds(Constants.delayOfSplash))
+        try await continuousClock.sleep(for: .seconds(Constants.delayOfSplash))
         let user = userData.get(key: .user, type: Profile.self)
         let rootState = switchState(with: user)
         await send(.updateRootState(rootState), animation: .default)
@@ -97,13 +98,13 @@ struct RootCore: Reducer {
 
     // MARK: - Onboarding
 
-    case .onboarding(.registerProfileResponse(.success(let response))):
+    case .onboarding(.signUpResponse(.success(let response))):
       userData.store(key: .accessToken, value: response.accessToken)
       userData.store(key: .refreshToken, value: response.refreshToken)
 
       return .run { send in
         do {
-          let profile = try await apiClient.request(.fetchProfile) as Profile
+          let profile = try await lovebirdApi.fetchProfile()
           userData.store(key: .user, value: profile)
 
           await send(.updateRootState(.coupleLink(.init())))
@@ -114,13 +115,8 @@ struct RootCore: Reducer {
 
     // MARK: - CoupleLink
 
-    case .coupleLink(.tryLinkResponse(.success(let response))):
-      if response.isSuccess {
-        return .send(.updateRootState(.mainTab(.init())))
-      } else {
-        print("Try Link Error: UNKNOWN")
-        return .none
-      }
+    case .coupleLink(.successToLink):
+      return .send(.updateRootState(.mainTab(.init())))
 
     // MARK: - My Page
 
@@ -147,7 +143,7 @@ struct RootCore: Reducer {
   private func switchState(with profile: Profile?) -> State {
     guard let profile else { return .login(LoginCore.State()) }
 
-    if profile.partnerId.isEmpty {
+    if profile.partnerId.isNil {
       return .coupleLink(CoupleLinkCore.State())
     } else {
       return .mainTab(MainTabCore.State())

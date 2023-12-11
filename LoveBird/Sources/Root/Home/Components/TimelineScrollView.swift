@@ -22,5 +22,6 @@ struct TimelineScrollView<Content: View>: View {
     }
     .rotationEffect(.degrees(180))
     .frame(maxWidth: .infinity, maxHeight: .infinity)
+    .scrollIndicators(.hidden)
   }
 }

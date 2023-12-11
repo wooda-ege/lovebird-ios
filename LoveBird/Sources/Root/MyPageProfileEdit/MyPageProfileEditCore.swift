@@ -36,7 +36,7 @@ struct MyPageProfileEditCore: Reducer {
     case editTapped
     case withdrawalTapped
     case editProfileResponse(TaskResult<Profile>)
-    case withdrawalResponse(TaskResult<String>)
+    case withdrawalResponse(TaskResult<StatusCode>)
 
     case delegate(Delegate)
     enum Delegate: Equatable {
@@ -44,7 +44,7 @@ struct MyPageProfileEditCore: Reducer {
     }
   }
 
-  @Dependency(\.apiClient) var apiClient
+  @Dependency(\.lovebirdApi) var lovebirdApi
   @Dependency(\.dismiss) var dismiss
   @Dependency(\.userData) var userData
 
@@ -74,16 +74,15 @@ struct MyPageProfileEditCore: Reducer {
 
       case .editTapped:
         if state.nickname.isEmpty || state.email.isEmpty { return .none }
-        
-        let request: EditProfileRequest = .init(
-          nickname: state.nickname,
-          email: state.email
-        )
-				return .run { send in
+				return .run { [state] send in
+          let request: EditProfileRequest = .init(
+            nickname: state.nickname,
+            email: state.email
+          )
 					await send(
 						.editProfileResponse(
 							await TaskResult {
-								try await (self.apiClient.request(.editProfile(image: nil, editProfile: request))) as Profile
+                try await lovebirdApi.editProfile(image: nil, profile: request)
 							}
 						)
 					)
@@ -94,7 +93,7 @@ struct MyPageProfileEditCore: Reducer {
 					await send(
 						.withdrawalResponse(
 							await TaskResult {
-								try await (self.apiClient.requestRaw(.withdrawal))
+                try await lovebirdApi.withdrawal()
 							}
 						)
 					)

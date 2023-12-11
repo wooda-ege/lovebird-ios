@@ -29,7 +29,7 @@ struct CalendarCore: Reducer {
 
   enum Action: Equatable {
     case viewAppear
-    case dataLoaded(TaskResult<Schedules>)
+    case dataLoaded(TaskResult<[Schedule]>)
     case plusTapped(Date)
     case toggleTapped
     case dayTapped(Date)
@@ -43,7 +43,7 @@ struct CalendarCore: Reducer {
 
   // MARK: - Dependency
 
-  @Dependency(\.apiClient) var apiClient
+  @Dependency(\.lovebirdApi) var lovebirdApi
 
   // MARK: - Body
 
@@ -55,7 +55,7 @@ struct CalendarCore: Reducer {
           await send(
             .dataLoaded(
               await TaskResult {
-                try await (self.apiClient.request(.fetchCalendars) as Schedules)
+                try await lovebirdApi.fetchCalendars()
               }
             )
           )
@@ -83,7 +83,7 @@ struct CalendarCore: Reducer {
         state.currentPreviewDate = state.currentPreviewDate.addMonths(by: 1)
         return .none
 
-      case .scheduleTapped(let schedule):
+      case .scheduleTapped:
         state.showCalendarPreview = false
         return .none
 
@@ -92,7 +92,7 @@ struct CalendarCore: Reducer {
         return .none
 
       case .dataLoaded(.success(let schedules)):
-        state.schedules = schedules.schedules.mapToDict()
+        state.schedules = schedules.mapToDict()
         return .send(.dayTapped(Date()))
 
       default:

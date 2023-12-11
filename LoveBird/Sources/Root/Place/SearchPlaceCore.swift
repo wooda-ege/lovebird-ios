@@ -13,7 +13,7 @@ typealias SearchPlaceAction = SearchPlaceCore.Action
 
 struct SearchPlaceCore: Reducer {
   struct State: Equatable {
-    var placeList: [PlaceInfo] = []
+    var places: [Place] = []
     var searchTerm: String = ""
     var select: String = ""
   }
@@ -21,10 +21,10 @@ struct SearchPlaceCore: Reducer {
   enum Action: Equatable {
     case termEdited(String)
     case selectPlace(String)
-    case changePlaceInfo([PlaceInfo])
+    case changePlaceInfo([Place])
     case backTapped
     case completeTapped(String)
-    case searchPlaceResponse(TaskResult<SearchPlaceResponse>)
+    case fetchPlacesResponse(TaskResult<[Place]>)
 
     case delegate(Delegate)
     enum Delegate: Equatable {
@@ -32,7 +32,7 @@ struct SearchPlaceCore: Reducer {
     }
   }
   
-  @Dependency(\.apiClient) var apiClient
+  @Dependency(\.lovebirdApi) var lovebirdApi
   @Dependency(\.dismiss) private var dismiss
 
   var body: some Reducer<State, Action> {
@@ -41,19 +41,19 @@ struct SearchPlaceCore: Reducer {
       case let .termEdited(searchTerm):
         return .run { send in
           await send(
-            .searchPlaceResponse(
+            .fetchPlacesResponse(
               await TaskResult {
-                try await apiClient.requestKakaoMap(.searchKakaoMap(query: .init(query: searchTerm)))
+                try await lovebirdApi.fetchPlaces(places: .init(query: searchTerm))
               }
             )
           )
         }
 
-      case let .searchPlaceResponse(.success(response)):
-        state.placeList = response.place
+      case let .fetchPlacesResponse(.success(places)):
+        state.places = places
         return .none
 
-      case let .searchPlaceResponse(.failure(error)):
+      case let .fetchPlacesResponse(.failure(error)):
         print("SearchPlace Error: \(error)")
         return .none
 

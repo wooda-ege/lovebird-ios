@@ -11,22 +11,22 @@ import ComposableArchitecture
 struct DiaryDetailCore: Reducer {
 
   struct State: Equatable {
-    let diary: Diary
+    let diary: HomeDiary
     var nickname: String?
   }
 
   enum Action: Equatable {
     case backTapped
     case deleteDiary
-    case deleteDiaryResponse(TaskResult<String>)
+    case deleteDiaryResponse(TaskResult<StatusCode>)
 
     case delegate(Delegate)
     enum Delegate: Equatable {
-      case editTapped(Diary)
+      case editTapped(HomeDiary)
     }
   }
 
-  @Dependency(\.apiClient) var apiClient
+  @Dependency(\.lovebirdApi) var lovebirdApi
   @Dependency(\.dismiss) var dismiss
   @Dependency(\.userData) var userData
 
@@ -42,7 +42,7 @@ struct DiaryDetailCore: Reducer {
 					await send(
 						.deleteDiaryResponse(
 							await TaskResult {
-								try await apiClient.requestRaw(.deleteDiary(id: id))
+                try await lovebirdApi.deleteDiary(id: id)
 							}
 						)
 					)

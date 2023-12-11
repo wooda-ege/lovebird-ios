@@ -7,16 +7,16 @@
 
 import Foundation
 
-struct SearchPlaceResponse: Decodable, Equatable, Sendable {
-  let place: [PlaceInfo]
-  
+struct FetchPlacesResponse: Decodable, Equatable, Sendable {
+  let places: [Place]
+
   enum CodingKeys: String, CodingKey {
-    case place = "documents"
+    case places = "documents"
   }
 }
 
 // MARK: - Document
-struct PlaceInfo: Decodable, Equatable, Sendable {
+struct Place: Decodable, Equatable, Sendable {
   let id: String
   let placeName: String
   let addressName: String

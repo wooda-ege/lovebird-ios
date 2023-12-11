@@ -9,6 +9,10 @@ import SwiftUI
 import UIKit
 
 extension View {
+  func frame(size: CGFloat? = nil, alignment: Alignment = .center) -> some View {
+    self.frame(width: size, height: size, alignment: alignment)
+  }
+
   func ifTapped(completion: @escaping () -> Void) -> some View {
     return self.background(Color.white.onTapGesture {
       completion()
@@ -34,10 +38,10 @@ extension View {
     )
   }
 
-  func bottomBorder() -> some View {
+  func bottomBorder(color: Color = Color(asset: LoveBirdAsset.gray04)) -> some View {
     return self.overlay(
       Rectangle()
-        .fill(Color(asset: LoveBirdAsset.gray04))
+        .fill(color)
         .frame(height: 1),
       alignment: .bottom
     )
@@ -53,16 +57,6 @@ extension View {
     UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
   }
 
-  func sizeChanges(onChange: @escaping (CGSize) -> Void) -> some View {
-    return background(
-      GeometryReader { proxy in
-        Color.clear
-          .preference(key: SizeChangesPreferenceKey.self, value: proxy.size)
-      }
-    )
-    .onPreferenceChange(SizeChangesPreferenceKey.self, perform: onChange)
-  }
-
   func scrollViewOrigin(callback: @escaping (CGPoint) -> Void) -> some View {
     return background(
       GeometryReader { proxy in
@@ -74,19 +68,15 @@ extension View {
       }
     )
   }
+
+  func measureWidth(_ width: Binding<CGFloat>) -> some View {
+    self.background(
+      GeometryReader { geometry in
+        Color.clear.preference(key: ViewWidthKey.self, value: geometry.size.width)
+      }
+    )
+    .onPreferenceChange(ViewWidthKey.self) { widthValue in
+      width.wrappedValue = widthValue
+    }
+  }
 }
-
-private struct SizeChangesPreferenceKey: PreferenceKey {
-    static var defaultValue: CGSize = .zero
-
-    static func reduce(value: inout CGSize, nextValue: () -> CGSize) {}
-}
-
-
-private struct OffsetPreferenceKey: PreferenceKey {
-
-  static var defaultValue: CGPoint = .zero
-
-  static func reduce(value: inout CGPoint, nextValue: () -> CGPoint) { }
-}
-
