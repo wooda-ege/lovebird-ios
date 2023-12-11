@@ -106,6 +106,10 @@ struct DiaryCore: Reducer {
         state.place = place
         return .none
 
+      case let .placeUpdated(place):
+        state.place = place
+        return .none
+
       case .editImage(let image):
         state.image = image
         return .none
