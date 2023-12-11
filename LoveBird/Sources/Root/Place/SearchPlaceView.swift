@@ -13,16 +13,11 @@ struct SearchPlaceView: View {
   let store: StoreOf<SearchPlaceCore>
 
   @FocusState var isFocused: Bool
-  @Dependency(\.apiClient) var apiClient
-  
+
   var body: some View {
     WithViewStore(self.store, observe: { $0 }) { viewStore in
-      CommonToolBar(title: "장소 선택") {
-        viewStore.send(.backTapped)
-      } content: {
-        Button {
-          viewStore.send(.completeTapped(viewStore.searchTerm))
-        } label: {
+      CommonToolBar(title: "장소 선택", backAction: { viewStore.send(.backTapped) }) {
+        Button { viewStore.send(.completeTapped(viewStore.searchTerm)) } label: {
           Text("완료")
             .foregroundColor(viewStore.searchTerm.isEmpty ? Color(asset: LoveBirdAsset.green234) : Color(asset: LoveBirdAsset.primary))
             .font(.pretendard(size: 16, weight: .bold))
@@ -30,7 +25,7 @@ struct SearchPlaceView: View {
       }
 
       VStack(spacing: 20) {
-        let textBinding = viewStore.binding(get: \.searchTerm, send: SearchPlaceCore.Action.textFieldDidEditting)
+        let textBinding = viewStore.binding(get: \.searchTerm, send: SearchPlaceCore.Action.termEdited)
         CommonFocusedView {
           TextField(LoveBirdStrings.diaryPlaceAddressTitle, text: textBinding)
             .font(.pretendard(size: 17))
@@ -55,17 +50,7 @@ struct SearchPlaceView: View {
           }
         }
         .listStyle(.plain)
-        .onChange(of: viewStore.searchTerm) { placeTerm in
-          Task {
-            do {
-              let places = try await apiClient.requestKakaoMap(.searchKakaoMap(query: .init(query: placeTerm))) as [PlaceInfo]
-              viewStore.send(.changePlaceInfo(places))
-            } catch {
-              print(error)
-            }
-          }
-          viewStore.send(.textFieldDidEditting(placeTerm))
-        }
+        
         Spacer()
       }
       .padding(.horizontal, 16)

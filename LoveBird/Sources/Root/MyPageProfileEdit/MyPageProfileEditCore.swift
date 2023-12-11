@@ -29,17 +29,23 @@ struct MyPageProfileEditCore: Reducer {
 
   enum Action: Equatable {
     case viewAppear
-    case backButtonTapped
+    case backTapped
     case isFocused(FocusedType)
     case nicknameEdited(String)
     case emailEdited(String)
     case editTapped
-    case withdrawal
+    case withdrawalTapped
     case editProfileResponse(TaskResult<Profile>)
     case withdrawalResponse(TaskResult<String>)
+
+    case delegate(Delegate)
+    enum Delegate: Equatable {
+      case withdrawal
+    }
   }
 
   @Dependency(\.apiClient) var apiClient
+  @Dependency(\.dismiss) var dismiss
   @Dependency(\.userData) var userData
 
   var body: some Reducer<State, Action> {
@@ -49,6 +55,9 @@ struct MyPageProfileEditCore: Reducer {
         let profile = self.userData.get(key: .user, type: Profile.self)
         if let profile { state.profile = profile }
         return .none
+
+      case .backTapped:
+        return .run { _ in await dismiss() }
 
       case .isFocused(let type):
         state.isNicknameFocused = type == .nickname
@@ -80,7 +89,7 @@ struct MyPageProfileEditCore: Reducer {
 					)
 				}
 
-      case .withdrawal:
+      case .withdrawalTapped:
 				return .run { send in
 					await send(
 						.withdrawalResponse(
@@ -90,6 +99,13 @@ struct MyPageProfileEditCore: Reducer {
 						)
 					)
 				}
+
+      case .editProfileResponse(.success(let profile)):
+        self.userData.store(key: .user, value: profile)
+        return .run { _ in await dismiss() }
+
+      case .withdrawalResponse(.success):
+        return .send(.delegate(.withdrawal))
 
       default:
         return .none

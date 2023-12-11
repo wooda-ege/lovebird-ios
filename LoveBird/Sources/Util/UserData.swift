@@ -35,6 +35,12 @@ public struct UserData {
   func remove(key: Keys) {
     UserDefaults.standard.removeObject(forKey: key.rawValue)
   }
+
+  func removeAll() {
+    Keys.allCases.forEach {
+      self.remove(key: $0)
+    }
+  }
 }
 
 extension DependencyValues {

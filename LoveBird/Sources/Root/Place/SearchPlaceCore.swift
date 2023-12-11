@@ -19,29 +19,49 @@ struct SearchPlaceCore: Reducer {
   }
   
   enum Action: Equatable {
-    case textFieldDidEditting(String)
+    case termEdited(String)
     case selectPlace(String)
     case changePlaceInfo([PlaceInfo])
     case backTapped
     case completeTapped(String)
     case searchPlaceResponse(TaskResult<SearchPlaceResponse>)
+
+    case delegate(Delegate)
+    enum Delegate: Equatable {
+      case updatePlace(String)
+    }
   }
   
   @Dependency(\.apiClient) var apiClient
-  
+  @Dependency(\.dismiss) private var dismiss
+
   var body: some Reducer<State, Action> {
     Reduce { state, action in
       switch action {
-      case .textFieldDidEditting(let searchTerm):
-        state.searchTerm = searchTerm
-        if searchTerm.isEmpty {
-          state.placeList.removeAll()
+      case let .termEdited(searchTerm):
+        return .run { send in
+          await send(
+            .searchPlaceResponse(
+              await TaskResult {
+                try await apiClient.requestKakaoMap(.searchKakaoMap(query: .init(query: searchTerm)))
+              }
+            )
+          )
         }
+
+      case let .searchPlaceResponse(.success(response)):
+        state.placeList = response.place
         return .none
 
-      case .changePlaceInfo(let placeInfo):
-        state.placeList = placeInfo
+      case let .searchPlaceResponse(.failure(error)):
+        print("SearchPlace Error: \(error)")
         return .none
+
+      case let .selectPlace(place), let .completeTapped(place):
+        return .send(.delegate(.updatePlace(place)))
+
+      case .backTapped:
+        return .run { _ in await dismiss() }
 
       default:
         return .none

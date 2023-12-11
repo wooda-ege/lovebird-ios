@@ -35,13 +35,7 @@ struct CalendarScheduleView: View {
             .frame(height: 40, alignment: .center)
         } else {
           ForEach(viewStore.schedulesOfDay, id: \.id) { schedule in
-            NavigationLinkStore(
-              self.store.scope(state: \.$scheduleDetail, action: CalendarAction.scheduleDetail)
-            ) {
-              viewStore.send(.scheduleTapped(schedule))
-            } destination: { store in
-              ScheduleDetailView(store: store)
-            } label: {
+            Button { viewStore.send(.scheduleTapped(schedule)) } label: {
               HStack(alignment: .center, spacing: 4) {
                 Rectangle()
                   .fill(schedule.color.color)
@@ -58,19 +52,6 @@ struct CalendarScheduleView: View {
                   .background(.white)
                   .cornerRadius(8)
               }
-            }
-          }
-          // NavigationLink presenting a value must appear inside a NavigationContent-based NavigationView. Link will be disabled.
-          // VStack 내에 NavigationLinkStore가 count가 2개면 위 오류가 존재해서 스스로 Navigation Cancel이 되어버림.
-          if viewStore.schedulesOfDay.count == 2 {
-            NavigationLinkStore(
-              self.store.scope(state: \.$scheduleDetail, action: CalendarAction.scheduleDetail)
-            ) {
-              viewStore.send(.scheduleTapped(.dummy))
-            } destination: { store in
-              ScheduleDetailView(store: store)
-            } label: {
-              EmptyView()
             }
           }
         }

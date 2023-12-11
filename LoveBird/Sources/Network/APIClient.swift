@@ -272,14 +272,14 @@ extension MoyaProvider {
     }
   }
   
-  func requestKakaoMap(_ target: Target) async throws -> [PlaceInfo] {
+  func requestKakaoMap(_ target: Target) async throws -> SearchPlaceResponse {
     return try await withCheckedThrowingContinuation { continuation in
       self.request(target) { response in
         switch response {
         case .success(let result):
           do {
             let networkResponse = try JSONDecoder().decode(SearchPlaceResponse.self, from: result.data)
-            continuation.resume(returning: networkResponse.place)
+            continuation.resume(returning: networkResponse)
           } catch {
             continuation.resume(throwing: error)
           }

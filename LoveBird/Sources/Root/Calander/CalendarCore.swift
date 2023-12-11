@@ -8,9 +8,6 @@
 import Foundation
 import ComposableArchitecture
 
-typealias CalendarState = CalendarCore.State
-typealias CalendarAction = CalendarCore.Action
-
 protocol PreviewState: Equatable {
   var currentPreviewDate: Date { get }
 }
@@ -20,8 +17,6 @@ struct CalendarCore: Reducer {
   // MARK: - State
 
   struct State: PreviewState {
-    @PresentationState var scheduleAdd: ScheduleAddState?
-    @PresentationState var scheduleDetail: ScheduleDetailState?
     // Key는 "0000-00-00" 포맷이다.
     var schedules = [String: [Schedule]]()
     var schedulesOfDay = [Schedule]()
@@ -35,9 +30,7 @@ struct CalendarCore: Reducer {
   enum Action: Equatable {
     case viewAppear
     case dataLoaded(TaskResult<Schedules>)
-    case scheduleAdd(PresentationAction<ScheduleAddAction>)
-    case scheduleDetail(PresentationAction<ScheduleDetailAction>)
-    case plusTapped
+    case plusTapped(Date)
     case toggleTapped
     case dayTapped(Date)
     case previewDayTapped(Date)
@@ -68,10 +61,6 @@ struct CalendarCore: Reducer {
           )
         }
 
-      case .plusTapped:
-        state.scheduleAdd = ScheduleAddState(date: state.currentDate)
-        return .none
-
       case .toggleTapped:
         state.currentPreviewDate = state.currentDate
         state.showCalendarPreview = true
@@ -86,14 +75,6 @@ struct CalendarCore: Reducer {
       case .previewDayTapped(let date):
         return .send(.dayTapped(date))
 
-      case .scheduleAdd(.presented(.backButtonTapped)):
-        state.scheduleAdd = nil
-        return .none
-
-      case .scheduleDetail(.presented(.backButtonTapped)):
-        state.scheduleDetail = nil
-        return .none
-
       case .previewFollowingTapped:
         state.currentPreviewDate = state.currentPreviewDate.addMonths(by: -1)
         return .none
@@ -103,7 +84,6 @@ struct CalendarCore: Reducer {
         return .none
 
       case .scheduleTapped(let schedule):
-        state.scheduleDetail = ScheduleDetailState(schedule: schedule)
         state.showCalendarPreview = false
         return .none
 
@@ -115,23 +95,13 @@ struct CalendarCore: Reducer {
         state.schedules = schedules.schedules.mapToDict()
         return .send(.dayTapped(Date()))
 
-      case .scheduleAdd(.presented(.addScheduleResponse(.success))):
-        state.scheduleAdd = nil
-        return .none
-
-      case .scheduleDetail(.presented(.deleteScheduleResponse(.success))):
-        state.scheduleDetail = nil
-        return .none
-
       default:
         return .none
       }
     }
-    .ifLet(\.$scheduleAdd, action: /CalendarAction.scheduleAdd) {
-      ScheduleAddCore()
-    }
-    .ifLet(\.$scheduleDetail, action: /CalendarAction.scheduleDetail) {
-      ScheduleDetailCore()
-    }
   }
 }
+
+
+typealias CalendarState = CalendarCore.State
+typealias CalendarAction = CalendarCore.Action

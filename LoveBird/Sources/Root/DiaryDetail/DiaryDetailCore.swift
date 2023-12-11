@@ -8,9 +8,6 @@
 import UIKit
 import ComposableArchitecture
 
-typealias DiaryDetailState = DiaryDetailCore.State
-typealias DiaryDetailAction = DiaryDetailCore.Action
-
 struct DiaryDetailCore: Reducer {
 
   struct State: Equatable {
@@ -22,20 +19,30 @@ struct DiaryDetailCore: Reducer {
     case backTapped
     case deleteDiary
     case deleteDiaryResponse(TaskResult<String>)
+
+    case delegate(Delegate)
+    enum Delegate: Equatable {
+      case editTapped(Diary)
+    }
   }
 
   @Dependency(\.apiClient) var apiClient
+  @Dependency(\.dismiss) var dismiss
   @Dependency(\.userData) var userData
 
   var body: some Reducer<State, Action> {
     Reduce { state, action in
       switch action {
+
+      case .backTapped:
+        return .run { _ in await dismiss() }
+
       case .deleteDiary:
 				return .run { [id = state.diary.diaryId] send in
 					await send(
 						.deleteDiaryResponse(
 							await TaskResult {
-								try await self.apiClient.requestRaw(.deleteDiary(id: id))
+								try await apiClient.requestRaw(.deleteDiary(id: id))
 							}
 						)
 					)
@@ -47,3 +54,6 @@ struct DiaryDetailCore: Reducer {
     }
   }
 }
+
+typealias DiaryDetailState = DiaryDetailCore.State
+typealias DiaryDetailAction = DiaryDetailCore.Action

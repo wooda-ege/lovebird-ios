@@ -16,7 +16,6 @@ struct ScheduleDetailCore: Reducer {
   // MARK: - State
 
   struct State: Equatable {
-    @PresentationState var scheduleAdd: ScheduleAddState?
     var schedule: Schedule
 
     init(schedule: Schedule) {
@@ -27,10 +26,15 @@ struct ScheduleDetailCore: Reducer {
   // MARK: - Action
 
   enum Action: Equatable {
-    case scheduleAdd(PresentationAction<ScheduleAddAction>)
-    case backButtonTapped
+    case backTapped
     case editTapped
     case deleteTapped
+
+    // delegate
+    case delegate(Delegate)
+    enum Delegate: Equatable {
+      case goToScheduleAdd(Schedule)
+    }
 
     // Network
     case deleteScheduleResponse(TaskResult<String>)
@@ -40,15 +44,19 @@ struct ScheduleDetailCore: Reducer {
   // MARK: - Dependency
 
   @Dependency(\.apiClient) var apiClient
+  @Dependency(\.dismiss) var dismiss
 
   // MARK: - Body
   
   var body: some Reducer<State, Action> {
     Reduce { state, action in
       switch action {
+
+      case .backTapped:
+        return .run { _ in await dismiss() }
+
       case .editTapped:
-        state.scheduleAdd = ScheduleAddState(schedule: state.schedule)
-        return .none
+        return .send(.delegate(.goToScheduleAdd(state.schedule)))
 
       case .deleteTapped:
 				return .run { [scheduleId = state.schedule.id] send in
@@ -61,32 +69,16 @@ struct ScheduleDetailCore: Reducer {
 					)
 				}
 
-      case .scheduleAdd(.presented(.editScheduleResponse(.success))):
-        state.scheduleAdd = nil
-				return .run { [id = state.schedule.id] send in
-					await send(
-						.fetchScheduleResponse(
-							await TaskResult {
-								try await (self.apiClient.request(.fetchSchedule(id: id)) as Schedule)
-							}
-						)
-					)
-				}
+      case .deleteScheduleResponse(.success):
+        return .run { _ in await dismiss() }
 
-      case .fetchScheduleResponse(.success(let schedule)):
-        state.schedule = schedule
-        return .none
-
-      case .scheduleAdd(.presented(.backButtonTapped)):
-        state.scheduleAdd = nil
+      case let .deleteScheduleResponse(.failure(error)):
+        print("DeleteSchedule Error: \(error)")
         return .none
 
       default:
         return .none
       }
-    }
-    .ifLet(\.$scheduleAdd, action: /ScheduleDetailAction.scheduleAdd) {
-      ScheduleAddCore()
     }
   }
 }

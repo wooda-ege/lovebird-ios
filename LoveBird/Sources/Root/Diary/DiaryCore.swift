@@ -13,8 +13,6 @@ typealias DiaryAction = DiaryCore.Action
 
 struct DiaryCore: Reducer {
   struct State: Equatable {
-    @PresentationState var searchPlace: SearchPlaceState?
-
     var focusedType: DiaryFocusedType = .none
     var title: String = ""
     var content: String = ""
@@ -27,7 +25,6 @@ struct DiaryCore: Reducer {
   }
   
   enum Action: Equatable {
-    case searchPlace(PresentationAction<SearchPlaceAction>)
     case dateTapped(Date)
     case titleEdited(String)
     case contentEdited(String)
@@ -37,7 +34,7 @@ struct DiaryCore: Reducer {
     case previewNextTapped
     case previewDayTapped(Date)
 
-    case selectPlaceLabelTapped
+    case placeUpdated(String)
     case changeTextEmpty
     case completeTapped
     case registerDiaryResponse(TaskResult<String>)
@@ -60,15 +57,8 @@ struct DiaryCore: Reducer {
         state.content = content
         return .none
 
-      case .selectPlaceLabelTapped:
-        return .none
-
       case .changeTextEmpty:
         state.content = ""
-        return .none
-
-      case .placeTapped:
-        state.searchPlace = SearchPlaceState()
         return .none
 
       case .focusedTypeChanged(let type):
@@ -95,15 +85,6 @@ struct DiaryCore: Reducer {
         state.focusedType = .date
         return .none
 
-      case .searchPlace(.presented(.selectPlace(let place))), .searchPlace(.presented(.completeTapped(let place))):
-        state.place = place
-        state.searchPlace = nil
-        return .none
-
-      case .searchPlace(.presented(.backTapped)):
-        state.searchPlace = nil
-        return .none
-
       case .completeTapped:
         if state.title.isEmpty || state.content.isEmpty { return .none }
 				return .run { [state = state] send in
@@ -118,6 +99,10 @@ struct DiaryCore: Reducer {
 						)
 					)
 				}
+
+      case let .placeUpdated(place):
+        state.place = place
+        return .none
 
       case .editImage(let image):
         state.image = image
@@ -134,9 +119,6 @@ struct DiaryCore: Reducer {
       default:
         return .none
       }
-    }
-    .ifLet(\.$searchPlace, action: /Action.searchPlace) {
-      SearchPlaceCore()
     }
   }
 }

@@ -73,52 +73,19 @@ struct MyPageView: View {
           .padding(.top, 30)
 
         VStack(spacing: 0) {
-          NavigationLinkStore(
-            self.store.scope(state: \.$myPageProfileEdit, action: MyPageAction.myPageProfileEdit)
-          ) {
-            viewStore.send(.editTapped)
-          } destination: { store in
-            MyPageProfileEditView(store: store)
-          } label: {
-            HStack(alignment: .center) {
-              Text("프로필 수정")
-                .font(.pretendard(size: 16))
-                .padding(.leading, 16)
-
-              Spacer()
-            }
-            .frame(height: 68)
-            .frame(maxWidth: .infinity)
-            .bottomBorder()
+          Button { viewStore.send(.editTapped) } label: {
+            MyPageItemView(title: "프로필 수정")
           }
 
           NavigationLink(destination: MyWebView(urlToLoad: Config.privacyPolicyURL)) {
-            HStack(alignment: .center) {
-              Text("개인정보 처리방침")
-                .font(.pretendard(size: 16))
-                .padding(.leading, 16)
-
-              Spacer()
-            }
-            .frame(height: 68)
-            .frame(maxWidth: .infinity)
-            .bottomBorder()
+            MyPageItemView(title: "개인정보 처리방침")
           }
 
-          HStack(alignment: .center) {
-            Text("버전정보")
-              .font(.pretendard(size: 16))
-              .padding(.leading, 16)
-
-            Spacer()
-
+          MyPageItemView(title: "버전정보") {
             Text(Bundle.main.version)
               .font(.pretendard(size: 16))
               .padding(.trailing, 16)
           }
-          .frame(height: 68)
-          .frame(maxWidth: .infinity)
-          .bottomBorder()
         }
         .padding(.top, 10)
         .padding(.horizontal, 16)
