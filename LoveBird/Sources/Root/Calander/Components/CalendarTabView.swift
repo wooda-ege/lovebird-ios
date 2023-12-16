@@ -29,13 +29,7 @@ struct CalendarTabView: View {
         Spacer()
 
         HStack(spacing: 16) {
-          NavigationLinkStore(
-            self.store.scope(state: \.$scheduleAdd, action: CalendarAction.scheduleAdd)
-          ) {
-            viewStore.send(.plusTapped)
-          } destination: { store in
-            ScheduleAddView(store: store)
-          } label: {
+          Button { viewStore.send(.plusTapped(viewStore.currentDate)) } label: {
             Image(asset: LoveBirdAsset.icPlus)
           }
         }

@@ -16,12 +16,13 @@ struct CoupleLinkView: View {
   @StateObject private var keyboard = KeyboardResponder()
   @State var showShare: Bool = false
   var invitationCode: String = ""
-  
-  @Dependency(\.apiClient) var apiClient
-  @Dependency(\.userData) var userData
-  
+
+  init(store: StoreOf<CoupleLinkCore>) {
+    self.store = store
+  }
+
   var body: some View {
-		WithViewStore(self.store, observe: { $0 }) { viewStore in
+		WithViewStore(store, observe: { $0 }) { viewStore in
       VStack {
         Spacer().frame(height: 24)
         
@@ -59,7 +60,7 @@ struct CoupleLinkView: View {
           .cornerRadius(8)
           .padding(.trailing, 32)
           .onTapGesture {
-            self.showShare = true
+            showShare = true
           }
           .sheet(isPresented: $showShare) {
             ActivityViewController(activityItems: [viewStore.invitationCode])
@@ -78,14 +79,16 @@ struct CoupleLinkView: View {
         VStack(alignment: .leading) {
           Text(LoveBirdStrings.onboardingInvitationQuestion)
             .font(.pretendard(size: 14, weight: .regular))
-          TextField("초대코드 입력", text: viewStore.binding(get: \.invitationInputCode, send: CoupleLinkCore.Action.invitationcodeEdited))
+
+          let textBinding = viewStore.binding(get: \.invitationInputCode, send: CoupleLinkAction.invitationCodeEdited)
+          TextField("초대코드 입력", text: textBinding)
             .font(.pretendard(size: 18, weight: .regular))
             .foregroundColor(Color(asset: LoveBirdAsset.gray07))
             .padding(.vertical, 15)
             .padding(.leading, 16)
             .padding(.trailing, 48)
             .focused($isEmailFieldFocused)
-            .showClearButton(viewStore.binding(get: \.invitationInputCode, send: .none))
+            .showClearButton(textBinding)
             .frame(width: UIScreen.width - 32)
             .roundedBackground(cornerRadius: 12, color: viewStore.textFieldState.color)
         }
@@ -93,35 +96,8 @@ struct CoupleLinkView: View {
         Spacer()
         
         Button {
-          Task {
-            do {
-              if viewStore.invitationInputCode.isEmpty { // 코드를 공유한 상황
-                let response = try await self.apiClient.requestRaw(.fetchCoupleCode)
-                if response == "SUCCESS" {
-                  viewStore.send(.isSuccessTryLink(true))
-                } else {
-                  viewStore.send(.isSuccessTryLink(false))
-                }
-              } else { // 코드를 직접 입력한 상황
-                let response = try await self.apiClient.requestRaw(
-                  .linkCouple(
-                    linkCoupleRequest: .init(
-                      coupleCode: viewStore.invitationInputCode
-                    )
-                  )
-                )
-                if response == "SUCCESS" {
-                  viewStore.send(.isSuccessTryLink(true))
-                } else {
-                  viewStore.send(.isSuccessTryLink(false))
-                }
-              }
-            } catch {
-              print("연동 실패")
-            }
-          }
-          
-          self.hideKeyboard()
+          viewStore.send(.confirmButtonTapped)
+          hideKeyboard()
         } label: {
           TouchableStack {
             Text(LoveBirdStrings.onboardingInvitationConnect)
@@ -136,24 +112,11 @@ struct CoupleLinkView: View {
         .padding(.bottom, 20)
       }
       .onAppear {
-        Task {
-          do {
-            let response = try await self.apiClient.request(.invitationViewLoaded) as InvitationCodeResponse
-            viewStore.send(.invitationViewLoaded(response.coupleCode))
-          } catch {
-            print("연동코드 발급 실패")
-          }
-        }
+        viewStore.send(.viewAppear)
       }
       .background(.white)
       .onTapGesture {
-        self.isEmailFieldFocused = false
-      }
-      .onChange(of: isEmailFieldFocused) { newValue in
-        if viewStore.invitationInputCode.isEmpty {
-          // TODO: 수정할 것
-//          viewStore.send(.textFieldStateChanged(newValue ? .editing : .none))
-        }
+        isEmailFieldFocused = false
       }
       .frame(maxWidth: .infinity, maxHeight: .infinity)
       .background(.white)
@@ -182,7 +145,7 @@ struct ActivityViewController: UIViewControllerRepresentable {
       applicationActivities: applicationActivities
     )
     controller.completionWithItemsHandler = { (activityType, completed, returnedItems, error) in
-      self.presentationMode.wrappedValue.dismiss()
+      presentationMode.wrappedValue.dismiss()
     }
     return controller
   }

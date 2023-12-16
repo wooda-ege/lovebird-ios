@@ -5,7 +5,7 @@
 //  Created by 황득연 on 2023/06/04.
 //
 
-public struct RegisterProfileRequest: Encodable {
+public struct AddProfileRequest: Encodable {
   let email: String?
   let nickname: String
   let birthDay: String?

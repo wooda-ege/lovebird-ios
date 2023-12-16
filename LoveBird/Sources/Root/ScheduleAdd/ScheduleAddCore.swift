@@ -15,23 +15,23 @@ struct ScheduleAddCore: Reducer {
   struct State: Equatable {
     
     init(date: Date) {
-      self.idForEditing = nil
-      self.startDate = date
+      idForEditing = nil
+      startDate = date
     }
     
     init(schedule: Schedule) {
-      self.idForEditing = schedule.id
-      self.title = schedule.title
-      self.memo = schedule.memo ?? ""
-      self.color = schedule.color
-      self.startDate = schedule.startDate.toDate()
+      idForEditing = schedule.id
+      title = schedule.title
+      memo = schedule.memo ?? ""
+      color = schedule.color
+      startDate = schedule.startDate.toDate()
       
-      self.endDate = schedule.endDate != nil
+      endDate = schedule.endDate != nil
       ? schedule.endDate!.toDate()
       : schedule.startDate.toDate().addDays(by: 1)
-      self.isEndDateActive = schedule.endDate != nil
+      isEndDateActive = schedule.endDate != nil
       
-      self.isTimeActive = schedule.startTime != nil
+      isTimeActive = schedule.startTime != nil
       if let startTime = schedule.startTime , let endTime = schedule.endTime {
         self.startTime = startTime.toTime()
         self.endTime = endTime.toTime()
@@ -62,16 +62,13 @@ struct ScheduleAddCore: Reducer {
     var month = Date().month
     var day = Date().day
     var time = ScheduleTime(hour: 2, minute: 0, meridiem: .pm)
-    
-    // ScheduleDetail
-    @PresentationState var scheduleDetail: ScheduleDetailState?
   }
   
   
   enum Action: Equatable {
     case titleEdited(String)
     case memoEdited(String)
-    case backButtonTapped
+    case backTapped
     case confirmTapped
     case contentTapped(ScheduleAddFocusedType)
     case fisrtDateTapped
@@ -79,6 +76,12 @@ struct ScheduleAddCore: Reducer {
     case timeToggleTapped
     case alarmToggleTapped
     case alarmOptionTapped
+
+    // delegate
+    case delegate(Delegate)
+    enum Delegate {
+      case editTapped
+    }
     
     // BottomSheet
     case dateInitialied
@@ -97,20 +100,18 @@ struct ScheduleAddCore: Reducer {
     case meridiemSelected(ScheduleTime.Meridiem)
     
     // Network
-    case addScheduleResponse(TaskResult<Int>)
-    case editScheduleResponse(TaskResult<Int>)
-    
-    // Navigation
-    case scheduleDetail(PresentationAction<ScheduleDetailAction>)
+    case addScheduleResponse(TaskResult<StatusCode>)
+    case editScheduleResponse(TaskResult<StatusCode>)
   }
   
-  @Dependency(\.apiClient) var apiClient
-  
+  @Dependency(\.lovebirdApi) var lovebirdApi
+  @Dependency(\.dismiss) var dismiss
+
   var body: some ReducerOf<Self> {
     Reduce { state, action in
       switch action {
       case .contentTapped(let type):
-        self.handleContentTapped(state: &state, type: type)
+        handleContentTapped(state: &state, type: type)
         return .none
         
       case .endDateToggleTapped:
@@ -295,51 +296,68 @@ struct ScheduleAddCore: Reducer {
         return .none
         
       case .dateInitialied:
-        self.handleDateInitialized(state: &state)
+        handleDateInitialized(state: &state)
         return .none
         
       case .timeInitialied:
-        self.handleTimeInitialized(state: &state)
+        handleTimeInitialized(state: &state)
         return .none
-        
-      case .scheduleDetail(.presented(.backButtonTapped)):
-        state.scheduleDetail = nil
-        return .none
-        
-        // Network
+
+      case .backTapped:
+        return .run { _ in await dismiss() }
+
       case .confirmTapped:
         if state.title.isEmpty { return .none }
-        let request = self.addScheduleRequest(state: &state)
-        if let _ = state.idForEditing {
-          return .run { [scheduleId = state.idForEditing!] send in
+        return .run { [state] send in
+          let schedule = addScheduleRequest(state: state)
+          if let id = state.idForEditing {
             await send(
               .editScheduleResponse(
                 await TaskResult {
-                  try await self.apiClient.request(.editSchedule(id: scheduleId, addSchedule: request))
+                  try await lovebirdApi.editSchedule(id: id, schedule: schedule)
                 }
               )
             )
-          }
-        } else {
-          return .run { send in
+          } else {
             await send(
               .addScheduleResponse(
                 await TaskResult {
-                  try await self.apiClient.request(.addSchedule(addSchedule: request))
+                  try await lovebirdApi.addSchedule(schedule: schedule)
                 }
               )
             )
           }
         }
+
+        // Network
+      case .addScheduleResponse(.success):
+        return .run { _ in await dismiss() }
+
+      case let .addScheduleResponse(.failure(error)):
+        print("AddSchedule Error: \(error)")
+        return .none
+
+      case .editScheduleResponse(.success):
+        return .run { _ in await dismiss() }
+
+      case let .editScheduleResponse(.failure(error)):
+        print("EditSchedule Error: \(error)")
+        return .none
+
       default:
         return .none
       }
     }
-    .ifLet(\.$scheduleDetail, action: /ScheduleAddAction.scheduleDetail) {
-      ScheduleDetailCore()
-    }
   }
-  
+
+  // MARK: - Methods
+
+  private func initializeDate(state: inout State, date: Date) {
+    state.year = date.year
+    state.month = date.month
+    state.day = date.day
+  }
+
   private func handleContentTapped(state: inout State, type: ScheduleAddFocusedType) {
     state.focusedType = type
     state.showColorBottomSheet = type == .color
@@ -353,7 +371,7 @@ struct ScheduleAddCore: Reducer {
       var date: Date
       if type == .startDate { date = state.startDate }
       else { date = state.endDate }
-      self.initializeDate(state: &state, date: date)
+      initializeDate(state: &state, date: date)
     }
     
     if type == .startTime || type == .endTime {
@@ -366,13 +384,13 @@ struct ScheduleAddCore: Reducer {
     switch state.focusedType {
     case .startDate:
       state.startDate = Date()
-      self.initializeDate(state: &state, date: state.startDate)
+      initializeDate(state: &state, date: state.startDate)
       if state.startDate.isLater(than: state.endDate) {
         state.endDate = state.startDate.addDays(by: 1)
       }
     case .endDate:
       state.endDate = state.startDate.addDays(by: 1)
-      self.initializeDate(state: &state, date: state.endDate)
+      initializeDate(state: &state, date: state.endDate)
       if state.startTime.isLater(than: state.endTime) {
         state.startDate = state.endDate.addDays(by: -1)
       }
@@ -380,7 +398,7 @@ struct ScheduleAddCore: Reducer {
       break
     }
   }
-  
+
   private func handleTimeInitialized(state: inout State) {
     switch state.focusedType {
     case .startTime:
@@ -399,14 +417,10 @@ struct ScheduleAddCore: Reducer {
       break
     }
   }
-  
-  private func initializeDate(state: inout State, date: Date) {
-    state.year = date.year
-    state.month = date.month
-    state.day = date.day
-  }
-  
-  private func addScheduleRequest(state: inout State) -> AddScheduleRequest {
+
+  // MARK: - Getters
+
+  private func addScheduleRequest(state: State) -> AddScheduleRequest {
     return AddScheduleRequest(
       title: state.title,
       memo: state.memo.isEmpty ? nil : state.memo,

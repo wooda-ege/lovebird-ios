@@ -13,35 +13,55 @@ typealias SearchPlaceAction = SearchPlaceCore.Action
 
 struct SearchPlaceCore: Reducer {
   struct State: Equatable {
-    var placeList: [PlaceInfo] = []
+    var places: [Place] = []
     var searchTerm: String = ""
     var select: String = ""
   }
   
   enum Action: Equatable {
-    case textFieldDidEditting(String)
+    case termEdited(String)
     case selectPlace(String)
-    case changePlaceInfo([PlaceInfo])
+    case changePlaceInfo([Place])
     case backTapped
     case completeTapped(String)
-    case searchPlaceResponse(TaskResult<SearchPlaceResponse>)
+    case fetchPlacesResponse(TaskResult<[Place]>)
+
+    case delegate(Delegate)
+    enum Delegate: Equatable {
+      case updatePlace(String)
+    }
   }
   
-  @Dependency(\.apiClient) var apiClient
-  
+  @Dependency(\.lovebirdApi) var lovebirdApi
+  @Dependency(\.dismiss) private var dismiss
+
   var body: some Reducer<State, Action> {
     Reduce { state, action in
       switch action {
-      case .textFieldDidEditting(let searchTerm):
-        state.searchTerm = searchTerm
-        if searchTerm.isEmpty {
-          state.placeList.removeAll()
+      case let .termEdited(searchTerm):
+        return .run { send in
+          await send(
+            .fetchPlacesResponse(
+              await TaskResult {
+                try await lovebirdApi.fetchPlaces(places: .init(query: searchTerm))
+              }
+            )
+          )
         }
+
+      case let .fetchPlacesResponse(.success(places)):
+        state.places = places
         return .none
 
-      case .changePlaceInfo(let placeInfo):
-        state.placeList = placeInfo
+      case let .fetchPlacesResponse(.failure(error)):
+        print("SearchPlace Error: \(error)")
         return .none
+
+      case let .selectPlace(place), let .completeTapped(place):
+        return .send(.delegate(.updatePlace(place)))
+
+      case .backTapped:
+        return .run { _ in await dismiss() }
 
       default:
         return .none

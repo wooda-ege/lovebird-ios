@@ -81,13 +81,7 @@ struct DiaryView: View {
                 viewStore.send(.focusedTypeChanged(.title))
               }
 
-              NavigationLinkStore(
-                self.store.scope(state: \.$searchPlace, action: DiaryAction.searchPlace)
-              ) {
-                viewStore.send(.placeTapped)
-              } destination: { store in
-                SearchPlaceView(store: store)
-              } label: {
+              Button { viewStore.send(.placeTapped) } label: {
                 CommonFocusedView(isFocused: viewStore.focusedType == .place) {
                   HStack(spacing: 6) {
                     Image(asset: LoveBirdAsset.icMap)

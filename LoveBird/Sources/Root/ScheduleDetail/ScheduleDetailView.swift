@@ -15,18 +15,9 @@ struct ScheduleDetailView: View {
   var body: some View {
     WithViewStore(self.store, observe: { $0 }) { viewStore in
       VStack {
-        CommonToolBar(
-          title: "",
-          backButtonTapped: { viewStore.send(.backButtonTapped) }
-        ) {
+        CommonToolBar(backAction: { viewStore.send(.backTapped) }) {
           HStack(spacing: 16) {
-            NavigationLinkStore(
-              self.store.scope(state: \.$scheduleAdd, action: ScheduleDetailAction.scheduleAdd)
-            ) {
-              viewStore.send(.editTapped)
-            } destination: { store in
-              ScheduleAddView(store: store)
-            } label: {
+            Button { viewStore.send(.editTapped) } label: {
               Image(asset: LoveBirdAsset.icEdit)
             }
 

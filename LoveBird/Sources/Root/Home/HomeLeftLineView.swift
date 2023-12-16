@@ -9,7 +9,7 @@ import SwiftUI
 
 struct HomeLeftLineView: View {
   
-  let timeState: Diary.TimeState
+  let timeState: HomeDiary.TimeState
   
   var body: some View {
     switch timeState {
