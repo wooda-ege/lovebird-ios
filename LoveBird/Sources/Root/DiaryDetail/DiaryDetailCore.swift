@@ -21,7 +21,7 @@ struct DiaryDetailCore: Reducer {
 
   enum Action: Equatable {
     case backTapped
-    case editDeleteButtonTapped
+    case optionButtonTapped
     case editButtonTapped
     case deleteButtonTapped
     case deleteDiaryResponse(TaskResult<String>)
@@ -33,7 +33,7 @@ struct DiaryDetailCore: Reducer {
   var body: some Reducer<State, Action> {
     Reduce { state, action in
       switch action {
-      case .editDeleteButtonTapped:
+      case .optionButtonTapped:
         state.showBottomSheet = true
         return .none
       case .editButtonTapped:

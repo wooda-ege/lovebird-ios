@@ -19,7 +19,7 @@ struct DiaryDetailView: View {
           viewStore.send(.backTapped)
         } content: {
           Button {
-            viewStore.send(.editDeleteButtonTapped)
+            viewStore.send(.optionButtonTapped)
           } label: {
             ZStack(alignment: .trailing) {
               Image(asset: LoveBirdAsset.icEditDelete)
@@ -39,8 +39,7 @@ struct DiaryDetailView: View {
                     }
                 }
                 .foregroundColor(.black)
-                .padding([.vertical, .leading], 10)
-                .padding(.trailing, 10)
+                .padding(10)
                 .background(.white)
                 .cornerRadius(12)
                 .offset(x: 2, y: 58)
