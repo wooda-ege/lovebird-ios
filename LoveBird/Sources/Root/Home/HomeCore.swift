@@ -10,18 +10,15 @@ import ComposableArchitecture
 import SwiftUI
 import Combine
 
-typealias HomeState = HomeCore.State
-typealias HomeAction = HomeCore.Action
-
 struct HomeCore: Reducer {
 
   // MARK: - State
 
   struct State: Equatable {
-    @PresentationState var diaryDetail: DiaryDetailState?
-
-    var diaries: [Diary] = []
-    var offsetY: CGFloat = 0.0
+    var mode: AppConfiguration.Mode = .single
+    var profile: Profile?
+    var diaries: [HomeDiary] = []
+    var lineHeight: CGFloat = 0.0
     var contentHeight: CGFloat = 0.0
     var isScrolledToBottom: Bool = false
   }
@@ -29,19 +26,19 @@ struct HomeCore: Reducer {
   // MARK: - Action
   
   enum Action: Equatable {
-    case diaryDetail(PresentationAction<DiaryDetailAction>)
     case viewAppear
-    case dataLoaded([Diary])
-    case diaryTitleTapped(Diary)
-    case diaryTapped(Diary)
+    case dataLoaded(Profile, [HomeDiary])
+    case diaryTitleTapped(HomeDiary)
+    case diaryTapped(HomeDiary)
     case todoDiaryTapped
     case offsetYChanged(CGFloat)
     case contentHeightChanged(CGFloat)
     case scrolledToBottom
   }
 
-  @Dependency(\.apiClient) var apiClient
+  @Dependency(\.lovebirdApi) var lovebirdApi
   @Dependency(\.userData) var userData
+  @Dependency(\.appConfiguration) var appConfiguration
 
   var body: some Reducer<State, Action> {
     Reduce { state, action in
@@ -52,45 +49,36 @@ struct HomeCore: Reducer {
       case .viewAppear:
         return .run { send in
           do {
-            let diariesLoaded = try await self.apiClient.request(.fetchDiaries) as Diaries
-            let profileLoaded = try await self.apiClient.request(.fetchProfile) as Profile
+            let diaries = try await lovebirdApi.fetchDiaries()
+            let profile = try await lovebirdApi.fetchProfile()
 
-            self.userData.store(key: .user, value: profileLoaded)
-            
-            let diaries = self.diariesForDomain(
-              diaries: diariesLoaded.diaries.map { $0.toDiary() },
-              profile: profileLoaded
+            userData.store(key: .user, value: profile)
+
+            let homeDiaries = diariesForHome(
+              diaries: diaries.map { $0.toDiary(with: profile) },
+              profile: profile
             )
-            await send(.dataLoaded(diaries))
+            await send(.dataLoaded(profile, homeDiaries))
           }
         }
 
-      case .dataLoaded(let diaries):
+      case let .dataLoaded(profile, diaries):
+        state.profile = profile
         state.diaries = diaries
+        state.mode = appConfiguration.mode
         return .none
 
-      case .diaryTitleTapped(let diary):
+      case let .diaryTitleTapped(diary):
         if let idx = state.diaries.firstIndex(where: { $0.diaryId == diary.diaryId }) {
           state.diaries[idx].isFolded.toggle()
         }
         return .none
 
-      case .diaryTapped(let diary):
-        guard let user = self.userData.get(key: .user, type: Profile.self) else { return .none}
-        var nickname: String?
-        if let partnerNickname = user.partnerNickname {
-          nickname = user.memberId == diary.memberId ? user.nickname : partnerNickname
-        } else {
-          nickname = nil
-        }
-        state.diaryDetail = DiaryDetailState(diary: diary, nickname: nickname)
+      case let .offsetYChanged(y):
+        state.lineHeight = lineHeight(offsetY: y)
         return .none
 
-      case .offsetYChanged(let y):
-        state.offsetY = y
-        return .none
-
-      case .contentHeightChanged(let height):
+      case let .contentHeightChanged(height):
         state.contentHeight = height
         return .none
 
@@ -98,27 +86,25 @@ struct HomeCore: Reducer {
         state.isScrolledToBottom = true
         return .none
 
-        // MARK: - DiaryDetail
-
-      case .diaryDetail(.presented(.backTapped)), .diaryDetail(.presented(.deleteDiaryResponse(.success))):
-        state.diaryDetail = nil
-        return .none
-
       default:
         return .none
       }
     }
-    .ifLet(\.$diaryDetail, action: /Action.diaryDetail) {
-      DiaryDetailCore()
-    }
   }
 
-  private func diariesForDomain(diaries: [Diary], profile: Profile) -> [Diary] {
+  private func lineHeight(offsetY: CGFloat) -> CGFloat {
+    min(
+      UIScreen.heightExceptSafeArea,
+      max(0, offsetY - (UIApplication.edgeInsets.top + 44))
+    )
+  }
+
+  private func diariesForHome(diaries: [HomeDiary], profile: Profile) -> [HomeDiary] {
 
     var isTodayDiaryAppended = false
 
     // D + 1
-    var diariesForDomain: [Diary] = [Diary.initialDiary(with: profile.firstDate ?? "0000-00-00")]
+    var diariesForDomain: [HomeDiary] = [HomeDiary.initialDiary(with: profile.firstDate ?? "0000-00-00")]
     diaries.enumerated().forEach { idx, diary in
       var diaryUpdated = diary
 
@@ -148,7 +134,7 @@ struct HomeCore: Reducer {
 
     // 오늘 일 자
     if !isTodayDiaryAppended {
-      diariesForDomain.append(Diary.todoDiary(with: Date().to(dateFormat: Date.Format.YMDDivided)))
+      diariesForDomain.append(HomeDiary.todoDiary(with: Date().to(dateFormat: Date.Format.YMDDivided)))
     }
 
     // 다음 기념일
@@ -156,7 +142,7 @@ struct HomeCore: Reducer {
       return diariesForDomain
     }
     
-    diariesForDomain.append(Diary.anniversaryDiary(
+    diariesForDomain.append(HomeDiary.anniversaryDiary(
       with: nextAnniversary.anniversaryDate,
       title: nextAnniversary.kind.description 
     ))
@@ -165,3 +151,5 @@ struct HomeCore: Reducer {
   }
 }
 
+typealias HomeState = HomeCore.State
+typealias HomeAction = HomeCore.Action

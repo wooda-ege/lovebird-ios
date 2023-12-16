@@ -35,15 +35,10 @@ public struct UserData {
   func remove(key: Keys) {
     UserDefaults.standard.removeObject(forKey: key.rawValue)
   }
-}
 
-extension DependencyValues {
-  var userData: UserData {
-    get { self[UserData.self] }
-    set { self[UserData.self] = newValue }
+  func removeAll() {
+    Keys.allCases.forEach {
+      self.remove(key: $0)
+    }
   }
-}
-
-extension UserData: DependencyKey {
-  static public let liveValue = Self()
 }

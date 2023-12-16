@@ -8,13 +8,10 @@
 import UIKit
 import ComposableArchitecture
 
-typealias DiaryDetailState = DiaryDetailCore.State
-typealias DiaryDetailAction = DiaryDetailCore.Action
-
 struct DiaryDetailCore: Reducer {
 
   struct State: Equatable {
-    let diary: Diary
+    let diary: HomeDiary
     var nickname: String?
     var showBottomSheet = false
   }
@@ -23,11 +20,17 @@ struct DiaryDetailCore: Reducer {
     case backTapped
     case editDeleteButtonTapped
     case editButtonTapped
-    case deleteButtonTapped
-    case deleteDiaryResponse(TaskResult<String>)
+    case deleteDiary
+    case deleteDiaryResponse(TaskResult<StatusCode>)
+
+    case delegate(Delegate)
+    enum Delegate: Equatable {
+      case editTapped(HomeDiary)
+    }
   }
 
-  @Dependency(\.apiClient) var apiClient
+  @Dependency(\.lovebirdApi) var lovebirdApi
+  @Dependency(\.dismiss) var dismiss
   @Dependency(\.userData) var userData
 
   var body: some Reducer<State, Action> {
@@ -39,19 +42,27 @@ struct DiaryDetailCore: Reducer {
       case .editButtonTapped:
         // TODO:: 수정하기 구현
         return .none
-      case .deleteButtonTapped:
-				return .run { [id = state.diary.diaryId] send in
-					await send(
-						.deleteDiaryResponse(
-							await TaskResult {
-								try await self.apiClient.requestRaw(.deleteDiary(id: id))
-							}
-						)
-					)
-				}
+
+      case .backTapped:
+        return .run { _ in await dismiss() }
+
+      case .deleteDiary:
+        return .run { [id = state.diary.diaryId] send in
+          await send(
+            .deleteDiaryResponse(
+              await TaskResult {
+                try await lovebirdApi.deleteDiary(id: id)
+              }
+            )
+          )
+        }
+
       default:
         return .none
       }
     }
   }
 }
+
+typealias DiaryDetailState = DiaryDetailCore.State
+typealias DiaryDetailAction = DiaryDetailCore.Action

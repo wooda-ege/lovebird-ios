@@ -144,9 +144,6 @@ struct MyPageView: View {
               .font(.pretendard(size: 16))
               .padding(.trailing, 16)
           }
-          .frame(height: 68)
-          .frame(maxWidth: .infinity)
-          .bottomBorder()
         }
         .padding(.top, 10)
         .padding(.horizontal, 16)

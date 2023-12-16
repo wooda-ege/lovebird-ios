@@ -12,7 +12,7 @@ import SwiftUI
 import ComposableArchitecture
 
 final class SignInWithAppleDelegates: NSObject {
-  var authCallback: ((AuthRequest) -> Void)?
+  var authCallback: ((Authenticate) -> Void)?
 }
 
 extension SignInWithAppleDelegates: ASAuthorizationControllerDelegate {
@@ -21,7 +21,7 @@ extension SignInWithAppleDelegates: ASAuthorizationControllerDelegate {
     case let appleIdCredential as ASAuthorizationAppleIDCredential:
       if let token = appleIdCredential.identityToken,
          let encodedToken = String(data: token, encoding: .utf8){
-        let auth = AuthRequest(provider: .apple, idToken: encodedToken)
+        let auth = Authenticate(provider: .apple, idToken: encodedToken)
         self.authCallback?(auth)
       }
       break

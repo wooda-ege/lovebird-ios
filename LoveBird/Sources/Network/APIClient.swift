@@ -13,37 +13,36 @@ import Alamofire
 import UIKit
 import SwiftUI
 
-// Public인 DependencyKey 때문에 불가피하게 public으로 선언한다.
 public enum APIClient {
 
-  // onboarding
-  case login(authRequest: AuthRequest)
-  case invitationViewLoaded
-
-  // coupleLink
-  case linkCouple(linkCoupleRequest: LinkCoupleRequest)
-  case fetchCoupleCode
+  // auth
+  case authenticate(auth: Authenticate)
+  case signUp(image: Data?, auth: Authenticate, signUp: AddProfileRequest)
+  case withdrawal
 
   // profile
-  case registerProfile(image: UIImage?, signUpRequest: AuthRequest, profileRequest: RegisterProfileRequest)
   case fetchProfile
-  case editProfile(image: UIImage?, editProfile: EditProfileRequest)
   case editProfileAnnivarsary(image: UIImage?, editProfile: EditProfileAnnivarsaryRequest)
-  case withdrawal
+  case editProfile(image: Data?, profile: EditProfileRequest)
+
+  // coupleLink
+  case linkCouple(linkCouple: LinkCoupleRequest)
+  case fetchCoupleCode
+  case checkIsLinked
 
   // diary
   case fetchDiaries
-  case registerDiary(image: UIImage?, diary: RegisterDiaryRequest)
-  case deleteDiary(id: Int)
   case fetchDiary(id: Int)
-  case searchKakaoMap(query: KakaoMapQueryRequest)
+  case addDiary(image: Data?, diary: AddDiaryRequest)
+  case deleteDiary(id: Int)
+  case searchPlaces(places: FetchPlacesRequest)
 
   // schedule
   case fetchCalendars
   case fetchSchedule(id: Int)
-  case addSchedule(addSchedule: AddScheduleRequest)
-  case editSchedule(id: Int, addSchedule: AddScheduleRequest)
-  case deleteSchedule(Int)
+  case addSchedule(schedule: AddScheduleRequest)
+  case editSchedule(id: Int, schedule: AddScheduleRequest)
+  case deleteSchedule(id: Int)
 }
 
 extension APIClient: TargetType {
@@ -55,7 +54,7 @@ extension APIClient: TargetType {
 
   public var baseURL: URL {
     switch self {
-    case .searchKakaoMap:
+    case .searchPlaces:
       return URL(string: Config.kakaoMapURL)!
 
     default:
@@ -68,25 +67,25 @@ extension APIClient: TargetType {
       case .withdrawal:
         return "/auth"
 
-      case .login:
+      case .authenticate:
         return "/auth/sign-in"
 
-      case .invitationViewLoaded:
+      case .fetchCoupleCode:
         return "/couple/code"
 
       case .linkCouple:
         return "/couple/link"
 
-      case .fetchCoupleCode:
+      case .checkIsLinked:
         return "/couple/check"
 
-      case .searchKakaoMap:
+      case .searchPlaces:
         return "/v2/local/search/keyword.json"
 
       case .fetchDiary(let id):
         return "/members/\(id)"
 
-      case .fetchDiaries, .registerDiary:
+      case .fetchDiaries, .addDiary:
         return "/diaries"
 
       case .deleteDiary(let id):
@@ -98,7 +97,7 @@ extension APIClient: TargetType {
       case .fetchProfile, .editProfile, .editProfileAnnivarsary:
         return "/profile"
         
-      case .registerProfile:
+      case .signUp:
         return "/auth/sign-up"
         
       case .fetchSchedule(let id), .deleteSchedule(let id), .editSchedule(let id, _):
@@ -108,11 +107,11 @@ extension APIClient: TargetType {
 
   public var method: Moya.Method {
     switch self {
-    case .registerProfile, .addSchedule, .login, .registerDiary:
+    case .signUp, .addSchedule, .authenticate, .addDiary:
       return .post
 
     case .fetchDiary, .fetchCalendars, .fetchDiaries, .fetchProfile,
-        .fetchSchedule, .invitationViewLoaded, .searchKakaoMap, .fetchCoupleCode:
+        .fetchSchedule, .checkIsLinked, .searchPlaces, .fetchCoupleCode:
       return .get
 
     case .editSchedule, .editProfile, .editProfileAnnivarsary, .linkCouple:
@@ -128,13 +127,13 @@ extension APIClient: TargetType {
     case .addSchedule(let encodable as Encodable),
         .editSchedule(_, let encodable as Encodable),
         .linkCouple(let encodable as Encodable),
-        .login(let encodable as Encodable),
-        .searchKakaoMap(let encodable as Encodable):
+        .authenticate(let encodable as Encodable),
+        .searchPlaces(let encodable as Encodable):
       return .requestJSONEncodable(encodable)
 
       // MARK: - Multiparts
 
-    case .editProfile, .registerDiary, .registerProfile:
+    case .editProfile, .addDiary, .signUp:
       return .uploadMultipart(self.multiparts)
 
     default:
@@ -145,7 +144,7 @@ extension APIClient: TargetType {
   public var headers: [String: String]? {
     let accessToken = self.userData.get(key: .accessToken, type: String.self)
     let refreshToken = self.userData.get(key: .refreshToken, type: String.self)
-    if case .searchKakaoMap = self {
+    if case .searchPlaces = self {
       return ["Authorization" : Config.kakaoMapKey]
     } 
     if let accessToken, let refreshToken  {
@@ -167,7 +166,7 @@ extension APIClient: TargetType {
           mimeType: "application/json"
         )
       )
-      if let image = image?.pngData() {
+      if let image {
         multiparts.append(
           .init(
             provider: .data(image),
@@ -178,11 +177,11 @@ extension APIClient: TargetType {
         )
       }
 
-    case .registerProfile(let image, let signUpRequest, let profileRequest):
-      let profileData = try! JSONEncoder().encode(profileRequest)
-      let signUpData = try! JSONEncoder().encode(signUpRequest)
+    case .signUp(let image, let auth, let signUp):
+      let auth = try! JSONEncoder().encode(auth)
+      let signUp = try! JSONEncoder().encode(signUp)
 
-      if let image = image?.jpegData(compressionQuality: 0.5) {
+      if let image {
         let imageData = MultipartFormData(
           provider: .data(image),
           name: "image",
@@ -193,23 +192,23 @@ extension APIClient: TargetType {
       }
       
       let signUpRequest = MultipartFormData(
-        provider: .data(signUpData),
+        provider: .data(auth),
         name: "signUpRequest",
         mimeType: "application/json"
       )
       multiparts.append(signUpRequest)
       
       let profileRequest = MultipartFormData(
-        provider: .data(profileData),
+        provider: .data(signUp),
         name: "profileCreateRequest",
         mimeType: "application/json"
       )
       multiparts.append(profileRequest)
 
-    case .registerDiary(let image, let diary):
+    case .addDiary(let image, let diary):
       let diary = try! JSONEncoder().encode(diary)
 
-      if let image = image?.jpegData(compressionQuality: 0.5) {
+      if let image {
         let imageData = MultipartFormData(
           provider: .data(image),
           name: "images",
@@ -254,14 +253,14 @@ extension MoyaProvider {
     }
   }
   
-  func requestRaw(_ target: Target) async throws -> String {
+  func requestRaw(_ target: Target) async throws -> NetworkStatusResponse {
     return try await withCheckedThrowingContinuation { continuation in
       self.request(target) { response in
         switch response {
         case .success(let result):
           do {
             let networkResponse = try JSONDecoder().decode(NetworkStatusResponse.self, from: result.data)
-            continuation.resume(returning: networkResponse.status)
+            continuation.resume(returning: networkResponse)
           } catch {
             continuation.resume(throwing: error)
           }
@@ -273,14 +272,14 @@ extension MoyaProvider {
     }
   }
   
-  func requestKakaoMap(_ target: Target) async throws -> [PlaceInfo] {
+  func requestKakaoMap(_ target: Target) async throws -> FetchPlacesResponse {
     return try await withCheckedThrowingContinuation { continuation in
       self.request(target) { response in
         switch response {
         case .success(let result):
           do {
-            let networkResponse = try JSONDecoder().decode(SearchPlaceResponse.self, from: result.data)
-            continuation.resume(returning: networkResponse.place)
+            let networkResponse = try JSONDecoder().decode(FetchPlacesResponse.self, from: result.data)
+            continuation.resume(returning: networkResponse)
           } catch {
             continuation.resume(throwing: error)
           }
@@ -292,15 +291,3 @@ extension MoyaProvider {
     }
   }
 }
-
-extension DependencyValues {
-  var apiClient: MoyaProvider<APIClient> {
-    get { self[MoyaProvider.self] }
-    set { self[MoyaProvider.self] = newValue }
-  }
-}
-
-extension MoyaProvider<APIClient>: DependencyKey, TestDependencyKey {
-  public static var liveValue = MoyaProvider<APIClient>()
-}
-

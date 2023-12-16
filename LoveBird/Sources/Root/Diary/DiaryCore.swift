@@ -8,13 +8,8 @@
 import ComposableArchitecture
 import SwiftUI
 
-typealias DiaryState = DiaryCore.State
-typealias DiaryAction = DiaryCore.Action
-
 struct DiaryCore: Reducer {
   struct State: Equatable {
-    @PresentationState var searchPlace: SearchPlaceState?
-
     var focusedType: DiaryFocusedType = .none
     var title: String = ""
     var content: String = ""
@@ -27,7 +22,6 @@ struct DiaryCore: Reducer {
   }
   
   enum Action: Equatable {
-    case searchPlace(PresentationAction<SearchPlaceAction>)
     case dateTapped(Date)
     case titleEdited(String)
     case contentEdited(String)
@@ -37,93 +31,90 @@ struct DiaryCore: Reducer {
     case previewNextTapped
     case previewDayTapped(Date)
 
-    case selectPlaceLabelTapped
+    case placeUpdated(String)
     case changeTextEmpty
     case completeTapped
-    case registerDiaryResponse(TaskResult<String>)
+    case addDiaryResponse(TaskResult<StatusCode>)
     case hideDateView
     case viewInitialized
     case editImage(UIImage?)
   }
   
-  @Dependency(\.apiClient) var apiClient
+  @Dependency(\.lovebirdApi) var lovebirdApi
   @Dependency(\.userData) var userData
   
   var body: some Reducer<State, Action> {
-    Reduce<State, Action> { state, action in
+    Reduce { state, action in
       switch action {
       case .titleEdited(let title):
         state.title = title
         return .none
-
+        
       case .contentEdited(let content):
         state.content = content
         return .none
-
-      case .selectPlaceLabelTapped:
-        return .none
-
+        
       case .changeTextEmpty:
         state.content = ""
         return .none
-
-      case .placeTapped:
-        state.searchPlace = SearchPlaceState()
-        return .none
-
+        
       case .focusedTypeChanged(let type):
         state.focusedType = type
         state.showCalendarPreview = type == .date
         return .none
-
+        
       case .previewFollowingTapped:
         state.date = state.date.addMonths(by: -1)
         return .none
-
+        
       case .previewNextTapped:
         state.date = state.date.addMonths(by: 1)
         return .none
-
+        
       case .previewDayTapped(let date):
         state.date = date
         state.focusedType = .none
         state.showCalendarPreview = false
         return .none
-
+        
       case .dateTapped:
         state.showCalendarPreview = true
         state.focusedType = .date
         return .none
-
-      case .searchPlace(.presented(.selectPlace(let place))), .searchPlace(.presented(.completeTapped(let place))):
-        state.place = place
-        state.searchPlace = nil
-        return .none
-
-      case .searchPlace(.presented(.backTapped)):
-        state.searchPlace = nil
-        return .none
-
+        
       case .completeTapped:
         if state.title.isEmpty || state.content.isEmpty { return .none }
-				return .run { [state = state] send in
-					_ = try await self.apiClient.requestRaw(
-						.registerDiary(
-							image: state.image,
-							diary: .init(
-								title: state.title,
-								memoryDate: state.date.to(dateFormat: Date.Format.YMDDivided),
-								place: state.place.isEmpty ? nil : state.place,
-								content: state.content)
-						)
-					)
-				}
+        return .run { [state] send in
+          await send(
+            .addDiaryResponse(
+              await TaskResult {
+                try await self.lovebirdApi.addDiary(
+                  image: state.image?.pngData(),
+                  diary: .init(
+                    title: state.title,
+                    memoryDate: state.date.to(dateFormat: Date.Format.YMDDivided),
+                    place: state.place.isEmpty ? nil : state.place,
+                    content: state.content
+                  )
+                )
+              }
+            )
+          )
+        }
+
+      case let .placeUpdated(place):
+        state.place = place
+        return .none
+
+      case let .placeUpdated(place):
+        state.place = place
+        return .none
 
       case .editImage(let image):
         state.image = image
         return .none
         
-      case .registerDiaryResponse(.success):
+      case .addDiaryResponse(.success):
         state.title = ""
         state.date = Date()
         state.place = ""
@@ -135,8 +126,8 @@ struct DiaryCore: Reducer {
         return .none
       }
     }
-    .ifLet(\.$searchPlace, action: /Action.searchPlace) {
-      SearchPlaceCore()
-    }
   }
 }
+
+typealias DiaryState = DiaryCore.State
+typealias DiaryAction = DiaryCore.Action

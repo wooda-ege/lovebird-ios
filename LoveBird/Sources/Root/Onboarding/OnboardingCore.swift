@@ -22,7 +22,7 @@ struct OnboardingCore: Reducer {
   }
   
   struct State: Equatable {
-    init(auth: AuthRequest) {
+    init(auth: Authenticate) {
       self.auth = auth
       self.pageState = auth.provider == .apple ? .nickname : .email
       if auth.provider == .apple {
@@ -31,7 +31,7 @@ struct OnboardingCore: Reducer {
     }
     
     // common
-    let auth: AuthRequest
+    let auth: Authenticate
     var page: Page = .first()
     var pageState: Page.Onboarding
     var emailTextFieldState: TextFieldState = .none
@@ -96,37 +96,43 @@ struct OnboardingCore: Reducer {
     case anniversaryUpdated(SimpleDate)
 
     // Network
-    case registerProfileResponse(TaskResult<SignUpResponse>)
+    case signUpResponse(TaskResult<Token>)
   }
 
-  @Dependency(\.apiClient) var apiClient
+  @Dependency(\.lovebirdApi) var lovebirdApi
   @Dependency(\.userData) var userData
 
   var body: some Reducer<State, Action> {
-    Reduce { state, action in
+    Reduce {
+      state,
+      action in
       switch action {
-      case .nextTapped, .nextButtonTapped:
+      case .nextTapped,
+          .nextButtonTapped:
         self.handleNext(state: &state)
         return .send(.flush)
-
+        
       case .doneButtonTapped:
-        return .run { [state = state] send in
+        return .run { [state] send in
           do {
             // 프로필 등록 - 생년월일 입력 뷰에서 다음 버튼 클릭시
-            let profile = try await self.apiClient.request(
-              .registerProfile(
-                image: state.skipPages.contains(.profileImage) ? nil : state.profileImage,
-                signUpRequest: AuthRequest.init(provider: state.auth.provider, idToken: state.auth.idToken),
-                profileRequest: RegisterProfileRequest.init(
-                  email: state.email.isEmpty ? nil : state.email,
-                  nickname: state.nickname,
-                  birthDay: state.skipPages.contains(.birth) ? nil : state.birth.toYMDFormat(),
-                  firstDate: state.skipPages.contains(.anniversary) ? nil : state.anniversary.toYMDFormat(),
-                  gender: state.gender?.rawValue ?? "UNKNOWN",
-                  deviceToken: "fcm")
-              )
-            ) as SignUpResponse
-            await send(.registerProfileResponse(.success(profile)))
+            let image = state.skipPages.contains(.profileImage) ? nil : state.profileImage
+            let authRequest = Authenticate(provider: state.auth.provider, idToken: state.auth.idToken)
+            let profileRequest = AddProfileRequest(
+              email: state.email.isEmpty ? nil : state.email,
+              nickname: state.nickname,
+              birthDay: state.skipPages.contains(.birth) ? nil : state.birth.toYMDFormat(),
+              firstDate: state.skipPages.contains(.anniversary) ? nil : state.anniversary.toYMDFormat(),
+              gender: state.gender?.rawValue ?? "UNKNOWN",
+              deviceToken: "fcm"
+            )
+            
+            let profile = try await lovebirdApi.signUp(
+              image: image?.pngData(),
+              auth: authRequest,
+              profile: profileRequest
+            )
+            await send(.signUpResponse(.success(profile)))
           } catch {
             print("프로필 등록 실패")
           }

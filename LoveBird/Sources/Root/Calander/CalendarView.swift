@@ -12,22 +12,22 @@ struct CalendarView: View {
   let store: StoreOf<CalendarCore>
 
   var body: some View {
-    WithViewStore(self.store, observe: { $0 }) { viewStore in
+    WithViewStore(store, observe: { $0 }) { viewStore in
       ZStack(alignment: .topLeading) {
         VStack(spacing: 16) {
-          CalendarTabView(store: self.store)
+          CalendarTabView(store: store)
 
-          CalendarContentView(store: self.store)
+          CalendarContentView(store: store)
         }
         .onTapGesture {
           viewStore.send(.hideCalendarPreview)
         }
-        
+
         if viewStore.state.showCalendarPreview {
           VStack {
-            CalendarPreviewTabView(store: self.store)
+            CalendarPreviewTabView(store: store)
 
-            CalendarPreviewContentView(store: self.store)
+            CalendarPreviewContentView(store: store)
           }
           .padding([.horizontal, .top], 12)
           .padding(.bottom, 20)
@@ -37,7 +37,6 @@ struct CalendarView: View {
           .offset(x: 16, y: 44)
         }
       }
-
       .onAppear {
         viewStore.send(.viewAppear)
       }

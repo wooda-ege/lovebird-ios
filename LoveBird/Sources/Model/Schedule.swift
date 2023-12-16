@@ -15,7 +15,7 @@ struct Schedule: Decodable, Equatable, Sendable {
   let title: String
   let memo: String?
   let color: ScheduleColor
-  let alarm: AlarmType?
+  let alarm: ScheduleAlarm?
 }
 
 // MARK: - Dummy
@@ -33,38 +33,6 @@ extension Schedule {
     color: .primary,
     alarm: .typeB
   )
-}
-
-enum AlarmType: String, Decodable, Equatable {
-  case typeA = "TYPE_A"
-  case typeB = "TYPE_B"
-  case typeC = "TYPE_C"
-  case typeD = "TYPE_D"
-  case typeE = "TYPE_E"
-  case typeF = "TYPE_F"
-  case typeG = "TYPE_G"
-  case none = "NONE"
-
-  var description: String {
-    switch self {
-    case .typeA:
-      return "5분 전"
-    case .typeB:
-      return "15분 전"
-    case .typeC:
-      return "30분 전"
-    case .typeD:
-      return "1시간 전"
-    case .typeE:
-      return "2시간 전"
-    case .typeF:
-      return "1일 전"
-    case .typeG:
-      return "2일 전"
-    case .none:
-      return "알림 없음"
-    }
-  }
 }
 
 extension Array<Schedule> {

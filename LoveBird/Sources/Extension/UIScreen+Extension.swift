@@ -15,4 +15,8 @@ extension UIScreen {
   static var height: CGFloat {
     return Self.main.bounds.height
   }
+
+  static var heightExceptSafeArea: CGFloat {
+    return Self.main.bounds.height - (UIApplication.edgeInsets.top + UIApplication.edgeInsets.bottom)
+  }
 }

@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum ScheduleAlarm: String, Codable, CaseIterable {
+enum ScheduleAlarm: String, Codable, Equatable, CaseIterable {
   case typeA = "TYPE_A"
   case typeB = "TYPE_B"
   case typeC = "TYPE_C"
@@ -16,7 +16,7 @@ enum ScheduleAlarm: String, Codable, CaseIterable {
   case typeF = "TYPE_F"
   case typeG = "TYPE_G"
   case typeH = "TYPE_H"
-  case none
+  case none = "NONE"
 
   var description: String {
     switch self {
@@ -37,7 +37,7 @@ enum ScheduleAlarm: String, Codable, CaseIterable {
     case .typeH:
       return "2일 전"
     case .none:
-      return ""
+      return "알림 없음"
     }
   }
 }
