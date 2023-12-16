@@ -20,7 +20,7 @@ struct DiaryDetailCore: Reducer {
     case backTapped
     case editDeleteButtonTapped
     case editButtonTapped
-    case deleteDiary
+    case deleteTapped
     case deleteDiaryResponse(TaskResult<StatusCode>)
 
     case delegate(Delegate)
@@ -46,7 +46,7 @@ struct DiaryDetailCore: Reducer {
       case .backTapped:
         return .run { _ in await dismiss() }
 
-      case .deleteDiary:
+      case .deleteTapped:
         return .run { [id = state.diary.diaryId] send in
           await send(
             .deleteDiaryResponse(

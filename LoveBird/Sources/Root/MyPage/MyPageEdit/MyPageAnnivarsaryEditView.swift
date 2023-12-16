@@ -19,7 +19,7 @@ struct MyPageAnnivarsaryEditView: View {
       ZStack {
         VStack(spacing: 20) {
           CommonToolBar(title: "기념일 정보") {
-            viewStore.send(.backButtonTapped)
+            viewStore.send(.backTapped)
           } content: {
             Button {
               viewStore.send(.annivarsaryEditTapped)
@@ -134,33 +134,3 @@ struct MyPageAnnivarsaryEditView: View {
     )
   )
 }
-
-//if viewStore.showBottomSheet {
-//  CommonBottomSheetView(isOpen: viewStore.binding(
-//    get: \.showBottomSheet,
-//    send: .hideBottomSheet
-//  )) {
-//    VStack {
-//      DatePickerView(
-//        date: viewStore.binding(get: \.annivarsary, send: OnboardingAction.annivarsaryUpdated)
-//      )
-//
-//      HStack(spacing: 8) {
-//        CommonHorizontalButton(
-//          title: LoveBirdStrings.onboardingDateInitial,
-//          backgroundColor: Color(asset: LoveBirdAsset.gray05)
-//        ) {
-//            viewStore.send(.anniversaryInitialized)
-//        }
-//
-//        CommonHorizontalButton(
-//          title: LoveBirdStrings.commonConfirm,
-//          backgroundColor: .black
-//        ) {
-//          viewStore.send(.hideBottomSheet)
-//        }
-//      }
-//      .padding(.horizontal, 16)
-//    }
-//  }
-//}
