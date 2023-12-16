@@ -24,10 +24,10 @@ struct MyPageProfileEditView: View {
           viewStore.send(.backButtonTapped)
         } content: {
           Button {
-            viewStore.send(.editTapped)
+            viewStore.send(.profileEditTapped)
           } label: {
             Text("수정")
-              .foregroundColor(viewStore.nickname.isEmpty || viewStore.email.isEmpty ? Color(asset: LoveBirdAsset.green234) : Color(asset: LoveBirdAsset.primary))
+              .foregroundColor(Color(.gray12))
               .font(.pretendard(size: 16, weight: .bold))
           }
         }
@@ -43,6 +43,8 @@ struct MyPageProfileEditView: View {
         //        .onTapGesture {
         //          viewStore.send(.presentImagePicker)
         //        }
+        
+        Image(asset: LoveBirdAsset.icBirdProfileEdit)
         
         VStack(spacing: 10) {
           HStack {
@@ -88,13 +90,18 @@ struct MyPageProfileEditView: View {
           self.showingAlert.toggle()
           viewStore.send(.withdrawal)
         } label: {
-          Text("회원탈퇴")
+          HStack {
+            Text("로그아웃")
+            Divider()
+              .frame(width: 1, height: 14)
+            Text("회원탈퇴")
+              .alert(isPresented: $showingAlert) {
+                Alert(title: Text("탈퇴가 완료되었습니다."), message: nil, dismissButton: .default(Text("확인")))
+              }
+          }
             .foregroundColor(Color(asset: LoveBirdAsset.gray06))
             .font(.pretendard(size: 14))
             .padding(.bottom, 30)
-        }
-        .alert(isPresented: $showingAlert) {
-          Alert(title: Text("탈퇴가 완료되었습니다."), message: nil, dismissButton: .default(Text("확인")))
         }
       }
       .navigationBarBackButtonHidden(true)

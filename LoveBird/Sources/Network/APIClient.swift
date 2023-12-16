@@ -28,6 +28,7 @@ public enum APIClient {
   case registerProfile(image: UIImage?, signUpRequest: AuthRequest, profileRequest: RegisterProfileRequest)
   case fetchProfile
   case editProfile(image: UIImage?, editProfile: EditProfileRequest)
+  case editProfileAnnivarsary(image: UIImage?, editProfile: EditProfileAnnivarsaryRequest)
   case withdrawal
 
   // diary
@@ -94,7 +95,7 @@ extension APIClient: TargetType {
       case .addSchedule, .fetchCalendars:
         return "/calendar"
         
-      case .fetchProfile, .editProfile:
+      case .fetchProfile, .editProfile, .editProfileAnnivarsary:
         return "/profile"
         
       case .registerProfile:
@@ -114,7 +115,7 @@ extension APIClient: TargetType {
         .fetchSchedule, .invitationViewLoaded, .searchKakaoMap, .fetchCoupleCode:
       return .get
 
-    case .editSchedule, .editProfile, .linkCouple:
+    case .editSchedule, .editProfile, .editProfileAnnivarsary, .linkCouple:
       return .put
 
     case .deleteSchedule, .deleteDiary, .withdrawal:
