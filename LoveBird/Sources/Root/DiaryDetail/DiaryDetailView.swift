@@ -13,11 +13,9 @@ struct DiaryDetailView: View {
   let store: StoreOf<DiaryDetailCore>
 
   var body: some View {
-    WithViewStore(self.store, observe: { $0 }) { viewStore in
+    WithViewStore(store, observe: { $0 }) { viewStore in
       VStack {
-        CommonToolBar(title: "") {
-          viewStore.send(.backTapped)
-        } content: {
+        CommonToolBar(backAction: { viewStore.send(.backTapped) }) {
           Button {
             viewStore.send(.optionButtonTapped)
           } label: {
@@ -25,8 +23,8 @@ struct DiaryDetailView: View {
               Image(asset: LoveBirdAsset.icEditDelete)
                 .resizable()
                 .frame(width: 24, height: 24)
-              
-              if viewStore.state.showBottomSheet {
+
+              if viewStore.showBottomSheet {
                 VStack(alignment: .leading) {
                   Text("수정하기")
                     .onTapGesture {
@@ -35,7 +33,7 @@ struct DiaryDetailView: View {
                   Divider()
                   Text("삭제하기")
                     .onTapGesture {
-                      viewStore.send(.deleteButtonTapped)
+                      viewStore.send(.deleteTapped)
                     }
                 }
                 .foregroundColor(.black)
@@ -47,7 +45,7 @@ struct DiaryDetailView: View {
             }
           }
         }
-        
+
         ScrollView {
           VStack(spacing: 16) {
             Text(viewStore.diary.title)
@@ -91,15 +89,15 @@ struct DiaryDetailView: View {
 
               if let urlString = viewStore.diary.imgUrls.first ,
                  let url = URL(string: "\(urlString)") {
-                  VStack {
-                    KFImage(url)
-                      .resizable()
-                      .aspectRatio(contentMode: .fill)
-                      .frame(width: UIScreen.width - 32, height: (UIScreen.width - 32) * 0.6)
-                      .clipped()
-                      .cornerRadius(10)
-                  }
-                  .padding(.horizontal, 16)
+                VStack {
+                  KFImage(url)
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+                    .frame(width: UIScreen.width - 32, height: (UIScreen.width - 32) * 0.6)
+                    .clipped()
+                    .cornerRadius(10)
+                }
+                .padding(.horizontal, 16)
               }
 
 
@@ -137,6 +135,7 @@ struct DiaryDetailView: View {
         }
       }
       .navigationBarBackButtonHidden(true)
+    }
   }
 }
 

@@ -18,8 +18,9 @@ struct DiaryDetailCore: Reducer {
 
   enum Action: Equatable {
     case backTapped
-    case optionButtonTapped
-    case deleteDiary
+    case editDeleteButtonTapped
+    case editButtonTapped
+    case deleteTapped
     case deleteDiaryResponse(TaskResult<StatusCode>)
 
     case delegate(Delegate)
@@ -36,6 +37,7 @@ struct DiaryDetailCore: Reducer {
     Reduce { state, action in
       switch action {
       case .optionButtonTapped:
+      case .editDeleteButtonTapped:
         state.showBottomSheet = true
         return .none
 
@@ -46,7 +48,7 @@ struct DiaryDetailCore: Reducer {
       case .backTapped:
         return .run { _ in await dismiss() }
 
-      case .deleteDiary:
+      case .deleteTapped:
         return .run { [id = state.diary.diaryId] send in
           await send(
             .deleteDiaryResponse(

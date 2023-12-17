@@ -22,6 +22,7 @@ public enum APIClient {
 
   // profile
   case fetchProfile
+  case editProfileAnnivarsary(image: Data?, profile: EditProfileAnnivarsaryRequest)
   case editProfile(image: Data?, profile: EditProfileRequest)
 
   // coupleLink
