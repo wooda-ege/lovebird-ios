@@ -11,21 +11,25 @@ import ComposableArchitecture
 struct DiaryDetailCore: Reducer {
 
   struct State: Equatable {
-    let diary: HomeDiary
+    var diary: Diary
     var nickname: String?
-    var showBottomSheet = false
+    var selectedImageURLString: String = ""
+    var isImageViewerShown: Bool = false
   }
 
   enum Action: Equatable {
     case backTapped
-    case editDeleteButtonTapped
-    case editButtonTapped
+    case editTapped
     case deleteTapped
     case deleteDiaryResponse(TaskResult<StatusCode>)
+    case imageTapped(String)
+    case showImageViewer(Bool)
+    case diaryReloaded
+    case diaryUpdated(Diary)
 
     case delegate(Delegate)
     enum Delegate: Equatable {
-      case editTapped(HomeDiary)
+      case editTapped(Diary)
     }
   }
 
@@ -36,12 +40,8 @@ struct DiaryDetailCore: Reducer {
   var body: some Reducer<State, Action> {
     Reduce { state, action in
       switch action {
-      case .editDeleteButtonTapped:
-        state.showBottomSheet = true
-        return .none
-      case .editButtonTapped:
-        // TODO:: 수정하기 구현
-        return .none
+      case .editTapped:
+        return .send(.delegate(.editTapped(state.diary)))
 
       case .backTapped:
         return .run { _ in await dismiss() }
@@ -56,6 +56,24 @@ struct DiaryDetailCore: Reducer {
             )
           )
         }
+
+      case let .imageTapped(urlString):
+        state.selectedImageURLString = urlString
+        return .send(.showImageViewer(true))
+
+      case let .showImageViewer(visible):
+        state.isImageViewerShown = visible
+        return .none
+
+      case .diaryReloaded:
+        return .run { [state] send in
+          let diary = try await self.lovebirdApi.fetchDiary(id: state.diary.diaryId)
+          await send(.diaryUpdated(diary))
+        }
+
+      case let .diaryUpdated(diary):
+        state.diary = diary
+        return .none
 
       default:
         return .none

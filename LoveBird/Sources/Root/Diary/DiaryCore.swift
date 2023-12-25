@@ -7,9 +7,30 @@
 
 import ComposableArchitecture
 import SwiftUI
+import Kingfisher
 
 struct DiaryCore: Reducer {
   struct State: Equatable {
+    enum `Type` {
+      case add
+      case edit
+    }
+
+    init() {
+      self.type = .add
+    }
+    
+    init(diary: Diary) {
+      self.type = .edit
+      self.id = diary.diaryId
+      self.title = diary.title
+      self.content = diary.content
+      self.place = diary.place ?? ""
+      self.date = diary.memoryDate.toDate()
+    }
+
+    let type: `Type`
+    var id: Int = 0
     var focusedType: DiaryFocusedType = .none
     var title: String = ""
     var content: String = ""
@@ -35,14 +56,24 @@ struct DiaryCore: Reducer {
     case changeTextEmpty
     case completeTapped
     case addDiaryResponse(TaskResult<StatusCode>)
+    case editDiaryResponse(TaskResult<StatusCode>)
     case hideDateView
     case viewInitialized
     case editImage(UIImage?)
+    case backTapped
+
+    //delegate
+    case delegate(Delegate)
+    enum Delegate: Equatable {
+      case reloadDiary
+    }
   }
   
   @Dependency(\.lovebirdApi) var lovebirdApi
   @Dependency(\.userData) var userData
-  
+
+  @Dependency(\.dismiss) var dismiss
+
   var body: some Reducer<State, Action> {
     Reduce { state, action in
       switch action {
@@ -85,26 +116,41 @@ struct DiaryCore: Reducer {
       case .completeTapped:
         if state.title.isEmpty || state.content.isEmpty { return .none }
         return .run { [state] send in
-          await send(
-            .addDiaryResponse(
-              await TaskResult {
-                try await self.lovebirdApi.addDiary(
-                  image: state.image?.pngData(),
-                  diary: .init(
-                    title: state.title,
-                    memoryDate: state.date.to(dateFormat: Date.Format.YMDDivided),
-                    place: state.place.isEmpty ? nil : state.place,
-                    content: state.content
+          if state.type == .add {
+            await send(
+              .addDiaryResponse(
+                await TaskResult {
+                  try await self.lovebirdApi.addDiary(
+                    image: state.image?.pngData(),
+                    diary: .init(
+                      title: state.title,
+                      memoryDate: state.date.to(dateFormat: Date.Format.YMDDivided),
+                      place: state.place.isEmpty ? nil : state.place,
+                      content: state.content
+                    )
                   )
-                )
-              }
+                }
+              )
             )
-          )
+          } else {
+            await send(
+              .editDiaryResponse(
+                await TaskResult {
+                  try await self.lovebirdApi.editDiary(
+                    id: state.id,
+                    image: state.image?.pngData(),
+                    diary: .init(
+                      title: state.title,
+                      memoryDate: state.date.to(dateFormat: Date.Format.YMDDivided),
+                      place: state.place.isEmpty ? nil : state.place,
+                      content: state.content
+                    )
+                  )
+                }
+              )
+            )
+          }
         }
-
-      case let .placeUpdated(place):
-        state.place = place
-        return .none
 
       case let .placeUpdated(place):
         state.place = place
@@ -121,6 +167,13 @@ struct DiaryCore: Reducer {
         state.content = ""
         state.image = nil
         return .none
+
+      case .editDiaryResponse(.success):
+        Task { await dismiss() }
+        return .send(.delegate(.reloadDiary))
+
+      case .backTapped:
+        return .run { _ in await dismiss()}
 
       default:
         return .none

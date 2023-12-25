@@ -49,6 +49,7 @@ struct MainTabCore: Reducer {
   struct Path: Reducer {
     enum State: Equatable {
       case diaryDetail(DiaryDetailState)
+      case diary(DiaryState)
       case scheduleDetail(ScheduleDetailState)
       case scheduleAdd(ScheduleAddState)
       case searchPlace(SearchPlaceState)
@@ -57,6 +58,7 @@ struct MainTabCore: Reducer {
 
     enum Action: Equatable {
       case diaryDetail(DiaryDetailAction)
+      case diary(DiaryAction)
       case scheduleDetail(ScheduleDetailAction)
       case scheduleAdd(ScheduleAddAction)
       case searchPlace(SearchPlaceAction)
@@ -78,6 +80,9 @@ struct MainTabCore: Reducer {
       }
       Scope(state: /State.myPageProfileEdit, action: /Action.myPageProfileEdit) {
         MyPageProfileEditCore()
+      }
+      Scope(state: /State.diary, action: /Action.diary) {
+        DiaryCore()
       }
     }
   }
@@ -121,7 +126,7 @@ struct MainTabCore: Reducer {
       } else {
         nickname = nil
       }
-      state.path.append(.diaryDetail(.init(diary: diary, nickname: nickname)))
+      state.path.append(.diaryDetail(.init(diary: diary.toDiary(), nickname: nickname)))
       return .none
       
     case let .calander(.scheduleTapped(schedule)):
@@ -136,28 +141,15 @@ struct MainTabCore: Reducer {
       state.path.append(.searchPlace(.init()))
       return .none
       
-    case .diary(.addDiaryResponse(.success(let response))):
-      if response == "SUCCESS" {
-        state.selectedTab = .home
-      }
+    case .diary(.addDiaryResponse(.success)):
+      state.selectedTab = .home
       return .none
       
-    case .diary(.addDiaryResponse(.failure)):
-      print("다이어리 등록 실패")
-      return .none
-
     case .myPage(.editTapped):
       state.path.append(.myPageProfileEdit(.init()))
       return .none
 
       // MARK: - Path Action Delegate
-      
-    case let .path(.element(id: _, action: .diaryDetail(.delegate(action)))):
-      switch action {
-      case let .editTapped(diary):
-        state.path.append(.diaryDetail(.init(diary: diary)))
-      }
-      return .none
       
     case let .path(.element(id: _, action: .scheduleDetail(.delegate(action)))):
       switch action {
@@ -172,6 +164,20 @@ struct MainTabCore: Reducer {
         return .send(.diary(.placeUpdated(place)))
       }
 
+    case let .path(.element(id: _, action: .diaryDetail(.delegate(action)))):
+      switch action {
+      case let .editTapped(diary):
+        state.path.append(.diary(.init(diary: diary)))
+      }
+      return .none
+
+    case let .path(.element(id: _, action: .diary(.delegate(action)))):
+      switch action {
+      case .reloadDiary:
+        // TODO: NavigationStack을 사용하면서 Parent to Child로 Action 전달하는 로직 좀 더 고민해보기
+        return .send(.path(.element(id: state.path.ids[0], action: .diaryDetail(.diaryReloaded))))
+      }
+
     default:
       return .none
     }
@@ -180,3 +186,13 @@ struct MainTabCore: Reducer {
 
 typealias MainTabPathState = MainTabCore.Path.State
 typealias MainTabPathAction = MainTabCore.Path.Action
+
+extension StackState where Element == MainTabPathState {
+  func elementId(of state: MainTabPathState) -> StackElementID? {
+    if let idx = firstIndex(where: { if case state = $0 { return true } else { return false } }) {
+      return ids[idx]
+    } else {
+      return nil
+    }
+  }
+}

@@ -35,7 +35,7 @@ protocol LovebirdAPIProtocol {
 
   // diary
   func fetchDiaries() async throws -> [Diary]
-  func fetchDiary(id: Int) async throws -> StatusCode
+  func fetchDiary(id: Int) async throws -> Diary
   func addDiary(image: Data?, diary: AddDiaryRequest) async throws -> StatusCode
   func deleteDiary(id: Int) async throws -> StatusCode
   // TODO: 득연
@@ -90,14 +90,18 @@ struct LovebirdAPI: LovebirdAPIProtocol {
     return response.diaries
   }
   
-  func fetchDiary(id: Int) async throws -> StatusCode {
-    try await apiClient.requestRaw(.fetchDiary(id: id)).status
+  func fetchDiary(id: Int) async throws -> Diary {
+    try await apiClient.request(.fetchDiary(id: id))
   }
   
   func addDiary(image: Data?, diary: AddDiaryRequest) async throws -> StatusCode {
     try await apiClient.requestRaw(.addDiary(image: image, diary: diary)).status
   }
-  
+
+  func editDiary(id: Int, image: Data?, diary: AddDiaryRequest) async throws -> StatusCode {
+    try await apiClient.requestRaw(.editDiary(id: id, image: image, diary: diary)).status
+  }
+
   func deleteDiary(id: Int) async throws -> StatusCode {
     try await apiClient.requestRaw(.deleteDiary(id: id)).status
   }

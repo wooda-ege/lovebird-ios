@@ -20,36 +20,11 @@ struct DiaryView: View {
   }
   
   var body: some View {
-    WithViewStore(self.store, observe: { $0 }) { viewStore in
+    WithViewStore(store, observe: { $0 }) { viewStore in
       ScrollView {
         ZStack(alignment: .topLeading) {
           VStack(spacing: 16) {
-            HStack(alignment: .center) {
-              Rectangle()
-                .fill(.clear)
-                .frame(maxWidth: .infinity)
-
-              Spacer()
-
-              Text("일기 쓰기")
-                .font(.pretendard(size: 18, weight: .bold))
-                .frame(maxWidth: .infinity)
-
-              Spacer()
-
-              Button {
-                viewStore.send(.editImage(image))
-                viewStore.send(.completeTapped)
-                
-              } label: {
-                Text(LoveBirdStrings.commonComplete)
-                  .foregroundColor((viewStore.title.isEmpty || viewStore.content.isEmpty) ? Color(asset: LoveBirdAsset.green234) : Color(asset: LoveBirdAsset.primary))
-                  .font(.pretendard(size: 16, weight: .bold))
-                  .frame(maxWidth: .infinity, alignment: .trailing)
-                  .padding(.trailing, 16)
-              }
-            }
-            .frame(height: 44)
+            toolbar
 
             VStack(spacing: 8) {
               CommonFocusedView(isFocused: viewStore.focusedType == .date) {
@@ -134,9 +109,9 @@ struct DiaryView: View {
 
           if viewStore.state.showCalendarPreview {
             VStack {
-              DiaryPreviewTabView(store: self.store)
+              DiaryPreviewTabView(store: store)
 
-              DiaryPreviewContentView(store: self.store)
+              DiaryPreviewContentView(store: store)
             }
             .padding([.horizontal, .top], 12)
             .padding(.bottom, 20)
@@ -158,9 +133,29 @@ struct DiaryView: View {
           self.isContentFocused = type == .content
         }
       }
-
     }
+    .navigationBarBackButtonHidden(true)
     .padding(.top, 5)
+  }
+}
+
+extension DiaryView {
+  var toolbar: some View {
+    WithViewStore(store, observe: { $0 }) { viewStore in
+      CommonToolBar(title: "일기 쓰기", hideBackButton: viewStore.type == .add, backAction: { viewStore.send(.backTapped) }) {
+        Button {
+          viewStore.send(.editImage(image))
+          viewStore.send(.completeTapped)
+
+        } label: {
+          Text(LoveBirdStrings.commonComplete)
+            .foregroundColor((viewStore.title.isEmpty || viewStore.content.isEmpty) ? Color(asset: LoveBirdAsset.green234) : Color(asset: LoveBirdAsset.primary))
+            .font(.pretendard(size: 16, weight: .bold))
+            .frame(maxWidth: .infinity, alignment: .trailing)
+            .padding(.trailing, 16)
+        }
+      }
+    }
   }
 }
 

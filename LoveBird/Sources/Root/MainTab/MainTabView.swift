@@ -93,6 +93,12 @@ struct MainTabView: View {
            action: MainTabPathAction.myPageProfileEdit){ store in
              MyPageProfileEditView(store: store)
            }
+      case .diary:
+        CaseLet(
+          /MainTabPathState.diary,
+           action: MainTabPathAction.diary){ store in
+             DiaryView(store: store)
+           }
       }
     }
   }

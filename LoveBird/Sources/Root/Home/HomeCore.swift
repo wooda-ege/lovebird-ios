@@ -55,7 +55,7 @@ struct HomeCore: Reducer {
             userData.store(key: .user, value: profile)
 
             let homeDiaries = diariesForHome(
-              diaries: diaries.map { $0.toDiary(with: profile) },
+              diaries: diaries.map { $0.toHomeDiary(with: profile) },
               profile: profile
             )
             await send(.dataLoaded(profile, homeDiaries))
