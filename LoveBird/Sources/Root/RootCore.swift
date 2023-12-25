@@ -10,11 +10,6 @@ import ComposableArchitecture
 import AVFoundation
 import Photos
 
-// MARK: - Typealias
-
-typealias RootAction = RootCore.Action
-typealias RootState = RootCore.State
-
 struct RootCore: Reducer {
 
   // MARK: - Constants
@@ -25,45 +20,77 @@ struct RootCore: Reducer {
 
   // MARK: - State
   
-  enum State: Equatable {
-    case splash(SplashState)
-    case onboarding(OnboardingState)
-    case mainTab(MainTabState)
-    case login(LoginState)
-    case coupleLink(CoupleLinkState)
-
-    init() {
-      self = .splash(.init())
-    }
+  struct State: Equatable {
+    var path: Path.State = .splash(.init())
+    var isLoading = false
   }
 
   // MARK: - Action
   
   enum Action: Equatable {
-    case splash(SplashAction)
-    case onboarding(OnboardingAction)
-    case mainTab(MainTabAction)
-    case login(LoginAction)
-    case coupleLink(CoupleLinkAction)
-    case updateRootState(State)
+    case path(Path.Action)
+    case switchPath(Path.State)
     case viewAppear
+    case loadingVisible(Bool)
   }
-  
+
+  // MARK: - Path
+
+  struct Path: Reducer {
+    enum State: Equatable {
+      case splash(SplashState)
+      case onboarding(OnboardingState)
+      case mainTab(MainTabState)
+      case login(LoginState)
+      case coupleLink(CoupleLinkState)
+
+      init() {
+        self = .splash(.init())
+      }
+    }
+
+    enum Action: Equatable {
+      case splash(SplashAction)
+      case onboarding(OnboardingAction)
+      case mainTab(MainTabAction)
+      case login(LoginAction)
+      case coupleLink(CoupleLinkAction)
+    }
+
+    var body: some ReducerOf<Self> {
+      Scope(state: /State.splash, action: /Action.splash) {
+        SplashCore()
+      }
+      Scope(state: /State.onboarding, action: /Action.onboarding) {
+        OnboardingCore()
+      }
+      Scope(state: /State.mainTab, action: /Action.mainTab) {
+        MainTabCore()
+      }
+      Scope(state: /State.login, action: /Action.login) {
+        LoginCore()
+      }
+      Scope(state: /State.coupleLink, action: /Action.coupleLink) {
+        CoupleLinkCore()
+      }
+    }
+  }
+
   // MARK: - Dependency
   
   @Dependency(\.lovebirdApi) var lovebirdApi
   @Dependency(\.userData) var userData
+  @Dependency(\.loadingController) var loadingController
+
   @Dependency(\.continuousClock) var continuousClock
 
   // MARK: - Body
 
-  var body: some Reducer<State, Action> {
+  var body: some ReducerOf<Self> {
+    Scope(state: \State.path, action: /Action.path) {
+        Path()
+    }
     Reduce(core)
-      .ifCaseLet(/State.splash, action: /Action.splash, then: SplashCore.init)
-      .ifCaseLet(/State.onboarding, action: /Action.onboarding, then: OnboardingCore.init)
-      .ifCaseLet(/State.mainTab, action: /Action.mainTab, then: MainTabCore.init)
-      .ifCaseLet(/State.login, action: /Action.login, then: LoginCore.init)
-      .ifCaseLet(/State.coupleLink, action: /Action.coupleLink, then: CoupleLinkCore.init)
   }
 
   func core(state: inout State, action: Action) -> Effect<Action> {
@@ -71,34 +98,34 @@ struct RootCore: Reducer {
 
     // MARK: - Splash
 
-    case .splash(.viewAppear):
+    case .path(.splash(.viewAppear)):
       return .run { send in
         try await continuousClock.sleep(for: .seconds(Constants.delayOfSplash))
         let user = userData.get(key: .user, type: Profile.self)
         let rootState = switchState(with: user)
-        await send(.updateRootState(rootState), animation: .default)
+        await send(.switchPath(rootState), animation: .default)
       }
 
     // MARK: - Login
 
-    case .login(.loginResponse(.success(let response), _)):
+    case .path(.login(.loginResponse(.success(let response), _))):
       userData.store(key: .accessToken, value: response.accessToken)
       userData.store(key: .refreshToken, value: response.refreshToken)
 
       if response.linkedFlag == true {
-        return .send(.updateRootState(.mainTab(.init())))
+        return .send(.switchPath(.mainTab(.init())))
       } else {
-        return .send(.updateRootState(.coupleLink(.init())))
+        return .send(.switchPath(.coupleLink(.init())))
       }
 
-    case .login(.loginResponse(.failure, let auth)):
+    case .path(.login(.loginResponse(.failure, let auth))):
 //        if 특정 약속된 로그인 실패 인경우 { ... } 현석이랑 약속해서 처리하면 좋음
 //        else 그외 네트워크 오류 등등 일 경우 { ... }
-      return .send(.updateRootState(.onboarding(.init(auth: auth))))
+      return .send(.switchPath(.onboarding(.init(auth: auth))))
 
     // MARK: - Onboarding
 
-    case .onboarding(.signUpResponse(.success(let response))):
+    case .path(.onboarding(.signUpResponse(.success(let response)))):
       userData.store(key: .accessToken, value: response.accessToken)
       userData.store(key: .refreshToken, value: response.refreshToken)
 
@@ -107,7 +134,7 @@ struct RootCore: Reducer {
           let profile = try await lovebirdApi.fetchProfile()
           userData.store(key: .user, value: profile)
 
-          await send(.updateRootState(.coupleLink(.init())))
+          await send(.switchPath(.coupleLink(.init())))
         } catch {
           print("FetchProfile Error: \(error)")
         }
@@ -115,22 +142,32 @@ struct RootCore: Reducer {
 
     // MARK: - CoupleLink
 
-    case .coupleLink(.successToLink):
-      return .send(.updateRootState(.mainTab(.init())))
+    case .path(.coupleLink(.successToLink)):
+      return .send(.switchPath(.mainTab(.init())))
 
     // MARK: - My Page
 
-    case let .mainTab(.path(.element(id: _, action: .myPageProfileEdit(.delegate(action))))):
+    case let .path(.mainTab(.path(.element(id: _, action: .myPageProfileEdit(.delegate(action)))))):
       switch action {
       case .withdrawal:
         userData.removeAll()
-        return .send(.updateRootState(.login(.init())))
+        return .send(.switchPath(.login(.init())))
       }
 
     // MARK: - Etc
+      
+    case .viewAppear:
+      return .publisher {
+        loadingController.$isLoading
+          .map(Action.loadingVisible)
+    }
 
-    case .updateRootState(let rootState):
-      state = rootState
+    case let .loadingVisible(visible):
+      state.isLoading = visible
+      return .none
+
+    case let .switchPath(rootState):
+      state.path = rootState
       return .none
 
     default:
@@ -140,7 +177,7 @@ struct RootCore: Reducer {
 
   // MARK: - Private Methods
   
-  private func switchState(with profile: Profile?) -> State {
+  private func switchState(with profile: Profile?) -> Path.State {
     guard let profile else { return .login(LoginCore.State()) }
 
     if profile.partnerId.isNil {
@@ -151,3 +188,7 @@ struct RootCore: Reducer {
   }
 }
 
+// MARK: - Typealias
+
+typealias RootAction = RootCore.Action
+typealias RootState = RootCore.State

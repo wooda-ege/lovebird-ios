@@ -23,6 +23,11 @@ extension DependencyValues {
     get { self[AppConfiguration.self] }
     set { self[AppConfiguration.self] = newValue }
   }
+
+  var loadingController: LoadingController {
+    get { self[LoadingController.self] }
+    set { self[LoadingController.self] = newValue }
+  }
 }
 
 // MARK: - `DependencyKey` Implementation
@@ -37,4 +42,8 @@ extension LovebirdAPI: DependencyKey {
 
 extension AppConfiguration: DependencyKey {
   static public let liveValue = AppConfiguration()
+}
+
+extension LoadingController: DependencyKey {
+  static public let liveValue = LoadingController()
 }
