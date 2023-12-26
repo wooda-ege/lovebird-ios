@@ -105,6 +105,7 @@ struct ScheduleAddCore: Reducer {
   }
   
   @Dependency(\.lovebirdApi) var lovebirdApi
+
   @Dependency(\.dismiss) var dismiss
 
   var body: some ReducerOf<Self> {
@@ -308,7 +309,7 @@ struct ScheduleAddCore: Reducer {
 
       case .confirmTapped:
         if state.title.isEmpty { return .none }
-        return .run { [state] send in
+        return .runWithLoading { [state] send in
           let schedule = addScheduleRequest(state: state)
           if let id = state.idForEditing {
             await send(

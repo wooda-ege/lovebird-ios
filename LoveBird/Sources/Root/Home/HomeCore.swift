@@ -39,7 +39,6 @@ struct HomeCore: Reducer {
   @Dependency(\.lovebirdApi) var lovebirdApi
   @Dependency(\.userData) var userData
   @Dependency(\.appConfiguration) var appConfiguration
-  @Dependency(\.loadingController) var loadingController
 
   var body: some Reducer<State, Action> {
     Reduce { state, action in
@@ -48,9 +47,8 @@ struct HomeCore: Reducer {
       // MARK: - Life Cycle
 
       case .viewAppear:
-        return .run { send in
+        return .runWithLoading { send in
           do {
-            loadingController.isLoading = true
             let diaries = try await lovebirdApi.fetchDiaries()
             let profile = try await lovebirdApi.fetchProfile()
 
@@ -61,9 +59,6 @@ struct HomeCore: Reducer {
               profile: profile
             )
             await send(.dataLoaded(profile, homeDiaries))
-            loadingController.isLoading = false
-          } catch {
-            loadingController.isLoading = false
           }
         }
 
@@ -80,7 +75,6 @@ struct HomeCore: Reducer {
         return .none
 
       case let .offsetYChanged(y):
-        _printChanges()
         state.lineHeight = lineHeight(offsetY: y)
         return .none
 

@@ -74,7 +74,6 @@ struct DiaryCore: Reducer {
   
   @Dependency(\.lovebirdApi) var lovebirdApi
   @Dependency(\.userData) var userData
-  @Dependency(\.loadingController) var loadingController
   @Dependency(\.toastController) var toastController
 
   @Dependency(\.dismiss) var dismiss
@@ -121,8 +120,7 @@ struct DiaryCore: Reducer {
         
       case .completeTapped:
         if state.title.isEmpty || state.content.isEmpty { return .none }
-        return .run { [state] send in
-          loadingController.isLoading = true
+        return .runWithLoading { [state] send in
           if state.type == .add {
             await send(
               .addDiaryResponse(
@@ -157,7 +155,6 @@ struct DiaryCore: Reducer {
               )
             )
           }
-          loadingController.isLoading = false
         }
 
       case let .placeUpdated(place):
@@ -179,7 +176,6 @@ struct DiaryCore: Reducer {
         state.content = ""
         state.selectedImage = nil
         return .run { _ in
-          loadingController.isLoading = false
           await toastController.showToast(message: "일기가 작성됐어요!")
         }
 

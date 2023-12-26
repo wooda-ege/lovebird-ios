@@ -51,7 +51,7 @@ struct CalendarCore: Reducer {
     Reduce { state, action in
       switch action {
       case .viewAppear:
-        return .run { send in
+        return .runWithLoading { send in
           await send(
             .dataLoaded(
               await TaskResult {
@@ -101,7 +101,6 @@ struct CalendarCore: Reducer {
     }
   }
 }
-
 
 typealias CalendarState = CalendarCore.State
 typealias CalendarAction = CalendarCore.Action

@@ -8,9 +8,6 @@
 import Foundation
 import ComposableArchitecture
 
-typealias ScheduleDetailState = ScheduleDetailCore.State
-typealias ScheduleDetailAction = ScheduleDetailCore.Action
-
 struct ScheduleDetailCore: Reducer {
 
   // MARK: - State
@@ -76,7 +73,7 @@ struct ScheduleDetailCore: Reducer {
         else { return .none }
 
       case .deleteSchedule:
-        return .run { [scheduleId = state.schedule.id] send in
+        return .runWithLoading { [scheduleId = state.schedule.id] send in
           await send(
             .deleteScheduleResponse(
               await TaskResult {
@@ -102,3 +99,6 @@ struct ScheduleDetailCore: Reducer {
     }
   }
 }
+
+typealias ScheduleDetailState = ScheduleDetailCore.State
+typealias ScheduleDetailAction = ScheduleDetailCore.Action
