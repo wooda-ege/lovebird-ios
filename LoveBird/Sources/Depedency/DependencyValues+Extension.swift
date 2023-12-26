@@ -28,6 +28,16 @@ extension DependencyValues {
     get { self[LoadingController.self] }
     set { self[LoadingController.self] = newValue }
   }
+
+  var alertController: AlertController {
+    get { self[AlertController.self] }
+    set { self[AlertController.self] = newValue }
+  }
+
+  var toastController: ToastController {
+    get { self[ToastController.self] }
+    set { self[ToastController.self] = newValue }
+  }
 }
 
 // MARK: - `DependencyKey` Implementation
@@ -46,4 +56,12 @@ extension AppConfiguration: DependencyKey {
 
 extension LoadingController: DependencyKey {
   static public let liveValue = LoadingController()
+}
+
+extension AlertController: DependencyKey {
+  static public let liveValue = AlertController()
+}
+
+extension ToastController: DependencyKey {
+  static public let liveValue = ToastController()
 }

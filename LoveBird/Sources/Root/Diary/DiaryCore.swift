@@ -7,9 +7,30 @@
 
 import ComposableArchitecture
 import SwiftUI
+import Kingfisher
 
 struct DiaryCore: Reducer {
   struct State: Equatable {
+    enum `Type` {
+      case add
+      case edit
+    }
+
+    init() {
+      self.type = .add
+    }
+    
+    init(diary: Diary) {
+      self.type = .edit
+      self.id = diary.diaryId
+      self.title = diary.title
+      self.content = diary.content
+      self.place = diary.place ?? ""
+      self.date = diary.memoryDate.toDate()
+    }
+
+    let type: `Type`
+    var id: Int = 0
     var focusedType: DiaryFocusedType = .none
     var title: String = ""
     var content: String = ""
@@ -17,7 +38,9 @@ struct DiaryCore: Reducer {
     var date = Date()
 
     var isPresented = false
-    var image: UIImage? = nil
+
+    var selectedImage: Data? = nil
+    var isImagePickerPresented: Bool = false
     var showCalendarPreview: Bool = false
   }
   
@@ -35,14 +58,27 @@ struct DiaryCore: Reducer {
     case changeTextEmpty
     case completeTapped
     case addDiaryResponse(TaskResult<StatusCode>)
+    case editDiaryResponse(TaskResult<StatusCode>)
     case hideDateView
     case viewInitialized
-    case editImage(UIImage?)
+    case selectImage(Data?)
+    case setImagePickerPresented(Bool)
+    case backTapped
+
+    //delegate
+    case delegate(Delegate)
+    enum Delegate: Equatable {
+      case reloadDiary
+    }
   }
   
   @Dependency(\.lovebirdApi) var lovebirdApi
   @Dependency(\.userData) var userData
-  
+  @Dependency(\.toastController) var toastController
+
+  @Dependency(\.dismiss) var dismiss
+  @Dependency(\.continuousClock) var clock
+
   var body: some Reducer<State, Action> {
     Reduce { state, action in
       switch action {
@@ -84,43 +120,74 @@ struct DiaryCore: Reducer {
         
       case .completeTapped:
         if state.title.isEmpty || state.content.isEmpty { return .none }
-        return .run { [state] send in
-          await send(
-            .addDiaryResponse(
-              await TaskResult {
-                try await self.lovebirdApi.addDiary(
-                  image: state.image?.pngData(),
-                  diary: .init(
-                    title: state.title,
-                    memoryDate: state.date.to(dateFormat: Date.Format.YMDDivided),
-                    place: state.place.isEmpty ? nil : state.place,
-                    content: state.content
+        return .runWithLoading { [state] send in
+          if state.type == .add {
+            await send(
+              .addDiaryResponse(
+                await TaskResult {
+                  try await self.lovebirdApi.addDiary(
+                    image: state.selectedImage,
+                    diary: .init(
+                      title: state.title,
+                      memoryDate: state.date.to(dateFormat: Date.Format.YMDDivided),
+                      place: state.place.isEmpty ? nil : state.place,
+                      content: state.content
+                    )
                   )
-                )
-              }
+                }
+              )
             )
-          )
+          } else {
+            await send(
+              .editDiaryResponse(
+                await TaskResult {
+                  try await self.lovebirdApi.editDiary(
+                    id: state.id,
+                    image: state.selectedImage,
+                    diary: .init(
+                      title: state.title,
+                      memoryDate: state.date.to(dateFormat: Date.Format.YMDDivided),
+                      place: state.place.isEmpty ? nil : state.place,
+                      content: state.content
+                    )
+                  )
+                }
+              )
+            )
+          }
         }
 
       case let .placeUpdated(place):
         state.place = place
         return .none
 
-      case let .placeUpdated(place):
-        state.place = place
+      case .selectImage(let image):
+        state.selectedImage = image
         return .none
 
-      case .editImage(let image):
-        state.image = image
+      case .setImagePickerPresented(let isPresented):
+        state.isImagePickerPresented = isPresented
         return .none
-        
+
       case .addDiaryResponse(.success):
         state.title = ""
         state.date = Date()
         state.place = ""
         state.content = ""
-        state.image = nil
-        return .none
+        state.selectedImage = nil
+        return .run { _ in
+          await toastController.showToast(message: "일기가 작성됐어요!")
+        }
+
+      case .editDiaryResponse(.success):
+        return .run { send in
+          await toastController.showToast(message: "일기가 수정됐어요!")
+          await send(.delegate(.reloadDiary))
+          await dismiss()
+        }
+
+      case .backTapped:
+        return .run { _ in await dismiss()}
 
       default:
         return .none

@@ -39,8 +39,6 @@ struct HomeCore: Reducer {
   @Dependency(\.lovebirdApi) var lovebirdApi
   @Dependency(\.userData) var userData
   @Dependency(\.appConfiguration) var appConfiguration
-  @Dependency(\.loadingController) var loadingController
-
 
   var body: some Reducer<State, Action> {
     Reduce { state, action in
@@ -49,22 +47,18 @@ struct HomeCore: Reducer {
       // MARK: - Life Cycle
 
       case .viewAppear:
-        return .run { send in
+        return .runWithLoading { send in
           do {
-            loadingController.isLoading = true
             let diaries = try await lovebirdApi.fetchDiaries()
             let profile = try await lovebirdApi.fetchProfile()
 
             userData.store(key: .user, value: profile)
 
             let homeDiaries = diariesForHome(
-              diaries: diaries.map { $0.toDiary(with: profile) },
+              diaries: diaries.map { $0.toHomeDiary(with: profile) },
               profile: profile
             )
             await send(.dataLoaded(profile, homeDiaries))
-            loadingController.isLoading = false
-          } catch {
-            loadingController.isLoading = false
           }
         }
 

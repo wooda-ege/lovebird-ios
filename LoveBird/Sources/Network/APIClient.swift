@@ -22,6 +22,7 @@ public enum APIClient {
 
   // profile
   case fetchProfile
+  case editProfileAnnivarsary(image: Data?, profile: EditProfileAnnivarsaryRequest)
   case editProfile(image: Data?, profile: EditProfileRequest)
 
   // coupleLink
@@ -33,6 +34,7 @@ public enum APIClient {
   case fetchDiaries
   case fetchDiary(id: Int)
   case addDiary(image: Data?, diary: AddDiaryRequest)
+  case editDiary(id: Int, image: Data?, diary: AddDiaryRequest)
   case deleteDiary(id: Int)
   case searchPlaces(places: FetchPlacesRequest)
 
@@ -81,25 +83,25 @@ extension APIClient: TargetType {
       case .searchPlaces:
         return "/v2/local/search/keyword.json"
 
-      case .fetchDiary(let id):
-        return "/members/\(id)"
+      case let .fetchDiary(id):
+        return "/diaries/\(id)"
 
       case .fetchDiaries, .addDiary:
         return "/diaries"
 
-      case .deleteDiary(let id):
+      case let .editDiary(id, _, _), let .deleteDiary(id):
         return "/diaries/\(id)"
 
       case .addSchedule, .fetchCalendars:
         return "/calendar"
         
-      case .fetchProfile, .editProfile:
+      case .fetchProfile, .editProfile, .editProfileAnnivarsary:
         return "/profile"
         
       case .signUp:
         return "/auth/sign-up"
         
-      case .fetchSchedule(let id), .deleteSchedule(let id), .editSchedule(let id, _):
+      case let .fetchSchedule(id), let .deleteSchedule(id), let .editSchedule(id, _):
         return "/calendar/\(id)"
       }
   }
@@ -113,7 +115,7 @@ extension APIClient: TargetType {
         .fetchSchedule, .checkIsLinked, .searchPlaces, .fetchCoupleCode:
       return .get
 
-    case .editSchedule, .editProfile, .linkCouple:
+    case .editSchedule, .editDiary, .editProfile, .editProfileAnnivarsary, .linkCouple:
       return .put
 
     case .deleteSchedule, .deleteDiary, .withdrawal:
@@ -126,13 +128,15 @@ extension APIClient: TargetType {
     case .addSchedule(let encodable as Encodable),
         .editSchedule(_, let encodable as Encodable),
         .linkCouple(let encodable as Encodable),
-        .authenticate(let encodable as Encodable),
-        .searchPlaces(let encodable as Encodable):
+        .authenticate(let encodable as Encodable):
       return .requestJSONEncodable(encodable)
+
+    case let .searchPlaces(encodable):
+      return .requestParameters(parameters: ["query": encodable.query], encoding: URLEncoding.queryString)
 
       // MARK: - Multiparts
 
-    case .editProfile, .addDiary, .signUp:
+    case .editProfile, .addDiary, .signUp, .editDiary:
       return .uploadMultipart(self.multiparts)
 
     default:
@@ -143,6 +147,8 @@ extension APIClient: TargetType {
   public var headers: [String: String]? {
     let accessToken = self.userData.get(key: .accessToken, type: String.self)
     let refreshToken = self.userData.get(key: .refreshToken, type: String.self)
+    print("Access Token is \(accessToken ?? "None")")
+    print("Refresh Token is \(refreshToken ?? "None")")
     if case .searchPlaces = self {
       return ["Authorization" : Config.kakaoMapKey]
     } 
@@ -220,6 +226,26 @@ extension APIClient: TargetType {
       let diaryRequest = MultipartFormData(
         provider: .data(diary),
         name: "diaryCreateRequest",
+        mimeType: "application/json"
+      )
+      multiparts.append(diaryRequest)
+
+    case let .editDiary(_, image: image, diary: diary):
+      let diary = try! JSONEncoder().encode(diary)
+
+      if let image {
+        let imageData = MultipartFormData(
+          provider: .data(image),
+          name: "images",
+          fileName: "image.jpeg",
+          mimeType: "image/jpeg"
+        )
+        multiparts.append(imageData)
+      }
+
+      let diaryRequest = MultipartFormData(
+        provider: .data(diary),
+        name: "diaryUpdateRequest",
         mimeType: "application/json"
       )
       multiparts.append(diaryRequest)

@@ -26,6 +26,7 @@ protocol LovebirdAPIProtocol {
   // profile
   func fetchProfile() async throws -> Profile
   func editProfile(image: Data?, profile: EditProfileRequest) async throws -> Profile
+  func editProfileAnnivarsary(image: Data?, profile: EditProfileAnnivarsaryRequest) async throws -> Profile
 
   // coupleLink
   func linkCouple(linkCouple: LinkCoupleRequest) async throws -> StatusCode
@@ -34,7 +35,7 @@ protocol LovebirdAPIProtocol {
 
   // diary
   func fetchDiaries() async throws -> [Diary]
-  func fetchDiary(id: Int) async throws -> StatusCode
+  func fetchDiary(id: Int) async throws -> Diary
   func addDiary(image: Data?, diary: AddDiaryRequest) async throws -> StatusCode
   func deleteDiary(id: Int) async throws -> StatusCode
   // TODO: 득연
@@ -89,20 +90,24 @@ struct LovebirdAPI: LovebirdAPIProtocol {
     return response.diaries
   }
   
-  func fetchDiary(id: Int) async throws -> StatusCode {
-    try await apiClient.requestRaw(.fetchDiary(id: id)).status
+  func fetchDiary(id: Int) async throws -> Diary {
+    try await apiClient.request(.fetchDiary(id: id))
   }
   
   func addDiary(image: Data?, diary: AddDiaryRequest) async throws -> StatusCode {
     try await apiClient.requestRaw(.addDiary(image: image, diary: diary)).status
   }
-  
+
+  func editDiary(id: Int, image: Data?, diary: AddDiaryRequest) async throws -> StatusCode {
+    try await apiClient.requestRaw(.editDiary(id: id, image: image, diary: diary)).status
+  }
+
   func deleteDiary(id: Int) async throws -> StatusCode {
     try await apiClient.requestRaw(.deleteDiary(id: id)).status
   }
   
   func fetchPlaces(places: FetchPlacesRequest) async throws -> [Place] {
-    let response = try await apiClient.request(.searchPlaces(places: places)) as FetchPlacesResponse
+    let response = try await apiClient.requestKakaoMap(.searchPlaces(places: places)) as FetchPlacesResponse
     return response.places
   }
   
@@ -125,5 +130,9 @@ struct LovebirdAPI: LovebirdAPIProtocol {
   
   func deleteSchedule(id: Int) async throws -> StatusCode {
     try await apiClient.requestRaw(.deleteSchedule(id: id)).status
+  }
+
+  func editProfileAnnivarsary(image: Data?, profile: EditProfileAnnivarsaryRequest) async throws -> Profile {
+    try await apiClient.request(.editProfileAnnivarsary(image: image, profile: profile))
   }
 }

@@ -25,16 +25,28 @@ struct HomeDiary: Decodable, Equatable, Sendable {
 
   let diaryId: Int
   let memberId: Int
-  let title: String
-  let memoryDate: String
-  let place: String?
-  let content: String
-  let imgUrls: [String]
+  var title: String
+  var memoryDate: String
+  var place: String?
+  var content: String
+  var imgUrls: [String]
   let isMine: Bool
   var timeState: TimeState
   var type: HomeItem.ContentType
   var isFolded: Bool
   var isTimelineDateShown: Bool
+
+  func toDiary() -> Diary {
+    Diary(
+      diaryId: self.diaryId,
+      memberId: self.memberId,
+      title: self.title,
+      memoryDate: self.memoryDate,
+      place: self.place,
+      content: self.content,
+      imgUrls: self.imgUrls
+    )
+  }
 }
 
 // MARK: - Getters (static)

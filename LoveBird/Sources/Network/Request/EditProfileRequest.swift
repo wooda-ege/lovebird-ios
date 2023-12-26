@@ -11,3 +11,8 @@ public struct EditProfileRequest: Encodable {
   let nickname: String
   let email: String
 }
+
+public struct EditProfileAnnivarsaryRequest: Encodable {
+  let annivarsary: String
+  let birthdate: String
+}

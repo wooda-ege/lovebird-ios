@@ -23,7 +23,7 @@ struct LoveBirdApp: App {
       RootView(
         store: Store(
           initialState: RootCore.State(),
-					reducer: { RootCore()._printChanges() }
+          reducer: { RootCore()._printChanges(.lovebirdDump) }
         )
       )
       .preferredColorScheme(.light)

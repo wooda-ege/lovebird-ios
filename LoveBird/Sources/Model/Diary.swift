@@ -14,7 +14,7 @@ struct Diary: Decodable, Equatable, Sendable {
   let content: String
   let imgUrls: [String]
 
-  func toDiary(with profile: Profile) -> HomeDiary {
+  func toHomeDiary(with profile: Profile) -> HomeDiary {
     HomeDiary(
       diaryId: diaryId,
       memberId: memberId,
@@ -30,4 +30,18 @@ struct Diary: Decodable, Equatable, Sendable {
       isTimelineDateShown: true
     )
   }
+}
+
+// MARK: - Dummy
+
+extension Diary {
+  static let dummy: Self = .init(
+    diaryId: 0,
+    memberId: 0,
+    title: "타이틀",
+    memoryDate: "2023-09-01",
+    place: "장소",
+    content: "내용",
+    imgUrls: []
+  )
 }
