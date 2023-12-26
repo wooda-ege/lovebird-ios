@@ -39,6 +39,7 @@ struct SearchPlaceCore: Reducer {
     Reduce { state, action in
       switch action {
       case let .termEdited(searchTerm):
+        state.searchTerm = searchTerm
         return .run { send in
           await send(
             .fetchPlacesResponse(
@@ -58,6 +59,7 @@ struct SearchPlaceCore: Reducer {
         return .none
 
       case let .selectPlace(place), let .completeTapped(place):
+        Task { await dismiss() }
         return .send(.delegate(.updatePlace(place)))
 
       case .backTapped:

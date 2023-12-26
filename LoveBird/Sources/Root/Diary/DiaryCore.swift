@@ -38,7 +38,9 @@ struct DiaryCore: Reducer {
     var date = Date()
 
     var isPresented = false
-    var image: UIImage? = nil
+
+    var selectedImage: Data? = nil
+    var isImagePickerPresented: Bool = false
     var showCalendarPreview: Bool = false
   }
   
@@ -59,7 +61,8 @@ struct DiaryCore: Reducer {
     case editDiaryResponse(TaskResult<StatusCode>)
     case hideDateView
     case viewInitialized
-    case editImage(UIImage?)
+    case selectImage(Data?)
+    case setImagePickerPresented(Bool)
     case backTapped
 
     //delegate
@@ -71,8 +74,11 @@ struct DiaryCore: Reducer {
   
   @Dependency(\.lovebirdApi) var lovebirdApi
   @Dependency(\.userData) var userData
+  @Dependency(\.loadingController) var loadingController
+  @Dependency(\.toastController) var toastController
 
   @Dependency(\.dismiss) var dismiss
+  @Dependency(\.continuousClock) var clock
 
   var body: some Reducer<State, Action> {
     Reduce { state, action in
@@ -116,12 +122,13 @@ struct DiaryCore: Reducer {
       case .completeTapped:
         if state.title.isEmpty || state.content.isEmpty { return .none }
         return .run { [state] send in
+          loadingController.isLoading = true
           if state.type == .add {
             await send(
               .addDiaryResponse(
                 await TaskResult {
                   try await self.lovebirdApi.addDiary(
-                    image: state.image?.pngData(),
+                    image: state.selectedImage,
                     diary: .init(
                       title: state.title,
                       memoryDate: state.date.to(dateFormat: Date.Format.YMDDivided),
@@ -138,7 +145,7 @@ struct DiaryCore: Reducer {
                 await TaskResult {
                   try await self.lovebirdApi.editDiary(
                     id: state.id,
-                    image: state.image?.pngData(),
+                    image: state.selectedImage,
                     diary: .init(
                       title: state.title,
                       memoryDate: state.date.to(dateFormat: Date.Format.YMDDivided),
@@ -150,27 +157,38 @@ struct DiaryCore: Reducer {
               )
             )
           }
+          loadingController.isLoading = false
         }
 
       case let .placeUpdated(place):
         state.place = place
         return .none
 
-      case .editImage(let image):
-        state.image = image
+      case .selectImage(let image):
+        state.selectedImage = image
         return .none
-        
+
+      case .setImagePickerPresented(let isPresented):
+        state.isImagePickerPresented = isPresented
+        return .none
+
       case .addDiaryResponse(.success):
         state.title = ""
         state.date = Date()
         state.place = ""
         state.content = ""
-        state.image = nil
-        return .none
+        state.selectedImage = nil
+        return .run { _ in
+          loadingController.isLoading = false
+          await toastController.showToast(message: "일기가 작성됐어요!")
+        }
 
       case .editDiaryResponse(.success):
-        Task { await dismiss() }
-        return .send(.delegate(.reloadDiary))
+        return .run { send in
+          await toastController.showToast(message: "일기가 수정됐어요!")
+          await send(.delegate(.reloadDiary))
+          await dismiss()
+        }
 
       case .backTapped:
         return .run { _ in await dismiss()}

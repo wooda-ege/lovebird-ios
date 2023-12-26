@@ -7,8 +7,7 @@
 
 import UIKit
 import ComposableArchitecture
-import AVFoundation
-import Photos
+import SwiftUI
 
 struct RootCore: Reducer {
 
@@ -23,6 +22,8 @@ struct RootCore: Reducer {
   struct State: Equatable {
     var path: Path.State = .splash(.init())
     var isLoading = false
+    var alertStyle: AlertController.Style?
+    var toastMessage: String?
   }
 
   // MARK: - Action
@@ -32,6 +33,10 @@ struct RootCore: Reducer {
     case switchPath(Path.State)
     case viewAppear
     case loadingVisible(Bool)
+    case alertStyleApplied(AlertController.Style?)
+    case toastMessageApplied(String?)
+    case negativeTapped
+    case positiveTapped
   }
 
   // MARK: - Path
@@ -81,6 +86,8 @@ struct RootCore: Reducer {
   @Dependency(\.lovebirdApi) var lovebirdApi
   @Dependency(\.userData) var userData
   @Dependency(\.loadingController) var loadingController
+  @Dependency(\.alertController) var alertController
+  @Dependency(\.toastController) var toastController
 
   @Dependency(\.continuousClock) var continuousClock
 
@@ -155,15 +162,44 @@ struct RootCore: Reducer {
       }
 
     // MARK: - Etc
-      
+
     case .viewAppear:
-      return .publisher {
-        loadingController.$isLoading
-          .map(Action.loadingVisible)
-    }
+      return .merge(
+        .publisher {
+          loadingController.$isLoading
+            .receive(on: DispatchQueue.main)
+            .map(Action.loadingVisible)
+        },
+        .publisher {
+          alertController.$style
+            .receive(on: DispatchQueue.main)
+            .map(Action.alertStyleApplied)
+        },
+        .publisher {
+          toastController.$message
+            .receive(on: DispatchQueue.main)
+            .map(Action.toastMessageApplied)
+        }
+      )
 
     case let .loadingVisible(visible):
       state.isLoading = visible
+      return .none
+
+    case let .alertStyleApplied(style):
+      state.alertStyle = style
+      return .none
+
+    case let .toastMessageApplied(message):
+      state.toastMessage = message
+      return .none
+
+    case .negativeTapped:
+      alertController.buttonClick.send(false)
+      return .none
+
+    case .positiveTapped:
+      alertController.buttonClick.send(true)
       return .none
 
     case let .switchPath(rootState):

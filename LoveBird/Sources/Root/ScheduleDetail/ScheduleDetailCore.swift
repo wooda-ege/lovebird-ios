@@ -29,6 +29,8 @@ struct ScheduleDetailCore: Reducer {
     case backTapped
     case editTapped
     case deleteTapped
+    case deleteSchedule
+    case alertButtonTapped(Bool)
 
     // delegate
     case delegate(Delegate)
@@ -44,6 +46,9 @@ struct ScheduleDetailCore: Reducer {
   // MARK: - Dependency
 
   @Dependency(\.lovebirdApi) var lovebirdApi
+  @Dependency(\.alertController) var alertController
+  @Dependency(\.toastController) var toastController
+
   @Dependency(\.dismiss) var dismiss
 
   // MARK: - Body
@@ -59,18 +64,33 @@ struct ScheduleDetailCore: Reducer {
         return .send(.delegate(.goToScheduleAdd(state.schedule)))
 
       case .deleteTapped:
-				return .run { [scheduleId = state.schedule.id] send in
-					await send(
-						.deleteScheduleResponse(
-							await TaskResult {
+        alertController.showAlert(style: .deleteSchedule)
+        return .publisher {
+          alertController.buttonClick
+            .map(Action.alertButtonTapped)
+        }
+
+      case let .alertButtonTapped(isPositive):
+        alertController.style = nil
+        if isPositive { return .send(.deleteSchedule) }
+        else { return .none }
+
+      case .deleteSchedule:
+        return .run { [scheduleId = state.schedule.id] send in
+          await send(
+            .deleteScheduleResponse(
+              await TaskResult {
                 try await self.lovebirdApi.deleteSchedule(id: scheduleId)
-							}
-						)
-					)
-				}
+              }
+            )
+          )
+        }
 
       case .deleteScheduleResponse(.success):
-        return .run { _ in await dismiss() }
+        return .run { _ in
+          await toastController.showToast(message: "삭제가 완료됐어요!")
+          await dismiss()
+        }
 
       case let .deleteScheduleResponse(.failure(error)):
         print("DeleteSchedule Error: \(error)")

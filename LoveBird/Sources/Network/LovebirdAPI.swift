@@ -107,7 +107,7 @@ struct LovebirdAPI: LovebirdAPIProtocol {
   }
   
   func fetchPlaces(places: FetchPlacesRequest) async throws -> [Place] {
-    let response = try await apiClient.request(.searchPlaces(places: places)) as FetchPlacesResponse
+    let response = try await apiClient.requestKakaoMap(.searchPlaces(places: places)) as FetchPlacesResponse
     return response.places
   }
   

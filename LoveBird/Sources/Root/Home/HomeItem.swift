@@ -200,10 +200,11 @@ extension HomeItem {
         Image(asset: LoveBirdAsset.icNavigateNext)
           .padding(.trailing, 20)
       }
-      .background(Color(asset: LoveBirdAsset.gray03))
+      .background(.white)
       .cornerRadius(12)
       .padding(.top, 37)
       .padding(.trailing, 16)
+      .shadow(color: .black.opacity(0.08), radius: 12)
       .onTapGesture {
         viewStore.send(.todoDiaryTapped)
       }

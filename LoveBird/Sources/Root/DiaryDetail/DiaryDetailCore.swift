@@ -7,6 +7,7 @@
 
 import UIKit
 import ComposableArchitecture
+import Combine
 
 struct DiaryDetailCore: Reducer {
 
@@ -15,6 +16,7 @@ struct DiaryDetailCore: Reducer {
     var nickname: String?
     var selectedImageURLString: String = ""
     var isImageViewerShown: Bool = false
+    var cancellables = Set<AnyCancellable>()
   }
 
   enum Action: Equatable {
@@ -26,6 +28,8 @@ struct DiaryDetailCore: Reducer {
     case showImageViewer(Bool)
     case diaryReloaded
     case diaryUpdated(Diary)
+    case deleteDiary
+    case alertButtonTapped(Bool)
 
     case delegate(Delegate)
     enum Delegate: Equatable {
@@ -34,8 +38,11 @@ struct DiaryDetailCore: Reducer {
   }
 
   @Dependency(\.lovebirdApi) var lovebirdApi
-  @Dependency(\.dismiss) var dismiss
   @Dependency(\.userData) var userData
+  @Dependency(\.alertController) var alertController
+  @Dependency(\.toastController) var toastController
+
+  @Dependency(\.dismiss) var dismiss
 
   var body: some Reducer<State, Action> {
     Reduce { state, action in
@@ -47,6 +54,18 @@ struct DiaryDetailCore: Reducer {
         return .run { _ in await dismiss() }
 
       case .deleteTapped:
+        alertController.showAlert(style: .deleteDiary)
+        return .publisher {
+          alertController.buttonClick
+            .map(Action.alertButtonTapped)
+        }
+
+      case let .alertButtonTapped(isPositive):
+        alertController.style = nil
+        if isPositive { return .send(.deleteDiary) }
+        else { return .none }
+
+      case .deleteDiary:
         return .run { [id = state.diary.diaryId] send in
           await send(
             .deleteDiaryResponse(
@@ -69,6 +88,12 @@ struct DiaryDetailCore: Reducer {
         return .run { [state] send in
           let diary = try await self.lovebirdApi.fetchDiary(id: state.diary.diaryId)
           await send(.diaryUpdated(diary))
+        }
+
+      case .deleteDiaryResponse(.success):
+        return .run { _ in
+          await toastController.showToast(message: "일기 삭제가 완료됐어요!")
+          await dismiss()
         }
 
       case let .diaryUpdated(diary):

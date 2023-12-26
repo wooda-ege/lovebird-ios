@@ -128,9 +128,11 @@ extension APIClient: TargetType {
     case .addSchedule(let encodable as Encodable),
         .editSchedule(_, let encodable as Encodable),
         .linkCouple(let encodable as Encodable),
-        .authenticate(let encodable as Encodable),
-        .searchPlaces(let encodable as Encodable):
+        .authenticate(let encodable as Encodable):
       return .requestJSONEncodable(encodable)
+
+    case let .searchPlaces(encodable):
+      return .requestParameters(parameters: ["query": encodable.query], encoding: URLEncoding.queryString)
 
       // MARK: - Multiparts
 
@@ -145,8 +147,8 @@ extension APIClient: TargetType {
   public var headers: [String: String]? {
     let accessToken = self.userData.get(key: .accessToken, type: String.self)
     let refreshToken = self.userData.get(key: .refreshToken, type: String.self)
-    print("Access Token is \(accessToken)")
-    print("Refresh Token is \(refreshToken)")
+    print("Access Token is \(accessToken ?? "None")")
+    print("Refresh Token is \(refreshToken ?? "None")")
     if case .searchPlaces = self {
       return ["Authorization" : Config.kakaoMapKey]
     } 

@@ -16,6 +16,8 @@ struct RootView: View {
     ZStack {
       rootView
       loadingView
+      alertView
+      toastView
     }
   }
 }
@@ -70,16 +72,96 @@ extension RootView {
   var loadingView: some View {
     WithViewStore(store, observe: { $0 }) { viewStore in
       if viewStore.isLoading {
+        ProgressView()
+          .frame(maxWidth: .infinity, maxHeight: .infinity)
+          .background {
+            RoundedRectangle(cornerSize: CGSize(width: 10, height: 10), style: .circular)
+              .fill(Color.black.opacity(0.2))
+              .frame(size: 60)
+          }
+      }
+    }
+  }
+
+  var alertView: some View {
+    WithViewStore(store, observe: { $0 }) { viewStore in
+      if let style = viewStore.alertStyle {
         ZStack(alignment: .center) {
-          ProgressView()
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .background {
-              RoundedRectangle(cornerSize: CGSize(width: 10, height: 10), style: .circular)
-                .fill(Color.black.opacity(0.2))
-                .frame(size: 60)
+          VStack {
+            Spacer()
+              .frame(height: 32)
+
+            Text(style.title)
+              .font(.pretendard(size: 16, weight: .bold))
+
+            Spacer()
+              .frame(height: 8)
+
+            Text(style.description)
+              .font(.pretendard(size: 14))
+
+            Spacer()
+              .frame(height: 32)
+
+            HStack(spacing: 4) {
+              Button { viewStore.send(.negativeTapped) } label: {
+                Text(style.negativeButton)
+                  .font(.pretendard(size: 16, weight: .bold))
+                  .padding(.vertical, 18)
+                  .foregroundStyle(Color.black)
+                  .frame(maxWidth: .infinity)
+              }
+
+              Button { viewStore.send(.positiveTapped) } label: {
+                Text(style.positiveButton)
+                  .font(.pretendard(size: 16, weight: .bold))
+                  .padding(.vertical, 18)
+                  .frame(maxWidth: .infinity)
+                  .background(Color.black)
+                  .foregroundStyle(Color.white)
+                  .clipShape(RoundedRectangle(cornerRadius: 12))
+              }
             }
+            .padding(.horizontal, 24)
+
+            Spacer()
+              .frame(height: 32)
+          }
+          .frame(width: UIScreen.width - 32)
+          .background(Color.white)
+          .clipShape(RoundedRectangle(cornerRadius: 12))
+          .shadow(color: .black.opacity(0.16), radius: 12, x: 0, y: 4)
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(Color.clear)
+      }
+    }
+  }
+
+  var toastView: some View {
+    WithViewStore(store, observe: { $0 }) { viewStore in
+      VStack {
+        if let message = viewStore.toastMessage {
+          VStack {
+            Spacer()
+
+            HStack(alignment: .center, spacing: 8) {
+              Text(message)
+                .font(.pretendard(size: 14))
+                .foregroundColor(.white)
+            }
+            .padding(.horizontal, 16)
+            .padding(.vertical, 8)
+            .background(.black.opacity(0.88))
+            .cornerRadius(4)
+            .transition(.opacity)
+
+            Spacer()
+              .frame(height: 66)
+          }
         }
       }
+      .animation(Animation.easeInOut(duration: 0.3), value: viewStore.toastMessage)
     }
   }
 }

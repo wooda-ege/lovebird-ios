@@ -41,7 +41,6 @@ struct HomeCore: Reducer {
   @Dependency(\.appConfiguration) var appConfiguration
   @Dependency(\.loadingController) var loadingController
 
-
   var body: some Reducer<State, Action> {
     Reduce { state, action in
       switch action {
@@ -81,6 +80,7 @@ struct HomeCore: Reducer {
         return .none
 
       case let .offsetYChanged(y):
+        _printChanges()
         state.lineHeight = lineHeight(offsetY: y)
         return .none
 
