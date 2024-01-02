@@ -170,7 +170,7 @@ struct OnboardingCore: Reducer {
         return .none
 
       case .nicknameEdited(let nickname):
-        state.nickname = String(nickname.prefix(20))
+        state.nickname = String(nickname.prefix(13))
         state.nicknameTextFieldState = !nickname.isNicknameValid ? .error(.nickname)
         : nickname.count >= 2 ? .correct(.nickname)
         : .editing(.nickname)

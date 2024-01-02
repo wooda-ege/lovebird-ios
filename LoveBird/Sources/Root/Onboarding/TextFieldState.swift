@@ -44,7 +44,16 @@ enum TextFieldState: Equatable {
       return false
     }
   }
-  
+
+  var canEdit: Bool {
+    switch self {
+    case .correct, .none:
+      return true
+    default:
+      return false
+    }
+  }
+
   var color: Color {
     switch self {
     case .correct:
@@ -84,10 +93,6 @@ enum TextFieldState: Equatable {
     case .none:
       return ""
     }
-  }
-
-  func update(with email: String) {
-    
   }
 
   static func == (ltf: TextFieldState, rtf: TextFieldState) -> Bool {

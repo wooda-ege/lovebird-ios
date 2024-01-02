@@ -42,24 +42,26 @@ struct MyPageProfileEditView: View {
         //          viewStore.send(.presentImagePicker)
         //        }
         
-        Image(asset: LoveBirdAsset.icBirdProfileEdit)
-        
         VStack(spacing: 10) {
           HStack {
             Text("닉네임")
               .foregroundColor(.black)
-              .font(.pretendard(size: 14))
+              .font(.pretendard(size: 16))
             
             Spacer()
           }
           
           CommonTextField(
             text: viewStore.binding(get: \.nickname, send: MyPageProfileEditAction.nicknameEdited),
-            placeholder: viewStore.profile?.nickname ?? "",
+            placeholder: viewStore.profile.nickname,
             borderColor: viewStore.isNicknameFocused ? .black : Color(asset: LoveBirdAsset.gray06),
-            clearButtonTrailingPadding: 16,
             isFocused: self.$isNicknameFocused
           )
+
+          Text(viewStore.nicknameTextFieldState.description)
+            .font(.pretendard(size: 14))
+            .foregroundColor(viewStore.nicknameTextFieldState.color)
+            .frame(maxWidth: .infinity, alignment: .leading)
         }
         .padding(.horizontal, 16)
         
@@ -67,40 +69,46 @@ struct MyPageProfileEditView: View {
           HStack {
             Text("이메일")
               .foregroundColor(.black)
-              .font(.pretendard(size: 14))
-            
+              .font(.pretendard(size: 16))
+
             Spacer()
           }
           
           CommonTextField(
             text: viewStore.binding(get: \.email, send: MyPageProfileEditAction.emailEdited),
-            placeholder: viewStore.profile?.email ?? "",
+            placeholder: viewStore.profile.email,
             borderColor: viewStore.isEmailFocused ? .black : Color(asset: LoveBirdAsset.gray06),
-            clearButtonTrailingPadding: 16,
             isFocused: self.$isEmailFocused
           )
+
+          Text(viewStore.emailTextFieldState.description)
+            .font(.pretendard(size: 14))
+            .foregroundColor(viewStore.emailTextFieldState.color)
+            .frame(maxWidth: .infinity, alignment: .leading)
         }
         .padding(.horizontal, 16)
         
         Spacer()
-        
-        Button {
-          self.showingAlert.toggle()
-          viewStore.send(.withdrawalTapped)
-        } label: {
-          HStack {
-            Text("로그아웃")
-            Divider()
-              .frame(width: 1, height: 14)
-            Text("회원탈퇴")
-              .alert(isPresented: $showingAlert) {
-                Alert(title: Text("탈퇴가 완료되었습니다."), message: nil, dismissButton: .default(Text("확인")))
-              }
+
+        HStack {
+          Button { viewStore.send(.logoutTapped) } label: {
+            HStack {
+              Text("로그아웃")
+            }
           }
-            .foregroundColor(Color(asset: LoveBirdAsset.gray06))
-            .font(.pretendard(size: 14))
-            .padding(.bottom, 30)
+
+          Divider()
+            .frame(width: 1, height: 14)
+
+          Button { viewStore.send(.withdrawalTapped) } label: {
+            HStack {
+              Text("회원탈퇴")
+            }
+          }
         }
+        .foregroundColor(Color(asset: LoveBirdAsset.gray06))
+        .font(.pretendard(size: 14))
+        .padding(.bottom, 30)
       }
       .navigationBarBackButtonHidden(true)
       .ifTapped {
@@ -124,7 +132,7 @@ struct MyPageProfileEditView: View {
 #Preview {
   MyPageProfileEditView(
     store: .init(
-      initialState: MyPageProfileEditState(),
+      initialState: MyPageProfileEditState(profile: .dummy),
       reducer: { MyPageProfileEditCore() }
     )
   )

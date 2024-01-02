@@ -33,7 +33,7 @@ struct RootCore: Reducer {
     case switchPath(Path.State)
     case viewAppear
     case loadingVisible(Bool)
-    case alertStyleApplied(AlertController.Style?)
+    case alertTypeApplied(AlertController.Style.`Type`?)
     case toastMessageApplied(String?)
     case negativeTapped
     case positiveTapped
@@ -156,7 +156,7 @@ struct RootCore: Reducer {
 
     case let .path(.mainTab(.path(.element(id: _, action: .myPageProfileEdit(.delegate(action)))))):
       switch action {
-      case .withdrawal:
+      case .logout, .withdrawal:
         userData.removeAll()
         return .send(.switchPath(.login(.init())))
       }
@@ -171,9 +171,9 @@ struct RootCore: Reducer {
             .map(Action.loadingVisible)
         },
         .publisher {
-          alertController.$style
+          alertController.$type
             .receive(on: DispatchQueue.main)
-            .map(Action.alertStyleApplied)
+            .map(Action.alertTypeApplied)
         },
         .publisher {
           toastController.$message
@@ -186,8 +186,8 @@ struct RootCore: Reducer {
       state.isLoading = visible
       return .none
 
-    case let .alertStyleApplied(style):
-      state.alertStyle = style
+    case let .alertTypeApplied(style):
+      state.alertStyle = style?.content
       return .none
 
     case let .toastMessageApplied(message):
@@ -195,11 +195,13 @@ struct RootCore: Reducer {
       return .none
 
     case .negativeTapped:
-      alertController.buttonClick.send(false)
+      alertController.buttonClick.send(nil)
+      alertController.type = nil
       return .none
 
     case .positiveTapped:
-      alertController.buttonClick.send(true)
+      alertController.buttonClick.send(alertController.type)
+      alertController.type = nil
       return .none
 
     case let .switchPath(rootState):

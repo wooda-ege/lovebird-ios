@@ -146,7 +146,8 @@ struct MainTabCore: Reducer {
       return .none
       
     case .myPage(.editTapped):
-      state.path.append(.myPageProfileEdit(.init()))
+      guard let profile = userData.get(key: .user, type: Profile.self) else { return .none }
+      state.path.append(.myPageProfileEdit(.init(profile: profile)))
       return .none
 
       // MARK: - Path Action Delegate

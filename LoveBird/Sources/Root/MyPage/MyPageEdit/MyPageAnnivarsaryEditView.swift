@@ -129,7 +129,7 @@ struct MyPageAnnivarsaryEditView: View {
 #Preview {
   MyPageAnnivarsaryEditView(
     store: .init(
-      initialState: MyPageProfileEditState(),
+      initialState: MyPageProfileEditState(profile: .dummy),
       reducer: { MyPageProfileEditCore() }
     )
   )

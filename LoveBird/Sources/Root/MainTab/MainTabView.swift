@@ -107,6 +107,7 @@ struct MainTabView: View {
     let appearance = UITabBarAppearance()
     appearance.backgroundColor = .white
     appearance.shadowImage = UIImage.shadowImage
+    UITabBar.appearance().tintColor = .black
     UITabBar.appearance().scrollEdgeAppearance = appearance
   }
 }

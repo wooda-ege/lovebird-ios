@@ -26,9 +26,11 @@ struct MyPageProfileEditCore: Reducer {
   }
   
   struct State: Equatable {
-    var profile: Profile?
+    var profile: Profile
     var nickname = ""
     var email = ""
+    var nicknameTextFieldState: TextFieldState = .none
+    var emailTextFieldState: TextFieldState = .none
     var annivarsary: SimpleDate = .init()
     var birthdate: SimpleDate = .init()
     var isNicknameFocused = false
@@ -52,7 +54,11 @@ struct MyPageProfileEditCore: Reducer {
     
     case profileEditTapped
     case annivarsaryEditTapped
+    case logoutTapped
     case withdrawalTapped
+    case alertButtonTapped(AlertController.Style.`Type`?)
+    case withdrawal
+    case logout
 
     case editProfileResponse(TaskResult<Profile>)
     case withdrawalResponse(TaskResult<String>)
@@ -68,12 +74,14 @@ struct MyPageProfileEditCore: Reducer {
 
     case delegate(Delegate)
     enum Delegate: Equatable {
+      case logout
       case withdrawal
     }
   }
   
   @Dependency(\.lovebirdApi) var lovebirdApi
   @Dependency(\.userData) var userData
+  @Dependency(\.alertController) var alertController
 
   @Dependency(\.dismiss) var dismiss
 
@@ -92,11 +100,17 @@ struct MyPageProfileEditCore: Reducer {
         return .none
 
       case .nicknameEdited(let nickname):
-        state.nickname = nickname
+        state.nickname = String(nickname.prefix(13))
+        state.nicknameTextFieldState = !nickname.isNicknameValid ? .error(.nickname)
+        : nickname.count >= 2 ? .correct(.nickname)
+        : .editing(.nickname)
         return .none
 
       case .emailEdited(let email):
         state.email = email
+        state.emailTextFieldState = email.isEmailValid ? .correct(.email)
+        : email.isEmpty ? .editing(.email)
+        : .error(.email)
         return .none
 
       case .annivarsaryEdited(let annivarsary):
@@ -124,10 +138,18 @@ struct MyPageProfileEditCore: Reducer {
         }
 
       case .profileEditTapped:
-        let request: EditProfileRequest = .init(
-          nickname: state.nickname,
-          email: state.email
-        )
+        let nickname: String?
+        if case .correct = state.nicknameTextFieldState { nickname = state.nickname }
+        else if state.nickname.isEmpty { nickname = state.profile.nickname }
+        else { nickname = nil }
+
+        let email: String?
+        if case .correct = state.emailTextFieldState { email = state.email }
+        else if state.email.isEmpty { email = state.profile.email }
+        else { email = nil }
+
+        guard let nickname, let email else { return .none }
+        let request = EditProfileRequest(nickname: nickname, email: email)
 
         return .run { send in
           await send(
@@ -139,7 +161,36 @@ struct MyPageProfileEditCore: Reducer {
           )
         }
 
+      case .logoutTapped:
+        alertController.showAlert(type: .logout)
+        return .publisher {
+          alertController.buttonClick
+            .map(Action.alertButtonTapped)
+        }
+
       case .withdrawalTapped:
+        alertController.showAlert(type: .withdrawal)
+        return .publisher {
+          alertController.buttonClick
+            .map(Action.alertButtonTapped)
+        }
+        
+      case let .alertButtonTapped(type):
+        switch type {
+        case .logout:
+          return .send(.logout)
+
+        case .withdrawal:
+          return .send(.withdrawal)
+
+        default:
+          return .none
+        }
+
+      case .logout:
+        return .send(.delegate(.logout))
+
+      case .withdrawal:
         return .run { send in
           await send(
             .withdrawalResponse(

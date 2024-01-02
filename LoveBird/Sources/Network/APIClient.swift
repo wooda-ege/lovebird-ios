@@ -267,11 +267,14 @@ extension MoyaProvider {
           do {
             let networkResponse = try JSONDecoder().decode(NetworkResponse<T>.self, from: result.data)
             continuation.resume(returning: networkResponse.data)
+            print("-----------------> Network Success: \(networkResponse.data)")
           } catch {
             continuation.resume(throwing: error)
+            print("-----------------> Network Exception: \(error)")
           }
-          
+
         case .failure(let error):
+          print("-----------------> Network Failure: \(error)")
           continuation.resume(throwing: error)
         }
       }

@@ -9,6 +9,7 @@ import SwiftUI
 
 import ComposableArchitecture
 import SwiftUI
+import Kingfisher
 
 struct MyPageView: View {
   let store: StoreOf<MyPageCore>
@@ -22,27 +23,45 @@ struct MyPageView: View {
         
         VStack(spacing: 5) {
           ZStack(alignment: .center) {
-            if let user = viewStore.user,
-                  let userImage = user.profileImageUrl {
-              Image(userImage)
-            } else {
-              HStack(spacing: 60) {
-                Spacer()
-                
-                Image(asset: LoveBirdAsset.icBirdProfileEdit)
-                
-                Image(asset: LoveBirdAsset.icBirdProfileEdit)
-                
-                Spacer()
+            HStack(spacing: 20) {
+              Spacer()
+
+              if let urlString = viewStore.user?.profileImageUrl {
+                KFImage(URL(string: urlString))
+                  .frame(size: 80)
+              } else {
+                Circle()
+                  .fill(Color(asset: LoveBirdAsset.gray02))
+                  .frame(width: 80, height: 80)
+                  .overlay(Image(asset: LoveBirdAsset.icBirdEdit), alignment: .center)
+                  .overlay(
+                    Circle()
+                      .stroke(Color(asset: LoveBirdAsset.gray05), lineWidth: 1)
+                  )
               }
+
+              Image(asset: LoveBirdAsset.icBirdGray)
+                .changeSize(to: .init(width: 24, height: 24))
+                .changeColor(to: Color(asset: LoveBirdAsset.gray04))
+
+              if let urlString = viewStore.user?.partnerImageUrl {
+                KFImage(URL(string: urlString))
+                  .frame(size: 80)
+              } else {
+                Circle()
+                  .fill(Color(asset: LoveBirdAsset.gray02))
+                  .frame(width: 80, height: 80)
+                  .overlay(Image(asset: LoveBirdAsset.icBirdEdit), alignment: .center)
+                  .overlay(
+                    Circle()
+                      .stroke(Color(asset: LoveBirdAsset.gray05), lineWidth: 1)
+                  )
+              }
+
+              Spacer()
             }
-            
-            Image(asset: LoveBirdAsset.icBirdGray)
-              .changeSize(to: .init(width: 24, height: 24))
-              .changeColor(to: Color(asset: LoveBirdAsset.gray04))
           }
-          
-          
+
           HStack(alignment: .center, spacing: 0) {
             Spacer()
             
@@ -79,14 +98,13 @@ struct MyPageView: View {
               .changeColor(to: Color(asset: LoveBirdAsset.gray04))
           }
           .frame(height: 34)
-          .padding(.bottom, 8)
         }
         
         Rectangle()
           .fill(Color(asset: LoveBirdAsset.gray02))
           .frame(height: 20)
-          .padding(.top, 30)
-        
+          .padding(.top, 20)
+
         VStack(spacing: 0) {
           Button { viewStore.send(.editTapped) } label: {
             MyPageItemView(title: "프로필 수정")
