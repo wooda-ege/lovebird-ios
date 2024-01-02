@@ -95,12 +95,15 @@ extension RootView {
             Text(style.title)
               .font(.pretendard(size: 16, weight: .bold))
 
-            Spacer()
-              .frame(height: 8)
+            if style.description.isNotEmpty {
+              Spacer()
+                .frame(height: 8)
 
-            Text(style.description)
-              .font(.pretendard(size: 14))
+              Text(style.description)
+                .font(.pretendard(size: 14))
 
+            }
+            
             Spacer()
               .frame(height: 32)
 
