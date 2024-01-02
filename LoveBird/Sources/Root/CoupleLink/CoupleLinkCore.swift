@@ -19,6 +19,7 @@ struct CoupleLinkCore: Reducer {
     var invitationCode: String = ""
     var invitationInputCode: String = ""
     var textFieldState: TextFieldState = .none
+    var isShareSheetShown = false
   }
   
   enum Action: Equatable {
@@ -27,6 +28,7 @@ struct CoupleLinkCore: Reducer {
     case initialInvitationCode(String)
     case imageSelected(UIImage?)
     case invitationCodeEdited(String)
+    case shareTapped(Bool)
     case confirmButtonTapped
   }
   
@@ -42,7 +44,7 @@ struct CoupleLinkCore: Reducer {
         }
 
       case let .initialInvitationCode(code):
-        state.invitationInputCode = code
+        state.invitationCode = code
         return .none
 
       case .confirmButtonTapped:
@@ -61,6 +63,10 @@ struct CoupleLinkCore: Reducer {
 
       case .invitationCodeEdited(let code):
         state.invitationInputCode = code
+        return .none
+
+      case let .shareTapped(isShown):
+        state.isShareSheetShown = isShown
         return .none
 
       default:

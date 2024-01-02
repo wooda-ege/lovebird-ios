@@ -12,10 +12,8 @@ import ComposableArchitecture
 struct CoupleLinkView: View {
   
   let store: StoreOf<CoupleLinkCore>
-  @FocusState private var isEmailFieldFocused: Bool
+  @FocusState private var isTextFieldFocused: Bool
   @StateObject private var keyboard = KeyboardResponder()
-  @State var showShare: Bool = false
-  var invitationCode: String = ""
 
   init(store: StoreOf<CoupleLinkCore>) {
     self.store = store
@@ -23,74 +21,60 @@ struct CoupleLinkView: View {
 
   var body: some View {
 		WithViewStore(store, observe: { $0 }) { viewStore in
-      VStack {
-        Spacer().frame(height: 24)
-        
+      VStack(alignment: .leading, spacing: 0) {
         Text(LoveBirdStrings.onboardingInvitationTitle)
           .font(.pretendard(size: 20, weight: .bold))
           .foregroundColor(.black)
           .frame(maxWidth: .infinity, alignment: .leading)
-          .padding(.leading, 16)
+          .padding(.top, 24)
+
+        Spacer().frame(height: 12)
 
         Text(LoveBirdStrings.onboardingInvitationDescription)
-          .font(.pretendard(size: 16, weight: .regular))
+          .font(.pretendard(size: 16))
           .foregroundColor(Color(asset: LoveBirdAsset.gray07))
           .frame(maxWidth: .infinity, alignment: .leading)
-          .padding(.top, 12)
-          .padding(.leading, 16)
-        
+
         Spacer().frame(height: 48)
     
-        HStack {
+        HStack(alignment: .center) {
           Text(viewStore.invitationCode)
             .font(.pretendard(size: 16, weight: .semiBold))
             .foregroundColor(.black)
             .lineLimit(1)
           
           Spacer()
-          
-          TouchableStack {
+
+          Button { viewStore.send(.shareTapped(true)) } label: {
             Text("공유")
               .font(.pretendard(size: 14, weight: .bold))
               .foregroundColor(.white)
-          }
-          .frame(width: 48, height: 32)
-          .roundedBackground(cornerRadius: 8, color: .black)
-          .background(.black)
-          .cornerRadius(8)
-          .padding(.trailing, 32)
-          .onTapGesture {
-            showShare = true
-          }
-          .sheet(isPresented: $showShare) {
-            ActivityViewController(activityItems: [viewStore.invitationCode])
+              .padding(.vertical, 8)
+              .padding(.horizontal, 16)
+              .background(.black)
+              .clipShape(RoundedRectangle(cornerRadius: 8))
           }
         }
-        .cornerRadius(12)
-        .padding(.leading, 16)
+        .padding(.vertical, 12)
+        .padding(.horizontal, 16)
         .frame(height: 56)
-        .frame(width: UIScreen.width - 32)
-        .roundedBackground(cornerRadius: 12, color: Color(asset: LoveBirdAsset.gray07))
-        
-        
+        .background(Color(asset: LoveBirdAsset.gray02))
+        .clipShape(RoundedRectangle(cornerRadius: 12))
+
         Spacer()
-          .frame(height: 53)
-        
+          .frame(height: 24)
+
         VStack(alignment: .leading) {
           Text(LoveBirdStrings.onboardingInvitationQuestion)
             .font(.pretendard(size: 14, weight: .regular))
 
           let textBinding = viewStore.binding(get: \.invitationInputCode, send: CoupleLinkAction.invitationCodeEdited)
-          TextField("초대코드 입력", text: textBinding)
-            .font(.pretendard(size: 18, weight: .regular))
-            .foregroundColor(Color(asset: LoveBirdAsset.gray07))
-            .padding(.vertical, 15)
-            .padding(.leading, 16)
-            .padding(.trailing, 48)
-            .focused($isEmailFieldFocused)
-            .showClearButton(textBinding)
-            .frame(width: UIScreen.width - 32)
-            .roundedBackground(cornerRadius: 12, color: viewStore.textFieldState.color)
+          CommonTextField(
+            text: textBinding,
+            placeholder: "초대코드 입력",
+            borderColor: isTextFieldFocused ? .black : Color(asset: LoveBirdAsset.gray06),
+            isFocused: self.$isTextFieldFocused
+          )
         }
         
         Spacer()
@@ -99,7 +83,7 @@ struct CoupleLinkView: View {
           viewStore.send(.confirmButtonTapped)
           hideKeyboard()
         } label: {
-          TouchableStack {
+          CenterAlignedHStack {
             Text(LoveBirdStrings.onboardingInvitationConnect)
               .font(.pretendard(size: 16, weight: .semiBold))
               .foregroundColor(.white)
@@ -107,19 +91,21 @@ struct CoupleLinkView: View {
         }
         .frame(height: 56)
         .background(.black)
-        .cornerRadius(12)
-        .padding(.horizontal, 16)
-        .padding(.bottom, 20)
+        .clipShape(RoundedRectangle(cornerRadius: 12))
+      }
+      .frame(maxWidth: .infinity, maxHeight: .infinity)
+      .padding(.horizontal, 16)
+      .padding(.bottom, 20)
+      .background(.white)
+      .sheet(isPresented: viewStore.binding(get: \.isShareSheetShown, send: CoupleLinkAction.shareTapped)) {
+        ActivityViewController(activityItems: [viewStore.invitationCode])
       }
       .onAppear {
         viewStore.send(.viewAppear)
       }
-      .background(.white)
       .onTapGesture {
-        isEmailFieldFocused = false
+        isTextFieldFocused = false
       }
-      .frame(maxWidth: .infinity, maxHeight: .infinity)
-      .background(.white)
     }
   }
 }

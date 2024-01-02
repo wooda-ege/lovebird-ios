@@ -26,7 +26,7 @@ struct OnboardingNicknameView: View {
         .padding(.horizontal, 16)
 
         Text(viewStore.nicknameTextFieldState.description)
-          .font(.pretendard(size: 16, weight: .regular))
+          .font(.pretendard(size: 14, weight: .regular))
           .foregroundColor(viewStore.nicknameTextFieldState.color)
           .frame(maxWidth: .infinity, alignment: .leading)
           .padding(.horizontal, 16)

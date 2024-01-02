@@ -38,6 +38,16 @@ extension DependencyValues {
     get { self[ToastController.self] }
     set { self[ToastController.self] = newValue }
   }
+
+  var kakaoLoginUtil: KakaoLoginUtil {
+    get { self[KakaoLoginUtil.self] }
+    set { self[KakaoLoginUtil.self] = newValue }
+  }
+
+  var appleLoginUtil: AppleLoginUtil {
+    get { self[AppleLoginUtil.self] }
+    set { self[AppleLoginUtil.self] = newValue }
+  }
 }
 
 // MARK: - `DependencyKey` Implementation
@@ -64,4 +74,12 @@ extension AlertController: DependencyKey {
 
 extension ToastController: DependencyKey {
   static public let liveValue = ToastController()
+}
+
+extension KakaoLoginUtil: DependencyKey {
+  static public let liveValue = KakaoLoginUtil()
+}
+
+extension AppleLoginUtil: DependencyKey {
+  static public let liveValue = AppleLoginUtil()
 }

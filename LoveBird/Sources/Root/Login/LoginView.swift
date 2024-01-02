@@ -8,150 +8,73 @@
 import ComposableArchitecture
 import UIKit
 import SwiftUI
-import SwiftUIPager
 import Foundation
-import KakaoSDKAuth
-import KakaoSDKUser
-import KakaoSDKCommon
-import AuthenticationServices
 
 struct LoginView: View {
   let store: StoreOf<LoginCore>
-  let appleSignInDelegates = SignInWithAppleDelegates()
 
   init(store: StoreOf<LoginCore>) {
     self.store = store
   }
   
   var body: some View {
-    WithViewStore(self.store, observe: { $0 }) { viewStore in
+    WithViewStore(store, observe: { $0 }) { viewStore in
       VStack {
-        HStack {
+        LeftAlignedHStack {
           Image(asset: LoveBirdAsset.imgPinkbird)
+            .resizable()
             .frame(width: 80, height: 80)
             .padding(.leading, 16)
-            .padding(.top, 93)
-          Spacer()
+            .padding(.top, 40)
         }
         
-        VStack {
-          HStack {
+        VStack(alignment: .leading, spacing: 0) {
+          LeftAlignedHStack {
             Text("함께 쌓는")
               .font(.pretendard(size: 32))
-              .fontWeight(.ultraLight)
-            Spacer()
           }
-          HStack {
+
+          LeftAlignedHStack {
             Text("추억 다이어리")
-              .font(.pretendard(size: 32))
-              .fontWeight(.bold)
-            Spacer()
+              .font(.pretendard(size: 32, weight: .bold))
           }
-          HStack {
-            Text(LoveBirdStrings.loginDescription)
-              .font(.pretendard(size: 16))
-              .fontWeight(.ultraLight)
-              .foregroundColor(Color(asset: LoveBirdAsset.gray07))
-            Spacer()
-          }
-          .padding(.top, 3)
-        }
-        .padding(.top, 10)
-        .padding(.leading, 24)
-        .padding(.bottom, 212)
-        
-        Image(asset: LoveBirdAsset.imgKakaoLogin)
-          .resizable()
-          .frame(height: 60)
-          .padding(.horizontal, 16)
-          .onTapGesture {
-            if (UserApi.isKakaoTalkLoginAvailable()) {
-              UserApi.shared.loginWithKakaoTalk {(oauthToken, error) in
-                if let error = error {
-                  print(error)
-                } else {
-                  guard let idToken = oauthToken?.idToken else {
-                    return
-                  }
-                  
-                  UserApi.shared.me {(user, error) in
-                    if let error = error {
-                      print(error)
-                    } else {
-                      viewStore.send(
-                        .login( .init(provider: .kakao, idToken: idToken))
-                      )
-                    }
-                  }
-                }
-              }
-            } else {
-              UserApi.shared.loginWithKakaoAccount {(oauthToken, error) in
-                if let error = error {
-                  print(error)
-                } else {
-                  guard let idToken = oauthToken?.idToken else {
-                    return
-                  }
-                  
-                  UserApi.shared.me {(user, error) in
-                    if let error = error {
-                      print(error)
-                    } else {
-                      viewStore.send(
-                        .login( .init(provider: .kakao, idToken: idToken))
-                      )
-                    }
-                  }
-                }
-              }
+          .padding(.top, 4)
+
+          LeftAlignedHStack {
+            HStack {
+              Text("연인과의 데이트를 ")
+                .font(.pretendard(size: 16))
+              + Text("러브버드")
+                .font(.pretendard(size: 16, weight: .bold))
+              + Text("에서 기록해보세요")
+                .font(.pretendard(size: 16))
             }
+            .foregroundColor(Color(asset: LoveBirdAsset.gray07))
           }
-        
-        Image(asset: LoveBirdAsset.imgAppleLogin)
-          .resizable()
-          .frame(height: 60)
-          .padding(.horizontal, 16)
-          .onTapGesture(perform: showAppleLogin)
-        
+          .padding(.top, 8)
+        }
+        .frame(maxWidth: .infinity)
+        .padding(.top, 8)
+        .padding(.leading, 24)
+
         Spacer()
+
+        VStack(spacing: 8) {
+          Button { viewStore.send(.kakaoTapped) } label: {
+            LoginTypeView(type: .kakao)
+          }
+
+          Button { viewStore.send(.appleTapped) } label: {
+            LoginTypeView(type: .apple)
+          }
+        }
+        .padding(.horizontal, 16)
+        .padding(.bottom, 20)
       }
       .onAppear {
-        self.performExistingAccountSetupFlows()
-
-        // TODO: Swift Concurrency
-        self.appleSignInDelegates.authCallback = {
-          viewStore.send(.login($0))
-        }
+        viewStore.send(.viewAppear)
       }
     }
-  }
-  
-  private func showAppleLogin() {
-    let request = ASAuthorizationAppleIDProvider().createRequest()
-    
-    request.requestedScopes = [.fullName, .email]
-    performSignIn(using: [request])
-  }
-  
-  private func performExistingAccountSetupFlows() {
-    #if !targetEnvironment(simulator)
-    
-    let requests = [
-      ASAuthorizationAppleIDProvider().createRequest(),
-      ASAuthorizationPasswordProvider().createRequest()
-    ]
-
-    performSignIn(using: requests)
-    #endif
-  }
-  
-  private func performSignIn(using requests: [ASAuthorizationRequest]) {
-    let controller = ASAuthorizationController(authorizationRequests: requests)
-    controller.delegate = self.appleSignInDelegates
-    controller.presentationContextProvider = self.appleSignInDelegates
-
-    controller.performRequests()
   }
 }
 

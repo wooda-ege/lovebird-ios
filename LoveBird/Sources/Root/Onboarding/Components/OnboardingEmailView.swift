@@ -25,7 +25,7 @@ struct OnboardingEmailView: View {
         .padding(.horizontal, 16)
 
         Text(viewStore.emailTextFieldState.description)
-          .font(.pretendard(size: 16, weight: .regular))
+          .font(.pretendard(size: 14))
           .foregroundColor(viewStore.emailTextFieldState.color)
           .frame(maxWidth: .infinity, alignment: .leading)
           .padding(.horizontal, 16)

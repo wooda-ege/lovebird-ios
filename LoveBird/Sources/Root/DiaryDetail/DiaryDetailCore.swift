@@ -29,7 +29,7 @@ struct DiaryDetailCore: Reducer {
     case diaryReloaded
     case diaryUpdated(Diary)
     case deleteDiary
-    case alertButtonTapped(Bool)
+    case alertButtonTapped(AlertController.Style.`Type`?)
 
     case delegate(Delegate)
     enum Delegate: Equatable {
@@ -54,15 +54,14 @@ struct DiaryDetailCore: Reducer {
         return .run { _ in await dismiss() }
 
       case .deleteTapped:
-        alertController.showAlert(style: .deleteDiary)
+        alertController.showAlert(type: .deleteDiary)
         return .publisher {
           alertController.buttonClick
             .map(Action.alertButtonTapped)
         }
 
-      case let .alertButtonTapped(isPositive):
-        alertController.style = nil
-        if isPositive { return .send(.deleteDiary) }
+      case let .alertButtonTapped(type):
+        if let type { return .send(.deleteDiary) }
         else { return .none }
 
       case .deleteDiary:

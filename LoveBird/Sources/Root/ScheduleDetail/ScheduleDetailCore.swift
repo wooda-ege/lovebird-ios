@@ -27,7 +27,7 @@ struct ScheduleDetailCore: Reducer {
     case editTapped
     case deleteTapped
     case deleteSchedule
-    case alertButtonTapped(Bool)
+    case alertButtonTapped(AlertController.Style.`Type`?)
 
     // delegate
     case delegate(Delegate)
@@ -61,15 +61,14 @@ struct ScheduleDetailCore: Reducer {
         return .send(.delegate(.goToScheduleAdd(state.schedule)))
 
       case .deleteTapped:
-        alertController.showAlert(style: .deleteSchedule)
+        alertController.showAlert(type: .deleteSchedule)
         return .publisher {
           alertController.buttonClick
             .map(Action.alertButtonTapped)
         }
 
-      case let .alertButtonTapped(isPositive):
-        alertController.style = nil
-        if isPositive { return .send(.deleteSchedule) }
+      case let .alertButtonTapped(type):
+        if let type { return .send(.deleteSchedule) }
         else { return .none }
 
       case .deleteSchedule:

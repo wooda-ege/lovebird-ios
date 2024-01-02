@@ -6,10 +6,11 @@
 //
 
 import ComposableArchitecture
-import SwiftUIPager
 import SwiftUI
-import AuthenticationServices
 import KakaoSDKAuth
+import KakaoSDKUser
+import KakaoSDKCommon
+import AuthenticationServices
 
 typealias LoginState = LoginCore.State
 typealias LoginAction = LoginCore.Action
@@ -20,14 +21,29 @@ struct LoginCore: Reducer {
   enum Action: Equatable {
     case login(Authenticate)
     case loginResponse(TaskResult<Token>, Authenticate)
+    case kakaoTapped
+    case appleTapped
+    case viewAppear
   }
 
   @Dependency(\.lovebirdApi) var lovebirdApi
   @Dependency(\.userData) var userData
+  @Dependency(\.kakaoLoginUtil) var kakaoLoginUtil
+  @Dependency(\.appleLoginUtil) var appleLoginUtil
 
   var body: some Reducer<State, Action> {
     Reduce { state, action in
       switch action {
+      case .kakaoTapped:
+        return .run { send in
+          let idToken = try await kakaoLoginUtil.login()
+          await send(.login(.init(provider: .kakao, idToken: idToken)))
+        }
+
+      case .appleTapped:
+        appleLoginUtil.showAppleLogin()
+        return .none
+
       case .login(let auth):
         return .run { send in
           do {
@@ -38,10 +54,16 @@ struct LoginCore: Reducer {
           }
         }
 
+      case .viewAppear:
+        appleLoginUtil.setupCallback()
+        return .publisher {
+          appleLoginUtil.loginSubject
+            .map { Action.login(.init(provider: .apple, idToken: $0)) }
+        }
+
       default:
-        break
+        return .none
       }
-      return .none
     }
   }
 }

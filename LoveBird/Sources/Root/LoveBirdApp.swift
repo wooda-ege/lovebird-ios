@@ -26,6 +26,7 @@ struct LoveBirdApp: App {
           reducer: { RootCore()._printChanges(.lovebirdDump) }
         )
       )
+      .accentColor(.black)
       .preferredColorScheme(.light)
       .onOpenURL(perform: { url in
         if (AuthApi.isKakaoTalkLoginUrl(url)) {

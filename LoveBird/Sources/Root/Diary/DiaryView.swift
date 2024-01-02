@@ -130,8 +130,8 @@ extension DiaryView {
               viewStore.send(.focusedTypeChanged(.content))
             }
 
-            Button { viewStore.send(.setImagePickerPresented(true)) } label: {
-              HStack {
+            HStack {
+              Button { viewStore.send(.setImagePickerPresented(true)) } label: {
                 if let image = Image(data: viewStore.selectedImage) {
                   image
                     .resizable()
@@ -143,12 +143,13 @@ extension DiaryView {
                   Image(asset: LoveBirdAsset.imgAddImage)
                     .frame(width: 64, height: 64)
                 }
-
-                Spacer()
               }
+
+              Spacer()
             }
           }
           .padding(.horizontal, 16)
+          .padding(.bottom, 20)
 
           if viewStore.state.showCalendarPreview {
             VStack {
