@@ -21,7 +21,7 @@ struct CommonHorizontalButton: View {
 
   var body: some View {
     Button { self.onTap() } label: {
-      TouchableStack {
+      TouchableView {
         Text(self.title)
           .font(.pretendard(size: 16, weight: .semiBold))
           .foregroundColor(.white)

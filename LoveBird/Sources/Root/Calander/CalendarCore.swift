@@ -125,6 +125,7 @@ struct CalendarCore: Reducer {
   // TODO: Calendar API 수정되면 수정할 것
   private func initialMonthlys(date: Date, schedules: CalendarMonthly.Schedules) -> [CalendarMonthly] {
     var monthlySchedules = [CalendarMonthly]()
+    // 앞뒤 각각 2년 기간의 Monthly를 미리 생성해 놓는다.
     for i in -24...24 {
       let dateAdded = i == 0 ? date : date.addMonths(by: i).firstDayOfMonth
       monthlySchedules.append(

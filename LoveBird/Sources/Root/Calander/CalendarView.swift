@@ -60,7 +60,7 @@ struct CalendarView: View {
   private func dayBackground(date: Date, currentDate: Date) -> some View {
     Group {
       if date == currentDate {
-        if date == Date() {
+        if date.isToday {
           Circle().fill(Color(asset: LoveBirdAsset.secondary))
         } else {
           Circle().stroke(Color(asset: LoveBirdAsset.secondary), lineWidth: 2)
@@ -75,7 +75,7 @@ struct CalendarView: View {
 extension CalendarView {
   var toolbarView: some View {
     WithViewStore(store, observe: { $0 }) { viewStore in
-      TouchableStack {
+      TouchableView {
         HStack(alignment: .center) {
           HStack(spacing: 0) {
             Text(String(viewStore.currentMonthly.id.year) + "." + String(viewStore.currentMonthly.id.month))

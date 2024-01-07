@@ -1,13 +1,25 @@
 //
-//  Date+Properties.swift
+//  Date+Extension.swift
 //  LoveBird
 //
-//  Created by 황득연 on 2023/07/10.
+//  Created by 황득연 on 2023/06/25.
 //
 
 import Foundation
 
 extension Date {
+
+  // MARK: - Enumeration
+  
+  enum Format: String {
+    case server = "yyyy-MM-dd'T'HH:mm:ss"
+    case YMD = "yyyy년 M월 d일"
+    case YMDDivided = "yyyy-MM-dd"
+    case YMDivided = "yyyy-MM"
+    case YMDDotted = "yyyy.MM.dd"
+  }
+
+  // MARK: - Initializer
 
   init?(from string: String) {
     let dateFormatter = DateFormatter()
@@ -26,32 +38,7 @@ extension Date {
     }
   }
 
-//  init(from string: String) {
-//    let dateFormatter = DateFormatter()
-//    dateFormatter.timeZone = TimeZone(abbreviation: "KST")
-//
-//    // "년-월-일" 형식
-//    if string.count == 10 {
-//      dateFormatter.dateFormat = Date.Format.YMDDivided.rawValue
-//      if let date = dateFormatter.date(from: string) {
-//        self = date
-//        return
-//      }
-//    }
-//
-//    // "년-월" 형식
-//    else if string.count == 7 {
-//      dateFormatter.dateFormat = Date.Format.YMDivided.rawValue
-//      if let date = dateFormatter.date(from: string) {
-//        self = date
-//        return
-//      }
-//    }
-//
-//    self = Date()
-//  }
-
-  // MARK: - Int Properties
+  // MARK: - Properties (Int)
 
   var year: Int {
     return Calendar.current.component(.year, from: self)
@@ -112,7 +99,7 @@ extension Date {
     return Calendar.current.range(of: .weekOfMonth, in: .month, for: self)!.count
   }
 
-  // MARK: - Bool Properties
+  // MARK: - Properties (Bool)
 
   var isToday: Bool {
     return self.year == Date().year && self.month == Date().month && self.day == Date().day
@@ -122,7 +109,7 @@ extension Date {
     return self.compare(date) != .orderedAscending
   }
 
-  // MARK: - Self Properties
+  // MARK: - Properties (Self)
 
   var firstDayOfMonth: Self {
     let calendar = Calendar.current
@@ -142,5 +129,47 @@ extension Date {
 
   func addMonths(by monthsToAdd: Int) -> Self {
     return Calendar.current.date(byAdding: .month, value: monthsToAdd, to: self)!
+  }
+
+  // MARK: - Date to String
+
+  func to(format: Format) -> String {
+    let formatter = DateFormatter()
+    formatter.locale = Locale(identifier: "ko_KR")
+    formatter.dateFormat = format.rawValue
+    return formatter.string(from: self)
+  }
+
+  // MARK: - Function (Static)
+
+  static func with(year: Int, month: Int? = nil, day: Int? = nil) -> Self {
+    let dateComponents = DateComponents(year: year, month: month, day: day)
+    return Calendar.current.date(from: dateComponents)!
+  }
+
+  static func dateFormat(date: Date?, time: ScheduleTime?) -> String {
+    guard let date = date else { return ""}
+
+    let formatter = DateFormatter()
+    formatter.locale = Locale(identifier: "ko_KR")
+    guard let time = time else {
+      formatter.dateFormat = "yyyy-MM-dd"
+      let dateComponents = DateComponents(calendar: .current, year: date.year, month: date.month, day: date.day)
+      let dateString = formatter.string(from: dateComponents.date!)
+      return dateString
+    }
+    formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
+    let actualHour = time.hour + (time.meridiem == .pm ? 12 : 0)
+    let dateComponents = DateComponents(calendar: .current, year: date.year, month: date.month, day: date.day, hour: actualHour, minute: time.minute)
+    let dateString = formatter.string(from: dateComponents.date!)
+    return dateString
+  }
+}
+
+// MARK: - Equatable
+
+extension Date {
+  static func == (lhs: Self, rhs: Self) -> Bool {
+    return lhs.year == rhs.year && lhs.month == rhs.month && lhs.day == rhs.day
   }
 }
