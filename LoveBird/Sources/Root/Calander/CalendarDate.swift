@@ -31,7 +31,7 @@ enum CalendarDate: Equatable {
   var isToday: Bool {
     switch self {
     case .current(let date):
-      return date == Date()
+      return date.isToday
     default:
       return false
     }

@@ -18,7 +18,7 @@ struct OnboardingGenderView: View {
         VStack {
           VStack(alignment: .leading) {
             ForEach(Gender.allCases, id: \.self) { gender in
-              TouchableStack {
+              TouchableView {
                 HStack {
                   Text(gender.description)
                     .font(.pretendard(size: 18, weight: viewStore.gender == gender ? .bold : .regular))

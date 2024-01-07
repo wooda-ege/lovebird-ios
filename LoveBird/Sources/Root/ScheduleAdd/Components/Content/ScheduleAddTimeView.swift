@@ -44,7 +44,7 @@ struct ScheduleAddTimeView: View {
                     .foregroundColor(Color(asset: LoveBirdAsset.gray06))
 
                   if viewStore.isEndDateActive {
-                    Text(viewStore.startDate.to(dateFormat: Date.Format.YMDDotted))
+                    Text(viewStore.startDate.to(format: .YMDDotted))
                       .font(.pretendard(size: 12, weight: .bold))
                       .foregroundColor(Color(asset: LoveBirdAsset.secondary))
                   }
@@ -68,7 +68,7 @@ struct ScheduleAddTimeView: View {
                     .foregroundColor(Color(asset: LoveBirdAsset.gray06))
 
                   if viewStore.isEndDateActive {
-                    Text(viewStore.endDate.to(dateFormat: Date.Format.YMDDotted))
+                    Text(viewStore.endDate.to(format: .YMDDotted))
                       .font(.pretendard(size: 12, weight: .bold))
                       .foregroundColor(Color(asset: LoveBirdAsset.secondary))
                   }

@@ -16,7 +16,7 @@ struct HomeView: View {
   var body: some View {
     WithViewStore(store, observe: { $0 }) { viewStore in
       VStack(spacing: 0) {
-        navigationBarView
+        toolbarView
 
         ZStack(alignment: .leading) {
           leftLineView
@@ -33,7 +33,7 @@ struct HomeView: View {
 // MARK: - Child Views
 
 extension HomeView {
-  var navigationBarView: some View {
+  var toolbarView: some View {
     HStack(alignment: .center) {
       Image(asset: LoveBirdAsset.imgPinkbird)
         .changeSize(to: .init(width: 36, height: 36))

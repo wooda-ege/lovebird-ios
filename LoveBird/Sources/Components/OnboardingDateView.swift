@@ -13,7 +13,7 @@ struct OnboardingDateView: View {
   let onTap: () -> Void
 
   var body: some View {
-    TouchableStack {
+    TouchableView {
       HStack(alignment: .center, spacing: 8) {
         Spacer()
 

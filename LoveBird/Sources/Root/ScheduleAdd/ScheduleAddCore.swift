@@ -427,8 +427,8 @@ struct ScheduleAddCore: Reducer {
       memo: state.memo.isEmpty ? nil : state.memo,
       color: state.color,
       alarm: state.isAlarmActive ? state.alarm : nil,
-      startDate: state.startDate.to(dateFormat: Date.Format.YMDDivided),
-      endDate: state.isEndDateActive ? state.endDate.to(dateFormat: Date.Format.YMDDivided) : nil,
+      startDate: state.startDate.to(format: .YMDDivided),
+      endDate: state.isEndDateActive ? state.endDate.to(format: .YMDDivided) : nil,
       startTime: state.isTimeActive ? state.startTime.toHMS() : nil,
       endTime: state.isTimeActive ? state.endTime.toHMS() : nil
     )

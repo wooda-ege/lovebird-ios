@@ -33,18 +33,30 @@ extension String {
 
   // "2023-02-10"
   var year: Int {
-    let components = self.components(separatedBy: "-")
-    return Int(components[0]) ?? 2023
+    let components = components(separatedBy: "-")
+    if let year = components[safe: 0] {
+      return Int(year) ?? Date().year
+    } else {
+      return Date().year
+    }
   }
 
   var month: Int {
-    let components = self.components(separatedBy: "-")
-    return Int(components[1]) ?? 1
+    let components = components(separatedBy: "-")
+    if let month = components[safe: 1] {
+      return Int(month) ?? Date().month
+    } else {
+      return Date().month
+    }
   }
 
   var day: Int {
-    let components = self.components(separatedBy: "-")
-    return Int(components[2]) ?? 1
+    let components = components(separatedBy: "-")
+    if let day = components[safe: 2] {
+      return Int(day) ?? Date().day
+    } else {
+      return Date().day
+    }
   }
 
   var isWeekend: Bool {
@@ -53,7 +65,7 @@ extension String {
 
   func toDate() -> Date {
     let dateFormatter = DateFormatter()
-    dateFormatter.dateFormat = Date.Format.YMDDivided
+    dateFormatter.dateFormat = Date.Format.YMDDivided.rawValue
     dateFormatter.timeZone = TimeZone(abbreviation: "KST")
 
     return dateFormatter.date(from: self)!
@@ -91,7 +103,7 @@ extension String {
     startTime: String?,
     endTime: String?
   ) -> String {
-    let date = date.toDate().to(dateFormat: Date.Format.YMD)
+    let date = date.toDate().to(format: .YMD)
     if let startTime = startTime, let endTime = endTime {
       if startTime == endTime {
         return "\(date) \(startTime.toScheduleTime())"
@@ -104,7 +116,7 @@ extension String {
 
   static func intervalDates(startDate: String, endDate: String) -> [String] {
     let dateFormatter = DateFormatter()
-    dateFormatter.dateFormat = Date.Format.YMDDivided
+    dateFormatter.dateFormat = Date.Format.YMDDivided.rawValue
     dateFormatter.timeZone = TimeZone(abbreviation: "KST")
 
     guard let startDate = dateFormatter.date(from: startDate),

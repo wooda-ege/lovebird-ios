@@ -66,7 +66,7 @@ extension DiaryDetailView {
 
               Spacer()
 
-              Text(viewStore.diary.memoryDate.toDate().to(dateFormat: Date.Format.YMDDotted))
+              Text(viewStore.diary.memoryDate.toDate().to(format: .YMDDotted))
                 .foregroundColor(Color(asset: LoveBirdAsset.gray07))
                 .font(.pretendard(size: 12))
             }

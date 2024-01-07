@@ -19,6 +19,19 @@ extension View {
     })
   }
 
+  func onTouch(_ action: @escaping () -> Void) -> some View {
+    return gesture(TapGesture()
+      .onEnded {
+        action()
+      }
+    )
+    .gesture(DragGesture(minimumDistance: 0)
+      .onEnded { _ in
+        action()
+      }
+    )
+  }
+
   func showClearButton(
     _ text: Binding<String>,
     isFocused: Bool = true,

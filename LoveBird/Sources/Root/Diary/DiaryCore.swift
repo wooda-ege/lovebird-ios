@@ -77,7 +77,6 @@ struct DiaryCore: Reducer {
   @Dependency(\.toastController) var toastController
 
   @Dependency(\.dismiss) var dismiss
-  @Dependency(\.continuousClock) var clock
 
   var body: some Reducer<State, Action> {
     Reduce { state, action in
@@ -129,7 +128,7 @@ struct DiaryCore: Reducer {
                     image: state.selectedImage,
                     diary: .init(
                       title: state.title,
-                      memoryDate: state.date.to(dateFormat: Date.Format.YMDDivided),
+                      memoryDate: state.date.to(format: .YMDDivided),
                       place: state.place.isEmpty ? nil : state.place,
                       content: state.content
                     )
@@ -146,7 +145,7 @@ struct DiaryCore: Reducer {
                     image: state.selectedImage,
                     diary: .init(
                       title: state.title,
-                      memoryDate: state.date.to(dateFormat: Date.Format.YMDDivided),
+                      memoryDate: state.date.to(format: .YMDDivided),
                       place: state.place.isEmpty ? nil : state.place,
                       content: state.content
                     )

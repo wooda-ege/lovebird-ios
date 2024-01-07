@@ -63,7 +63,7 @@ extension DiaryView {
             CommonFocusedView(isFocused: viewStore.focusedType == .date) {
               Image(asset: LoveBirdAsset.icCalendar)
 
-              Text(viewStore.date.to(dateFormat: Date.Format.YMD))
+              Text(viewStore.date.to(format: .YMD))
                 .foregroundColor(.black)
                 .font(.pretendard(size: 17))
 

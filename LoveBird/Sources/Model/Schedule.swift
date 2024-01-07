@@ -5,7 +5,7 @@
 //  Created by 황득연 on 2023/07/10.
 //
 
-struct Schedule: Decodable, Equatable, Sendable {
+struct Schedule: Decodable, Equatable, Hashable {
   let id: Int
   let memberId: Int
   let startDate: String
