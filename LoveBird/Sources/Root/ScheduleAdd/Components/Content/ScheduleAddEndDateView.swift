@@ -39,7 +39,7 @@ struct ScheduleAddEndDateView: View {
             HStack {
               Image(asset: LoveBirdAsset.icCalendar)
 
-              Text(viewStore.endDate.to(dateFormat: Date.Format.YMD))
+              Text(viewStore.endDate.to(format: .YMD))
                 .font(.pretendard(size: 18))
                 .foregroundColor(.black)
                 .frame(maxWidth: .infinity, alignment: .leading)

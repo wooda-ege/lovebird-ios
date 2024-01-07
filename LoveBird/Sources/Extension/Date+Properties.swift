@@ -9,6 +9,48 @@ import Foundation
 
 extension Date {
 
+  init?(from string: String) {
+    let dateFormatter = DateFormatter()
+    dateFormatter.timeZone = TimeZone(abbreviation: "KST")
+
+    if string.count == 7 { // "년-월" 형식 확인 (예: "2023-09")
+      dateFormatter.dateFormat = Date.Format.YMDivided.rawValue
+      guard let date = dateFormatter.date(from: string) else { return nil }
+      self.init(timeInterval: 0, since: date)
+    } else if string.count == 10 { // "년-월-일" 형식 확인 (예: "2023-09-02")
+      dateFormatter.dateFormat = Date.Format.YMDDivided.rawValue
+      guard let date = dateFormatter.date(from: string) else { return nil }
+      self.init(timeInterval: 0, since: date)
+    } else {
+      return nil
+    }
+  }
+
+//  init(from string: String) {
+//    let dateFormatter = DateFormatter()
+//    dateFormatter.timeZone = TimeZone(abbreviation: "KST")
+//
+//    // "년-월-일" 형식
+//    if string.count == 10 {
+//      dateFormatter.dateFormat = Date.Format.YMDDivided.rawValue
+//      if let date = dateFormatter.date(from: string) {
+//        self = date
+//        return
+//      }
+//    }
+//
+//    // "년-월" 형식
+//    else if string.count == 7 {
+//      dateFormatter.dateFormat = Date.Format.YMDivided.rawValue
+//      if let date = dateFormatter.date(from: string) {
+//        self = date
+//        return
+//      }
+//    }
+//
+//    self = Date()
+//  }
+
   // MARK: - Int Properties
 
   var year: Int {
@@ -83,7 +125,11 @@ extension Date {
   // MARK: - Self Properties
 
   var firstDayOfMonth: Self {
-    return Calendar.current.date(from: Calendar.current.dateComponents([.year, .month], from: self))!
+    let calendar = Calendar.current
+    var components = calendar.dateComponents([.year, .month, .timeZone], from: self)
+    components.timeZone = TimeZone(identifier: "Asia/Seoul")
+    components.day = 1
+    return calendar.date(from: components) ?? Date()
   }
 
   var firstDayOfWeek: Self {

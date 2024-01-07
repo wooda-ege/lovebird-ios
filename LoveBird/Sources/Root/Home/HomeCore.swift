@@ -134,7 +134,7 @@ struct HomeCore: Reducer {
 
     // 오늘 일 자
     if !isTodayDiaryAppended {
-      diariesForDomain.append(HomeDiary.todoDiary(with: Date().to(dateFormat: Date.Format.YMDDivided)))
+      diariesForDomain.append(HomeDiary.todoDiary(with: Date().to(format: .YMDDivided)))
     }
 
     // 다음 기념일

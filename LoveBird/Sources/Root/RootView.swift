@@ -74,7 +74,7 @@ extension RootView {
       if viewStore.isLoading {
         ProgressView()
           .frame(maxWidth: .infinity, maxHeight: .infinity)
-          .background(.black.opacity(0.01))
+          .background(Color.touchable)
           .background {
             RoundedRectangle(cornerSize: CGSize(width: 10, height: 10), style: .circular)
               .fill(Color.black.opacity(0.2))
@@ -137,7 +137,7 @@ extension RootView {
           .shadow(color: .black.opacity(0.16), radius: 12, x: 0, y: 4)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(.black.opacity(0.01))
+        .background(Color.touchable)
       }
     }
   }

@@ -267,14 +267,15 @@ extension MoyaProvider {
           do {
             let networkResponse = try JSONDecoder().decode(NetworkResponse<T>.self, from: result.data)
             continuation.resume(returning: networkResponse.data)
-            print("-----------------> Network Success: \(networkResponse.data)")
+            print("<----- Network Success (\(target))")
+            print("\(networkResponse.data)\n")
           } catch {
             continuation.resume(throwing: error)
-            print("-----------------> Network Exception: \(error)")
+            print("<----- Network Exception: \(error)\n")
           }
 
         case .failure(let error):
-          print("-----------------> Network Failure: \(error)")
+          print("<----- Network Failure: \(error)\n")
           continuation.resume(throwing: error)
         }
       }
@@ -289,12 +290,15 @@ extension MoyaProvider {
           do {
             let networkResponse = try JSONDecoder().decode(NetworkStatusResponse.self, from: result.data)
             continuation.resume(returning: networkResponse)
+            print("<----- Network Success (\(target))\n")
           } catch {
             continuation.resume(throwing: error)
+            print("<----- Network Exception: \(error)\n")
           }
           
         case .failure(let error):
           continuation.resume(throwing: error)
+          print("<----- Network Exception: \(error)\n")
         }
       }
     }
@@ -308,12 +312,16 @@ extension MoyaProvider {
           do {
             let networkResponse = try JSONDecoder().decode(FetchPlacesResponse.self, from: result.data)
             continuation.resume(returning: networkResponse)
+            print("<----- Network Success (\(target))\n")
+            print("\(networkResponse)\n")
           } catch {
             continuation.resume(throwing: error)
+            print("<----- Network Exception: \(error)\n")
           }
           
         case .failure(let error):
           continuation.resume(throwing: error)
+          print("<----- Network Exception: \(error)\n")
         }
       }
     }

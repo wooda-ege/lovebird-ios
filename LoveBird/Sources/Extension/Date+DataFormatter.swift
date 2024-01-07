@@ -9,19 +9,20 @@ import Foundation
 
 extension Date {
 
-  enum Format {
-    static let server = "yyyy-MM-dd'T'HH:mm:ss"
-    static let YMD = "yyyy년 M월 d일"
-    static let YMDDivided = "yyyy-MM-dd"
-    static let YMDDotted = "yyyy.MM.dd"
+  enum Format: String {
+    case server = "yyyy-MM-dd'T'HH:mm:ss"
+    case YMD = "yyyy년 M월 d일"
+    case YMDDivided = "yyyy-MM-dd"
+    case YMDivided = "yyyy-MM"
+    case YMDDotted = "yyyy.MM.dd"
   }
 
   // MARK: - Transform
 
-  func to(dateFormat: String) -> String {
+  func to(format: Format) -> String {
     let formatter = DateFormatter()
     formatter.locale = Locale(identifier: "ko_KR")
-    formatter.dateFormat = dateFormat
+    formatter.dateFormat = format.rawValue
     return formatter.string(from: self)
   }
 
