@@ -22,6 +22,16 @@ struct CoupleLinkView: View {
   var body: some View {
 		WithViewStore(store, observe: { $0 }) { viewStore in
       VStack(alignment: .leading, spacing: 0) {
+        HStack {
+          Spacer()
+          Text("건너뛰기")
+            .font(.pretendard(size: 16, weight: .bold))
+            .foregroundColor(Color(asset: LoveBirdAsset.primary))
+            .onTapGesture {
+              viewStore.send(.skipTapped)
+            }
+        }
+        
         Text(LoveBirdStrings.onboardingInvitationTitle)
           .font(.pretendard(size: 20, weight: .bold))
           .foregroundColor(.black)

@@ -11,7 +11,7 @@ import ComposableArchitecture
 
 struct MainTabView: View {
   let store: StoreOf<MainTabCore>
-
+  
   var body: some View {
     NavigationStackStore(store.scope(state: \.path, action: { .path($0) })) {
       WithViewStore(self.store, observe: { $0 }) { viewStore in
@@ -24,34 +24,34 @@ struct MainTabView: View {
           HomeView(store: self.store.scope(state: \.home!, action: MainTabCore.Action.home))
             .tabItem {
               Image(asset: LoveBirdAsset.icTimeline)
-
+              
               Text(LoveBirdStrings.mainTabHome)
                 .font(.pretendard(size: 12))
             }
             .tag(MainTabCore.Tab.home)
-
+          
           CalendarView(store: self.store.scope(state: \.calander!, action: MainTabCore.Action.calander))
             .tabItem {
               Image(asset: LoveBirdAsset.icCalendar)
-
+              
               Text(LoveBirdStrings.mainTabCalendar)
                 .font(.pretendard(size: 12))
             }
             .tag(MainTabCore.Tab.canlander)
-
+          
           DiaryView(store: self.store.scope(state: \.diary!, action: MainTabCore.Action.diary))
             .tabItem {
               Image(asset: LoveBirdAsset.icNote)
-
+              
               Text(LoveBirdStrings.mainTabNote)
                 .font(.pretendard(size: 12))
             }
             .tag(MainTabCore.Tab.diary)
-
+          
           MyPageView(store: self.store.scope(state: \.myPage!, action: MainTabCore.Action.myPage))
             .tabItem {
               Image(asset: LoveBirdAsset.icPerson)
-
+              
               Text(LoveBirdStrings.mainTabMyPage)
                 .font(.pretendard(size: 12))
             }
@@ -90,19 +90,25 @@ struct MainTabView: View {
       case .myPageProfileEdit:
         CaseLet(
           /MainTabPathState.myPageProfileEdit,
-           action: MainTabPathAction.myPageProfileEdit){ store in
+           action: MainTabPathAction.myPageProfileEdit) { store in
              MyPageProfileEditView(store: store)
            }
       case .diary:
         CaseLet(
           /MainTabPathState.diary,
-           action: MainTabPathAction.diary){ store in
+           action: MainTabPathAction.diary) { store in
              DiaryView(store: store)
+           }
+      case .myPageLink:
+        CaseLet(
+          /MainTabPathState.myPageLink,
+           action: MainTabPathAction.myPageLink) { store in
+             MyPageLinkView(store: store)
            }
       }
     }
   }
-
+  
   private func setTabBarAppearance() {
     let appearance = UITabBarAppearance()
     appearance.backgroundColor = .white

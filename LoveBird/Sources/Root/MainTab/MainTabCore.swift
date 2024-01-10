@@ -54,6 +54,7 @@ struct MainTabCore: Reducer {
       case scheduleAdd(ScheduleAddState)
       case searchPlace(SearchPlaceState)
       case myPageProfileEdit(MyPageProfileEditState)
+      case myPageLink(MyPageLinkState)
     }
 
     enum Action: Equatable {
@@ -63,6 +64,7 @@ struct MainTabCore: Reducer {
       case scheduleAdd(ScheduleAddAction)
       case searchPlace(SearchPlaceAction)
       case myPageProfileEdit(MyPageProfileEditAction)
+      case myPageLink(MyPageLinkAction)
     }
 
     var body: some ReducerOf<Self> {
@@ -83,6 +85,9 @@ struct MainTabCore: Reducer {
       }
       Scope(state: /State.diary, action: /Action.diary) {
         DiaryCore()
+      }
+      Scope(state: /State.myPageLink, action: /Action.myPageLink) {
+        MyPageLinkCore()
       }
     }
   }
@@ -145,6 +150,10 @@ struct MainTabCore: Reducer {
       state.selectedTab = .home
       return .none
       
+    case .myPage(.successToLink):
+      state.selectedTab = .home
+      return .none
+      
     case .myPage(.editTapped):
       guard let profile = userData.get(key: .user, type: Profile.self) else { return .none }
       state.path.append(.myPageProfileEdit(.init(profile: profile)))
@@ -178,7 +187,9 @@ struct MainTabCore: Reducer {
         // TODO: NavigationStack을 사용하면서 Parent to Child로 Action 전달하는 로직 좀 더 고민해보기
         return .send(.path(.element(id: state.path.ids[0], action: .diaryDetail(.diaryReloaded))))
       }
-
+      
+      return .none
+      
     default:
       return .none
     }

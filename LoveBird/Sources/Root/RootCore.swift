@@ -152,6 +152,9 @@ struct RootCore: Reducer {
     case .path(.coupleLink(.successToLink)):
       return .send(.switchPath(.mainTab(.init())))
 
+    case .path(.coupleLink(.skipTapped)):
+      return .send(.switchPath(.mainTab(.init())))
+
     // MARK: - My Page
 
     case let .path(.mainTab(.path(.element(id: _, action: .myPageProfileEdit(.delegate(action)))))):

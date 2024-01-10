@@ -46,6 +46,7 @@ extension AlertController.Style {
     case deleteSchedule
     case logout
     case withdrawal
+    case link
 
     var content: AlertController.Style {
       switch self {
@@ -60,6 +61,9 @@ extension AlertController.Style {
 
       case .withdrawal:
         AlertController.Style.withdrawal
+        
+      case .link:
+        AlertController.Style.link
       }
     }
   }
@@ -92,6 +96,14 @@ extension AlertController.Style {
       title: "회원탈퇴를 하시겠어요?",
       description: "탈퇴를 하게 되면 모든 정보를 복구할 수 없어요",
       positiveButton: "확인",
+      negativeButton: "취소"
+    )
+  
+  static let link: AlertController.Style =
+    AlertController.Style(
+      title: "연인과 연결하시겠어요?",
+      description: "초대코드를 발송하거나 입력할 수 있어요",
+      positiveButton: "연결하러 가기",
       negativeButton: "취소"
     )
 }
