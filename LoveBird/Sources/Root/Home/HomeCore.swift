@@ -21,6 +21,7 @@ struct HomeCore: Reducer {
     var lineHeight: CGFloat = 0.0
     var contentHeight: CGFloat = 0.0
     var isScrolledToBottom: Bool = false
+    var isFirstLinkSuccess = true
   }
 
   // MARK: - Action
@@ -34,6 +35,7 @@ struct HomeCore: Reducer {
     case offsetYChanged(CGFloat)
     case contentHeightChanged(CGFloat)
     case scrolledToBottom
+    case closeLinkSuccessView
   }
 
   @Dependency(\.lovebirdApi) var lovebirdApi
@@ -86,6 +88,10 @@ struct HomeCore: Reducer {
         state.isScrolledToBottom = true
         return .none
 
+      case .closeLinkSuccessView:
+        state.isFirstLinkSuccess = false
+        return .none
+        
       default:
         return .none
       }
