@@ -25,7 +25,7 @@ struct MyPageLinkView: View {
             .font(.pretendard(size: 20, weight: .bold))
             .foregroundColor(.black)
             .frame(maxWidth: .infinity, alignment: .leading)
-            .padding(.top, 24)
+//            .padding(.top, 24)
           
           Spacer().frame(height: 12)
           
@@ -74,10 +74,7 @@ struct MyPageLinkView: View {
               borderColor: isTextFieldFocused ? .black : Color(asset: LoveBirdAsset.gray06),
               isFocused: self.$isTextFieldFocused
             )
-            .padding(.bottom, keyboard.currentHeight)
           }
-          
-          Spacer()
           
           Button {
             viewStore.send(.confirmButtonTapped)
@@ -92,9 +89,11 @@ struct MyPageLinkView: View {
           .frame(height: 56)
           .background(.black)
           .clipShape(RoundedRectangle(cornerRadius: 12))
-          .padding(.bottom, 20)
+          .padding(.bottom, isTextFieldFocused ? keyboard.currentHeight: 20)
+          .padding(.top, 20)
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .toolbar(.hidden, for: .tabBar)
+        .frame(maxWidth: .infinity)
         .padding(.horizontal, 16)
         .padding(.bottom, 20)
         .background(.white)
@@ -107,7 +106,6 @@ struct MyPageLinkView: View {
         .onTapGesture {
           isTextFieldFocused = false
         }
-//        .padding(.bottom, keyboard.currentHeight)
     }
   }
 }

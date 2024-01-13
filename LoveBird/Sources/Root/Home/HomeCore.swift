@@ -21,7 +21,7 @@ struct HomeCore: Reducer {
     var lineHeight: CGFloat = 0.0
     var contentHeight: CGFloat = 0.0
     var isScrolledToBottom: Bool = false
-    var isFirstLinkSuccess = true
+    var showLinkSuccessView = false
   }
 
   // MARK: - Action
@@ -36,6 +36,7 @@ struct HomeCore: Reducer {
     case contentHeightChanged(CGFloat)
     case scrolledToBottom
     case closeLinkSuccessView
+    case showLinkSuccessView
   }
 
   @Dependency(\.lovebirdApi) var lovebirdApi
@@ -46,14 +47,15 @@ struct HomeCore: Reducer {
     Reduce { state, action in
       switch action {
 
-      // MARK: - Life Cycle
-
+        // MARK: - Life Cycle
+        
       case .viewAppear:
         return .runWithLoading { send in
           do {
             let diaries = try await lovebirdApi.fetchDiaries()
             let profile = try await lovebirdApi.fetchProfile()
 
+            userData.remove(key: .user)
             userData.store(key: .user, value: profile)
 
             let homeDiaries = diariesForHome(
@@ -61,6 +63,11 @@ struct HomeCore: Reducer {
               profile: profile
             )
             await send(.dataLoaded(profile, homeDiaries))
+            
+            if let firstLink = userData.get(key: .firstLinkSuccess, type: Bool.self),
+               firstLink == true {
+              await send(.showLinkSuccessView)
+            }
           }
         }
 
@@ -89,7 +96,13 @@ struct HomeCore: Reducer {
         return .none
 
       case .closeLinkSuccessView:
-        state.isFirstLinkSuccess = false
+        state.showLinkSuccessView = false
+        userData.remove(key: .firstLinkSuccess)
+        userData.store(key: .firstLinkSuccess, value: false)
+        return .none
+        
+      case .showLinkSuccessView:
+        state.showLinkSuccessView = true
         return .none
         
       default:
@@ -110,7 +123,11 @@ struct HomeCore: Reducer {
     var isTodayDiaryAppended = false
 
     // D + 1
-    var diariesForDomain: [HomeDiary] = [HomeDiary.initialDiary(with: profile.firstDate ?? "0000-00-00")]
+//    guard let firstDate = profile.firstDate else {
+//      return
+//    }
+    
+    var diariesForDomain: [HomeDiary] = [HomeDiary.initialDiary(with: profile.firstDate ?? "")]
     diaries.enumerated().forEach { idx, diary in
       var diaryUpdated = diary
 

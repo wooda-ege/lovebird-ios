@@ -42,7 +42,7 @@ struct MyPageView: View {
                   Circle()
                     .fill(Color(asset: LoveBirdAsset.gray02))
                     .frame(width: 80, height: 80)
-                    .overlay(Image(asset: LoveBirdAsset.icBirdEdit), alignment: .center)
+                    .overlay(Image(asset: LoveBirdAsset.icBirdProfileEmpty), alignment: .center)
                     .overlay(
                       Circle()
                         .stroke(Color(asset: LoveBirdAsset.gray05), lineWidth: 1)
@@ -62,7 +62,7 @@ struct MyPageView: View {
                     Circle()
                       .fill(Color(asset: LoveBirdAsset.gray02))
                       .frame(width: 80, height: 80)
-                      .overlay(Image(asset: LoveBirdAsset.icBirdEdit), alignment: .center)
+                      .overlay(Image(asset: LoveBirdAsset.icBirdProfileEmpty), alignment: .center)
                       .overlay(
                         Circle()
                           .stroke(Color(asset: LoveBirdAsset.gray05), lineWidth: 1)

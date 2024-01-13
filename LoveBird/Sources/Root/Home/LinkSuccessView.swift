@@ -17,16 +17,18 @@ struct LinkSuccessView: View {
   var body: some View {
     WithViewStore(store, observe: { $0 }) { viewStore in
       VStack {
-        HStack(spacing: 0) {
-          Text(viewStore.profile?.partnerNickname ?? "달링이")
-            .foregroundStyle(Color(asset: LoveBirdAsset.green126))
-            .bold()
-          Text("님과 연결됐어요!")
-            .bold()
+        if let profile = viewStore.profile {
+          HStack(spacing: 0) {
+            Text(profile.partnerNickname ?? "달링이")
+              .foregroundStyle(Color(asset: LoveBirdAsset.green126))
+              .bold()
+            Text("님과 연결됐어요!")
+              .bold()
+          }
+          .font(.system(size: 16))
+          .padding(.bottom, 8)
+          .padding(.top, 32)
         }
-        .font(.system(size: 16))
-        .padding(.bottom, 8)
-        .padding(.top, 32)
         
         Text("러브버드에서 행복한 추억을 쌓아보세요!")
           .font(.system(size: 14))
@@ -82,39 +84,27 @@ struct LinkSuccessView: View {
         .padding(.bottom, 32)
         
         HStack {
-          Button(action: {
+          CommonHorizontalButton(
+            title: "닫기",
+            backgroundColor: .white, 
+            foregroundColor: .black
+          ) {
             viewStore.send(.closeLinkSuccessView)
-          }) {
-            Text("닫기")
-              .frame(width: 145.5, height: 56)
-              .font(.system(size: 16))
-              .padding()
-              .overlay(
-                RoundedRectangle(cornerRadius: 12)
-              )
           }
-          .foregroundColor(.white)
-          .background(.pink)
-          .cornerRadius(12)
+          .padding(.bottom, 20)
+          .padding(.horizontal, 16)
           
-          Button(action: {
-            print("첫번째 기록하기")
-          }) {
-            Text("첫번째 기록하기")
-              .tint(.white)
-              .frame(width: 145.5, height: 56)
-              .font(.system(size: 16))
-              .padding()
-              .overlay(
-                RoundedRectangle(cornerRadius: 12)
-              )
+          CommonHorizontalButton(
+            title: "첫번째 기록하기",
+            backgroundColor: .black
+          ) {
+            viewStore.send(.closeLinkSuccessView)
+            viewStore.send(.todoDiaryTapped)
           }
-          .foregroundStyle(Color.black)
-          .cornerRadius(12)
-          .padding(.bottom, 24)
+          .padding(.bottom, 20)
+          .padding(.horizontal, 16)
         }
       }
-      .padding(.horizontal, 24)
       .background(.white)
       .cornerRadius(12)
       .shadow(color: .black.opacity(0.16), radius: 12)
