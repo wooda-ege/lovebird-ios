@@ -14,7 +14,7 @@ extension Page {
     case profileImage
     case birth
     case gender
-    case anniversary
+    case firstDate
 
     var title: String {
       switch self {
@@ -33,7 +33,7 @@ extension Page {
       case .gender:
         return LoveBirdStrings.onboardingGenderTitle
 
-      case .anniversary:
+      case .firstDate:
         return LoveBirdStrings.onboardingDateTitle
       }
     }
@@ -55,13 +55,13 @@ extension Page {
       case .gender:
         return LoveBirdStrings.onboardingGenderDescription
 
-      case .anniversary:
+      case .firstDate:
         return LoveBirdStrings.onboardingDateDescription
       }
     }
 
     var canSkip: Bool {
-      return self == .birth || self == .profileImage || self == .anniversary
+      return self == .birth || self == .profileImage || self == .firstDate
     }
   }
 
@@ -74,7 +74,7 @@ extension Page {
   }
 
   var isLast: Bool {
-    return self.index == Onboarding.anniversary.rawValue
+    return self.index == Onboarding.firstDate.rawValue
   }
 }
 

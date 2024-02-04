@@ -18,7 +18,7 @@ struct RootCore: Reducer {
   }
 
   // MARK: - State
-  
+
   struct State: Equatable {
     var path: Path.State = .splash(.init())
     var isLoading = false
@@ -27,7 +27,7 @@ struct RootCore: Reducer {
   }
 
   // MARK: - Action
-  
+
   enum Action: Equatable {
     case path(Path.Action)
     case switchPath(Path.State)
@@ -82,7 +82,7 @@ struct RootCore: Reducer {
   }
 
   // MARK: - Dependency
-  
+
   @Dependency(\.lovebirdApi) var lovebirdApi
   @Dependency(\.userData) var userData
   @Dependency(\.loadingController) var loadingController
@@ -95,7 +95,7 @@ struct RootCore: Reducer {
 
   var body: some ReducerOf<Self> {
     Scope(state: \State.path, action: /Action.path) {
-        Path()
+      Path()
     }
     Reduce(core)
   }
@@ -103,7 +103,7 @@ struct RootCore: Reducer {
   func core(state: inout State, action: Action) -> Effect<Action> {
     switch action {
 
-    // MARK: - Splash
+      // MARK: - Splash
 
     case .path(.splash(.viewAppear)):
       return .run { send in
@@ -113,7 +113,7 @@ struct RootCore: Reducer {
         await send(.switchPath(rootState), animation: .default)
       }
 
-    // MARK: - Login
+      // MARK: - Login
 
     case .path(.login(.loginResponse(.success(let response), _))):
       userData.store(key: .accessToken, value: response.accessToken)
@@ -126,11 +126,11 @@ struct RootCore: Reducer {
       }
 
     case .path(.login(.loginResponse(.failure, let auth))):
-//        if 특정 약속된 로그인 실패 인경우 { ... } 현석이랑 약속해서 처리하면 좋음
-//        else 그외 네트워크 오류 등등 일 경우 { ... }
+      //        if 특정 약속된 로그인 실패 인경우 { ... } 현석이랑 약속해서 처리하면 좋음
+      //        else 그외 네트워크 오류 등등 일 경우 { ... }
       return .send(.switchPath(.onboarding(.init(auth: auth))))
 
-    // MARK: - Onboarding
+      // MARK: - Onboarding
 
     case .path(.onboarding(.signUpResponse(.success(let response)))):
       userData.store(key: .accessToken, value: response.accessToken)
@@ -147,12 +147,17 @@ struct RootCore: Reducer {
         }
       }
 
-    // MARK: - CoupleLink
+      // MARK: - CoupleLink
 
     case .path(.coupleLink(.successToLink)):
+      userData.store(key: .firstLinkSuccess, value: true)
       return .send(.switchPath(.mainTab(.init())))
 
-    // MARK: - My Page
+    case .path(.coupleLink(.skipTapped)):
+      userData.store(key: .tapSkipButton, value: true)
+      return .send(.switchPath(.mainTab(.init())))
+
+      // MARK: - My Page
 
     case let .path(.mainTab(.path(.element(id: _, action: .myPageProfileEdit(.delegate(action)))))):
       switch action {
@@ -161,7 +166,7 @@ struct RootCore: Reducer {
         return .send(.switchPath(.login(.init())))
       }
 
-    // MARK: - Etc
+      // MARK: - Etc
 
     case .viewAppear:
       return .merge(
@@ -212,14 +217,17 @@ struct RootCore: Reducer {
       return .none
     }
   }
-
-  // MARK: - Private Methods
   
+  // MARK: - Private Methods
+
   private func switchState(with profile: Profile?) -> Path.State {
     guard let profile else { return .login(LoginCore.State()) }
 
     if profile.partnerId.isNil {
-      return .coupleLink(CoupleLinkCore.State())
+      guard userData.get(key: .tapSkipButton, type: Bool.self) != nil else {
+        return .coupleLink(CoupleLinkCore.State())
+      }
+      return .mainTab(MainTabCore.State())
     } else {
       return .mainTab(MainTabCore.State())
     }

@@ -25,56 +25,100 @@ struct OnboardingView: View {
             switch $0 {
             case .email:
               OnboardingEmailView(store: self.store)
+
             case .nickname:
               OnboardingNicknameView(store: self.store)
+
             case .profileImage:
               OnboardingProfileView(store: self.store)
+
             case .birth:
               OnboardingBirthDateView(store: self.store)
+
             case .gender:
               OnboardingGenderView(store: self.store)
-            case .anniversary:
-              OnboardingAnniversaryView(store: self.store)
+              
+            case .firstDate:
+              OnboardingFirstDateView(store: self.store)
             }
           }
           .allowsDragging(false)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
 
-        if viewStore.showBottomSheet {
-          CommonBottomSheetView(isOpen: viewStore.binding(
-            get: \.showBottomSheet,
-            send: .hideBottomSheet
-          )) {
-            VStack {
-              DatePickerView(
-                date: viewStore.pageState == .birth
-                  ? viewStore.binding(get: \.birth, send: OnboardingAction.birthUpdated)
-                  : viewStore.binding(get: \.anniversary, send: OnboardingAction.anniversaryUpdated)
-              )
+        birthdayPickerView
+        firstDatePickerView
+      }
+    }
+  }
+}
 
-              HStack(spacing: 8) {
-                CommonHorizontalButton(
-                  title: LoveBirdStrings.onboardingDateInitial,
-                  backgroundColor: Color(asset: LoveBirdAsset.gray05)
-                ) {
-                  if viewStore.pageState == .birth {
-                    viewStore.send(.birthInitialized)
-                  } else {
-                    viewStore.send(.anniversaryInitialized)
-                  }
-                }
+private extension OnboardingView {
+  var birthdayPickerView: some View {
+    WithViewStore(store, observe: { $0 }) { viewStore in
+      CommonBottomSheetView(isOpen: viewStore.binding(
+        get: \.shouldShowBirthdayPickerView, send: OnboardingAction.birthdayPickerViewVisible
+      )) {
+        VStack {
+          DatePickerView(date: viewStore.binding(
+            get: \.birth, send: OnboardingAction.birthUpdated
+          ))
 
-                CommonHorizontalButton(
-                  title: LoveBirdStrings.commonConfirm,
-                  backgroundColor: .black
-                ) {
-                  viewStore.send(.hideBottomSheet)
-                }
+          HStack(spacing: 8) {
+            CommonHorizontalButton(
+              title: LoveBirdStrings.onboardingDateInitial,
+              backgroundColor: Color(asset: LoveBirdAsset.gray05)
+            ) {
+              if viewStore.pageState == .birth {
+                viewStore.send(.birthInitialized)
+              } else {
+                viewStore.send(.firstDateInitialized)
               }
-              .padding(.horizontal, 16)
+            }
+
+            CommonHorizontalButton(
+              title: LoveBirdStrings.commonConfirm,
+              backgroundColor: .black
+            ) {
+              viewStore.send(.birthdayPickerViewVisible(false))
             }
           }
+          .padding(.horizontal, 16)
+        }
+      }
+    }
+  }
+
+  var firstDatePickerView: some View {
+    WithViewStore(store, observe: { $0 }) { viewStore in
+      CommonBottomSheetView(isOpen: viewStore.binding(
+        get: \.shouldShowFirstDatePickerView, send: OnboardingAction.firstDatePickerViewVisible
+      )) {
+        VStack {
+          DatePickerView(date: viewStore.binding(
+            get: \.firstDate, send: OnboardingAction.firstDateUpdated
+          ))
+
+          HStack(spacing: 8) {
+            CommonHorizontalButton(
+              title: LoveBirdStrings.onboardingDateInitial,
+              backgroundColor: Color(asset: LoveBirdAsset.gray05)
+            ) {
+              if viewStore.pageState == .birth {
+                viewStore.send(.birthInitialized)
+              } else {
+                viewStore.send(.firstDateInitialized)
+              }
+            }
+
+            CommonHorizontalButton(
+              title: LoveBirdStrings.commonConfirm,
+              backgroundColor: .black
+            ) {
+              viewStore.send(.firstDatePickerViewVisible(false))
+            }
+          }
+          .padding(.horizontal, 16)
         }
       }
     }

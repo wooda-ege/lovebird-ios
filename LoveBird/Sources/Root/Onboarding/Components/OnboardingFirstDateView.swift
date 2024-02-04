@@ -8,16 +8,17 @@
 import SwiftUI
 import ComposableArchitecture
 
-struct OnboardingAnniversaryView: View {
-  
+struct OnboardingFirstDateView: View {
+
   let store: StoreOf<OnboardingCore>
   
   var body: some View {
     WithViewStore(self.store, observe: { $0 }) { viewStore in
       VStack {
-        OnboardingDateView(date: viewStore.anniversary) {
-          viewStore.send(.showBottomSheet)
-        }
+        OnboardingDateView(
+          date: viewStore.firstDate,
+          onTap: {viewStore.send(.firstDatePickerViewVisible(true))}
+        )
         .padding(.top, 24)
         .padding(.horizontal, 16)
 
@@ -37,7 +38,7 @@ struct OnboardingAnniversaryView: View {
 }
 
 #Preview {
-  OnboardingAnniversaryView(
+  OnboardingFirstDateView(
     store: Store(
       initialState: OnboardingState(
         auth: .init(

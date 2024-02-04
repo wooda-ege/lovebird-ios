@@ -1,20 +1,17 @@
 //
-//  CoupleLinkCore.swift
-//  wooda
+//  MyPageLinkCore.swift
+//  LoveBird
 //
-//  Created by 이예은 on 2023/08/16.
+//  Created by 이예은 on 1/7/24.
 //
 
-import ComposableArchitecture
-import SwiftUIPager
-import Foundation
 import SwiftUI
-import UIKit
+import ComposableArchitecture
 
-typealias CoupleLinkState = CoupleLinkCore.State
-typealias CoupleLinkAction = CoupleLinkCore.Action
+typealias MyPageLinkState = MyPageLinkCore.State
+typealias MyPageLinkAction = MyPageLinkCore.Action
 
-struct CoupleLinkCore: Reducer {
+struct MyPageLinkCore: Reducer {
   struct State: Equatable {
     var invitationCode: String = ""
     var invitationInputCode: String = ""
@@ -24,7 +21,6 @@ struct CoupleLinkCore: Reducer {
   
   enum Action: Equatable {
     case viewAppear
-    case skipTapped
     case successToLink
     case initialInvitationCode(String)
     case imageSelected(UIImage?)
@@ -47,11 +43,6 @@ struct CoupleLinkCore: Reducer {
       case let .initialInvitationCode(code):
         state.invitationCode = code
         return .none
-
-      case .skipTapped:
-        return .run { send in
-          await send(.skipTapped)
-        }
         
       case .confirmButtonTapped:
         return .run { [code = state.invitationInputCode] send in

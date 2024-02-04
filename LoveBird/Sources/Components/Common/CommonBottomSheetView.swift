@@ -36,15 +36,15 @@ struct CommonBottomSheetView<Content: View>: View {
       .frame(width: geometry.size.width, alignment: .top)
       .background(.white)
       .cornerRadius(32)
-      .shadow(color: .black.opacity(0.08), radius: 32)
+      .shadow(color: .black.opacity(0.2), radius: 32)
       .offset(y: self.isOpen ? self.offsetY + self.translation - self.height : UIScreen.height)
-      .animation(.interactiveSpring(), value: self.isOpen)
+      .animation(.interactiveSpring(duration: 0.4), value: self.isOpen)
       .gesture(
         DragGesture().updating(self.$translation) { value, state, _ in
           if value.translation.height < 0 { return }
           state = value.translation.height
         }.onEnded { value in
-          guard value.translation.height > min(self.height * 0.5, 200) else { return }
+          guard value.translation.height > 20 else { return }
           self.isOpen = false
         }
       )

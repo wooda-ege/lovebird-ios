@@ -12,38 +12,86 @@ import SwiftUI
 import Kingfisher
 
 struct MyPageView: View {
+  @StateObject private var keyboard = KeyboardResponder()
+  
   let store: StoreOf<MyPageCore>
   
   var body: some View {
     WithViewStore(self.store, observe: { $0 }) { viewStore in
-      VStack {
-        Text("마이페이지")
-          .font(.pretendard(size: 18, weight: .bold))
-          .frame(height: 44)
+      ZStack {
+
+        VStack {
+          toolbar
+          coupleStatusView
+
+          Rectangle()
+            .fill(Color(asset: LoveBirdAsset.gray02))
+            .frame(height: 20)
+            .padding(.top, 20)
+            .padding(.bottom, 10)
+
+          settingsView
+
+          Spacer()
+        }
+        .foregroundColor(.black)
+        .onAppear {
+          viewStore.send(.viewAppear)
+        }
         
-        VStack(spacing: 5) {
-          ZStack(alignment: .center) {
-            HStack(spacing: 20) {
-              Spacer()
+        if viewStore.showBottomSheet {
+          CommonBottomSheetView(isOpen: viewStore.binding(
+            get: \.showBottomSheet,
+            send: .hideBottomSheet
+          )) {
+            MyPageLinkView(
+              store: store.scope(state: \.mypageLink, action: MyPageCore.Action.mypageLink)
+            )
+          }
+        }
+      }
+    }
+  }
+}
 
-              if let urlString = viewStore.user?.profileImageUrl {
-                KFImage(URL(string: urlString))
-                  .frame(size: 80)
-              } else {
-                Circle()
-                  .fill(Color(asset: LoveBirdAsset.gray02))
-                  .frame(width: 80, height: 80)
-                  .overlay(Image(asset: LoveBirdAsset.icBirdEdit), alignment: .center)
-                  .overlay(
-                    Circle()
-                      .stroke(Color(asset: LoveBirdAsset.gray05), lineWidth: 1)
-                  )
-              }
+private extension MyPageView {
+  var toolbar: some View {
+    CommonToolBar<EmptyView>(title: "마이페이지")
+  }
 
-              Image(asset: LoveBirdAsset.icBirdGray)
-                .changeSize(to: .init(width: 24, height: 24))
-                .changeColor(to: Color(asset: LoveBirdAsset.gray04))
+  var coupleStatusView: some View {
+    WithViewStore(store, observe: { $0 }) { viewStore in
+      VStack(spacing: 5) {
+        ZStack(alignment: .center) {
+          HStack(spacing: 20) {
+            Spacer()
 
+            if let urlString = viewStore.user?.profileImageUrl {
+              Circle()
+                .fill(Color(asset: LoveBirdAsset.gray02))
+                .overlay(KFImage(URL(string: urlString)).resizable(), alignment: .center)
+                .frame(width: 80, height: 80)
+                .overlay(
+                  Circle()
+                    .stroke(Color(asset: LoveBirdAsset.gray05), lineWidth: 1)
+                )
+            } else {
+              Circle()
+                .fill(Color(asset: LoveBirdAsset.gray02))
+                .frame(width: 80, height: 80)
+                .overlay(Image(asset: LoveBirdAsset.icBirdProfileEmpty), alignment: .center)
+                .overlay(
+                  Circle()
+                    .stroke(Color(asset: LoveBirdAsset.gray05), lineWidth: 1)
+                )
+            }
+
+            Image(asset: LoveBirdAsset.icBirdGray)
+              .changeSize(to: .init(width: 24, height: 24))
+              .changeColor(to: Color(asset: LoveBirdAsset.gray04))
+
+            // user 확인
+            if let _ = viewStore.user?.partnerNickname {
               if let urlString = viewStore.user?.partnerImageUrl {
                 KFImage(URL(string: urlString))
                   .frame(size: 80)
@@ -51,84 +99,90 @@ struct MyPageView: View {
                 Circle()
                   .fill(Color(asset: LoveBirdAsset.gray02))
                   .frame(width: 80, height: 80)
-                  .overlay(Image(asset: LoveBirdAsset.icBirdEdit), alignment: .center)
+                  .overlay(Image(asset: LoveBirdAsset.icBirdProfileEmpty), alignment: .center)
                   .overlay(
                     Circle()
                       .stroke(Color(asset: LoveBirdAsset.gray05), lineWidth: 1)
                   )
               }
-
-              Spacer()
+            } else {
+              Circle()
+                .fill(Color(asset: LoveBirdAsset.gray02))
+                .frame(width: 80, height: 80)
+                .overlay(Image(asset: LoveBirdAsset.icBirdProfileEdit), alignment: .center)
+                .overlay(
+                  Circle()
+                    .stroke(Color(asset: LoveBirdAsset.gray05), lineWidth: 1)
+                )
+                .onTapGesture {
+                  viewStore.send(.partnerProfileTapped)
+                }
             }
-          }
 
-          HStack(alignment: .center, spacing: 0) {
-            Spacer()
-            
-            Text("사랑한 지 ")
-              .foregroundColor(.black)
-              .font(.pretendard(size: 16, weight: .bold))
-            
-            Text(String(viewStore.user?.dayCount ?? 0))
-              .foregroundColor(Color(asset: LoveBirdAsset.primary))
-              .font(.pretendard(size: 16, weight: .bold))
-            
-            Text(" 일 째")
-              .foregroundColor(.black)
-              .font(.pretendard(size: 16, weight: .bold))
-            
             Spacer()
           }
-          .frame(height: 34)
-          .padding(.top, 8)
-          
-          ZStack(alignment: .center) {
-            HStack(spacing: 34) {
-              Text(viewStore.user?.nickname ?? "")
-                .font(.pretendard(size: 14))
-                .frame(maxWidth: .infinity, alignment: .trailing)
-              
-              Text(viewStore.user?.partnerNickname ?? "")
-                .font(.pretendard(size: 14))
-                .frame(maxWidth: .infinity, alignment: .leading)
-            }
-            
-            Image(asset: LoveBirdAsset.icBird)
-              .changeSize(to: .init(width: 24, height: 24))
-              .changeColor(to: Color(asset: LoveBirdAsset.gray04))
-          }
-          .frame(height: 34)
         }
-        
-        Rectangle()
-          .fill(Color(asset: LoveBirdAsset.gray02))
-          .frame(height: 20)
-          .padding(.top, 20)
 
-        VStack(spacing: 0) {
-          Button { viewStore.send(.editTapped) } label: {
-            MyPageItemView(title: "프로필 수정")
-          }
+        HStack(alignment: .center, spacing: 0) {
+          Spacer()
 
-          NavigationLink(destination: MyWebView(urlToLoad: Config.privacyPolicyURL)) {
-            MyPageItemView(title: "개인정보 처리방침")
-          }
+          Text("사랑한 지 ")
+            .foregroundColor(.black)
+            .font(.pretendard(size: 16, weight: .bold))
 
-          MyPageItemView(title: "버전정보") {
-            Text(Bundle.main.version)
-              .font(.pretendard(size: 16))
-              .padding(.trailing, 16)
-          }
+          Text(String(viewStore.user?.dayCount ?? 0))
+            .foregroundColor(Color(asset: LoveBirdAsset.primary))
+            .font(.pretendard(size: 16, weight: .bold))
+
+          Text(" 일 째")
+            .foregroundColor(.black)
+            .font(.pretendard(size: 16, weight: .bold))
+
+          Spacer()
         }
-        .padding(.top, 10)
-        .padding(.horizontal, 16)
-        
-        Spacer()
+        .frame(height: 34)
+        .padding(.top, 8)
+
+        ZStack(alignment: .center) {
+          HStack(spacing: 34) {
+            Text(viewStore.user?.nickname ?? "")
+              .font(.pretendard(size: 14))
+              .frame(maxWidth: .infinity, alignment: .trailing)
+
+            Text(viewStore.user?.partnerNickname ?? "달링이")
+              .font(.pretendard(size: 14))
+              .frame(maxWidth: .infinity, alignment: .leading)
+              .foregroundStyle(viewStore.user?.partnerNickname != nil ? .black : Color(asset: LoveBirdAsset.gray146))
+
+          }
+
+          Image(asset: LoveBirdAsset.icBird)
+            .changeSize(to: .init(width: 24, height: 24))
+            .changeColor(to: Color(asset: LoveBirdAsset.gray04))
+        }
+        .frame(height: 34)
       }
-      .foregroundColor(.black)
-      .onAppear {
-        viewStore.send(.viewAppear)
+    }
+  }
+
+  var settingsView: some View {
+    WithViewStore(store, observe: { $0 }) { viewStore in
+      VStack(spacing: 0) {
+        Button { viewStore.send(.editTapped) } label: {
+          MyPageItemView(title: "회원 정보 수정")
+        }
+
+        NavigationLink(destination: MyWebView(urlToLoad: Config.privacyPolicyURL)) {
+          MyPageItemView(title: "개인정보 처리방침")
+        }
+
+        MyPageItemView(title: "버전정보") {
+          Text(Bundle.main.version)
+            .font(.pretendard(size: 16))
+            .padding(.trailing, 16)
+        }
       }
+      .padding(.horizontal, 16)
     }
   }
 }

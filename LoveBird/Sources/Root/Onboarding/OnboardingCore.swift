@@ -36,7 +36,7 @@ struct OnboardingCore: Reducer {
     var pageState: Page.Onboarding
     var emailTextFieldState: TextFieldState = .none
     var nicknameTextFieldState: TextFieldState = .none
-    var showBottomSheet = false
+
     var skipPages: [Page.Onboarding] = []
     
     var canSkip: Bool {
@@ -53,12 +53,14 @@ struct OnboardingCore: Reducer {
 
     // page4 - birthday
     var birth: SimpleDate = .init()
+    var shouldShowBirthdayPickerView = false
 
     // page5 - gender
     var gender: Gender? = nil
 
-    // page6 - anniversary
-    var anniversary: SimpleDate = .init()
+    // page6 - firstDate
+    var firstDate: SimpleDate = .init()
+    var shouldShowFirstDatePickerView = false
   }
 
   enum Action: Equatable {
@@ -67,11 +69,9 @@ struct OnboardingCore: Reducer {
     case previousTapped
     case nextButtonTapped
     case skipTapped
-    case showBottomSheet
-    case hideBottomSheet
     case doneButtonTapped
     case flush
-    
+
     // page1 - email
     case emailFocusFlashed
     case emailEdited(String)
@@ -86,14 +86,16 @@ struct OnboardingCore: Reducer {
     // page4 - birthday
     case birthInitialized
     case birthUpdated(SimpleDate)
+    case birthdayPickerViewVisible(Bool)
     case skipbirth
 
     // page5 - gender
     case genderSelected(Gender)
     
-    // page6 - anniversary
-    case anniversaryInitialized
-    case anniversaryUpdated(SimpleDate)
+    // page6 - firstDate
+    case firstDateInitialized
+    case firstDateUpdated(SimpleDate)
+    case firstDatePickerViewVisible(Bool)
 
     // Network
     case signUpResponse(TaskResult<Token>)
@@ -122,7 +124,7 @@ struct OnboardingCore: Reducer {
               email: state.email.isEmpty ? nil : state.email,
               nickname: state.nickname,
               birthDay: state.skipPages.contains(.birth) ? nil : state.birth.toYMDFormat(),
-              firstDate: state.skipPages.contains(.anniversary) ? nil : state.anniversary.toYMDFormat(),
+              firstDate: state.skipPages.contains(.firstDate) ? nil : state.firstDate.toYMDFormat(),
               gender: state.gender?.rawValue ?? "UNKNOWN",
               deviceToken: "fcm"
             )
@@ -139,8 +141,8 @@ struct OnboardingCore: Reducer {
         }
 
       case .skipTapped:
-        guard state.pageState != .anniversary else {
-          state.skipPages.append(.anniversary)
+        guard state.pageState != .firstDate else {
+          state.skipPages.append(.firstDate)
           return .send(.doneButtonTapped)
         }
 
@@ -192,25 +194,26 @@ struct OnboardingCore: Reducer {
         state.gender = gender
         return .none
 
-      case .anniversaryInitialized:
-        state.anniversary = .init()
+      case .firstDateInitialized:
+        state.firstDate = .init()
         return .none
 
-      case .anniversaryUpdated(let anniversary):
-        state.anniversary = anniversary
+      case .firstDateUpdated(let firstDate):
+        state.firstDate = firstDate
         return .none
 
-      case .showBottomSheet:
-        state.showBottomSheet = true
+      case .birthdayPickerViewVisible(let visible):
+        state.shouldShowBirthdayPickerView = visible
         return .none
 
-      case .hideBottomSheet:
-        state.showBottomSheet = false
+      case .firstDatePickerViewVisible(let visible):
+        state.shouldShowFirstDatePickerView = visible
         return .none
 
       case .flush:
         UIApplication.shared.endEditing(true)
-        state.showBottomSheet = false
+        state.shouldShowBirthdayPickerView = false
+        state.shouldShowFirstDatePickerView = false
         return .none
 
       default:
@@ -235,7 +238,7 @@ struct OnboardingCore: Reducer {
     case .birth:
       break
 
-    case .anniversary:
+    case .firstDate:
       return
     }
 

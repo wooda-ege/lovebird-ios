@@ -11,46 +11,25 @@ import SwiftUI
 struct CommonToolBar<Content: View>: View {
 
   let title: String
-  let hideBackButton: Bool
-  let backAction: () -> Void
+  let backAction: (() -> Void)?
   let content: Content?
 
-  init(backAction: @escaping () -> Void, @ViewBuilder content: () -> Content) {
-    self.init(title: "", backAction: backAction, content: content)
-  }
-  
-  init(title: String, backAction: @escaping () -> Void, @ViewBuilder content: () -> Content) {
-    self.init(title: title, hideBackButton: false, backAction: backAction, content: content)
-  }
 
-  init(title: String, hideBackButton: Bool, backAction: @escaping () -> Void, @ViewBuilder content: () -> Content) {
+  init(title: String = "", backAction: (() -> Void)? = nil, @ViewBuilder content: (() -> Content)) {
     self.title = title
-    self.hideBackButton = hideBackButton
     self.backAction = backAction
     self.content = content()
   }
 
-  init(title: String, backAction: @escaping () -> Void) {
+  init(title: String = "", backAction: (() -> Void)? = nil) {
     self.title = title
-    self.hideBackButton = false
     self.backAction = backAction
     self.content = nil
   }
-  
+
   var body: some View {
     HStack(alignment: .center) {
-      if hideBackButton {
-        Rectangle()
-          .fill(.clear)
-          .frame(maxWidth: .infinity)
-      } else {
-        Button(action: backAction, label: {
-          Image(asset: LoveBirdAsset.icBack)
-            .resizable()
-            .frame(width: 24, height: 24)
-        })
-        .frame(maxWidth: .infinity, alignment: .leading)
-      }
+      backButtonOrEmpty
 
       Spacer()
 
@@ -62,19 +41,40 @@ struct CommonToolBar<Content: View>: View {
 
       Spacer()
 
-      if content == nil {
-        Rectangle()
-          .fill(Color(.white))
-          .frame(maxWidth: .infinity, alignment: .trailing)
-      } else {
-        content
-          .frame(maxWidth: .infinity, alignment: .trailing)
-      }
+      rightItemView
     }
     .background(.white)
     .frame(height: 44)
     .frame(maxWidth: .infinity)
     .padding(.horizontal, 16)
+  }
+}
+
+private extension CommonToolBar {
+  var backButtonOrEmpty: some View {
+    Group {
+      if let backAction {
+        Button(action: backAction, label: {
+          Image(asset: LoveBirdAsset.icBack)
+            .resizable()
+            .frame(width: 24, height: 24)
+        })
+      } else {
+        Rectangle()
+          .fill(.clear)
+      }
+    }
+    .frame(maxWidth: .infinity, alignment: .leading)
+  }
+
+  var rightItemView: some View {
+    Group {
+      if let content { content } else {
+        Rectangle()
+          .fill(.clear)
+      }
+    }
+    .frame(maxWidth: .infinity, alignment: .trailing)
   }
 }
 

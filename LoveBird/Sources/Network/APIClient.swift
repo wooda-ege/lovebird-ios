@@ -22,8 +22,7 @@ public enum APIClient {
 
   // profile
   case fetchProfile
-  case editProfileAnnivarsary(image: Data?, profile: EditProfileAnnivarsaryRequest)
-  case editProfile(image: Data?, profile: EditProfileRequest)
+  case editProfile(profile: EditProfileRequest)
 
   // coupleLink
   case linkCouple(linkCouple: LinkCoupleRequest)
@@ -47,6 +46,8 @@ public enum APIClient {
 }
 
 extension APIClient: TargetType {
+
+  // MARK: - Properties
 
   public var userData: UserData {
     @Dependency(\.userData) var userData
@@ -95,7 +96,7 @@ extension APIClient: TargetType {
       case .addSchedule, .fetchCalendars:
         return "/calendar"
         
-      case .fetchProfile, .editProfile, .editProfileAnnivarsary:
+      case .fetchProfile, .editProfile:
         return "/profile"
         
       case .signUp:
@@ -103,6 +104,8 @@ extension APIClient: TargetType {
         
       case let .fetchSchedule(id), let .deleteSchedule(id), let .editSchedule(id, _):
         return "/calendar/\(id)"
+
+
       }
   }
 
@@ -115,7 +118,7 @@ extension APIClient: TargetType {
         .fetchSchedule, .checkIsLinked, .searchPlaces, .fetchCoupleCode:
       return .get
 
-    case .editSchedule, .editDiary, .editProfile, .editProfileAnnivarsary, .linkCouple:
+    case .editSchedule, .editDiary, .editProfile, .linkCouple:
       return .put
 
     case .deleteSchedule, .deleteDiary, .withdrawal:
@@ -128,7 +131,8 @@ extension APIClient: TargetType {
     case .addSchedule(let encodable as Encodable),
         .editSchedule(_, let encodable as Encodable),
         .linkCouple(let encodable as Encodable),
-        .authenticate(let encodable as Encodable):
+        .authenticate(let encodable as Encodable),
+        .editProfile(let encodable as Encodable):
       return .requestJSONEncodable(encodable)
 
     case let .searchPlaces(encodable):
@@ -136,7 +140,7 @@ extension APIClient: TargetType {
 
       // MARK: - Multiparts
 
-    case .editProfile, .addDiary, .signUp, .editDiary:
+    case .addDiary, .signUp, .editDiary:
       return .uploadMultipart(self.multiparts)
 
     default:
@@ -162,26 +166,6 @@ extension APIClient: TargetType {
     var multiparts: [Moya.MultipartFormData] = []
 
     switch self {
-    case .editProfile(let image, let editProfileRequset):
-      let editProfile = try! JSONEncoder().encode(editProfileRequset)
-      multiparts.append(
-        .init(
-          provider: .data(editProfile),
-          name: "profileUpdateRequest",
-          mimeType: "application/json"
-        )
-      )
-      if let image {
-        multiparts.append(
-          .init(
-            provider: .data(image),
-            name: "1-1",
-            fileName: "1-1.png",
-            mimeType: "image/png"
-          )
-        )
-      }
-
     case .signUp(let image, let auth, let signUp):
       let auth = try! JSONEncoder().encode(auth)
       let signUp = try! JSONEncoder().encode(signUp)
@@ -271,12 +255,14 @@ extension MoyaProvider {
             print("\(networkResponse.data)\n")
           } catch {
             continuation.resume(throwing: error)
-            print("<----- Network Exception: \(error)\n")
+            print("<----- Network Exception: (\(target))")
+            print("\(error)\n")
           }
 
         case .failure(let error):
-          print("<----- Network Failure: \(error)\n")
           continuation.resume(throwing: error)
+          print("<----- Network Failure: (\(target))")
+          print("\(error)\n")
         }
       }
     }
@@ -293,12 +279,14 @@ extension MoyaProvider {
             print("<----- Network Success (\(target))\n")
           } catch {
             continuation.resume(throwing: error)
-            print("<----- Network Exception: \(error)\n")
+            print("<----- Network Exception: (\(target))")
+            print("\(error)\n")
           }
           
         case .failure(let error):
           continuation.resume(throwing: error)
-          print("<----- Network Exception: \(error)\n")
+          print("<----- Network Exception: (\(target))")
+          print("\(error)\n")
         }
       }
     }
@@ -316,12 +304,14 @@ extension MoyaProvider {
             print("\(networkResponse)\n")
           } catch {
             continuation.resume(throwing: error)
-            print("<----- Network Exception: \(error)\n")
+            print("<----- Network Exception: (\(target))")
+            print("\(error)\n")
           }
           
         case .failure(let error):
           continuation.resume(throwing: error)
-          print("<----- Network Exception: \(error)\n")
+          print("<----- Network Exception: (\(target))")
+          print("\(error)\n")
         }
       }
     }

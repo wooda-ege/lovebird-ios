@@ -25,6 +25,7 @@ struct MyPageItemView<Content: View>: View {
   var body: some View {
     HStack(alignment: .center) {
       Text(title)
+        .foregroundColor(.black)
         .font(.pretendard(size: 16))
         .padding(.leading, 16)
 

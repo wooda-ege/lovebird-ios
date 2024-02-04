@@ -12,10 +12,12 @@ struct CommonHorizontalButton: View {
   let title: String
   let backgroundColor: Color
   let onTap: () -> Void
-
-  init(title: String, backgroundColor: Color = .black, onTap: @escaping () -> Void) {
+  let foregroundColor: Color?
+  
+  init(title: String, backgroundColor: Color = .black, foregroundColor: Color = .white, onTap: @escaping () -> Void) {
     self.title = title
     self.backgroundColor = backgroundColor
+    self.foregroundColor = foregroundColor
     self.onTap = onTap
   }
 
@@ -24,7 +26,7 @@ struct CommonHorizontalButton: View {
       TouchableView {
         Text(self.title)
           .font(.pretendard(size: 16, weight: .semiBold))
-          .foregroundColor(.white)
+          .foregroundColor(foregroundColor)
       }
     }
     .frame(height: 56)
