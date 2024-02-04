@@ -8,11 +8,24 @@
 import Foundation
 
 public struct EditProfileRequest: Encodable {
-  let nickname: String
-  let email: String
-}
 
-public struct EditProfileAnnivarsaryRequest: Encodable {
-  let annivarsary: String
-  let birthdate: String
+  init(
+    imageUrl: String? = nil,
+    nickname: String? = nil,
+    email: String? = nil,
+    firstDate: String? = nil,
+    birthday: String? = nil
+  ) {
+    self.imageUrl = imageUrl
+    self.nickname = nickname
+    self.email = email
+    self.firstDate = firstDate
+    self.birthday = birthday
+  }
+
+  let imageUrl: String?
+  let nickname: String?
+  let email: String?
+  let firstDate: String?
+  let birthday: String?
 }

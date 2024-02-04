@@ -7,9 +7,6 @@
 
 import ComposableArchitecture
 
-typealias MyPageState = MyPageCore.State
-typealias MyPageAction = MyPageCore.Action
-
 struct MyPageCore: Reducer {
   
   // MARK: - State
@@ -88,3 +85,6 @@ struct MyPageCore: Reducer {
     }
   }
 }
+
+typealias MyPageState = MyPageCore.State
+typealias MyPageAction = MyPageCore.Action

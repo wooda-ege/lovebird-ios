@@ -69,36 +69,56 @@ struct MainTabView: View {
            action: MainTabPathAction.diaryDetail,
            then: DiaryDetailView.init
         )
+
       case .scheduleDetail:
         CaseLet(
           /MainTabPathState.scheduleDetail,
            action: MainTabPathAction.scheduleDetail,
            then: ScheduleDetailView.init
         )
+
       case .scheduleAdd:
         CaseLet(
           /MainTabPathState.scheduleAdd,
            action: MainTabPathAction.scheduleAdd,
            then: ScheduleAddView.init
         )
+
       case .searchPlace:
         CaseLet(
           /MainTabPathState.searchPlace,
            action: MainTabPathAction.searchPlace) { store in
              SearchPlaceView(store: store)
            }
+
+      case .myPageEdit:
+        CaseLet(
+          /MainTabPathState.myPageEdit,
+           action: MainTabPathAction.myPageEdit,
+           then: MyPageEditView.init
+        )
+
       case .myPageProfileEdit:
         CaseLet(
           /MainTabPathState.myPageProfileEdit,
            action: MainTabPathAction.myPageProfileEdit) { store in
              MyPageProfileEditView(store: store)
            }
+
+      case .myPageAnniversaryEdit:
+        CaseLet(
+          /MainTabPathState.myPageAnniversaryEdit,
+           action: MainTabPathAction.myPageAnniversaryEdit) { store in
+             MyPageAnniversaryEditView(store: store)
+           }
+
       case .diary:
         CaseLet(
           /MainTabPathState.diary,
            action: MainTabPathAction.diary) { store in
              DiaryView(store: store)
            }
+
       case .myPageLink:
         CaseLet(
           /MainTabPathState.myPageLink,

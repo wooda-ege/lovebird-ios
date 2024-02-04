@@ -74,6 +74,9 @@ extension HomeView {
           ForEach(viewStore.diaries, id: \.diaryId) { diary in
             HomeItem(store: store, diary: diary)
           }
+
+          Color.clear
+            .padding(.bottom, 20)
         }
         .scrollViewOrigin(callback: { point in
           viewStore.send(.offsetYChanged(point.y))

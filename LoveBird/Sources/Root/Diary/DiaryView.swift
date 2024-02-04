@@ -42,10 +42,12 @@ struct DiaryView: View {
 extension DiaryView {
   var toolbar: some View {
     WithViewStore(store, observe: { $0 }) { viewStore in
-      CommonToolBar(title: "일기 쓰기", hideBackButton: viewStore.type == .add, backAction: { viewStore.send(.backTapped) }) {
+      CommonToolBar(
+        title: "일기 쓰기",
+        backAction: viewStore.type == .add ? { viewStore.send(.backTapped) } : nil
+      ) {
         Button {
           viewStore.send(.completeTapped)
-
         } label: {
           Text(LoveBirdStrings.commonComplete)
             .foregroundColor((viewStore.title.isEmpty || viewStore.content.isEmpty) ? Color(asset: LoveBirdAsset.green234) : Color(asset: LoveBirdAsset.primary))

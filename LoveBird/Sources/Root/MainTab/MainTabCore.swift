@@ -53,7 +53,9 @@ struct MainTabCore: Reducer {
       case scheduleDetail(ScheduleDetailState)
       case scheduleAdd(ScheduleAddState)
       case searchPlace(SearchPlaceState)
+      case myPageEdit(MyPageEditState)
       case myPageProfileEdit(MyPageProfileEditState)
+      case myPageAnniversaryEdit(MyPageAnniversaryEditState)
       case myPageLink(MyPageLinkState)
     }
 
@@ -63,7 +65,9 @@ struct MainTabCore: Reducer {
       case scheduleDetail(ScheduleDetailAction)
       case scheduleAdd(ScheduleAddAction)
       case searchPlace(SearchPlaceAction)
+      case myPageEdit(MyPageEditAction)
       case myPageProfileEdit(MyPageProfileEditAction)
+      case myPageAnniversaryEdit(MyPageAnniversaryEditAction)
       case myPageLink(MyPageLinkAction)
     }
 
@@ -80,8 +84,14 @@ struct MainTabCore: Reducer {
       Scope(state: /State.searchPlace, action: /Action.searchPlace) {
         SearchPlaceCore()
       }
+      Scope(state: /State.myPageEdit, action: /Action.myPageEdit) {
+        MyPageEditCore()
+      }
       Scope(state: /State.myPageProfileEdit, action: /Action.myPageProfileEdit) {
         MyPageProfileEditCore()
+      }
+      Scope(state: /State.myPageAnniversaryEdit, action: /Action.myPageAnniversaryEdit) {
+        MyPageAnniversaryEditCore()
       }
       Scope(state: /State.diary, action: /Action.diary) {
         DiaryCore()
@@ -155,8 +165,7 @@ struct MainTabCore: Reducer {
       return .none
       
     case .myPage(.editTapped):
-      guard let profile = userData.get(key: .user, type: Profile.self) else { return .none }
-      state.path.append(.myPageProfileEdit(.init(profile: profile)))
+      state.path.append(.myPageEdit(.init()))
       return .none
 
       // MARK: - Path Action Delegate
@@ -187,8 +196,21 @@ struct MainTabCore: Reducer {
         // TODO: NavigationStack을 사용하면서 Parent to Child로 Action 전달하는 로직 좀 더 고민해보기
         return .send(.path(.element(id: state.path.ids[0], action: .diaryDetail(.diaryReloaded))))
       }
-      
-      return .none
+
+    case let .path(.element(id: _, action: .myPageEdit(.delegate(action)))):
+      switch action {
+      case .goToProfileEdit:
+        let profile = userData.get(key: .user, type: Profile.self)
+        guard let profile else { return .none }
+        state.path.append(.myPageProfileEdit(.init(profile: profile)))
+        return .none
+
+      case .goToAnniversaryEdit:
+        let profile = userData.get(key: .user, type: Profile.self)
+        guard let profile else { return .none }
+        state.path.append(.myPageAnniversaryEdit(.init(profile: profile)))
+        return .none
+      }
       
     default:
       return .none

@@ -120,20 +120,24 @@ struct HomeCore: Reducer {
 
   private func diariesForHome(diaries: [HomeDiary], profile: Profile) -> [HomeDiary] {
 
+    var isFirstDateAppended = false
     var isTodayDiaryAppended = false
+    var diariesForHome = [HomeDiary]()
 
-    // D + 1
-//    guard let firstDate = profile.firstDate else {
-//      return
-//    }
-    
-    var diariesForDomain: [HomeDiary] = [HomeDiary.initialDiary(with: profile.firstDate ?? "")]
     diaries.enumerated().forEach { idx, diary in
       var diaryUpdated = diary
 
       // 연속된 두 날짜가 오는 경우, 뒤의 Diary의 타임라인의 Date를 표기하기 않는다.
       if idx != 0, diaries[idx - 1].memoryDate.toDate() == diaries[idx].memoryDate.toDate() {
         diaryUpdated.isTimelineDateShown = false
+      }
+
+      // D+1
+      if let firstDateString = profile.firstDate,
+         let firstDate = Date(from: firstDateString),
+         isFirstDateAppended.not,
+         firstDate <= diaries[idx].memoryDate.toDate() {
+        diariesForHome.append(HomeDiary.initialDiary(with: firstDateString))
       }
 
       if diary.memoryDate.toDate().isToday {
@@ -146,31 +150,31 @@ struct HomeCore: Reducer {
           diaryUpdated.timeState = .current
         }
         diaryUpdated.isFolded = false
-        diariesForDomain.append(diaryUpdated)
+        diariesForHome.append(diaryUpdated)
       } else if diary.memoryDate.toDate().isLater(than: Date()) {
         diaryUpdated.timeState = .following
-        diariesForDomain.append(diaryUpdated)
+        diariesForHome.append(diaryUpdated)
       } else {
-        diariesForDomain.append(diaryUpdated)
+        diariesForHome.append(diaryUpdated)
       }
     }
 
     // 오늘 일 자
     if !isTodayDiaryAppended {
-      diariesForDomain.append(HomeDiary.todoDiary(with: Date().to(format: .YMDDivided)))
+      diariesForHome.append(HomeDiary.todoDiary(with: Date().to(format: .YMDDivided)))
     }
 
     // 다음 기념일
     guard let  nextAnniversary = profile.nextAnniversary else {
-      return diariesForDomain
+      return diariesForHome
     }
     
-    diariesForDomain.append(HomeDiary.anniversaryDiary(
+    diariesForHome.append(HomeDiary.anniversaryDiary(
       with: nextAnniversary.anniversaryDate,
       title: nextAnniversary.kind.description 
     ))
 
-    return diariesForDomain
+    return diariesForHome
   }
 }
 

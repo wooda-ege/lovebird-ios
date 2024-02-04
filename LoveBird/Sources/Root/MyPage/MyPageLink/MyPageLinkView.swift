@@ -25,8 +25,7 @@ struct MyPageLinkView: View {
             .font(.pretendard(size: 20, weight: .bold))
             .foregroundColor(.black)
             .frame(maxWidth: .infinity, alignment: .leading)
-//            .padding(.top, 24)
-          
+
           Spacer().frame(height: 12)
           
           Text(LoveBirdStrings.onboardingInvitationDescription)

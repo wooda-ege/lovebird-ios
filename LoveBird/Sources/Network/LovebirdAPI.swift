@@ -25,8 +25,7 @@ protocol LovebirdAPIProtocol {
 
   // profile
   func fetchProfile() async throws -> Profile
-  func editProfile(image: Data?, profile: EditProfileRequest) async throws -> Profile
-  func editProfileAnnivarsary(image: Data?, profile: EditProfileAnnivarsaryRequest) async throws -> Profile
+  func editProfile(profile: EditProfileRequest) async throws -> Profile
 
   // coupleLink
   func linkCouple(linkCouple: LinkCoupleRequest) async throws -> StatusCode
@@ -69,8 +68,8 @@ struct LovebirdAPI: LovebirdAPIProtocol {
     try await apiClient.request(.fetchProfile)
   }
   
-  func editProfile(image: Data?, profile: EditProfileRequest) async throws -> Profile {
-    try await apiClient.request(.editProfile(image: image, profile: profile))
+  func editProfile(profile: EditProfileRequest) async throws -> Profile {
+    try await apiClient.request(.editProfile(profile: profile))
   }
   
   func linkCouple(linkCouple: LinkCoupleRequest) async throws -> StatusCode {
@@ -130,9 +129,5 @@ struct LovebirdAPI: LovebirdAPIProtocol {
   
   func deleteSchedule(id: Int) async throws -> StatusCode {
     try await apiClient.requestRaw(.deleteSchedule(id: id)).status
-  }
-
-  func editProfileAnnivarsary(image: Data?, profile: EditProfileAnnivarsaryRequest) async throws -> Profile {
-    try await apiClient.request(.editProfileAnnivarsary(image: image, profile: profile))
   }
 }

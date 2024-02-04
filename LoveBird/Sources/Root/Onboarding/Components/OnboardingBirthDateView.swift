@@ -14,9 +14,9 @@ struct OnboardingBirthDateView: View {
   var body: some View {
     WithViewStore(self.store, observe: { $0 }) { viewStore in
       VStack {
-        OnboardingDateView(date: viewStore.birth, onTap: {
-          viewStore.send(.showBottomSheet)
-        })
+        OnboardingDateView(
+          date: viewStore.birth,
+          onTap: { viewStore.send(.birthdayPickerViewVisible(true)) })
         .padding(.top, 24)
         .padding(.horizontal, 16)
 
