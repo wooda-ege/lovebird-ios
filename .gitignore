@@ -43,6 +43,9 @@ xcuserdata/
 graph.dot
 Derived/
 Project.swift
+Tuist/Dependencies
+Tuist/.DS_Store
+.DS_Store
 
 # Tuist managed dependencies
 Tuist/Dependencies
