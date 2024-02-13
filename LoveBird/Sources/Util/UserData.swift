@@ -9,11 +9,6 @@ import Foundation
 import ComposableArchitecture
 
 public struct UserData {
-  enum Mode: Codable {
-    case single
-    case couple
-  }
-
   enum Keys: String, CaseIterable {
     case user
     case accessToken

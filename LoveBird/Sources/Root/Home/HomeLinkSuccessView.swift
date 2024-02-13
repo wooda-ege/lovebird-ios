@@ -105,8 +105,7 @@ struct HomeLinkSuccessView: View {
                     title: "첫번째 기록하기",
                     backgroundColor: .black
                   ) {
-                    viewStore.send(.linkSuccessCloseTapped)
-                    viewStore.send(.todoDiaryTapped)
+                    viewStore.send(.linkSuccessAddTapped)
                   }
                 }
                 .padding(.horizontal, 24)

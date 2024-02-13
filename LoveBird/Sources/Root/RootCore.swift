@@ -150,11 +150,11 @@ struct RootCore: Reducer {
       // MARK: - CoupleLink
 
     case .path(.coupleLink(.successToLink)):
-      userData.store(key: .mode, value: UserData.Mode.couple)
+      userData.store(key: .mode, value: Config.Mode.couple)
       return .send(.switchPath(.mainTab(.init())))
 
     case .path(.coupleLink(.skipTapped)):
-      userData.store(key: .mode, value: UserData.Mode.single)
+      userData.store(key: .mode, value: Config.Mode.single)
       return .send(.switchPath(.mainTab(.init())))
 
       // MARK: - My Page
@@ -167,7 +167,7 @@ struct RootCore: Reducer {
       }
 
     case .path(.mainTab(.myPage(.mypageLink(.successToLink)))):
-
+      userData.store(key: .mode, value: Config.Mode.couple)
       return .send(.switchPath(.mainTab(.init())))
 
       // MARK: - Etc
@@ -227,7 +227,7 @@ struct RootCore: Reducer {
   private func switchState(with profile: Profile?) -> Path.State {
     guard let profile else { return .login(LoginCore.State()) }
 
-    if profile.partnerId.isNil, userData.get(key: .mode, type: UserData.Mode.self).isNil {
+    if profile.partnerId.isNil, userData.get(key: .mode, type: Config.Mode.self).isNil {
       return .coupleLink(CoupleLinkCore.State())
     } else {
       return .mainTab(MainTabCore.State())

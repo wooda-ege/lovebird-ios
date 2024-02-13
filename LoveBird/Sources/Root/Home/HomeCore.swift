@@ -36,6 +36,7 @@ struct HomeCore: Reducer {
     case contentHeightChanged(CGFloat)
     case scrolledToBottom
     case linkSuccessCloseTapped
+    case linkSuccessAddTapped
     case showLinkSuccessView
   }
 
@@ -99,7 +100,10 @@ struct HomeCore: Reducer {
         state.isLinkSuccessViewShown = false
         userData.store(key: .shouldShowLinkSuccessPopup, value: false)
         return .none
-        
+
+      case .linkSuccessAddTapped:
+        return .merge([.send(.todoDiaryTapped), .send(.linkSuccessCloseTapped)])
+
       case .showLinkSuccessView:
         state.isLinkSuccessViewShown = true
         return .none

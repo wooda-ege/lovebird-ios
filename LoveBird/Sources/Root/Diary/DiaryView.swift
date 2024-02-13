@@ -44,7 +44,7 @@ extension DiaryView {
     WithViewStore(store, observe: { $0 }) { viewStore in
       CommonToolBar(
         title: "일기 쓰기",
-        backAction: viewStore.type == .add ? { viewStore.send(.backTapped) } : nil
+        backAction: viewStore.type == .edit ? { viewStore.send(.backTapped) } : nil
       ) {
         Button {
           viewStore.send(.completeTapped)

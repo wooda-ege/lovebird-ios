@@ -46,17 +46,16 @@ struct MyPageLinkCore: Reducer {
         
       case .confirmButtonTapped:
         return .run { [code = state.invitationInputCode] send in
-          await send(.successToLink)
-//          let status = if code.isEmpty {
-//            try await lovebirdApi.checkIsLinked()
-//          } else {
-//            try await lovebirdApi.linkCouple(linkCouple: .init(coupleCode: code))
-//          }
-//          if status == "SUCCESS" {
-//            await send(.successToLink)
-//          } else {
-//            print("Failure to Link")
-//          }
+          let status = if code.isEmpty {
+            try await lovebirdApi.checkIsLinked()
+          } else {
+            try await lovebirdApi.linkCouple(linkCouple: .init(coupleCode: code))
+          }
+          if status == "SUCCESS" {
+            await send(.successToLink)
+          } else {
+            print("Failure to Link")
+          }
         }
 
       case .invitationCodeEdited(let code):

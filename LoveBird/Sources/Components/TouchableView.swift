@@ -21,7 +21,7 @@ struct TouchableView<Content: View>: View {
   var body: some View {
     Group {
       if let content { content }
-      else { EmptyView() }
+      else { Rectangle().fill(Color.touchable) }
     }
     .contentShape(Rectangle())
     .background(.clear)
