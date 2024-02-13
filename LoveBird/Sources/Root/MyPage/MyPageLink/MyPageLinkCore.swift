@@ -23,9 +23,9 @@ struct MyPageLinkCore: Reducer {
     case viewAppear
     case successToLink
     case initialInvitationCode(String)
-    case imageSelected(UIImage?)
     case invitationCodeEdited(String)
-    case shareTapped(Bool)
+    case shareVisible(Bool)
+    case shareTapped
     case confirmButtonTapped
   }
   
@@ -46,24 +46,29 @@ struct MyPageLinkCore: Reducer {
         
       case .confirmButtonTapped:
         return .run { [code = state.invitationInputCode] send in
-          let status = if code.isEmpty {
-            try await lovebirdApi.checkIsLinked()
-          } else {
-            try await lovebirdApi.linkCouple(linkCouple: .init(coupleCode: code))
-          }
-          if status == "SUCCESS" {
-            await send(.successToLink)
-          } else {
-            print("Failure to Link")
-          }
+          await send(.successToLink)
+//          let status = if code.isEmpty {
+//            try await lovebirdApi.checkIsLinked()
+//          } else {
+//            try await lovebirdApi.linkCouple(linkCouple: .init(coupleCode: code))
+//          }
+//          if status == "SUCCESS" {
+//            await send(.successToLink)
+//          } else {
+//            print("Failure to Link")
+//          }
         }
 
       case .invitationCodeEdited(let code):
         state.invitationInputCode = code
         return .none
 
-      case let .shareTapped(isShown):
-        state.isShareSheetShown = isShown
+      case .shareTapped:
+        state.isShareSheetShown = true
+        return .none
+
+      case let .shareVisible(visible):
+        state.isShareSheetShown = visible
         return .none
 
       default:

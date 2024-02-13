@@ -8,17 +8,23 @@
 import SwiftUI
 
 struct TouchableView<Content: View>: View {
-  let content: Content
-  
+  let content: Content?
+
   init(@ViewBuilder content: () -> Content) {
     self.content = content()
   }
-  
+
+  init() {
+    self.content = nil
+  }
+
   var body: some View {
-    self.content
-      .frame(maxWidth: .infinity)
-      .contentShape(Rectangle())
-      .background(.clear)
+    Group {
+      if let content { content }
+      else { EmptyView() }
+    }
+    .contentShape(Rectangle())
+    .background(.clear)
   }
 }
 

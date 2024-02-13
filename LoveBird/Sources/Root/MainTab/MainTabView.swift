@@ -118,13 +118,6 @@ struct MainTabView: View {
            action: MainTabPathAction.diary) { store in
              DiaryView(store: store)
            }
-
-      case .myPageLink:
-        CaseLet(
-          /MainTabPathState.myPageLink,
-           action: MainTabPathAction.myPageLink) { store in
-             MyPageLinkView(store: store)
-           }
       }
     }
   }

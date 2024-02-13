@@ -21,7 +21,7 @@ struct HomeCore: Reducer {
     var lineHeight: CGFloat = 0.0
     var contentHeight: CGFloat = 0.0
     var isScrolledToBottom: Bool = false
-    var showLinkSuccessView = false
+    var isLinkSuccessViewShown = false
   }
 
   // MARK: - Action
@@ -35,7 +35,7 @@ struct HomeCore: Reducer {
     case offsetYChanged(CGFloat)
     case contentHeightChanged(CGFloat)
     case scrolledToBottom
-    case closeLinkSuccessView
+    case linkSuccessCloseTapped
     case showLinkSuccessView
   }
 
@@ -64,8 +64,8 @@ struct HomeCore: Reducer {
             )
             await send(.dataLoaded(profile, homeDiaries))
             
-            if let firstLink = userData.get(key: .firstLinkSuccess, type: Bool.self),
-               firstLink == true {
+            if let shouldShow = userData.get(key: .shouldShowLinkSuccessPopup, type: Bool.self),
+               shouldShow {
               await send(.showLinkSuccessView)
             }
           }
@@ -95,14 +95,13 @@ struct HomeCore: Reducer {
         state.isScrolledToBottom = true
         return .none
 
-      case .closeLinkSuccessView:
-        state.showLinkSuccessView = false
-        userData.remove(key: .firstLinkSuccess)
-        userData.store(key: .firstLinkSuccess, value: false)
+      case .linkSuccessCloseTapped:
+        state.isLinkSuccessViewShown = false
+        userData.store(key: .shouldShowLinkSuccessPopup, value: false)
         return .none
         
       case .showLinkSuccessView:
-        state.showLinkSuccessView = true
+        state.isLinkSuccessViewShown = true
         return .none
         
       default:
@@ -137,6 +136,7 @@ struct HomeCore: Reducer {
          let firstDate = Date(from: firstDateString),
          isFirstDateAppended.not,
          firstDate <= diaries[idx].memoryDate.toDate() {
+        isFirstDateAppended = true
         diariesForHome.append(HomeDiary.initialDiary(with: firstDateString))
       }
 

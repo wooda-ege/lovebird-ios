@@ -56,7 +56,6 @@ struct MainTabCore: Reducer {
       case myPageEdit(MyPageEditState)
       case myPageProfileEdit(MyPageProfileEditState)
       case myPageAnniversaryEdit(MyPageAnniversaryEditState)
-      case myPageLink(MyPageLinkState)
     }
 
     enum Action: Equatable {
@@ -68,7 +67,6 @@ struct MainTabCore: Reducer {
       case myPageEdit(MyPageEditAction)
       case myPageProfileEdit(MyPageProfileEditAction)
       case myPageAnniversaryEdit(MyPageAnniversaryEditAction)
-      case myPageLink(MyPageLinkAction)
     }
 
     var body: some ReducerOf<Self> {
@@ -95,9 +93,6 @@ struct MainTabCore: Reducer {
       }
       Scope(state: /State.diary, action: /Action.diary) {
         DiaryCore()
-      }
-      Scope(state: /State.myPageLink, action: /Action.myPageLink) {
-        MyPageLinkCore()
       }
     }
   }

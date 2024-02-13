@@ -13,8 +13,8 @@ struct MyPageCore: Reducer {
   
   struct State: Equatable {
     var user: Profile?
-    var showBottomSheet: Bool = false
     var mypageLink = MyPageLinkState()
+    var isCoupleLinkVisible: Bool = false
   }
   
   // MARK: - Action
@@ -25,10 +25,11 @@ struct MyPageCore: Reducer {
     case viewAppear
     case editTapped
     case alertButtonTapped(AlertController.Style.`Type`?)
-    
-    case showBottomSheet
-    case hideBottomSheet
     case mypageLink(MyPageLinkAction)
+
+    // Couple Link
+    case confirmButtonTapped
+    case linkViewVisible(Bool)
     case successToLink
   }
   
@@ -42,14 +43,13 @@ struct MyPageCore: Reducer {
     Scope(state: \.mypageLink, action: /Action.mypageLink) {
       MyPageLinkCore()
     }
-    
     Reduce { state, action in
       switch action {
       case .viewAppear:
         
         let user = self.userData.get(key: .user, type: Profile.self)
         if let user { state.user = user }
-        return .send(.hideBottomSheet)
+        return .none
         
       case .partnerProfileTapped:
         alertController.showAlert(type: .link)
@@ -62,22 +62,16 @@ struct MyPageCore: Reducer {
       case let .alertButtonTapped(type):
         switch type {
         case .link:
-          return .send(.showBottomSheet)
-          
+          return .send(.linkViewVisible(true))
+
         default:
           return .none
         }
         
-      case .showBottomSheet:
-        state.showBottomSheet = true
+      case .linkViewVisible(let visible):
+        userData.store(key: .shouldShowLinkSuccessPopup, value: true)
+        state.isCoupleLinkVisible = visible
         return .none
-        
-      case .hideBottomSheet:
-        state.showBottomSheet = false
-        return .none
-        
-      case .mypageLink(.successToLink):
-        return .send(.successToLink)
         
       default:
         return .none

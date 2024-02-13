@@ -9,12 +9,17 @@ import Foundation
 import ComposableArchitecture
 
 public struct UserData {
+  enum Mode: Codable {
+    case single
+    case couple
+  }
+
   enum Keys: String, CaseIterable {
     case user
     case accessToken
     case refreshToken
-    case tapSkipButton
-    case firstLinkSuccess
+    case mode
+    case shouldShowLinkSuccessPopup
   }
   
   func store<T: Encodable>(key: Keys, value: T) {

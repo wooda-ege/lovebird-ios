@@ -27,6 +27,7 @@ struct CommonHorizontalButton: View {
         Text(self.title)
           .font(.pretendard(size: 16, weight: .semiBold))
           .foregroundColor(foregroundColor)
+          .frame(maxWidth: .infinity)
       }
     }
     .frame(height: 56)
