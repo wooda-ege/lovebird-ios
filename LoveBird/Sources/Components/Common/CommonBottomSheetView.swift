@@ -8,9 +8,9 @@
 import SwiftUI
 
 struct CommonBottomSheetView<Content: View>: View {
-
   @State private var height: CGFloat = 0
   @Binding var isOpen: Bool
+  @GestureState private var translation: CGFloat = 0
   let content: Content
   let offsetY = UIScreen.height - (UIApplication.edgeInsets.top + UIApplication.edgeInsets.bottom)
   
@@ -19,15 +19,13 @@ struct CommonBottomSheetView<Content: View>: View {
     self._isOpen = isOpen
   }
   
-  @GestureState private var translation: CGFloat = 0
-  
   var body: some View {
     GeometryReader { geometry in
       VStack(spacing: 0) {
-        self.indicator
+        indicator
           .padding(.vertical, 10)
 
-        self.content
+        content
           .padding(.vertical, 20)
       }
       .modifier(GetHeightModifier(height: $height))

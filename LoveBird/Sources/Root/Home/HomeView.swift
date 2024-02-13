@@ -24,9 +24,8 @@ struct HomeView: View {
             timeLineView
           }
           
-          if viewStore.showLinkSuccessView {
-            LinkSuccessView(store: store)
-              .frame(height: 308)
+          if viewStore.isLinkSuccessViewShown {
+            HomeLinkSuccessView(store: store)
               .padding(.horizontal, 16)
           }
         }

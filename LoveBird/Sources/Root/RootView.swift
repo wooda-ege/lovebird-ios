@@ -144,28 +144,26 @@ extension RootView {
 
   var toastView: some View {
     WithViewStore(store, observe: { $0 }) { viewStore in
-      VStack {
-        if let message = viewStore.toastMessage {
-          VStack {
-            Spacer()
+      if let message = viewStore.toastMessage {
+        VStack {
+          Spacer()
 
-            HStack(alignment: .center, spacing: 8) {
-              Text(message)
-                .font(.pretendard(size: 14))
-                .foregroundColor(.white)
-            }
-            .padding(.horizontal, 16)
-            .padding(.vertical, 8)
-            .background(.black.opacity(0.88))
-            .cornerRadius(4)
-            .transition(.opacity)
-
-            Spacer()
-              .frame(height: 66)
+          HStack(alignment: .center, spacing: 8) {
+            Text(message)
+              .font(.pretendard(size: 14))
+              .foregroundColor(.white)
           }
+          .padding(.horizontal, 16)
+          .padding(.vertical, 8)
+          .background(.black.opacity(0.88))
+          .cornerRadius(4)
+          .transition(.opacity)
+
+          Spacer()
+            .frame(height: 66)
         }
+        .animation(Animation.easeInOut(duration: 0.3), value: viewStore.toastMessage)
       }
-      .animation(Animation.easeInOut(duration: 0.3), value: viewStore.toastMessage)
     }
   }
 }

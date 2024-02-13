@@ -13,8 +13,8 @@ public struct UserData {
     case user
     case accessToken
     case refreshToken
-    case tapSkipButton
-    case firstLinkSuccess
+    case mode
+    case shouldShowLinkSuccessPopup
   }
   
   func store<T: Encodable>(key: Keys, value: T) {

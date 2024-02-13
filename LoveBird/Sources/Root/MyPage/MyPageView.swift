@@ -12,14 +12,14 @@ import SwiftUI
 import Kingfisher
 
 struct MyPageView: View {
+
   @StateObject private var keyboard = KeyboardResponder()
-  
+
   let store: StoreOf<MyPageCore>
   
   var body: some View {
     WithViewStore(self.store, observe: { $0 }) { viewStore in
       ZStack {
-
         VStack {
           toolbar
           coupleStatusView
@@ -35,20 +35,14 @@ struct MyPageView: View {
           Spacer()
         }
         .foregroundColor(.black)
-        .onAppear {
-          viewStore.send(.viewAppear)
-        }
-        
-        if viewStore.showBottomSheet {
-          CommonBottomSheetView(isOpen: viewStore.binding(
-            get: \.showBottomSheet,
-            send: .hideBottomSheet
-          )) {
-            MyPageLinkView(
-              store: store.scope(state: \.mypageLink, action: MyPageCore.Action.mypageLink)
-            )
-          }
-        }
+
+        coupleLinkBottomSheetView
+      }
+      .onChange(of: viewStore.isCoupleLinkVisible) {
+        if $0.not { hideKeyboard() }
+      }
+      .onAppear {
+        viewStore.send(.viewAppear)
       }
     }
   }
@@ -183,6 +177,18 @@ private extension MyPageView {
         }
       }
       .padding(.horizontal, 16)
+      .toolbar(viewStore.isCoupleLinkVisible ? .hidden : .visible, for: .tabBar)
+    }
+  }
+
+  var coupleLinkBottomSheetView: some View {
+    WithViewStore(store, observe: { $0 }) { viewStore in
+      CommonBottomSheetView(isOpen: viewStore.binding(
+        get: \.isCoupleLinkVisible,
+        send: MyPageAction.linkViewVisible
+      )) {
+        MyPageLinkView(store: store.scope(state: \.mypageLink, action: MyPageAction.mypageLink))
+      }
     }
   }
 }

@@ -150,11 +150,11 @@ struct RootCore: Reducer {
       // MARK: - CoupleLink
 
     case .path(.coupleLink(.successToLink)):
-      userData.store(key: .firstLinkSuccess, value: true)
+      userData.store(key: .mode, value: Config.Mode.couple)
       return .send(.switchPath(.mainTab(.init())))
 
     case .path(.coupleLink(.skipTapped)):
-      userData.store(key: .tapSkipButton, value: true)
+      userData.store(key: .mode, value: Config.Mode.single)
       return .send(.switchPath(.mainTab(.init())))
 
       // MARK: - My Page
@@ -165,6 +165,10 @@ struct RootCore: Reducer {
         userData.removeAll()
         return .send(.switchPath(.login(.init())))
       }
+
+    case .path(.mainTab(.myPage(.mypageLink(.successToLink)))):
+      userData.store(key: .mode, value: Config.Mode.couple)
+      return .send(.switchPath(.mainTab(.init())))
 
       // MARK: - Etc
 
@@ -223,11 +227,8 @@ struct RootCore: Reducer {
   private func switchState(with profile: Profile?) -> Path.State {
     guard let profile else { return .login(LoginCore.State()) }
 
-    if profile.partnerId.isNil {
-      guard userData.get(key: .tapSkipButton, type: Bool.self) != nil else {
-        return .coupleLink(CoupleLinkCore.State())
-      }
-      return .mainTab(MainTabCore.State())
+    if profile.partnerId.isNil, userData.get(key: .mode, type: Config.Mode.self).isNil {
+      return .coupleLink(CoupleLinkCore.State())
     } else {
       return .mainTab(MainTabCore.State())
     }
