@@ -108,16 +108,16 @@ struct RootCore: Reducer {
     case .path(.splash(.viewAppear)):
       return .run { send in
         try await continuousClock.sleep(for: .seconds(Constants.delayOfSplash))
-        let user = userData.get(key: .user, type: Profile.self)
-        let rootState = switchState(with: user)
+
+        let rootState = switchState(with: userData.profile.value)
         await send(.switchPath(rootState), animation: .default)
       }
 
       // MARK: - Login
 
     case .path(.login(.loginResponse(.success(let response), _))):
-      userData.store(key: .accessToken, value: response.accessToken)
-      userData.store(key: .refreshToken, value: response.refreshToken)
+      userData.accessToken.value = response.accessToken
+      userData.refreshToken.value = response.refreshToken
 
       if response.linkedFlag == true {
         return .send(.switchPath(.mainTab(.init())))
@@ -133,13 +133,13 @@ struct RootCore: Reducer {
       // MARK: - Onboarding
 
     case .path(.onboarding(.signUpResponse(.success(let response)))):
-      userData.store(key: .accessToken, value: response.accessToken)
-      userData.store(key: .refreshToken, value: response.refreshToken)
+      userData.accessToken.value = response.accessToken
+      userData.refreshToken.value = response.refreshToken
 
       return .run { send in
         do {
           let profile = try await lovebirdApi.fetchProfile()
-          userData.store(key: .user, value: profile)
+          userData.profile.value = profile
 
           await send(.switchPath(.coupleLink(.init())))
         } catch {
@@ -150,11 +150,11 @@ struct RootCore: Reducer {
       // MARK: - CoupleLink
 
     case .path(.coupleLink(.successToLink)):
-      userData.store(key: .mode, value: Config.Mode.couple)
+      userData.mode.value = .couple
       return .send(.switchPath(.mainTab(.init())))
 
     case .path(.coupleLink(.skipTapped)):
-      userData.store(key: .mode, value: Config.Mode.single)
+      userData.mode.value = .single
       return .send(.switchPath(.mainTab(.init())))
 
       // MARK: - My Page
@@ -162,12 +162,12 @@ struct RootCore: Reducer {
     case let .path(.mainTab(.path(.element(id: _, action: .myPageProfileEdit(.delegate(action)))))):
       switch action {
       case .logout, .withdrawal:
-        userData.removeAll()
+        userData.reset()
         return .send(.switchPath(.login(.init())))
       }
 
     case .path(.mainTab(.myPage(.mypageLink(.successToLink)))):
-      userData.store(key: .mode, value: Config.Mode.couple)
+      userData.mode.value = .couple
       return .send(.switchPath(.mainTab(.init())))
 
       // MARK: - Etc
@@ -226,8 +226,7 @@ struct RootCore: Reducer {
 
   private func switchState(with profile: Profile?) -> Path.State {
     guard let profile else { return .login(LoginCore.State()) }
-
-    if profile.partnerId.isNil, userData.get(key: .mode, type: Config.Mode.self).isNil {
+    if profile.partnerId.isNil, userData.mode.value == .none {
       return .coupleLink(CoupleLinkCore.State())
     } else {
       return .mainTab(MainTabCore.State())

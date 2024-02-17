@@ -38,7 +38,6 @@ struct DiaryDetailCore: Reducer {
   }
 
   @Dependency(\.lovebirdApi) var lovebirdApi
-  @Dependency(\.userData) var userData
   @Dependency(\.alertController) var alertController
   @Dependency(\.toastController) var toastController
 

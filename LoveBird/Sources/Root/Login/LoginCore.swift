@@ -27,7 +27,6 @@ struct LoginCore: Reducer {
   }
 
   @Dependency(\.lovebirdApi) var lovebirdApi
-  @Dependency(\.userData) var userData
   @Dependency(\.kakaoLoginUtil) var kakaoLoginUtil
   @Dependency(\.appleLoginUtil) var appleLoginUtil
 

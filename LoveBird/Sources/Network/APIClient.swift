@@ -149,14 +149,14 @@ extension APIClient: TargetType {
   }
   
   public var headers: [String: String]? {
-    let accessToken = self.userData.get(key: .accessToken, type: String.self)
-    let refreshToken = self.userData.get(key: .refreshToken, type: String.self)
-    print("Access Token is \(accessToken ?? "None")")
-    print("Refresh Token is \(refreshToken ?? "None")")
+    let accessToken = userData.accessToken.value
+    let refreshToken =  userData.refreshToken.value
+    print("Access Token is \(accessToken)")
+    print("Refresh Token is \(refreshToken)")
     if case .searchPlaces = self {
       return ["Authorization" : Config.kakaoMapKey]
     } 
-    if let accessToken, let refreshToken  {
+    if accessToken.isNotEmpty, refreshToken.isNotEmpty  {
       return ["Authorization": accessToken, "Refresh": refreshToken]
     }
     return nil
@@ -251,17 +251,17 @@ extension MoyaProvider {
           do {
             let networkResponse = try JSONDecoder().decode(NetworkResponse<T>.self, from: result.data)
             continuation.resume(returning: networkResponse.data)
-            print("<----- Network Success (\(target))")
+            print("<----- Network Success (\(target.path))")
             print("\(networkResponse.data)\n")
           } catch {
             continuation.resume(throwing: error)
-            print("<----- Network Exception: (\(target))")
+            print("<----- Network Exception: (\(target.path))")
             print("\(error)\n")
           }
 
         case .failure(let error):
           continuation.resume(throwing: error)
-          print("<----- Network Failure: (\(target))")
+          print("<----- Network Failure: (\(target.path))")
           print("\(error)\n")
         }
       }
@@ -276,16 +276,16 @@ extension MoyaProvider {
           do {
             let networkResponse = try JSONDecoder().decode(NetworkStatusResponse.self, from: result.data)
             continuation.resume(returning: networkResponse)
-            print("<----- Network Success (\(target))\n")
+            print("<----- Network Success (\(target.path))\n")
           } catch {
             continuation.resume(throwing: error)
-            print("<----- Network Exception: (\(target))")
+            print("<----- Network Exception: (\(target.path))")
             print("\(error)\n")
           }
           
         case .failure(let error):
           continuation.resume(throwing: error)
-          print("<----- Network Exception: (\(target))")
+          print("<----- Network Exception: (\(target.path))")
           print("\(error)\n")
         }
       }
@@ -300,17 +300,17 @@ extension MoyaProvider {
           do {
             let networkResponse = try JSONDecoder().decode(FetchPlacesResponse.self, from: result.data)
             continuation.resume(returning: networkResponse)
-            print("<----- Network Success (\(target))\n")
+            print("<----- Network Success (\(target.path))\n")
             print("\(networkResponse)\n")
           } catch {
             continuation.resume(throwing: error)
-            print("<----- Network Exception: (\(target))")
+            print("<----- Network Exception: (\(target.path))")
             print("\(error)\n")
           }
           
         case .failure(let error):
           continuation.resume(throwing: error)
-          print("<----- Network Exception: (\(target))")
+          print("<----- Network Exception: (\(target.path))")
           print("\(error)\n")
         }
       }

@@ -56,8 +56,7 @@ struct HomeCore: Reducer {
             let diaries = try await lovebirdApi.fetchDiaries()
             let profile = try await lovebirdApi.fetchProfile()
 
-            userData.remove(key: .user)
-            userData.store(key: .user, value: profile)
+            userData.profile.value = profile
 
             let homeDiaries = diariesForHome(
               diaries: diaries.map { $0.toHomeDiary(with: profile) },
@@ -65,8 +64,7 @@ struct HomeCore: Reducer {
             )
             await send(.dataLoaded(profile, homeDiaries))
             
-            if let shouldShow = userData.get(key: .shouldShowLinkSuccessPopup, type: Bool.self),
-               shouldShow {
+            if userData.shouldShowLinkSuccessPopup.value {
               await send(.showLinkSuccessView)
             }
           }
@@ -75,7 +73,7 @@ struct HomeCore: Reducer {
       case let .dataLoaded(profile, diaries):
         state.profile = profile
         state.diaries = diaries
-        state.mode = appConfiguration.mode
+        state.mode = userData.mode.value
         return .none
 
       case let .diaryTitleTapped(diary):
@@ -98,7 +96,6 @@ struct HomeCore: Reducer {
 
       case .linkSuccessCloseTapped:
         state.isLinkSuccessViewShown = false
-        userData.store(key: .shouldShowLinkSuccessPopup, value: false)
         return .none
 
       case .linkSuccessAddTapped:
@@ -106,6 +103,7 @@ struct HomeCore: Reducer {
 
       case .showLinkSuccessView:
         state.isLinkSuccessViewShown = true
+        userData.shouldShowLinkSuccessPopup.value = false
         return .none
         
       default:

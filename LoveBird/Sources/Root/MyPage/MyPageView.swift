@@ -60,7 +60,7 @@ private extension MyPageView {
           HStack(spacing: 20) {
             Spacer()
 
-            if let urlString = viewStore.user?.profileImageUrl {
+            if let urlString = viewStore.profile?.profileImageUrl {
               Circle()
                 .fill(Color(asset: LoveBirdAsset.gray02))
                 .overlay(KFImage(URL(string: urlString)).resizable(), alignment: .center)
@@ -85,8 +85,8 @@ private extension MyPageView {
               .changeColor(to: Color(asset: LoveBirdAsset.gray04))
 
             // user 확인
-            if let _ = viewStore.user?.partnerNickname {
-              if let urlString = viewStore.user?.partnerImageUrl {
+            if let _ = viewStore.profile?.partnerNickname {
+              if let urlString = viewStore.profile?.partnerImageUrl {
                 KFImage(URL(string: urlString))
                   .frame(size: 80)
               } else {
@@ -124,7 +124,7 @@ private extension MyPageView {
             .foregroundColor(.black)
             .font(.pretendard(size: 16, weight: .bold))
 
-          Text(String(viewStore.user?.dayCount ?? 0))
+          Text(String(viewStore.profile?.dayCount ?? 0))
             .foregroundColor(Color(asset: LoveBirdAsset.primary))
             .font(.pretendard(size: 16, weight: .bold))
 
@@ -139,14 +139,14 @@ private extension MyPageView {
 
         ZStack(alignment: .center) {
           HStack(spacing: 34) {
-            Text(viewStore.user?.nickname ?? "")
+            Text(viewStore.profile?.nickname ?? "")
               .font(.pretendard(size: 14))
               .frame(maxWidth: .infinity, alignment: .trailing)
 
-            Text(viewStore.user?.partnerNickname ?? "달링이")
+            Text(viewStore.profile?.partnerNickname ?? "달링이")
               .font(.pretendard(size: 14))
               .frame(maxWidth: .infinity, alignment: .leading)
-              .foregroundStyle(viewStore.user?.partnerNickname != nil ? .black : Color(asset: LoveBirdAsset.gray146))
+              .foregroundStyle(viewStore.profile?.partnerNickname != nil ? .black : Color(asset: LoveBirdAsset.gray146))
 
           }
 
@@ -196,7 +196,7 @@ private extension MyPageView {
 #Preview {
   MyPageView(
     store: .init(
-      initialState: MyPageState(user: Profile.dummy),
+      initialState: MyPageState(profile: Profile.dummy),
       reducer: { MyPageCore() }
     )
   )
