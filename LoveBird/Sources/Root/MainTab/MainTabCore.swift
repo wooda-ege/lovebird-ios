@@ -129,7 +129,7 @@ struct MainTabCore: Reducer {
       return .none
       
     case .home(.diaryTapped(let diary)):
-      guard let user = self.userData.get(key: .user, type: Profile.self) else { return .none}
+      guard let user = userData.profile.value else { return .none}
       let nickname: String?
       if let partnerNickname = user.partnerNickname {
         nickname = user.memberId == diary.memberId ? user.nickname : partnerNickname
@@ -195,14 +195,12 @@ struct MainTabCore: Reducer {
     case let .path(.element(id: _, action: .myPageEdit(.delegate(action)))):
       switch action {
       case .goToProfileEdit:
-        let profile = userData.get(key: .user, type: Profile.self)
-        guard let profile else { return .none }
+        guard let profile = userData.profile.value else { return .none }
         state.path.append(.myPageProfileEdit(.init(profile: profile)))
         return .none
 
       case .goToAnniversaryEdit:
-        let profile = userData.get(key: .user, type: Profile.self)
-        guard let profile else { return .none }
+        guard let profile = userData.profile.value else { return .none }
         state.path.append(.myPageAnniversaryEdit(.init(profile: profile)))
         return .none
       }

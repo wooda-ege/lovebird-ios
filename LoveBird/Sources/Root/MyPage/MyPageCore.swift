@@ -12,7 +12,7 @@ struct MyPageCore: Reducer {
   // MARK: - State
   
   struct State: Equatable {
-    var user: Profile?
+    var profile: Profile?
     var mypageLink = MyPageLinkState()
     var isCoupleLinkVisible: Bool = false
   }
@@ -26,6 +26,7 @@ struct MyPageCore: Reducer {
     case editTapped
     case alertButtonTapped(AlertController.Style.`Type`?)
     case mypageLink(MyPageLinkAction)
+    case profileUpdated(Profile?)
 
     // Couple Link
     case confirmButtonTapped
@@ -46,10 +47,11 @@ struct MyPageCore: Reducer {
     Reduce { state, action in
       switch action {
       case .viewAppear:
-        
-        let user = self.userData.get(key: .user, type: Profile.self)
-        if let user { state.user = user }
-        return .none
+        state.profile = userData.profile.value
+        return .publisher {
+          userData.profile.subject
+            .map(Action.profileUpdated)
+        }
         
       case .partnerProfileTapped:
         alertController.showAlert(type: .link)
@@ -69,10 +71,13 @@ struct MyPageCore: Reducer {
         }
         
       case .linkViewVisible(let visible):
-        userData.store(key: .shouldShowLinkSuccessPopup, value: true)
         state.isCoupleLinkVisible = visible
         return .none
-        
+
+      case .profileUpdated(let profile):
+        state.profile = profile
+        return .none
+
       default:
         return .none
       }

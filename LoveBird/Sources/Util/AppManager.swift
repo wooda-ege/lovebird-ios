@@ -11,19 +11,9 @@ public class AppConfiguration {
 
   // MARK: - Enumeration
 
-  enum Mode {
+  enum Mode: Codable {
     case single
     case couple
-  }
-
-  // MARK: - Dependencies
-
-  @Dependency(\.userData) var userData
-
-  // MARK: - Properties
-
-  var mode: Mode {
-    let profile = userData.get(key: .user, type: Profile.self)
-    return profile?.isLinked == true ? .couple : .single
+    case none
   }
 }

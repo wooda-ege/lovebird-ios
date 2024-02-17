@@ -127,7 +127,7 @@ struct MyPageAnniversaryEditCore: Reducer {
         return .none
 
       case .editProfileResponse(.success(let profile)):
-        self.userData.store(key: .user, value: profile)
+        userData.profile.value = profile
         return .run { _ in await dismiss() }
 
       default:
