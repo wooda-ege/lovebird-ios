@@ -8,7 +8,7 @@
 import Foundation
 
 struct NetworkResponse<T> {
-  let code: String
+  let status: String
   let message: String
   let data: T
   
@@ -22,7 +22,7 @@ struct NetworkResponse<T> {
 extension NetworkResponse: Decodable where T: Decodable {
   init(from decoder: Decoder) throws {
     let container = try decoder.container(keyedBy: CodingKeys.self)
-    self.code = try container.decode(String.self, forKey: .status)
+    self.status = try container.decode(String.self, forKey: .status)
     self.message = try container.decode(String.self, forKey: .message)
     self.data = try container.decode(T.self, forKey: .data)
   }
