@@ -119,21 +119,21 @@ struct OnboardingCore: Reducer {
           do {
             // 프로필 등록 - 생년월일 입력 뷰에서 다음 버튼 클릭시
             let image = state.skipPages.contains(.profileImage) ? nil : state.profileImage
-            let authRequest = Authenticate(provider: state.auth.provider, idToken: state.auth.idToken)
-            let profileRequest = AddProfileRequest(
-              email: state.email.isEmpty ? nil : state.email,
+            let deviceToken = userData.deviceToken.value
+            let request = SignUpRequest(
+              provider: state.auth.provider,
+              deviceToken: deviceToken,
+              imageUrl: nil,
+              email: state.email,
               nickname: state.nickname,
-              birthDay: state.skipPages.contains(.birth) ? nil : state.birth.toYMDFormat(),
+              birthday: state.skipPages.contains(.birth) ? nil : state.birth.toYMDFormat(),
               firstDate: state.skipPages.contains(.firstDate) ? nil : state.firstDate.toYMDFormat(),
               gender: state.gender?.rawValue ?? "UNKNOWN",
-              deviceToken: "fcm"
+              idToken: state.auth.idToken
             )
-            
-            let profile = try await lovebirdApi.signUp(
-              image: image?.pngData(),
-              auth: authRequest,
-              profile: profileRequest
-            )
+
+            let profile = try await lovebirdApi.signUp(signUp: request)
+
             await send(.signUpResponse(.success(profile)))
           } catch {
             print("프로필 등록 실패")

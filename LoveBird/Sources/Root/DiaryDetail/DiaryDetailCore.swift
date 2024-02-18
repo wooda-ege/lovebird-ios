@@ -23,7 +23,7 @@ struct DiaryDetailCore: Reducer {
     case backTapped
     case editTapped
     case deleteTapped
-    case deleteDiaryResponse(TaskResult<StatusCode>)
+    case deleteDiaryResponse(TaskResult<Empty>)
     case imageTapped(String)
     case showImageViewer(Bool)
     case diaryReloaded

@@ -53,33 +53,33 @@ extension DependencyValues {
 // MARK: - `DependencyKey` Implementation
 
 extension UserData: DependencyKey {
-  static public let liveValue = Self()
+  public static let liveValue = UserData()
 }
 
 extension LovebirdAPI: DependencyKey {
-  public static var liveValue = LovebirdAPI(apiClient: MoyaProvider<APIClient>())
+  public static let liveValue = LovebirdAPI(apiClient: MoyaProvider<APIClient>())
 }
 
 extension AppConfiguration: DependencyKey {
-  static public let liveValue = AppConfiguration()
+  public static let liveValue = AppConfiguration()
 }
 
 extension LoadingController: DependencyKey {
-  static public let liveValue = LoadingController()
+  public static let liveValue = LoadingController()
 }
 
 extension AlertController: DependencyKey {
-  static public let liveValue = AlertController()
+  public static let liveValue = AlertController()
 }
 
 extension ToastController: DependencyKey {
-  static public let liveValue = ToastController()
+  public static let liveValue = ToastController()
 }
 
 extension KakaoLoginUtil: DependencyKey {
-  static public let liveValue = KakaoLoginUtil()
+  public static let liveValue = KakaoLoginUtil()
 }
 
 extension AppleLoginUtil: DependencyKey {
-  static public let liveValue = AppleLoginUtil()
+  public static let liveValue = AppleLoginUtil()
 }

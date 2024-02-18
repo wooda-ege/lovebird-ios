@@ -36,7 +36,7 @@ struct ScheduleDetailCore: Reducer {
     }
 
     // Network
-    case deleteScheduleResponse(TaskResult<StatusCode>)
+    case deleteScheduleResponse(TaskResult<Empty>)
     case fetchScheduleResponse(TaskResult<Schedule>)
   }
 

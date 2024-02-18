@@ -51,11 +51,7 @@ struct MyPageLinkCore: Reducer {
           } else {
             try await lovebirdApi.linkCouple(linkCouple: .init(coupleCode: code))
           }
-          if status == "SUCCESS" {
-            await send(.successToLink)
-          } else {
-            print("Failure to Link")
-          }
+          await send(.successToLink)
         }
 
       case .invitationCodeEdited(let code):

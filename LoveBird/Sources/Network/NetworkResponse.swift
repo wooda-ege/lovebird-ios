@@ -8,12 +8,12 @@
 import Foundation
 
 struct NetworkResponse<T> {
-  let status: String
+  let code: String
   let message: String
-  let data: T
+  let data: T?
   
   enum CodingKeys: String, CodingKey {
-    case status
+    case code
     case message
     case data
   }
@@ -22,7 +22,7 @@ struct NetworkResponse<T> {
 extension NetworkResponse: Decodable where T: Decodable {
   init(from decoder: Decoder) throws {
     let container = try decoder.container(keyedBy: CodingKeys.self)
-    self.status = try container.decode(String.self, forKey: .status)
+    self.code = try container.decode(String.self, forKey: .code)
     self.message = try container.decode(String.self, forKey: .message)
     self.data = try container.decode(T.self, forKey: .data)
   }
