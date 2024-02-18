@@ -17,7 +17,7 @@ public enum APIClient {
 
   // auth
   case authenticate(auth: Authenticate)
-  case signUp(image: Data?, auth: Authenticate, signUp: AddProfileRequest)
+  case signUp(signUp: SignUpRequest)
   case withdrawal
 
   // profile
@@ -70,7 +70,7 @@ extension APIClient: TargetType {
         return "/auth"
 
       case .authenticate:
-        return "/auth/sign-in"
+        return "/auth/sign-in/oidc"
 
       case .fetchCoupleCode:
         return "/couple/code"
@@ -100,8 +100,8 @@ extension APIClient: TargetType {
         return "/profile"
         
       case .signUp:
-        return "/auth/sign-up"
-        
+        return "/auth/sign-up/oidc"
+
       case let .fetchSchedule(id), let .deleteSchedule(id), let .editSchedule(id, _):
         return "/calendar/\(id)"
 
@@ -128,7 +128,8 @@ extension APIClient: TargetType {
 
   public var task: Moya.Task {
     switch self {
-    case .addSchedule(let encodable as Encodable),
+    case .signUp(let encodable as Encodable),
+        .addSchedule(let encodable as Encodable),
         .editSchedule(_, let encodable as Encodable),
         .linkCouple(let encodable as Encodable),
         .authenticate(let encodable as Encodable),
@@ -140,7 +141,7 @@ extension APIClient: TargetType {
 
       // MARK: - Multiparts
 
-    case .addDiary, .signUp, .editDiary:
+    case .addDiary, .editDiary:
       return .uploadMultipart(self.multiparts)
 
     default:
@@ -166,34 +167,6 @@ extension APIClient: TargetType {
     var multiparts: [Moya.MultipartFormData] = []
 
     switch self {
-    case .signUp(let image, let auth, let signUp):
-      let auth = try! JSONEncoder().encode(auth)
-      let signUp = try! JSONEncoder().encode(signUp)
-
-      if let image {
-        let imageData = MultipartFormData(
-          provider: .data(image),
-          name: "image",
-          fileName: "image.png",
-          mimeType: "image/png"
-        )
-        multiparts.append(imageData)
-      }
-      
-      let signUpRequest = MultipartFormData(
-        provider: .data(auth),
-        name: "signUpRequest",
-        mimeType: "application/json"
-      )
-      multiparts.append(signUpRequest)
-      
-      let profileRequest = MultipartFormData(
-        provider: .data(signUp),
-        name: "profileCreateRequest",
-        mimeType: "application/json"
-      )
-      multiparts.append(profileRequest)
-
     case .addDiary(let image, let diary):
       let diary = try! JSONEncoder().encode(diary)
 
@@ -243,16 +216,29 @@ extension APIClient: TargetType {
 
 
 extension MoyaProvider {
-  func request<T: Decodable>(_ target: Target) async throws -> T {
+  func request<T: Decodable>(_ target: Target) async throws -> T? {
     return try await withCheckedThrowingContinuation { continuation in
       self.request(target) { response in
         switch response {
         case .success(let result):
           do {
-            let networkResponse = try JSONDecoder().decode(NetworkResponse<T>.self, from: result.data)
-            continuation.resume(returning: networkResponse.data)
-            print("<----- Network Success (\(target.path))")
-            print("\(networkResponse.data)\n")
+            switch LovebirdStatusCode(rawValue: result.statusCode) {
+            case .SUCCESS:
+              let data = try JSONDecoder().decode(NetworkResponse<T>.self, from: result.data)
+              print("<----- Network Success (\(target.path))")
+              print("\(String(describing: data.data))\n")
+              continuation.resume(returning: data.data)
+
+            case .BAD_REQUEST:
+              let data = try JSONDecoder().decode(NetworkStatusResponse.self, from: result.data)
+              guard let apiError = LovebirdAPIError(rawValue: data.code) else { throw LovebirdError.unknownError }
+
+            case .INTERNAL_SERVER_ERROR:
+              throw LovebirdError.internalServerError
+
+            default:
+              throw LovebirdError.unknownError
+            }
           } catch {
             continuation.resume(throwing: error)
             print("<----- Network Exception: (\(target.path))")
@@ -262,30 +248,6 @@ extension MoyaProvider {
         case .failure(let error):
           continuation.resume(throwing: error)
           print("<----- Network Failure: (\(target.path))")
-          print("\(error)\n")
-        }
-      }
-    }
-  }
-  
-  func requestRaw(_ target: Target) async throws -> NetworkStatusResponse {
-    return try await withCheckedThrowingContinuation { continuation in
-      self.request(target) { response in
-        switch response {
-        case .success(let result):
-          do {
-            let networkResponse = try JSONDecoder().decode(NetworkStatusResponse.self, from: result.data)
-            continuation.resume(returning: networkResponse)
-            print("<----- Network Success (\(target.path))\n")
-          } catch {
-            continuation.resume(throwing: error)
-            print("<----- Network Exception: (\(target.path))")
-            print("\(error)\n")
-          }
-          
-        case .failure(let error):
-          continuation.resume(throwing: error)
-          print("<----- Network Exception: (\(target.path))")
           print("\(error)\n")
         }
       }

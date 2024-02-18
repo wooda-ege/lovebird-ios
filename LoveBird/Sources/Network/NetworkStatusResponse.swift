@@ -8,11 +8,11 @@
 import Foundation
 
 struct NetworkStatusResponse: Equatable {
-  let status: String
+  let code: String
   let message: String
 
   enum CodingKeys: String, CodingKey {
-    case status
+    case code
     case message
   }
 }
@@ -20,7 +20,7 @@ struct NetworkStatusResponse: Equatable {
 extension NetworkStatusResponse: Decodable {
   init(from decoder: Decoder) throws {
     let container = try decoder.container(keyedBy: CodingKeys.self)
-    self.status = try container.decode(String.self, forKey: .status)
+    self.code = try container.decode(String.self, forKey: .code)
     self.message = try container.decode(String.self, forKey: .message)
   }
 }

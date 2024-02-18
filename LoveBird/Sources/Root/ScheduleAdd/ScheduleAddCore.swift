@@ -100,8 +100,8 @@ struct ScheduleAddCore: Reducer {
     case meridiemSelected(ScheduleTime.Meridiem)
     
     // Network
-    case addScheduleResponse(TaskResult<StatusCode>)
-    case editScheduleResponse(TaskResult<StatusCode>)
+    case addScheduleResponse(TaskResult<Empty>)
+    case editScheduleResponse(TaskResult<Empty>)
   }
   
   @Dependency(\.lovebirdApi) var lovebirdApi

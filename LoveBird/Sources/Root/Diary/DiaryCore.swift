@@ -57,8 +57,8 @@ struct DiaryCore: Reducer {
     case placeUpdated(String)
     case changeTextEmpty
     case completeTapped
-    case addDiaryResponse(TaskResult<StatusCode>)
-    case editDiaryResponse(TaskResult<StatusCode>)
+    case addDiaryResponse(TaskResult<Empty>)
+    case editDiaryResponse(TaskResult<Empty>)
     case hideDateView
     case viewInitialized
     case selectImage(Data?)

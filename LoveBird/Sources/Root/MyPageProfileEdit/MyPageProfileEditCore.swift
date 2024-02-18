@@ -49,7 +49,7 @@ struct MyPageProfileEditCore: Reducer {
     case logout
 
     case editProfileResponse(TaskResult<Profile>)
-    case withdrawalResponse(TaskResult<String>)
+    case withdrawalResponse(TaskResult<Empty>)
 
     case delegate(Delegate)
     enum Delegate: Equatable {
