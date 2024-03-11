@@ -13,7 +13,8 @@ extension Effect {
     return loadingController
   }
 
-  static func runWithLoading(
+  static func run(
+    isLoading: Bool = false,
     priority: TaskPriority? = nil,
     operation: @escaping @Sendable (_ send: Send<Action>) async throws -> Void,
     catch handler: (@Sendable (_ error: Error, _ send: Send<Action>) async -> Void)? = nil,
@@ -23,12 +24,12 @@ extension Effect {
     return .run(
       priority: priority,
       operation: {
-        loadingController.isLoading = true
+        if isLoading { loadingController.isLoading = true }
         try await operation($0)
-        loadingController.isLoading = false
+        if isLoading { loadingController.isLoading = false }
       },
       catch: {
-        loadingController.isLoading = false
+        if isLoading { loadingController.isLoading = false }
         await handler?($0, $1)
       }
     )

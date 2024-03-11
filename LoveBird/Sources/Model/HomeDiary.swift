@@ -24,12 +24,12 @@ struct HomeDiary: Decodable, Equatable, Sendable {
   }
 
   let diaryId: Int
-  let memberId: Int
+  let userId: Int
   var title: String
   var memoryDate: String
   var place: String?
   var content: String
-  var imgUrls: [String]
+  var imageUrls: [String]
   let isMine: Bool
   var timeState: TimeState
   var type: HomeItem.ContentType
@@ -39,12 +39,12 @@ struct HomeDiary: Decodable, Equatable, Sendable {
   func toDiary() -> Diary {
     Diary(
       diaryId: self.diaryId,
-      memberId: self.memberId,
+      userId: self.userId,
       title: self.title,
       memoryDate: self.memoryDate,
       place: self.place,
       content: self.content,
-      imgUrls: self.imgUrls
+      imageUrls: self.imageUrls
     )
   }
 }
@@ -55,12 +55,12 @@ extension HomeDiary {
   static func initialDiary(with date: String) -> Self {
     Self (
       diaryId: IDs.INITIAL.rawValue,
-      memberId: 0,
+      userId: 0,
       title: "",
       memoryDate: date,
       place: "",
       content: "",
-      imgUrls: [],
+      imageUrls: [],
       isMine: true,
       timeState: .previous,
       type: .initial,
@@ -72,12 +72,12 @@ extension HomeDiary {
   static func todoDiary(with date: String) -> Self {
     Self(
       diaryId: IDs.TODO.rawValue,
-      memberId: 0,
+      userId: 0,
       title: "오늘 데이트 기록하기",
       memoryDate: date,
       place: "",
       content: "",
-      imgUrls: [],
+      imageUrls: [],
       isMine: true,
       timeState: .current,
       type: .empty,
@@ -89,12 +89,12 @@ extension HomeDiary {
   static func anniversaryDiary(with date: String, title: String) -> Self {
     Self(
       diaryId: IDs.ANNIVERSARY.rawValue,
-      memberId: 0,
+      userId: 0,
       title: title,
       memoryDate: date,
       place: "",
       content: "",
-      imgUrls: [],
+      imageUrls: [],
       isMine: true,
       timeState: .following,
       type: .anniversary,
@@ -109,12 +109,12 @@ extension HomeDiary {
 extension HomeDiary {
   static let dummy: Self = .init(
     diaryId: 0,
-    memberId: 0,
+    userId: 0,
     title: "타이틀",
     memoryDate: "2023-09-01",
     place: "장소",
     content: "내용",
-    imgUrls: [],
+    imageUrls: [],
     isMine: true,
     timeState: .previous,
     type: .diary,

@@ -14,10 +14,10 @@ struct ImageViewer: View {
 
   var body: some View {
     Group {
-      if isShown, let url = URL(string: urlString) {
+      if isShown {
         ZStack(alignment: .topTrailing) {
           VStack {
-            KFImage(url)
+            KFImage(urlString: urlString)
               .resizable()
               .aspectRatio(contentMode: .fit)
               .frame(maxWidth: .infinity, maxHeight: .infinity)

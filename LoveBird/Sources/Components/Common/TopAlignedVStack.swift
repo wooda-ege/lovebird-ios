@@ -8,16 +8,22 @@
 import SwiftUI
 
 struct TopAlignedVStack<Content: View>: View {
+  let alignment: HorizontalAlignment
   let spacing: CGFloat?
   let content: Content
 
-  init(spacing: CGFloat? = nil, @ViewBuilder content: () -> Content) {
+  init(
+    alignment: HorizontalAlignment = .center,
+    spacing: CGFloat? = nil,
+    @ViewBuilder content: () -> Content
+  ) {
+    self.alignment = alignment
     self.spacing = spacing
     self.content = content()
   }
 
   var body: some View {
-    VStack(spacing: spacing) {
+    VStack(alignment: alignment, spacing: spacing) {
       content
       Spacer()
     }

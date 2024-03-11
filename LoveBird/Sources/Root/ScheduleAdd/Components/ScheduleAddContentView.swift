@@ -19,7 +19,8 @@ struct ScheduleAddContentView: View {
         ScheduleAddStartDateView(store: self.store)
         ScheduleAddEndDateView(store: self.store)
         ScheduleAddTimeView(store: self.store)
-        ScheduleAddAlarmView(store: self.store)
+        // TODO: FCM 기능 추가 후에 넣을 것
+//        ScheduleAddAlarmView(store: self.store)
         ScheduleAddMemoView(store: self.store)
       }
       .padding(.horizontal, 16)

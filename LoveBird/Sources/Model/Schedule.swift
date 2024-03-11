@@ -7,7 +7,7 @@
 
 struct Schedule: Decodable, Equatable, Hashable {
   let id: Int
-  let memberId: Int
+  let userId: Int
   let startDate: String
   let endDate: String?
   let startTime: String?
@@ -23,7 +23,7 @@ struct Schedule: Decodable, Equatable, Hashable {
 extension Schedule {
   static let dummy: Self = .init(
     id: 0,
-    memberId: 0,
+    userId: 0,
     startDate: "2023-09-01",
     endDate: "2023-09-03",
     startTime: "18:00:00",

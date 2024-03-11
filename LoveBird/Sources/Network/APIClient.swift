@@ -23,26 +23,48 @@ public enum APIClient {
   // profile
   case fetchProfile
   case editProfile(profile: EditProfileRequest)
+  case presignProfileImage(presigned: PresignProfileImageRequest)
 
   // coupleLink
   case linkCouple(linkCouple: LinkCoupleRequest)
   case fetchCoupleCode
-  case checkIsLinked
+  case checkLinkedOrNot
 
   // diary
   case fetchDiaries
   case fetchDiary(id: Int)
-  case addDiary(image: Data?, diary: AddDiaryRequest)
-  case editDiary(id: Int, image: Data?, diary: AddDiaryRequest)
+  case addDiary(diary: AddDiaryRequest)
+  case editDiary(id: Int, diary: AddDiaryRequest)
   case deleteDiary(id: Int)
   case searchPlaces(places: FetchPlacesRequest)
+  case presignDiaryImages(presigned: PresignDiaryImagesRequest)
 
   // schedule
-  case fetchCalendars
+  case fetchCalendars(date: FetchSchedulesRequest)
   case fetchSchedule(id: Int)
   case addSchedule(schedule: AddScheduleRequest)
   case editSchedule(id: Int, schedule: AddScheduleRequest)
   case deleteSchedule(id: Int)
+
+  var requestBody: Encodable? {
+    switch self {
+    case
+        .signUp(let encodable as Encodable),
+        .addSchedule(let encodable as Encodable),
+        .editSchedule(_, let encodable as Encodable),
+        .linkCouple(let encodable as Encodable),
+        .authenticate(let encodable as Encodable),
+        .editProfile(let encodable as Encodable),
+        .addDiary(let encodable as Encodable),
+        .editDiary(_, let encodable as Encodable),
+        .presignProfileImage(let encodable as Encodable),
+        .presignDiaryImages(let encodable as Encodable):
+      return encodable
+
+    default:
+      return nil
+    }
+  }
 }
 
 extension APIClient: TargetType {
@@ -78,7 +100,7 @@ extension APIClient: TargetType {
       case .linkCouple:
         return "/couple/link"
 
-      case .checkIsLinked:
+      case .checkLinkedOrNot:
         return "/couple/check"
 
       case .searchPlaces:
@@ -87,15 +109,18 @@ extension APIClient: TargetType {
       case let .fetchDiary(id):
         return "/diaries/\(id)"
 
-      case .fetchDiaries, .addDiary:
+      case .fetchDiaries:
         return "/diaries"
 
-      case let .editDiary(id, _, _), let .deleteDiary(id):
+      case .addDiary:
+        return "/diaries"
+
+      case let .editDiary(id, _), let .deleteDiary(id):
         return "/diaries/\(id)"
 
       case .addSchedule, .fetchCalendars:
-        return "/calendar"
-        
+        return "/calendars"
+
       case .fetchProfile, .editProfile:
         return "/profile"
         
@@ -103,19 +128,23 @@ extension APIClient: TargetType {
         return "/auth/sign-up/oidc"
 
       case let .fetchSchedule(id), let .deleteSchedule(id), let .editSchedule(id, _):
-        return "/calendar/\(id)"
+        return "/calendars/\(id)"
 
+      case .presignProfileImage:
+        return "/presigned-urls/profile"
 
+      case .presignDiaryImages:
+        return "/presigned-urls/diary"
       }
   }
 
   public var method: Moya.Method {
     switch self {
-    case .signUp, .addSchedule, .authenticate, .addDiary:
+    case .signUp, .addSchedule, .authenticate, .addDiary, .presignProfileImage, .presignDiaryImages:
       return .post
 
     case .fetchDiary, .fetchCalendars, .fetchDiaries, .fetchProfile,
-        .fetchSchedule, .checkIsLinked, .searchPlaces, .fetchCoupleCode:
+        .fetchSchedule, .checkLinkedOrNot, .searchPlaces, .fetchCoupleCode:
       return .get
 
     case .editSchedule, .editDiary, .editProfile, .linkCouple:
@@ -128,21 +157,25 @@ extension APIClient: TargetType {
 
   public var task: Moya.Task {
     switch self {
-    case .signUp(let encodable as Encodable),
-        .addSchedule(let encodable as Encodable),
-        .editSchedule(_, let encodable as Encodable),
-        .linkCouple(let encodable as Encodable),
-        .authenticate(let encodable as Encodable),
-        .editProfile(let encodable as Encodable):
-      return .requestJSONEncodable(encodable)
+    case 
+        .signUp,
+        .addSchedule,
+        .editSchedule,
+        .linkCouple,
+        .authenticate,
+        .editProfile,
+        .addDiary,
+        .editDiary,
+        .presignProfileImage,
+        .presignDiaryImages:
+      if let body = requestBody {
+        return .requestJSONEncodable(body)
+      } else {
+        return .requestPlain
+      }
 
     case let .searchPlaces(encodable):
       return .requestParameters(parameters: ["query": encodable.query], encoding: URLEncoding.queryString)
-
-      // MARK: - Multiparts
-
-    case .addDiary, .editDiary:
-      return .uploadMultipart(self.multiparts)
 
     default:
       return .requestPlain
@@ -158,59 +191,9 @@ extension APIClient: TargetType {
       return ["Authorization" : Config.kakaoMapKey]
     } 
     if accessToken.isNotEmpty, refreshToken.isNotEmpty  {
-      return ["Authorization": accessToken, "Refresh": refreshToken]
+      return ["Authorization": "Bearer \(accessToken)", "Refresh": "Bearer \(refreshToken)"]
     }
     return nil
-  }
-
-  private var multiparts: [Moya.MultipartFormData] {
-    var multiparts: [Moya.MultipartFormData] = []
-
-    switch self {
-    case .addDiary(let image, let diary):
-      let diary = try! JSONEncoder().encode(diary)
-
-      if let image {
-        let imageData = MultipartFormData(
-          provider: .data(image),
-          name: "images",
-          fileName: "image.jpeg",
-          mimeType: "image/jpeg"
-        )
-        multiparts.append(imageData)
-      }
-
-      let diaryRequest = MultipartFormData(
-        provider: .data(diary),
-        name: "diaryCreateRequest",
-        mimeType: "application/json"
-      )
-      multiparts.append(diaryRequest)
-
-    case let .editDiary(_, image: image, diary: diary):
-      let diary = try! JSONEncoder().encode(diary)
-
-      if let image {
-        let imageData = MultipartFormData(
-          provider: .data(image),
-          name: "images",
-          fileName: "image.jpeg",
-          mimeType: "image/jpeg"
-        )
-        multiparts.append(imageData)
-      }
-
-      let diaryRequest = MultipartFormData(
-        provider: .data(diary),
-        name: "diaryUpdateRequest",
-        mimeType: "application/json"
-      )
-      multiparts.append(diaryRequest)
-
-    default:
-      break
-    }
-    return multiparts
   }
 }
 
@@ -222,18 +205,24 @@ extension MoyaProvider {
         switch response {
         case .success(let result):
           do {
-            switch LovebirdStatusCode(rawValue: result.statusCode) {
-            case .SUCCESS:
+            print("-----> Network Request (\(target.path))")
+            if case let .requestJSONEncodable(requestBody) = target.task {
+              print("\(String(describing: requestBody))")
+            }
+
+            switch LovebirdStatusCode(code: result.statusCode) {
+            case .success:
               let data = try JSONDecoder().decode(NetworkResponse<T>.self, from: result.data)
-              print("<----- Network Success (\(target.path))")
+              print("<----- Network Response (\(target.path))")
               print("\(String(describing: data.data))\n")
               continuation.resume(returning: data.data)
 
-            case .BAD_REQUEST:
+            case .badRequest:
               let data = try JSONDecoder().decode(NetworkStatusResponse.self, from: result.data)
-              guard let apiError = LovebirdAPIError(rawValue: data.code) else { throw LovebirdError.unknownError }
+              guard let errorType = LovebirdAPIError(rawValue: data.code) else { throw LovebirdError.unknownError }
+              throw LovebirdError.badRequest(errorType: errorType, message: data.message)
 
-            case .INTERNAL_SERVER_ERROR:
+            case .internalServerError:
               throw LovebirdError.internalServerError
 
             default:
@@ -241,7 +230,7 @@ extension MoyaProvider {
             }
           } catch {
             continuation.resume(throwing: error)
-            print("<----- Network Exception: (\(target.path))")
+            print("<----- Network Failure: (\(target.path))")
             print("\(error)\n")
           }
 

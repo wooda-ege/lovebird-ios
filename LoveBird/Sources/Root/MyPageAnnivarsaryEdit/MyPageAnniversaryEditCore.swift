@@ -53,7 +53,7 @@ struct MyPageAnniversaryEditCore: Reducer {
     case birthdayInitialized
     case changeCurrentState(State.CurrentState)
 
-    case editProfileResponse(TaskResult<Profile>)
+    case editProfileResponse(TaskResult<Empty>)
 
   }
 
@@ -126,8 +126,7 @@ struct MyPageAnniversaryEditCore: Reducer {
         state.currentState = currentState
         return .none
 
-      case .editProfileResponse(.success(let profile)):
-        userData.profile.value = profile
+      case .editProfileResponse(.success):
         return .run { _ in await dismiss() }
 
       default:

@@ -13,5 +13,5 @@ target 'LoveBird' do
   pod 'KakaoSDKAuth'
   pod 'KakaoSDKCommon'
   pod 'KakaoSDKUser'
-
+  pod 'lottie-ios'
 end

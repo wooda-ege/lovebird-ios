@@ -72,7 +72,7 @@ struct ScheduleDetailCore: Reducer {
         else { return .none }
 
       case .deleteSchedule:
-        return .runWithLoading { [scheduleId = state.schedule.id] send in
+        return .run(isLoading: true) { [scheduleId = state.schedule.id] send in
           await send(
             .deleteScheduleResponse(
               await TaskResult {

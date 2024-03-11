@@ -49,7 +49,8 @@ struct OnboardingCore: Reducer {
     var nickname: String = ""
 
     // page3 - profile
-    var profileImage: UIImage?
+    var profileImage: Data?
+    var isImagePickerVisible: Bool = false
 
     // page4 - birthday
     var birth: SimpleDate = .init()
@@ -81,7 +82,8 @@ struct OnboardingCore: Reducer {
     case nicknameEdited(String)
 
     // page3 - profile
-    case imageSelected(UIImage?)
+    case profileSelected(Data?)
+    case imagePickerVisible(Bool)
 
     // page4 - birthday
     case birthInitialized
@@ -103,11 +105,10 @@ struct OnboardingCore: Reducer {
 
   @Dependency(\.lovebirdApi) var lovebirdApi
   @Dependency(\.userData) var userData
+  @Dependency(\.toastController) var toastController
 
   var body: some Reducer<State, Action> {
-    Reduce {
-      state,
-      action in
+    Reduce { state, action in
       switch action {
       case .nextTapped,
           .nextButtonTapped:
@@ -118,25 +119,34 @@ struct OnboardingCore: Reducer {
         return .run { [state] send in
           do {
             // 프로필 등록 - 생년월일 입력 뷰에서 다음 버튼 클릭시
-            let image = state.skipPages.contains(.profileImage) ? nil : state.profileImage
-            let deviceToken = userData.deviceToken.value
+            var presign: PresignImageResponse?
+            if let image = state.profileImage {
+              presign = try await lovebirdApi.presignProfileImage(
+                presigned: .init(
+                  fileName: "image.png"
+                )
+              )
+
+              guard let presign else { return }
+              _ = try await AWSS3Uploader.upload(image, toPresignedURLString: presign.presignedURL, fileName: presign.fileName)
+            }
             let request = SignUpRequest(
               provider: state.auth.provider,
-              deviceToken: deviceToken,
-              imageUrl: nil,
+              deviceToken: "",
+              imageUrl: presign?.presignedURL,
               email: state.email,
               nickname: state.nickname,
               birthday: state.skipPages.contains(.birth) ? nil : state.birth.toYMDFormat(),
               firstDate: state.skipPages.contains(.firstDate) ? nil : state.firstDate.toYMDFormat(),
-              gender: state.gender?.rawValue ?? "UNKNOWN",
+              gender: (state.gender ?? .none).rawValue,
               idToken: state.auth.idToken
             )
 
-            let profile = try await lovebirdApi.signUp(signUp: request)
+            let token = try await lovebirdApi.signUp(signUp: request)
 
-            await send(.signUpResponse(.success(profile)))
+            await send(.signUpResponse(.success(token)))
           } catch {
-            print("프로필 등록 실패")
+            await toastController.showToast(message: "등록에 실패하였습니다. 다시 시도해주세요.")
           }
         }
 
@@ -178,8 +188,12 @@ struct OnboardingCore: Reducer {
         : .editing(.nickname)
         return .none
 
-      case .imageSelected(let image):
+      case .profileSelected(let image):
         state.profileImage = image
+        return .none
+
+      case .imagePickerVisible(let visible):
+        state.isImagePickerVisible = visible
         return .none
 
       case .birthUpdated(let birth):

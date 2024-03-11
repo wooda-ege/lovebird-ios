@@ -32,6 +32,10 @@ extension View {
     )
   }
 
+  func onFirstAppear(_ action: @escaping () -> Void) -> some View {
+      modifier(OnFirstAppearModifier(action: action))
+  }
+
   func showClearButton(
     _ text: Binding<String>,
     isFocused: Bool = true,
@@ -70,10 +74,10 @@ extension View {
     UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
   }
 
-  func scrollViewOrigin(callback: @escaping (CGPoint) -> Void) -> some View {
+  func scrollViewOrigin(callback: @escaping (CGFloat) -> Void) -> some View {
     return background(
       GeometryReader { proxy in
-        let origin = proxy.frame(in: .global).origin
+        let origin = proxy.frame(in: .global).origin.y
         DispatchQueue.main.async {
           callback(origin)
         }

@@ -12,6 +12,7 @@ PODS:
   - KakaoSDKUser (2.18.0):
     - KakaoSDKAuth (= 2.18.0)
   - Kingfisher (7.9.0)
+  - lottie-ios (4.4.1)
   - Moya (15.0.0):
     - Moya/Core (= 15.0.0)
   - Moya/Core (15.0.0):
@@ -24,6 +25,7 @@ DEPENDENCIES:
   - KakaoSDKCommon
   - KakaoSDKUser
   - Kingfisher
+  - lottie-ios
   - Moya
   - SwiftLint
   - SwiftUIPager
@@ -35,6 +37,7 @@ SPEC REPOS:
     - KakaoSDKCommon
     - KakaoSDKUser
     - Kingfisher
+    - lottie-ios
     - Moya
     - SwiftLint
     - SwiftUIPager
@@ -45,10 +48,11 @@ SPEC CHECKSUMS:
   KakaoSDKCommon: 41d97223aece4275d142c03d8a4e47a91d8122f1
   KakaoSDKUser: 1cd1f31d8be7de1460320737674a7022ab25c257
   Kingfisher: 59f908b6d2f403b0a3e539debb0eec05cb27002c
+  lottie-ios: e047b1d2e6239b787cc5e9755b988869cf190494
   Moya: 138f0573e53411fb3dc17016add0b748dfbd78ee
   SwiftLint: 1cc5cd61ba9bacb2194e340aeb47a2a37fda00b3
   SwiftUIPager: b314d8923bef0bde743c904bb74fcc7a05fd3422
 
-PODFILE CHECKSUM: 7447f67aa815c907563956deed786cb05e081549
+PODFILE CHECKSUM: 81573c2279f5c0dfd2e506f4674f0c4cbbe48c2c
 
 COCOAPODS: 1.13.0

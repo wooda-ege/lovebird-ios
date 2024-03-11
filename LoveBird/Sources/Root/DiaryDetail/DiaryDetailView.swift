@@ -73,11 +73,10 @@ extension DiaryDetailView {
             .padding(.horizontal, 16)
           }
 
-          if let urlString = viewStore.diary.imgUrls.first ,
-             let url = URL(string: "\(urlString)") {
+          if let urlString = viewStore.diary.imageUrls.first {
             VStack {
               Button { viewStore.send(.imageTapped(urlString)) } label: {
-                KFImage(url)
+                KFImage(urlString: urlString)
                   .resizable()
                   .aspectRatio(contentMode: .fill)
                   .frame(width: UIScreen.width - 32, height: (UIScreen.width - 32) * 0.6)

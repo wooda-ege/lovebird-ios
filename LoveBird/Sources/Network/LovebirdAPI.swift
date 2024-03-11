@@ -14,30 +14,30 @@ protocol LovebirdAPIProtocol {
   // auth
   func authenticate(auth: Authenticate) async throws -> Token
   func signUp(signUp: SignUpRequest) async throws -> Token
-
   func withdrawal() async throws -> Empty
 
   // profile
   func fetchProfile() async throws -> Profile
-  func editProfile(profile: EditProfileRequest) async throws -> Profile
+  func editProfile(profile: EditProfileRequest) async throws -> Empty
+  func presignProfileImage(presigned: PresignProfileImageRequest) async throws -> PresignImageResponse
 
   // coupleLink
-  func linkCouple(linkCouple: LinkCoupleRequest) async throws -> Empty
+  func linkCouple(linkCouple: LinkCoupleRequest) async throws -> LinkCoupleResponse
   func fetchCoupleCode() async throws -> CoupleCode
-  func checkIsLinked() async throws -> Empty
+  func checkLinkedOrNot() async throws -> CheckLinkedOrNotResponse
 
   // diary
   func fetchDiaries() async throws -> [Diary]
   func fetchDiary(id: Int) async throws -> Diary
-  func addDiary(image: Data?, diary: AddDiaryRequest) async throws -> Empty
+  func addDiary(diary: AddDiaryRequest) async throws -> Empty
   func deleteDiary(id: Int) async throws -> Empty
-  // TODO: 득연
   func fetchPlaces(places: FetchPlacesRequest) async throws -> [Place]
+  func presignDiaryImages(presigned: PresignDiaryImagesRequest) async throws -> PresignImagesResponse
+
 
   // schedule
-  func fetchCalendars() async throws -> [Schedule]
-  // TODO: 득연
-  func fetchSchedule(id: Int) async throws -> Empty
+  func fetchCalendars(date: FetchSchedulesRequest) async throws -> [Schedule]
+  func fetchSchedule(id: Int) async throws -> Schedule
   func addSchedule(schedule: AddScheduleRequest) async throws -> Empty
   func editSchedule(id: Int, schedule: AddScheduleRequest) async throws -> Empty
   func deleteSchedule(id: Int) async throws -> Empty
@@ -70,15 +70,15 @@ struct LovebirdAPI: LovebirdAPIProtocol {
     }
   }
 
-  func editProfile(profile: EditProfileRequest) async throws -> Profile {
-    try await fetchOrThrow {
-      try await apiClient.request(.editProfile(profile: profile)) as Profile?
+  func editProfile(profile: EditProfileRequest) async throws -> Empty {
+    try await performTaskWithoutResult {
+      try await apiClient.request(.editProfile(profile: profile))
     }
   }
 
-  func linkCouple(linkCouple: LinkCoupleRequest) async throws -> Empty {
-    try await performTaskWithoutResult {
-      try await apiClient.request(.linkCouple(linkCouple: linkCouple))
+  func linkCouple(linkCouple: LinkCoupleRequest) async throws -> LinkCoupleResponse {
+    try await fetchOrThrow {
+      try await apiClient.request(.linkCouple(linkCouple: linkCouple)) as LinkCoupleResponse?
     }
   }
 
@@ -88,9 +88,9 @@ struct LovebirdAPI: LovebirdAPIProtocol {
     }
   }
 
-  func checkIsLinked() async throws -> Empty {
-    try await performTaskWithoutResult {
-      try await apiClient.request(.checkIsLinked)
+  func checkLinkedOrNot() async throws -> CheckLinkedOrNotResponse {
+    try await fetchOrThrow {
+      try await apiClient.request(.checkLinkedOrNot)
     }
   }
 
@@ -107,15 +107,15 @@ struct LovebirdAPI: LovebirdAPIProtocol {
     }
   }
 
-  func addDiary(image: Data?, diary: AddDiaryRequest) async throws -> Empty {
+  func addDiary(diary: AddDiaryRequest) async throws -> Empty {
     try await performTaskWithoutResult {
-      try await apiClient.request(.addDiary(image: image, diary: diary))
+      try await apiClient.request(.addDiary(diary: diary))
     }
   }
 
-  func editDiary(id: Int, image: Data?, diary: AddDiaryRequest) async throws -> Empty {
+  func editDiary(id: Int, diary: AddDiaryRequest) async throws -> Empty {
     try await performTaskWithoutResult {
-      try await apiClient.request(.editDiary(id: id, image: image, diary: diary))
+      try await apiClient.request(.editDiary(id: id, diary: diary))
     }
   }
 
@@ -132,16 +132,16 @@ struct LovebirdAPI: LovebirdAPIProtocol {
     }
   }
 
-  func fetchCalendars() async throws -> [Schedule] {
+  func fetchCalendars(date: FetchSchedulesRequest = .init()) async throws -> [Schedule] {
     try await fetchOrThrow {
-      let response = try await apiClient.request(.fetchCalendars) as FetchCalendarResponse?
+      let response = try await apiClient.request(.fetchCalendars(date: date)) as FetchCalendarResponse?
       return response?.schedules
     }
   }
 
-  func fetchSchedule(id: Int) async throws -> Empty {
-    try await performTaskWithoutResult {
-      try await apiClient.request(.fetchSchedule(id: id))
+  func fetchSchedule(id: Int) async throws -> Schedule {
+    try await fetchOrThrow {
+      try await apiClient.request(.fetchSchedule(id: id)) as Schedule?
     }
   }
 
@@ -163,6 +163,22 @@ struct LovebirdAPI: LovebirdAPIProtocol {
     }
   }
 
+  func presignProfileImage(presigned: PresignProfileImageRequest) async throws -> PresignImageResponse {
+    try await fetchOrThrow {
+      try await apiClient.request(.presignProfileImage(presigned: presigned))
+    }
+  }
+
+  func presignDiaryImages(presigned: PresignDiaryImagesRequest) async throws -> PresignImagesResponse {
+    try await fetchOrThrow {
+      try await apiClient.request(.presignDiaryImages(presigned: presigned))
+    }
+  }
+}
+
+// MARK: - Wrapper
+
+extension LovebirdAPI {
   private func fetchOrThrow<T>(apiCall: @escaping () async throws -> T?) async throws -> T {
     guard let result = try await apiCall() else {
       throw LovebirdAPIError.emptyData
@@ -170,7 +186,7 @@ struct LovebirdAPI: LovebirdAPIProtocol {
     return result
   }
 
-  func performTaskWithoutResult(apiCall: @escaping () async throws -> Empty?) async throws -> Empty {
+  private func performTaskWithoutResult(apiCall: @escaping () async throws -> Empty?) async throws -> Empty {
     _ = try await apiCall()
     return Empty()
   }

@@ -8,7 +8,7 @@
 import Foundation
 
 enum LovebirdError: Error {
-  case badRequest(LovebirdAPIError)
+  case badRequest(errorType: LovebirdAPIError, message: String)
   case decodeError
   case internalServerError
   case unknownError

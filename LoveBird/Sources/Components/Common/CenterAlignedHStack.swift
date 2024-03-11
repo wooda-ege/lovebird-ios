@@ -8,14 +8,18 @@
 import SwiftUI
 
 struct CenterAlignedHStack<Content: View>: View {
-  let content: Content
+  private let alignment: VerticalAlignment
+  private let spacing: CGFloat?
+  private let content: Content
 
-  init(@ViewBuilder content: () -> Content) {
+  init(alignment: VerticalAlignment = .center, spacing: CGFloat? = nil, @ViewBuilder content: () -> Content) {
+    self.alignment = alignment
+    self.spacing = spacing
     self.content = content()
   }
 
   var body: some View {
-    HStack {
+    HStack(alignment: alignment, spacing: spacing) {
       Spacer()
       content
       Spacer()

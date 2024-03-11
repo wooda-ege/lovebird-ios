@@ -48,7 +48,7 @@ struct MyPageProfileEditCore: Reducer {
     case withdrawal
     case logout
 
-    case editProfileResponse(TaskResult<Profile>)
+    case editProfileResponse(TaskResult<Empty>)
     case withdrawalResponse(TaskResult<Empty>)
 
     case delegate(Delegate)
@@ -151,8 +151,7 @@ struct MyPageProfileEditCore: Reducer {
           )
         }
 
-      case .editProfileResponse(.success(let profile)):
-        userData.profile.value = profile
+      case .editProfileResponse(.success):
         return .run { _ in await dismiss() }
 
       case .withdrawalResponse(.success):

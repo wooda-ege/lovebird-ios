@@ -7,8 +7,5 @@
 
 struct FetchDiariesResponse: Decodable, Equatable, Sendable {
   let diaries: [Diary]
-
-  enum CodingKeys: String, CodingKey {
-    case diaries = "diaryList"
-  }
+  let totalCount: Int
 }

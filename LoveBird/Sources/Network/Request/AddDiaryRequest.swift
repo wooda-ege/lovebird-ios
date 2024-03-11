@@ -10,4 +10,13 @@ public struct AddDiaryRequest: Encodable {
   let memoryDate: String
   let place: String?
   let content: String
+  let imageURLs: [String]?
+
+  enum CodingKeys: String, CodingKey {
+    case title
+    case memoryDate
+    case place
+    case content
+    case imageURLs = "imageUrls"
+  }
 }
