@@ -12,5 +12,7 @@ extension Array {
     return indices.contains(index) ? self[index] : nil
   }
   
-  var center: Element? { self[safe: count / 2] ?? nil }
+  var center: Element {
+    self[safe: count / 2]!
+  }
 }

@@ -17,8 +17,8 @@ struct CalendarCore: Reducer {
   // MARK: - State
 
   struct State: PreviewState {
-    var monthlys: [CalendarMonthly] = initialMonthlys(date: Date(), schedules: [:])
-    var currentMonthly = CalendarMonthly.dummy
+    var monthlys: [CalendarMonthly] = []
+    var currentMonthly: CalendarMonthly = .dummy
     var schedules: CalendarMonthly.Schedules = [:]
     var currentDate = Date()
     var currentPreviewDate = Date()
@@ -40,6 +40,7 @@ struct CalendarCore: Reducer {
     case scheduleTapped(Schedule)
     case hideCalendarPreview
     case monthlyChanged(CalendarMonthly)
+    case refresh
     case none
   }
 
@@ -54,13 +55,7 @@ struct CalendarCore: Reducer {
       switch action {
       case .viewAppear:
         return .run(isLoading: true) { send in
-          await send(
-            .dataLoaded(
-              await TaskResult {
-                try await lovebirdApi.fetchCalendars()
-              }
-            )
-          )
+          await send(.refresh)
         }
 
       case .toggleTapped:
@@ -72,7 +67,7 @@ struct CalendarCore: Reducer {
         state.currentDate = date
         let monthlys = CalendarCore.initialMonthlys(date: date, schedules: state.schedules)
         state.monthlys = monthlys
-        state.currentMonthly = monthlys.center ?? CalendarMonthly.dummy
+        state.currentMonthly = monthlys.center
         return .none
 
       case .previewDayTapped(let date):
@@ -111,10 +106,19 @@ struct CalendarCore: Reducer {
         return .none
 
       case let .dataLoaded(.success(schedules)):
-        let schedules = schedules.mapToDict()
-        state.schedules = schedules
-        state.monthlys = CalendarCore.initialMonthlys(date: Date(), schedules: schedules)
-        return .send(.dayTapped(Date()))
+        state.schedules = schedules.mapToDict()
+        return .send(.dayTapped(state.currentDate))
+
+      case .refresh:
+        return .run(isLoading: true) { send in
+          await send(
+            .dataLoaded(
+              await TaskResult {
+                try await lovebirdApi.fetchCalendars()
+              }
+            )
+          )
+        }
 
       default:
         return .none
