@@ -17,8 +17,8 @@ struct CalendarCore: Reducer {
   // MARK: - State
 
   struct State: PreviewState {
-    var monthlys = [CalendarMonthly]()
-    var currentMonthly = CalendarMonthly.dummy
+    var monthlys: [CalendarMonthly] = []
+    var currentMonthly: CalendarMonthly = .dummy
     var schedules: CalendarMonthly.Schedules = [:]
     var currentDate = Date()
     var currentPreviewDate = Date()
@@ -40,6 +40,7 @@ struct CalendarCore: Reducer {
     case scheduleTapped(Schedule)
     case hideCalendarPreview
     case monthlyChanged(CalendarMonthly)
+    case refresh
     case none
   }
 
@@ -53,14 +54,8 @@ struct CalendarCore: Reducer {
     Reduce { state, action in
       switch action {
       case .viewAppear:
-        return .runWithLoading { send in
-          await send(
-            .dataLoaded(
-              await TaskResult {
-                try await lovebirdApi.fetchCalendars()
-              }
-            )
-          )
+        return .run(isLoading: true) { send in
+          await send(.refresh)
         }
 
       case .toggleTapped:
@@ -70,9 +65,9 @@ struct CalendarCore: Reducer {
 
       case .dayTapped(let date):
         state.currentDate = date
-        let monthlys = initialMonthlys(date: date, schedules: state.schedules)
+        let monthlys = CalendarCore.initialMonthlys(date: date, schedules: state.schedules)
         state.monthlys = monthlys
-        state.currentMonthly = monthlys.center ?? CalendarMonthly.dummy
+        state.currentMonthly = monthlys.center
         return .none
 
       case .previewDayTapped(let date):
@@ -111,10 +106,19 @@ struct CalendarCore: Reducer {
         return .none
 
       case let .dataLoaded(.success(schedules)):
-        let schedules = schedules.mapToDict()
-        state.schedules = schedules
-        state.monthlys = initialMonthlys(date: Date(), schedules: schedules)
-        return .send(.dayTapped(Date()))
+        state.schedules = schedules.mapToDict()
+        return .send(.dayTapped(state.currentDate))
+
+      case .refresh:
+        return .run(isLoading: true) { send in
+          await send(
+            .dataLoaded(
+              await TaskResult {
+                try await lovebirdApi.fetchCalendars()
+              }
+            )
+          )
+        }
 
       default:
         return .none
@@ -123,7 +127,7 @@ struct CalendarCore: Reducer {
   }
 
   // TODO: Calendar API 수정되면 수정할 것
-  private func initialMonthlys(date: Date, schedules: CalendarMonthly.Schedules) -> [CalendarMonthly] {
+  private static func initialMonthlys(date: Date, schedules: CalendarMonthly.Schedules) -> [CalendarMonthly] {
     var monthlySchedules = [CalendarMonthly]()
     // 앞뒤 각각 2년 기간의 Monthly를 미리 생성해 놓는다.
     for i in -24...24 {

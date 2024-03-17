@@ -309,7 +309,7 @@ struct ScheduleAddCore: Reducer {
 
       case .confirmTapped:
         if state.title.isEmpty { return .none }
-        return .runWithLoading { [state] send in
+        return .run(isLoading: true) { [state] send in
           let schedule = addScheduleRequest(state: state)
           if let id = state.idForEditing {
             await send(

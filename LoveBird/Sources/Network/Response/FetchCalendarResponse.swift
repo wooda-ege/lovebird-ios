@@ -9,6 +9,6 @@ struct FetchCalendarResponse: Decodable, Equatable, Sendable {
   let schedules: [Schedule]
 
   enum CodingKeys: String, CodingKey {
-    case schedules = "calendarList"
+    case schedules = "calendars"
   }
 }

@@ -9,30 +9,35 @@ import ComposableArchitecture
 import SwiftUI
 
 struct HomeView: View {
-  let store: StoreOf<HomeCore>
-  
+  private let store: StoreOf<HomeCore>
+  @ObservedObject var viewStore: ViewStoreOf<HomeCore>
+
+  @State private var isRefreshing = false
+
+  init(store: StoreOf<HomeCore>) {
+    self.store = store
+    self.viewStore = ViewStoreOf<HomeCore>(store, observe: { $0 })
+  }
+
   // MARK: - Body
-  
+
   var body: some View {
-    WithViewStore(store, observe: { $0 }) { viewStore in
-      VStack(spacing: 0) {
-        toolbarView
-        
-        ZStack {
-          ZStack(alignment: .leading) {
-            leftLineView
-            timeLineView
-          }
-          
-          if viewStore.isLinkSuccessViewShown {
-            HomeLinkSuccessView(store: store)
-              .padding(.horizontal, 16)
-          }
+    VStack(spacing: 0) {
+      toolbarView
+      ZStack {
+        ZStack(alignment: .bottomLeading) {
+          leftLineView
+          timeLineView
+        }
+
+        if viewStore.isLinkSuccessViewShown {
+          HomeLinkSuccessView(store: store)
+            .padding(.horizontal, 16)
         }
       }
-      .onAppear {
-        viewStore.send(.viewAppear)
-      }
+    }
+    .onFirstAppear {
+      viewStore.send(.viewAppear)
     }
   }
 }
@@ -44,42 +49,56 @@ extension HomeView {
     HStack(alignment: .center) {
       Image(asset: LoveBirdAsset.imgPinkbird)
         .changeSize(to: .init(width: 36, height: 36))
-      
+
       Spacer()
     }
     .frame(height: 44)
     .padding(.horizontal, 12)
   }
-  
+
   var leftLineView: some View {
-    WithViewStore(store, observe: { $0 }) { viewStore in
+    LeftAlignedHStack {
       VLine(property: .timelineDotted)
         .padding(.leading, 22)
-      
-      VStack(alignment: .leading) {
+
+      TopAlignedVStack(alignment: .leading) {
         VLine(property: .timeline)
           .frame(height: viewStore.state.lineHeight)
           .padding(.leading, 22)
-        
-        Spacer()
       }
     }
   }
-  
-  var timeLineView: some View {
-    WithViewStore(store, observe: { $0 }) { viewStore in
-      TimelineScrollView {
-        LazyVGrid(columns: [GridItem(.flexible())], spacing: 0) {
-          ForEach(viewStore.diaries, id: \.diaryId) { diary in
-            HomeItem(store: store, diary: diary)
-          }
 
-          Color.clear
-            .padding(.bottom, 20)
+  var timeLineView: some View {
+    GeometryReader { proxy in
+      TimelineScrollView {
+        VStack(spacing: 0) {
+          LeftAlignedHStack {
+            VLine(property: .timeline)
+              .frame(maxHeight: .infinity)
+              .padding(.leading, 22)
+          }
+          .frame(maxHeight: .infinity)
+
+          LazyVGrid(columns: [GridItem(.flexible())], spacing: 0) {
+            ForEach(viewStore.diaries, id: \.diaryId) { diary in
+              HomeItem(store: store, diary: diary)
+            }
+          }
         }
-        .scrollViewOrigin(callback: { point in
-          viewStore.send(.offsetYChanged(point.y))
-        })
+        .frame(height: proxy.size.height)
+      }
+      .overlay(
+        VStack {
+          if isRefreshing {
+            ProgressView()
+              .progressViewStyle(CircularProgressViewStyle())
+              .frame(alignment: .top)
+          }
+        }, alignment: .bottom
+      )
+      .refreshable {
+        viewStore.send(.refresh)
       }
     }
   }
@@ -92,4 +111,12 @@ extension HomeView {
       reducer: { HomeCore() }
     )
   )
+}
+
+struct ScrollViewOffsetPreferenceKey: PreferenceKey {
+    static var defaultValue: CGFloat = .zero
+
+    static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {
+        value += nextValue()
+    }
 }

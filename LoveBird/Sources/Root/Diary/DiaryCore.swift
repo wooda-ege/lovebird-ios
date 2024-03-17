@@ -78,7 +78,9 @@ struct DiaryCore: Reducer {
   @Dependency(\.dismiss) var dismiss
 
   var body: some Reducer<State, Action> {
-    Reduce { state, action in
+    Reduce {
+      state,
+      action in
       switch action {
       case .titleEdited(let title):
         state.title = title
@@ -118,40 +120,50 @@ struct DiaryCore: Reducer {
         
       case .completeTapped:
         if state.title.isEmpty || state.content.isEmpty { return .none }
-        return .runWithLoading { [state] send in
-          if state.type == .add {
-            await send(
-              .addDiaryResponse(
-                await TaskResult {
-                  try await self.lovebirdApi.addDiary(
-                    image: state.selectedImage,
-                    diary: .init(
-                      title: state.title,
-                      memoryDate: state.date.to(format: .YMDDivided),
-                      place: state.place.isEmpty ? nil : state.place,
-                      content: state.content
-                    )
-                  )
-                }
+        return .run(isLoading: true) { [state] send in
+          do {
+            var presign: PresignImagesResponse?
+            if let image = state.selectedImage {
+              presign = try await lovebirdApi.presignDiaryImages(
+                presigned: .init(
+                  diaryId: nil,
+                  fileNames: ["image.png"]
+                )
               )
+
+              guard let presigned = presign?.presignedURLs.first else { return }
+              _ = try await AWSS3Uploader.upload(image, toPresignedURLString: presigned.presignedURL, fileName: presigned.fileName)
+            }
+            let diary = AddDiaryRequest(
+              title: state.title,
+              memoryDate: state.date.to(format: .YMDDivided),
+              place: state.place.isEmpty ? nil : state.place,
+              content: state.content,
+              imageURLs: presign?.presignedURLs.map { $0.presignedURL }
             )
-          } else {
-            await send(
-              .editDiaryResponse(
-                await TaskResult {
-                  try await self.lovebirdApi.editDiary(
-                    id: state.id,
-                    image: state.selectedImage,
-                    diary: .init(
-                      title: state.title,
-                      memoryDate: state.date.to(format: .YMDDivided),
-                      place: state.place.isEmpty ? nil : state.place,
-                      content: state.content
-                    )
-                  )
-                }
+
+            if state.type == .add {
+              await send(
+                .addDiaryResponse(
+                  await TaskResult {
+                    try await self.lovebirdApi.addDiary(diary: diary)
+                  }
+                )
               )
-            )
+            } else {
+              await send(
+                .editDiaryResponse(
+                  await TaskResult {
+                    try await self.lovebirdApi.editDiary(
+                      id: state.id,
+                      diary: diary
+                    )
+                  }
+                )
+              )
+            }
+          } catch {
+            await toastController.showToast(message: "등록에 실패하였습니다. 다시 시도해주세요.")
           }
         }
 

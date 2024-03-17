@@ -64,7 +64,7 @@ struct DiaryDetailCore: Reducer {
         else { return .none }
 
       case .deleteDiary:
-        return .runWithLoading { [id = state.diary.diaryId] send in
+        return .run(isLoading: true) { [id = state.diary.diaryId] send in
           await send(
             .deleteDiaryResponse(
               await TaskResult {

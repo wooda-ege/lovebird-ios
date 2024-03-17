@@ -6,6 +6,6 @@
 //
 
 struct CoupleCode: Decodable, Equatable, Sendable {
-  let memberId: Int
   let coupleCode: String
+  let remainSeconds: Int
 }

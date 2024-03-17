@@ -13,10 +13,9 @@ import Kingfisher
 
 struct MyPageView: View {
 
+  let store: StoreOf<MyPageCore>
   @StateObject private var keyboard = KeyboardResponder()
 
-  let store: StoreOf<MyPageCore>
-  
   var body: some View {
     WithViewStore(self.store, observe: { $0 }) { viewStore in
       ZStack {
@@ -57,63 +56,38 @@ private extension MyPageView {
     WithViewStore(store, observe: { $0 }) { viewStore in
       VStack(spacing: 5) {
         ZStack(alignment: .center) {
-          HStack(spacing: 20) {
-            Spacer()
-
-            if let urlString = viewStore.profile?.profileImageUrl {
-              Circle()
-                .fill(Color(asset: LoveBirdAsset.gray02))
-                .overlay(KFImage(URL(string: urlString)).resizable(), alignment: .center)
-                .frame(width: 80, height: 80)
-                .overlay(
-                  Circle()
-                    .stroke(Color(asset: LoveBirdAsset.gray05), lineWidth: 1)
-                )
-            } else {
-              Circle()
-                .fill(Color(asset: LoveBirdAsset.gray02))
-                .frame(width: 80, height: 80)
-                .overlay(Image(asset: LoveBirdAsset.icBirdProfileEmpty), alignment: .center)
-                .overlay(
-                  Circle()
-                    .stroke(Color(asset: LoveBirdAsset.gray05), lineWidth: 1)
-                )
-            }
+          CenterAlignedHStack(spacing: 20) {
+            KFImage(urlString: viewStore.profile?.profileImageUrl)
+              .placeholder {
+                Image(asset: LoveBirdAsset.icBirdProfileEmpty)
+                  .resizable()
+                  .background(Color(asset: LoveBirdAsset.gray02))
+                  .border(Color(asset: LoveBirdAsset.gray05), width: 1)
+                  .clipShape(Circle())
+              }
+              .resizable()
+              .aspectRatio(contentMode: .fill)
+              .frame(size: 80)
+              .clipShape(Circle())
 
             Image(asset: LoveBirdAsset.icBirdGray)
               .changeSize(to: .init(width: 24, height: 24))
               .changeColor(to: Color(asset: LoveBirdAsset.gray04))
 
-            // user 확인
-            if let _ = viewStore.profile?.partnerNickname {
-              if let urlString = viewStore.profile?.partnerImageUrl {
-                KFImage(URL(string: urlString))
-                  .frame(size: 80)
-              } else {
-                Circle()
-                  .fill(Color(asset: LoveBirdAsset.gray02))
-                  .frame(width: 80, height: 80)
-                  .overlay(Image(asset: LoveBirdAsset.icBirdProfileEmpty), alignment: .center)
-                  .overlay(
-                    Circle()
-                      .stroke(Color(asset: LoveBirdAsset.gray05), lineWidth: 1)
-                  )
-              }
-            } else {
-              Circle()
-                .fill(Color(asset: LoveBirdAsset.gray02))
-                .frame(width: 80, height: 80)
-                .overlay(Image(asset: LoveBirdAsset.icBirdProfileEdit), alignment: .center)
-                .overlay(
-                  Circle()
-                    .stroke(Color(asset: LoveBirdAsset.gray05), lineWidth: 1)
-                )
-                .onTapGesture {
-                  viewStore.send(.partnerProfileTapped)
+            KFImage(urlString: viewStore.profile?.partnerImageUrl)
+              .placeholder {
+                Button { viewStore.send(.partnerProfileTapped) } label: {
+                  Image(asset: LoveBirdAsset.icBirdProfileEmpty)
+                    .resizable()
+                    .background(Color(asset: LoveBirdAsset.gray02))
+                    .border(Color(asset: LoveBirdAsset.gray05), width: 1)
+                    .clipShape(Circle())
                 }
-            }
-
-            Spacer()
+              }
+              .resizable()
+              .aspectRatio(contentMode: .fill)
+              .frame(size: 80)
+              .clipShape(Circle())
           }
         }
 

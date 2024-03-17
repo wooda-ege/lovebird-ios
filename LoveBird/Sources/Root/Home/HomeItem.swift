@@ -288,8 +288,8 @@ extension HomeItem {
               Spacer()
             }
 
-            if let urlString = diary.imgUrls.first, let url = URL(string: urlString) {
-              KFImage(url)
+            if let urlString = diary.imageUrls.first {
+              KFImage(urlString: urlString)
                 .resizable()
                 .aspectRatio(contentMode: .fill)
                 .frame(maxHeight: 100)
@@ -327,7 +327,7 @@ extension HomeItem {
 
             Spacer().frame(width: 4)
 
-            Text("\(viewStore.profile?.authorName(with: diary.memberId) ?? "")")
+            Text("\(viewStore.profile?.authorName(with: diary.userId) ?? "")")
               .foregroundColor(.black)
               .font(.pretendard(size: 12))
           }

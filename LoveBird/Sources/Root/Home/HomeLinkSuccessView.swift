@@ -45,48 +45,34 @@ struct HomeLinkSuccessView: View {
                   .frame(height: 24)
 
                 HStack(spacing: 2) {
-                  if let urlString = viewStore.profile?.profileImageUrl {
-                    Circle()
-                      .fill(Color(asset: LoveBirdAsset.gray02))
-                      .overlay(KFImage(URL(string: urlString)).resizable(), alignment: .center)
-                      .frame(width: 96, height: 96)
-                      .overlay(
-                        Circle()
-                          .stroke(Color(asset: LoveBirdAsset.gray05), lineWidth: 1)
-                      )
-                  } else {
-                    Circle()
-                      .fill(Color(asset: LoveBirdAsset.gray02))
-                      .frame(width: 96, height: 96)
-                      .overlay(Image(asset: LoveBirdAsset.icBirdEdit), alignment: .center)
-                      .overlay(
-                        Circle()
-                          .stroke(Color(asset: LoveBirdAsset.gray05), lineWidth: 1)
-                      )
-                  }
+                  KFImage(urlString: profile.profileImageUrl)
+                    .placeholder {
+                      Image(asset: LoveBirdAsset.icBirdProfileEmpty)
+                        .resizable()
+                        .background(Color(asset: LoveBirdAsset.gray02))
+                        .border(Color(asset: LoveBirdAsset.gray05), width: 1)
+                        .clipShape(Circle())
+                    }
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+                    .frame(size: 96)
+                    .clipShape(Circle())
 
                   Image(asset: LoveBirdAsset.imgPinkbird)
                     .changeSize(to: .init(width: 36, height: 36))
 
-                  if let urlString = viewStore.profile?.partnerImageUrl {
-                    Circle()
-                      .fill(Color(asset: LoveBirdAsset.gray02))
-                      .overlay(KFImage(URL(string: urlString)).resizable(), alignment: .center)
-                      .frame(width: 96, height: 96)
-                      .overlay(
-                        Circle()
-                          .stroke(Color(asset: LoveBirdAsset.gray05), lineWidth: 1)
-                      )
-                  } else {
-                    Circle()
-                      .fill(Color(asset: LoveBirdAsset.gray02))
-                      .frame(width: 96, height: 96)
-                      .overlay(Image(asset: LoveBirdAsset.icBirdEdit), alignment: .center)
-                      .overlay(
-                        Circle()
-                          .stroke(Color(asset: LoveBirdAsset.gray05), lineWidth: 1)
-                      )
-                  }
+                  KFImage(urlString: profile.partnerImageUrl)
+                    .placeholder {
+                      Image(asset: LoveBirdAsset.icBirdProfileEmpty)
+                        .resizable()
+                        .background(Color(asset: LoveBirdAsset.gray02))
+                        .border(Color(asset: LoveBirdAsset.gray05), width: 1)
+                        .clipShape(Circle())
+                    }
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+                    .frame(size: 96)
+                    .clipShape(Circle())
                 }
 
                 Spacer()

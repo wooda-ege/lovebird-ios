@@ -29,6 +29,7 @@ struct HomeCore: Reducer {
   enum Action: Equatable {
     case viewAppear
     case dataLoaded(Profile, [HomeDiary])
+    case configureUI(Profile, [Diary])
     case diaryTitleTapped(HomeDiary)
     case diaryTapped(HomeDiary)
     case todoDiaryTapped
@@ -38,6 +39,7 @@ struct HomeCore: Reducer {
     case linkSuccessCloseTapped
     case linkSuccessAddTapped
     case showLinkSuccessView
+    case refresh
   }
 
   @Dependency(\.lovebirdApi) var lovebirdApi
@@ -51,28 +53,26 @@ struct HomeCore: Reducer {
         // MARK: - Life Cycle
         
       case .viewAppear:
-        return .runWithLoading { send in
+        return .run(isLoading: true) { send in
           do {
             let diaries = try await lovebirdApi.fetchDiaries()
             let profile = try await lovebirdApi.fetchProfile()
-
             userData.profile.value = profile
 
-            let homeDiaries = diariesForHome(
-              diaries: diaries.map { $0.toHomeDiary(with: profile) },
-              profile: profile
-            )
-            await send(.dataLoaded(profile, homeDiaries))
-            
+            await send(.configureUI(profile, diaries))
             if userData.shouldShowLinkSuccessPopup.value {
               await send(.showLinkSuccessView)
             }
           }
         }
 
-      case let .dataLoaded(profile, diaries):
+      case let .configureUI(profile, diaries):
+        let homeDiaries = homeDiaries(
+          diaries: diaries.map { $0.toHomeDiary(with: profile) },
+          profile: profile
+        )
         state.profile = profile
-        state.diaries = diaries
+        state.diaries = homeDiaries
         state.mode = userData.mode.value
         return .none
 
@@ -105,7 +105,16 @@ struct HomeCore: Reducer {
         state.isLinkSuccessViewShown = true
         userData.shouldShowLinkSuccessPopup.value = false
         return .none
-        
+
+      case .refresh:
+        return .run(isLoading: true) { [profile = state.profile] send in
+          do {
+            guard let profile else { return }
+            let diaries = try await lovebirdApi.fetchDiaries()
+            await send(.configureUI(profile, diaries))
+          }
+        }
+
       default:
         return .none
       }
@@ -119,11 +128,25 @@ struct HomeCore: Reducer {
     )
   }
 
-  private func diariesForHome(diaries: [HomeDiary], profile: Profile) -> [HomeDiary] {
+  private func homeDiaries(diaries: [HomeDiary], profile: Profile) -> [HomeDiary] {
 
     var isFirstDateAppended = false
-    var isTodayDiaryAppended = false
-    var diariesForHome = [HomeDiary]()
+    var shouldNeedTodoDiary = true
+    var homeDiaries = [HomeDiary]()
+
+    // D+1
+    if let firstDateString = profile.firstDate {
+      homeDiaries.append(HomeDiary.initialDiary(with: firstDateString))
+    }
+
+    // 다음 기념일
+    if let nextAnniversary = profile.nextAnniversary {
+      let anniversaryDiary = HomeDiary.anniversaryDiary(
+        with: nextAnniversary.anniversaryDate,
+        title: nextAnniversary.name
+      )
+      homeDiaries.append(anniversaryDiary)
+    }
 
     diaries.enumerated().forEach { idx, diary in
       var diaryUpdated = diary
@@ -133,17 +156,9 @@ struct HomeCore: Reducer {
         diaryUpdated.isTimelineDateShown = false
       }
 
-      // D+1
-      if let firstDateString = profile.firstDate,
-         let firstDate = Date(from: firstDateString),
-         isFirstDateAppended.not,
-         firstDate <= diaries[idx].memoryDate.toDate() {
-        isFirstDateAppended = true
-        diariesForHome.append(HomeDiary.initialDiary(with: firstDateString))
-      }
 
       if diary.memoryDate.toDate().isToday {
-        isTodayDiaryAppended = true
+        shouldNeedTodoDiary = false
 
         // 이틀 연속 당일이라면 전에 기록된 Diary의 TimeState는 previous이다.
         if diaries.count > idx + 1, diaries[idx + 1].memoryDate.toDate().isToday {
@@ -152,31 +167,20 @@ struct HomeCore: Reducer {
           diaryUpdated.timeState = .current
         }
         diaryUpdated.isFolded = false
-        diariesForHome.append(diaryUpdated)
       } else if diary.memoryDate.toDate().isLater(than: Date()) {
         diaryUpdated.timeState = .following
-        diariesForHome.append(diaryUpdated)
-      } else {
-        diariesForHome.append(diaryUpdated)
       }
+
+      homeDiaries.append(diaryUpdated)
     }
 
-    // 오늘 일 자
-    if !isTodayDiaryAppended {
-      diariesForHome.append(HomeDiary.todoDiary(with: Date().to(format: .YMDDivided)))
+    // '오늘 데이트 기록하기'
+    if shouldNeedTodoDiary {
+      let todoDiary = HomeDiary.todoDiary(with: Date().to(format: .YMDDivided))
+      homeDiaries.append(todoDiary)
     }
 
-    // 다음 기념일
-    guard let  nextAnniversary = profile.nextAnniversary else {
-      return diariesForHome
-    }
-    
-    diariesForHome.append(HomeDiary.anniversaryDiary(
-      with: nextAnniversary.anniversaryDate,
-      title: nextAnniversary.kind.description 
-    ))
-
-    return diariesForHome
+    return homeDiaries.sorted { $0.memoryDate < $1.memoryDate }
   }
 }
 

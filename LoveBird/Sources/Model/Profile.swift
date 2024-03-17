@@ -9,58 +9,28 @@ import Foundation
 
 struct Profile: Equatable, Codable, Sendable {
   struct Anniversary: Codable, Equatable {
-    enum DateMilestone: String, Codable, Equatable {
-      case oneHundred = "ONE_HUNDRED"
-      case twoHundreds = "TWO_HUNDREDS"
-      case threeHundreds = "THREE_HUNDREDS"
-      case oneYear = "ONE_YEAR"
-      case twoYears = "TWO_YEARS"
-      case threeYears = "THREE_YEARS"
-      case fourYears = "FOUR_YEARS"
-      case fiveYears = "FIVE_YEARS"
-      case sixYears = "SIX_YEARS"
-      case sevenYears = "SEVEN_YEARS"
-      case eightYears = "EIGHT_YEARS"
-      case nineYears = "NINE_YEARS"
-      case tenYears = "TEN_YEARS"
+    enum Kind: String, Codable, Equatable {
+      case day = "DAY"
+      case year = "YEAR"
 
       var description: String {
         switch self {
-        case .oneHundred:
-          return "백일"
-        case .twoHundreds:
-          return "이백일"
-        case .threeHundreds:
-          return "삼백일"
-        case .oneYear:
-          return "1주년"
-        case .twoYears:
-          return "2주년"
-        case .threeYears:
-          return "3주년"
-        case .fourYears:
-          return "4주년"
-        case .fiveYears:
-          return "5주년"
-        case .sixYears:
-          return "6주년"
-        case .sevenYears:
-          return "7주년"
-        case .eightYears:
-          return "8주년"
-        case .nineYears:
-          return "9주년"
-        case .tenYears:
-          return "10주년"
+        case .day:
+          return "일"
+        case .year:
+          return "주년"
         }
       }
     }
 
-    let kind: DateMilestone
+    let kind: Kind
+    let seq: Int
     let anniversaryDate: String
+
+    var name: String { "\(seq)\(kind.description)" }
   }
 
-  let memberId: Int
+  let userId: Int
   let partnerId: Int?
   let email: String
   let nickname: String
@@ -77,7 +47,7 @@ struct Profile: Equatable, Codable, Sendable {
   }
 
   func authorName(with id: Int) -> String? {
-    if id == memberId { return nickname }
+    if id == userId { return nickname }
     else { return partnerNickname }
   }
 }
@@ -87,7 +57,7 @@ struct Profile: Equatable, Codable, Sendable {
 extension Profile {
   static let dummy: Self =
     .init(
-      memberId: 0,
+      userId: 0,
       partnerId: 1,
       email: "test@lb.com",
       nickname: "러브",
@@ -95,7 +65,7 @@ extension Profile {
       firstDate: "2022-01-01",
       birthDay: "1995-06-24",
       dayCount: 200,
-      nextAnniversary: .init(kind: .twoYears, anniversaryDate: "2024-01-01"),
+      nextAnniversary: .init(kind: .day, seq: 200, anniversaryDate: "2024-10-31"),
       profileImageUrl: nil,
       partnerImageUrl: nil
     )

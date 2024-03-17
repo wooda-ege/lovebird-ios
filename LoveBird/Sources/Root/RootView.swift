@@ -8,6 +8,7 @@
 import ComposableArchitecture
 import SwiftUI
 import Combine
+import Lottie
 
 struct RootView: View {
   let store: StoreOf<RootCore>
@@ -72,14 +73,12 @@ extension RootView {
   var loadingView: some View {
     WithViewStore(store, observe: { $0 }) { viewStore in
       if viewStore.isLoading {
-        ProgressView()
-          .frame(maxWidth: .infinity, maxHeight: .infinity)
-          .background(Color.touchable)
-          .background {
-            RoundedRectangle(cornerSize: CGSize(width: 10, height: 10), style: .circular)
-              .fill(Color.black.opacity(0.2))
-              .frame(size: 60)
-          }
+        ZStack(alignment: .center) {
+          LottieView(animation: .from(asset: LoveBirdAsset.loadingIndicator))
+            .playing(loopMode: .loop)
+            .frame(size: 72)
+        }
+        .background(Color.touchable)
       }
     }
   }

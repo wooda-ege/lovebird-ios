@@ -14,13 +14,15 @@ public struct EditProfileRequest: Encodable {
     nickname: String? = nil,
     email: String? = nil,
     firstDate: String? = nil,
-    birthday: String? = nil
+    birthday: String? = nil,
+    gender: String? = nil
   ) {
     self.imageUrl = imageUrl
     self.nickname = nickname
     self.email = email
     self.firstDate = firstDate
     self.birthday = birthday
+    self.gender = gender
   }
 
   let imageUrl: String?
@@ -28,4 +30,5 @@ public struct EditProfileRequest: Encodable {
   let email: String?
   let firstDate: String?
   let birthday: String?
+  let gender: String?
 }

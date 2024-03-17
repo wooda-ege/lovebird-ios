@@ -18,9 +18,9 @@ struct TimelineScrollView<Content: View>: View {
   var body: some View {
     ScrollView {
       content
-        .rotationEffect(.degrees(180))
+        .scaleEffect(x: 1, y: -1)
     }
-    .rotationEffect(.degrees(180))
+    .scaleEffect(x: 1, y: -1)
     .frame(maxWidth: .infinity, maxHeight: .infinity)
     .scrollIndicators(.hidden)
   }

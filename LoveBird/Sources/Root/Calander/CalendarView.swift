@@ -23,7 +23,7 @@ struct CalendarView: View {
           previewView
         }
       }
-      .onAppear {
+      .onFirstAppear {
         viewStore.send(.viewAppear)
       }
     }

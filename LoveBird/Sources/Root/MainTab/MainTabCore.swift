@@ -132,7 +132,7 @@ struct MainTabCore: Reducer {
       guard let user = userData.profile.value else { return .none}
       let nickname: String?
       if let partnerNickname = user.partnerNickname {
-        nickname = user.memberId == diary.memberId ? user.nickname : partnerNickname
+        nickname = user.userId == diary.userId ? user.nickname : partnerNickname
       } else {
         nickname = nil
       }

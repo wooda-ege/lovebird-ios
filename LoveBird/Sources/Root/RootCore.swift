@@ -119,15 +119,22 @@ struct RootCore: Reducer {
       userData.accessToken.value = response.accessToken
       userData.refreshToken.value = response.refreshToken
 
-      if response.linkedFlag == true {
-        return .send(.switchPath(.mainTab(.init())))
-      } else {
-        return .send(.switchPath(.coupleLink(.init())))
+      return .run { [linkedFlag = response.linkedFlag] send in
+        do {
+          let profile = try await lovebirdApi.fetchProfile()
+          userData.profile.value = profile
+
+          if linkedFlag == true {
+            return await send(.switchPath(.mainTab(.init())))
+          } else {
+            return await send(.switchPath(.coupleLink(.init())))
+          }
+        } catch {
+          print("FetchProfile Error: \(error)")
+        }
       }
 
     case .path(.login(.loginResponse(.failure, let auth))):
-      //        if 특정 약속된 로그인 실패 인경우 { ... } 현석이랑 약속해서 처리하면 좋음
-      //        else 그외 네트워크 오류 등등 일 경우 { ... }
       return .send(.switchPath(.onboarding(.init(auth: auth))))
 
       // MARK: - Onboarding
