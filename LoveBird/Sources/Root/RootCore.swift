@@ -37,7 +37,7 @@ struct RootCore: Reducer {
     case toastMessageApplied(String?)
     case negativeTapped
     case positiveTapped
-    case goToLogin
+    case goToLogin(Bool)
   }
 
   // MARK: - Path
@@ -89,7 +89,7 @@ struct RootCore: Reducer {
   @Dependency(\.loadingController) var loadingController
   @Dependency(\.alertController) var alertController
   @Dependency(\.toastController) var toastController
-
+  @Dependency(\.tokenManager) var tokenManager
   @Dependency(\.continuousClock) var continuousClock
 
   // MARK: - Body
@@ -170,7 +170,7 @@ struct RootCore: Reducer {
     case let .path(.mainTab(.path(.element(id: _, action: .myPageProfileEdit(.delegate(action)))))):
       switch action {
       case .logout, .withdrawal:
-        return .send(.goToLogin)
+        return .send(.goToLogin(true))
       }
 
     case .path(.mainTab(.myPage(.mypageLink(.successToLink)))):
@@ -197,7 +197,7 @@ struct RootCore: Reducer {
             .map(Action.toastMessageApplied)
         },
         .publisher {
-          TokenManager.$failRetry
+          tokenManager.$failReissue
             .receive(on: DispatchQueue.main)
             .map(Action.goToLogin)
         }
@@ -229,9 +229,11 @@ struct RootCore: Reducer {
       state.path = rootState
       return .none
 
-    case .goToLogin:
-      userData.reset()
-      state.path = .login(.init())
+    case let .goToLogin(isFail):
+      if isFail == true {
+        userData.reset()
+        state.path = .login(.init())
+      }
       return .none
       
     default:

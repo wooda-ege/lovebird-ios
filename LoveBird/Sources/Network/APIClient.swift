@@ -239,21 +239,7 @@ extension MoyaProvider {
             case .badRequest:
               let data = try JSONDecoder().decode(NetworkStatusResponse.self, from: result.data)
               guard let errorType = LovebirdAPIError(rawValue: data.code) else { throw LovebirdError.unknownError }
-              if errorType == .invalidJWTToken {
-                self.callRecreateAPI { result in
-                  switch result {
-                  case .success(let token):
-                    self.userData.accessToken.value = token.accessToken
-                    self.userData.refreshToken.value = token.refreshToken
-                  case .failure:
-                    self.userData.reset()
-                    // 로그아웃 + 홈화면 가기
-                    break
-                  }
-                }
-              } else {
-                throw LovebirdError.badRequest(errorType: errorType, message: data.message)
-              }
+              throw LovebirdError.badRequest(errorType: errorType, message: data.message)
 
             case .internalServerError:
               throw LovebirdError.internalServerError
@@ -337,95 +323,38 @@ extension MoyaProvider {
           }
       }.resume()
   }
-
 }
 
-// data.code가 1101일때
-// accesstoken이 만료된 경우 or refreshtoken이 만료된 경우
-// 1번,2번 모두 recreate api호출 -> 응답이 성공이면 access만 만료됐던거라 다시 받아온 응답값으로 수정해줌
-// 응답이 실패면 refresh도 만료됐던거라 로그인홈으로 돌아가게 함
-
-class AuthInterceptor: RequestInterceptor {
-
-  @Dependency(\.userData) var userData
-
-  static let shared = AuthInterceptor()
-
-  private init() {}
-
-  func adapt(_ urlRequest: URLRequest, for session: Session, completion: @escaping (Result<URLRequest, Error>) -> Void) {
-    guard urlRequest.url?.absoluteString.hasPrefix(Config.baseURL) == true else {
-      completion(.success(urlRequest))
-      return
-    }
-
-    let accessToken = userData.accessToken.value
-    let refreshToken = userData.accessToken.value
-
-    var urlRequest = urlRequest
-    urlRequest.setValue(accessToken, forHTTPHeaderField: "Authorization")
-    urlRequest.setValue(refreshToken, forHTTPHeaderField: "Refresh")
-
-    completion(.success(urlRequest))
-  }
-
-  func retry(_ request: Request, for session: Session, dueTo error: Error, completion: @escaping (RetryResult) -> Void) {
-    print("retry 진입")
-    guard let response = request.task?.response as? HTTPURLResponse, response.statusCode == 400
-    else {
-      completion(.doNotRetryWithError(error))
-      return
-    }
-
-    // 1101인거 어떻게 알지??..
-
-    callRecreateAPI { result in
-      switch result {
-      case .success:
-        print("Retry-토큰 재발급 성공")
-        completion(.retry)
-      case .failure(let error):
-        // 갱신실패 - 로그아웃
-        completion(.doNotRetryWithError(error))
-      }
-    }
-  }
-
-  func callRecreateAPI(completion: @escaping (Result<Token, Error>) -> Void) {
-      guard let url = URL(string: "https://dev-app-api.lovebird-wooda.com/api/v1/auth/recreate") else {
-          completion(.failure(LovebirdError.internalServerError))
-          return
-      }
-
-      let refreshToken = userData.refreshToken.value
-
-      var request = URLRequest(url: url)
-      request.httpMethod = "POST"
-      request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
-      request.setValue(refreshToken, forHTTPHeaderField: "Refresh")
-
-      URLSession.shared.dataTask(with: request) { data, response, error in
-          if let error = error {
-              completion(.failure(error))
-              return
-          }
-
-          guard let httpResponse = response as? HTTPURLResponse, (200...299).contains(httpResponse.statusCode) else {
-              completion(.failure(LovebirdError.unknownError))
-              return
-          }
-
-          guard let responseData = data else {
-              completion(.failure(LovebirdError.unknownError))
-              return
-          }
-
-          do {
-              let tokenResponse = try JSONDecoder().decode(Token.self, from: responseData)
-              completion(.success(tokenResponse))
-          } catch {
-              completion(.failure(LovebirdError.decodeError))
-          }
-      }.resume()
-  }
-}
+//class AuthInterceptor: RequestInterceptor {
+//
+//  @Dependency(\.tokenManager) var tokenManager
+//
+//  static let shared = AuthInterceptor()
+//
+//  private init() {}
+//
+//  func adapt(_ urlRequest: URLRequest, for session: Session, completion: @escaping (Result<URLRequest, Error>) -> Void) {
+//    completion(.success(urlRequest))
+//  }
+//
+//  func retry(_ request: Request, for session: Session, dueTo error: Error, completion: @escaping (RetryResult) -> Void) {
+//    print("retry 진입")
+//
+//    guard let response = request.task?.response as? HTTPURLResponse, response.statusCode == 401 else {
+//      completion(.doNotRetryWithError(error))
+//      return
+//    }
+//
+//    tokenManager.callRecreateAPI { result in
+//      switch result {
+//      case .success:
+//        print("Retry-토큰 재발급 성공")
+//        completion(.retry)
+//      case .failure(let error):
+//        // 갱신실패 - 로그아웃
+//        self.tokenManager.failReissue = true
+//        completion(.doNotRetryWithError(error))
+//      }
+//    }
+//  }
+//}

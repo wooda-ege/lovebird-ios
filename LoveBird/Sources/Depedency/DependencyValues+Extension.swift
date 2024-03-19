@@ -48,6 +48,11 @@ extension DependencyValues {
     get { self[AppleLoginUtil.self] }
     set { self[AppleLoginUtil.self] = newValue }
   }
+
+  var tokenManager: TokenManager {
+    get { self[TokenManager.self] }
+    set { self[TokenManager.self] = newValue }
+  }
 }
 
 // MARK: - `DependencyKey` Implementation
@@ -82,4 +87,8 @@ extension KakaoLoginUtil: DependencyKey {
 
 extension AppleLoginUtil: DependencyKey {
   public static let liveValue = AppleLoginUtil()
+}
+
+extension TokenManager: DependencyKey {
+  public static let liveValue = TokenManager()
 }
