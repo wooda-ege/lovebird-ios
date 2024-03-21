@@ -20,6 +20,7 @@ protocol LovebirdAPIProtocol {
   func fetchProfile() async throws -> Profile
   func editProfile(profile: EditProfileRequest) async throws -> Empty
   func presignProfileImage(presigned: PresignProfileImageRequest) async throws -> PresignImageResponse
+  func preuploadProfileImage(image: Data) async throws -> PreuploadImageResponse
 
   // coupleLink
   func linkCouple(linkCouple: LinkCoupleRequest) async throws -> LinkCoupleResponse
@@ -33,7 +34,7 @@ protocol LovebirdAPIProtocol {
   func deleteDiary(id: Int) async throws -> Empty
   func fetchPlaces(places: FetchPlacesRequest) async throws -> [Place]
   func presignDiaryImages(presigned: PresignDiaryImagesRequest) async throws -> PresignImagesResponse
-
+  func preuploadDiaryImages(images: [Data]) async throws -> PreuploadImagesResponse
 
   // schedule
   func fetchCalendars(date: FetchSchedulesRequest) async throws -> [Schedule]
@@ -169,9 +170,21 @@ struct LovebirdAPI: LovebirdAPIProtocol {
     }
   }
 
+  func preuploadProfileImage(image: Data) async throws -> PreuploadImageResponse {
+    try await fetchOrThrow {
+      try await apiClient.request(.preuploadProfileImage(image: image))
+    }
+  }
+
   func presignDiaryImages(presigned: PresignDiaryImagesRequest) async throws -> PresignImagesResponse {
     try await fetchOrThrow {
       try await apiClient.request(.presignDiaryImages(presigned: presigned))
+    }
+  }
+
+  func preuploadDiaryImages(images: [Data]) async throws -> PreuploadImagesResponse {
+    try await fetchOrThrow {
+      try await apiClient.request(.preuploadDiaryImages(images: images))
     }
   }
 }
