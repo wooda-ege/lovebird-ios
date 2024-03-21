@@ -119,21 +119,15 @@ struct OnboardingCore: Reducer {
         return .run { [state] send in
           do {
             // 프로필 등록 - 생년월일 입력 뷰에서 다음 버튼 클릭시
-            var presign: PresignImageResponse?
+            var imageURL: String?
             if let image = state.profileImage {
-              presign = try await lovebirdApi.presignProfileImage(
-                presigned: .init(
-                  fileName: "image.png"
-                )
-              )
-
-              guard let presign else { return }
-              _ = try await AWSS3Uploader.upload(image, toPresignedURLString: presign.presignedURL, fileName: presign.fileName)
+              let result = try await lovebirdApi.preuploadProfileImage(image: image)
+              imageURL = result.fileUrl
             }
             let request = SignUpRequest(
               provider: state.auth.provider,
               deviceToken: "",
-              imageUrl: presign?.presignedURL,
+              imageUrl: imageURL,
               email: state.email,
               nickname: state.nickname,
               birthday: state.skipPages.contains(.birth) ? nil : state.birth.toYMDFormat(),

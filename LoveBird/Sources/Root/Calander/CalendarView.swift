@@ -116,6 +116,9 @@ extension CalendarView {
               }
               .padding(.horizontal, 16)
             }
+            .refreshable {
+              viewStore.send(.refresh)
+            }
             .tag(monthly)
             .frame(width: geometry.size.width)
             .frame(maxHeight: .infinity)

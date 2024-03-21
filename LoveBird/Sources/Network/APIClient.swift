@@ -24,6 +24,7 @@ public enum APIClient {
   case fetchProfile
   case editProfile(profile: EditProfileRequest)
   case presignProfileImage(presigned: PresignProfileImageRequest)
+  case preuploadProfileImage(image: Data)
 
   // coupleLink
   case linkCouple(linkCouple: LinkCoupleRequest)
@@ -38,6 +39,7 @@ public enum APIClient {
   case deleteDiary(id: Int)
   case searchPlaces(places: FetchPlacesRequest)
   case presignDiaryImages(presigned: PresignDiaryImagesRequest)
+  case preuploadDiaryImages(images: [Data])
 
   // schedule
   case fetchCalendars(date: FetchSchedulesRequest)
@@ -87,60 +89,74 @@ extension APIClient: TargetType {
   }
 
   public var path: String {
-      switch self {
-      case .withdrawal:
-        return "/auth"
+    switch self {
+    case .withdrawal:
+      return "/auth"
 
-      case .authenticate:
-        return "/auth/sign-in/oidc"
+    case .authenticate:
+      return "/auth/sign-in/oidc"
 
-      case .fetchCoupleCode:
-        return "/couple/code"
+    case .fetchCoupleCode:
+      return "/couple/code"
 
-      case .linkCouple:
-        return "/couple/link"
+    case .linkCouple:
+      return "/couple/link"
 
-      case .checkLinkedOrNot:
-        return "/couple/check"
+    case .checkLinkedOrNot:
+      return "/couple/check"
 
-      case .searchPlaces:
-        return "/v2/local/search/keyword.json"
+    case .searchPlaces:
+      return "/v2/local/search/keyword.json"
 
-      case let .fetchDiary(id):
-        return "/diaries/\(id)"
+    case let .fetchDiary(id):
+      return "/diaries/\(id)"
 
-      case .fetchDiaries:
-        return "/diaries"
+    case .fetchDiaries:
+      return "/diaries"
 
-      case .addDiary:
-        return "/diaries"
+    case .addDiary:
+      return "/diaries"
 
-      case let .editDiary(id, _), let .deleteDiary(id):
-        return "/diaries/\(id)"
+    case let .editDiary(id, _), let .deleteDiary(id):
+      return "/diaries/\(id)"
 
-      case .addSchedule, .fetchCalendars:
-        return "/calendars"
+    case .addSchedule, .fetchCalendars:
+      return "/calendars"
 
-      case .fetchProfile, .editProfile:
-        return "/profile"
-        
-      case .signUp:
-        return "/auth/sign-up/oidc"
+    case .fetchProfile, .editProfile:
+      return "/profile"
 
-      case let .fetchSchedule(id), let .deleteSchedule(id), let .editSchedule(id, _):
-        return "/calendars/\(id)"
+    case .signUp:
+      return "/auth/sign-up/oidc"
 
-      case .presignProfileImage:
-        return "/presigned-urls/profile"
+    case let .fetchSchedule(id), let .deleteSchedule(id), let .editSchedule(id, _):
+      return "/calendars/\(id)"
 
-      case .presignDiaryImages:
-        return "/presigned-urls/diary"
-      }
+    case .presignProfileImage:
+      return "/presigned-urls/profile"
+
+    case .presignDiaryImages:
+      return "/presigned-urls/diary"
+
+    case .preuploadDiaryImages:
+      return "/images/diary"
+
+    case .preuploadProfileImage:
+      return "/images/profile"
+    }
   }
 
   public var method: Moya.Method {
     switch self {
-    case .signUp, .addSchedule, .authenticate, .addDiary, .presignProfileImage, .presignDiaryImages:
+    case
+        .signUp,
+        .addSchedule,
+        .authenticate,
+        .addDiary,
+        .presignProfileImage,
+        .presignDiaryImages,
+        .preuploadProfileImage,
+        .preuploadDiaryImages:
       return .post
 
     case .fetchDiary, .fetchCalendars, .fetchDiaries, .fetchProfile,
@@ -152,12 +168,14 @@ extension APIClient: TargetType {
 
     case .deleteSchedule, .deleteDiary, .withdrawal:
       return .delete
+
+
     }
   }
 
   public var task: Moya.Task {
     switch self {
-    case 
+    case
         .signUp,
         .addSchedule,
         .editSchedule,
@@ -177,11 +195,14 @@ extension APIClient: TargetType {
     case let .searchPlaces(encodable):
       return .requestParameters(parameters: ["query": encodable.query], encoding: URLEncoding.queryString)
 
+    case .preuploadProfileImage, .preuploadDiaryImages:
+      return .uploadMultipart(multiparts)
+
     default:
       return .requestPlain
     }
   }
-  
+
   public var headers: [String: String]? {
     let accessToken = userData.accessToken.value
     let refreshToken =  userData.refreshToken.value
@@ -189,11 +210,41 @@ extension APIClient: TargetType {
     print("Refresh Token is \(refreshToken)")
     if case .searchPlaces = self {
       return ["Authorization" : Config.kakaoMapKey]
-    } 
+    }
     if accessToken.isNotEmpty, refreshToken.isNotEmpty  {
       return ["Authorization": "Bearer \(accessToken)", "Refresh": "Bearer \(refreshToken)"]
     }
     return nil
+  }
+
+  private var multiparts: [Moya.MultipartFormData] {
+    var multiparts: [Moya.MultipartFormData] = []
+
+    switch self {
+    case let .preuploadProfileImage(image):
+      let imageData = MultipartFormData(
+        provider: .data(image),
+        name: "image",
+        fileName: "image.png",
+        mimeType: "image/png"
+      )
+      multiparts.append(imageData)
+
+    case let .preuploadDiaryImages(images):
+      images.forEach {
+        let imageData = MultipartFormData(
+          provider: .data($0),
+          name: "image",
+          fileName: "image.png",
+          mimeType: "image/png"
+        )
+        multiparts.append(imageData)
+      }
+
+    default:
+      break
+    }
+    return multiparts
   }
 }
 
@@ -219,13 +270,17 @@ extension MoyaProvider {
 
             case .badRequest:
               let data = try JSONDecoder().decode(NetworkStatusResponse.self, from: result.data)
-              guard let errorType = LovebirdAPIError(rawValue: data.code) else { throw LovebirdError.unknownError }
+              guard let errorType = LovebirdAPIError(rawValue: data.code) else {
+                throw LovebirdError.unknownError
+              }
               throw LovebirdError.badRequest(errorType: errorType, message: data.message)
 
             case .internalServerError:
               throw LovebirdError.internalServerError
 
             default:
+              let data = try JSONDecoder().decode(NetworkStatusResponse.self, from: result.data)
+              print(data)
               throw LovebirdError.unknownError
             }
           } catch {
@@ -242,7 +297,7 @@ extension MoyaProvider {
       }
     }
   }
-  
+
   func requestKakaoMap(_ target: Target) async throws -> FetchPlacesResponse {
     return try await withCheckedThrowingContinuation { continuation in
       self.request(target) { response in
@@ -258,7 +313,7 @@ extension MoyaProvider {
             print("<----- Network Exception: (\(target.path))")
             print("\(error)\n")
           }
-          
+
         case .failure(let error):
           continuation.resume(throwing: error)
           print("<----- Network Exception: (\(target.path))")
