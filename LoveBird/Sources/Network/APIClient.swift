@@ -168,8 +168,6 @@ extension APIClient: TargetType {
 
     case .deleteSchedule, .deleteDiary, .withdrawal:
       return .delete
-
-
     }
   }
 
@@ -279,8 +277,6 @@ extension MoyaProvider {
               throw LovebirdError.internalServerError
 
             default:
-              let data = try JSONDecoder().decode(NetworkStatusResponse.self, from: result.data)
-              print(data)
               throw LovebirdError.unknownError
             }
           } catch {
