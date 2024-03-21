@@ -16,6 +16,7 @@ import SwiftUI
 class AuthInterceptor: RequestInterceptor {
 
   @Dependency(\.tokenManager) var tokenManager
+  @Dependency(\.userData) var userData
 
   static let shared = AuthInterceptor()
 
@@ -35,8 +36,12 @@ class AuthInterceptor: RequestInterceptor {
 
     tokenManager.callRecreateAPI { result in
       switch result {
-      case .success:
+      case .success(let token):
         print("Retry-토큰 재발급 성공")
+
+        self.userData.accessToken.value = token.accessToken
+        self.userData.refreshToken.value = token.refreshToken
+
         completion(.retry)
       case .failure(let error):
         self.tokenManager.failReissue = true
