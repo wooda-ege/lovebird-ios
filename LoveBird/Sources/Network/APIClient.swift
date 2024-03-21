@@ -324,37 +324,3 @@ extension MoyaProvider {
       }.resume()
   }
 }
-
-//class AuthInterceptor: RequestInterceptor {
-//
-//  @Dependency(\.tokenManager) var tokenManager
-//
-//  static let shared = AuthInterceptor()
-//
-//  private init() {}
-//
-//  func adapt(_ urlRequest: URLRequest, for session: Session, completion: @escaping (Result<URLRequest, Error>) -> Void) {
-//    completion(.success(urlRequest))
-//  }
-//
-//  func retry(_ request: Request, for session: Session, dueTo error: Error, completion: @escaping (RetryResult) -> Void) {
-//    print("retry 진입")
-//
-//    guard let response = request.task?.response as? HTTPURLResponse, response.statusCode == 401 else {
-//      completion(.doNotRetryWithError(error))
-//      return
-//    }
-//
-//    tokenManager.callRecreateAPI { result in
-//      switch result {
-//      case .success:
-//        print("Retry-토큰 재발급 성공")
-//        completion(.retry)
-//      case .failure(let error):
-//        // 갱신실패 - 로그아웃
-//        self.tokenManager.failReissue = true
-//        completion(.doNotRetryWithError(error))
-//      }
-//    }
-//  }
-//}
