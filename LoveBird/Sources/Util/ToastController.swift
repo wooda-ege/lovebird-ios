@@ -9,7 +9,7 @@ import Combine
 import SwiftUI
 import ComposableArchitecture
 
-final class ToastController {
+public final class ToastController {
 
   @Dependency(\.continuousClock) var clock
   @Published var message: String?

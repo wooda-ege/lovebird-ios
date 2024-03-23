@@ -57,7 +57,7 @@ extension UserData: DependencyKey {
 }
 
 extension LovebirdAPI: DependencyKey {
-  public static let liveValue = LovebirdAPI(apiClient: MoyaProvider<APIClient>())
+  public static let liveValue = LovebirdAPI(apiClient: MoyaProvider<APIClient>(requestClosure: APIClient.requestClosure))
 }
 
 extension AppConfiguration: DependencyKey {

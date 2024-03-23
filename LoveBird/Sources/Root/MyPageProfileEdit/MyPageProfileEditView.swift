@@ -7,6 +7,7 @@
 
 import ComposableArchitecture
 import SwiftUI
+import Kingfisher
 
 struct MyPageProfileEditView: View {
   
@@ -21,23 +22,20 @@ struct MyPageProfileEditView: View {
     WithViewStore(self.store, observe: { $0 }) { viewStore in
       VStack(spacing: 20) {
         toolbar
-
-        // TODO: 득연 - iOS 16.0 으로 올리고 NavigationStack으로 리팩토링 후 진행할 예정
-        //        ZStack() {
-        //          Circle()
-        //            .fill(Color(asset: LoveBirdAsset.gray03))
-        //            .frame(width: 80, height: 80)
-        //            .overlay(Image(asset: LoveBirdAsset.icBirdEdit), alignment: .center)
-        //        }
-        //        .overlay(Image(asset: LoveBirdAsset.icCameraEdit), alignment: .bottomTrailing)
-        //        .onTapGesture {
-        //          viewStore.send(.presentImagePicker)
-        //        }
-        
+        profileView
         nicknameView
         emailView
         Spacer()
         logoutOrWithdrawalView
+      }
+      .sheet(isPresented: viewStore.binding(
+        get: { $0.isImagePickerPresented },
+        send: MyPageProfileEditAction.setImagePickerPresented
+      )) {
+        LocalImagePicker(selectedImage: viewStore.binding(
+          get: { $0.selectedImage },
+          send: MyPageProfileEditAction.selectImage
+        ))
       }
       .navigationBarBackButtonHidden(true)
       .ifTapped {
@@ -68,6 +66,36 @@ private extension MyPageProfileEditView {
           Text("수정")
             .foregroundColor(Color(.primary))
             .font(.pretendard(size: 16, weight: .bold))
+        }
+      }
+    }
+  }
+
+  var profileView: some View {
+    WithViewStore(store, observe: { $0 }) { viewStore in
+      Button { viewStore.send(.setImagePickerPresented(true)) } label: {
+        Group {
+          if let image = viewStore.selectedImage {
+            Image(data: image)?
+              .resizable()
+              .aspectRatio(contentMode: .fill)
+          } else {
+            KFImage(urlString: viewStore.profile.profileImageUrl)
+              .placeholder {
+                Image(asset: LoveBirdAsset.icBirdProfileEmpty)
+                  .resizable()
+                  .background(Color(asset: LoveBirdAsset.gray02))
+                  .border(Color(asset: LoveBirdAsset.gray05), width: 1)
+                  .clipShape(Circle())
+              }
+              .resizable()
+              .aspectRatio(contentMode: .fill)
+          }
+        }
+        .frame(size: 80)
+        .clipShape(Circle())
+        .overlay(alignment: .bottomTrailing) {
+          Image(asset: LoveBirdAsset.icCamera)
         }
       }
     }

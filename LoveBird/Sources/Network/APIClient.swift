@@ -306,16 +306,28 @@ extension MoyaProvider {
             print("\(networkResponse)\n")
           } catch {
             continuation.resume(throwing: error)
-            print("<----- Network Exception: (\(target.path))")
+            print("<----- Network Failure: (\(target.path))")
             print("\(error)\n")
           }
 
         case .failure(let error):
           continuation.resume(throwing: error)
-          print("<----- Network Exception: (\(target.path))")
+          print("<----- Network Failure: (\(target.path))")
           print("\(error)\n")
         }
       }
+    }
+  }
+}
+
+extension APIClient {
+  static func requestClosure(_ endpoint: Endpoint, _ result: @escaping (Result<URLRequest, MoyaError>) -> Void) {
+    do {
+      var request = try endpoint.urlRequest()
+      request.timeoutInterval = 10
+      result(.success(request))
+    } catch {
+      result(.failure(MoyaError.underlying(error, nil)))
     }
   }
 }
