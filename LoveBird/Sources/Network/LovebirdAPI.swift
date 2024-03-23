@@ -217,8 +217,6 @@ extension LovebirdAPI {
       await handleNetworkErrorIfNeeded(error: error)
       throw error
     }
-
-
   }
 
   private func handleNetworkErrorIfNeeded(error: Error) async {
