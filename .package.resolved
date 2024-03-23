@@ -1,4 +1,5 @@
 {
+  "originHash" : "d1699c7901eb88aa23c4f8cef20dcf4854edea4909555aeb5f6fad480a967c99",
   "pins" : [
     {
       "identity" : "combine-schedulers",
@@ -109,5 +110,5 @@
       }
     }
   ],
-  "version" : 2
+  "version" : 3
 }

@@ -27,6 +27,7 @@ struct DiaryCore: Reducer {
       self.content = diary.content
       self.place = diary.place ?? ""
       self.date = diary.memoryDate.toDate()
+      self.prevImageURLs = diary.imageUrls
     }
 
     let type: `Type`
@@ -36,6 +37,7 @@ struct DiaryCore: Reducer {
     var content: String = ""
     var place: String = ""
     var date = Date()
+    var prevImageURLs: [String] = []
 
     var isPresented = false
 
@@ -128,6 +130,8 @@ struct DiaryCore: Reducer {
               if let url = result.fileUrls.first?.fileUrl {
                 imageURLs.append(url)
               }
+            } else {
+              imageURLs = state.prevImageURLs
             }
 
             let diary = AddDiaryRequest(

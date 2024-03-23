@@ -45,6 +45,9 @@ protocol LovebirdAPIProtocol {
 }
 
 struct LovebirdAPI: LovebirdAPIProtocol {
+
+  @Dependency(\.toastController) var toastController
+
   let apiClient: MoyaProvider<APIClient>
 
   func authenticate(auth: Authenticate) async throws -> Token {
@@ -193,14 +196,34 @@ struct LovebirdAPI: LovebirdAPIProtocol {
 
 extension LovebirdAPI {
   private func fetchOrThrow<T>(apiCall: @escaping () async throws -> T?) async throws -> T {
-    guard let result = try await apiCall() else {
-      throw LovebirdAPIError.emptyData
+    do {
+      guard let result = try await apiCall() else {
+        throw LovebirdAPIError.emptyData
+      }
+      return result
+    } 
+    catch {
+      await handleNetworkErrorIfNeeded(error: error)
+      throw error
     }
-    return result
   }
 
   private func performTaskWithoutResult(apiCall: @escaping () async throws -> Empty?) async throws -> Empty {
-    _ = try await apiCall()
-    return Empty()
+    do {
+      _ = try await apiCall()
+      return Empty()
+    }
+    catch {
+      await handleNetworkErrorIfNeeded(error: error)
+      throw error
+    }
+  }
+
+  private func handleNetworkErrorIfNeeded(error: Error) async {
+    if let error = error as? MoyaError, case let .underlying(error, _) = error {
+      if error.asAFError?.isSessionTaskError == true {
+        await toastController.showToast(message: "네트워크가 불안정합니다. 다시 시도해주세요")
+      }
+    }
   }
 }
