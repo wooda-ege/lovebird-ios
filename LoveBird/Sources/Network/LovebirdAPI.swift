@@ -15,7 +15,6 @@ protocol LovebirdAPIProtocol {
   func authenticate(auth: Authenticate) async throws -> Token
   func signUp(signUp: SignUpRequest) async throws -> Token
   func withdrawal() async throws -> Empty
-  func recreate() async throws -> Token
 
   // profile
   func fetchProfile() async throws -> Profile
@@ -46,12 +45,6 @@ protocol LovebirdAPIProtocol {
 
 struct LovebirdAPI: LovebirdAPIProtocol {
   let apiClient: MoyaProvider<APIClient>
-
-  func recreate() async throws -> Token {
-    try await fetchOrThrow {
-      try await apiClient.request(.recreate) as Token?
-    }
-  }
   
   func authenticate(auth: Authenticate) async throws -> Token {
     try await fetchOrThrow {

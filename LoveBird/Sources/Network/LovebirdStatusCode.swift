@@ -10,6 +10,7 @@ import Foundation
 enum LovebirdStatusCode: Int {
   case success
   case badRequest = 400
+  case tokenExpired = 401
   case internalServerError = 500
 
   init?(code: Int) {
@@ -21,6 +22,9 @@ enum LovebirdStatusCode: Int {
     case 400:
       self = .badRequest
 
+    case 401:
+      self = .tokenExpired
+      
     case 500:
       self = .internalServerError
 

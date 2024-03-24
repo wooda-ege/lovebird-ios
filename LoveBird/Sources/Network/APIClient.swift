@@ -20,7 +20,6 @@ public enum APIClient {
   case authenticate(auth: Authenticate)
   case signUp(signUp: SignUpRequest)
   case withdrawal
-  case recreate
 
   // profile
   case fetchProfile
@@ -73,9 +72,9 @@ extension APIClient: TargetType {
 
   // MARK: - Properties
 
-    public var validationType: ValidationType {
-      return .successCodes
-    }
+  public var validationType: ValidationType {
+    return .successCodes
+  }
 
   public var userData: UserData {
     @Dependency(\.userData) var userData
@@ -141,15 +140,12 @@ extension APIClient: TargetType {
 
     case .presignDiaryImages:
       return "/presigned-urls/diary"
-
-    case .recreate:
-      return "/auth/recreate"
     }
   }
 
   public var method: Moya.Method {
     switch self {
-    case .signUp, .addSchedule, .authenticate, .addDiary, .presignProfileImage, .presignDiaryImages, .recreate:
+    case .signUp, .addSchedule, .authenticate, .addDiary, .presignProfileImage, .presignDiaryImages:
       return .post
 
     case .fetchDiary, .fetchCalendars, .fetchDiaries, .fetchProfile,
@@ -199,15 +195,13 @@ extension APIClient: TargetType {
     if case .searchPlaces = self {
       return ["Authorization" : Config.kakaoMapKey]
     }
-    if accessToken.isNotEmpty, refreshToken.isNotEmpty  {
-      return ["Authorization": "Bearer \(accessToken)", "Refresh": "Bearer \(refreshToken)"]
+
+    if case .authenticate = self,
+       case .signUp = self {
+      return nil
     }
 
-    if case .recreate = self {
-      return ["Refresh": refreshToken]
-    }
-
-    return nil
+    return ["Authorization": "Bearer \(accessToken)"]
   }
 }
 
@@ -257,7 +251,8 @@ extension MoyaProvider {
           continuation.resume(throwing: error)
           print("<----- Network Failure: (\(target.path))")
           print("\(error)\n")
-        }      }
+        }
+      }
     }
   }
 
@@ -284,43 +279,5 @@ extension MoyaProvider {
         }
       }
     }
-  }
-
-  func callRecreateAPI(completion: @escaping (Result<Token, Error>) -> Void) {
-      guard let url = URL(string: "https://dev-app-api.lovebird-wooda.com/api/v1/auth/recreate") else {
-          completion(.failure(LovebirdError.internalServerError))
-          return
-      }
-
-      let refreshToken = userData.refreshToken.value
-
-      var request = URLRequest(url: url)
-      request.httpMethod = "POST"
-      request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
-      request.setValue(refreshToken, forHTTPHeaderField: "Refresh")
-
-      URLSession.shared.dataTask(with: request) { data, response, error in
-          if let error = error {
-              completion(.failure(error))
-              return
-          }
-
-          guard let httpResponse = response as? HTTPURLResponse, (200...299).contains(httpResponse.statusCode) else {
-              completion(.failure(LovebirdError.unknownError))
-              return
-          }
-
-          guard let responseData = data else {
-              completion(.failure(LovebirdError.unknownError))
-              return
-          }
-
-          do {
-              let tokenResponse = try JSONDecoder().decode(Token.self, from: responseData)
-              completion(.success(tokenResponse))
-          } catch {
-              completion(.failure(LovebirdError.decodeError))
-          }
-      }.resume()
   }
 }

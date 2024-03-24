@@ -37,7 +37,7 @@ struct RootCore: Reducer {
     case toastMessageApplied(String?)
     case negativeTapped
     case positiveTapped
-    case goToLogin(Bool)
+    case goToLogin
   }
 
   // MARK: - Path
@@ -170,7 +170,7 @@ struct RootCore: Reducer {
     case let .path(.mainTab(.path(.element(id: _, action: .myPageProfileEdit(.delegate(action)))))):
       switch action {
       case .logout, .withdrawal:
-        return .send(.goToLogin(true))
+        return .send(.goToLogin)
       }
 
     case .path(.mainTab(.myPage(.mypageLink(.successToLink)))):
@@ -197,9 +197,11 @@ struct RootCore: Reducer {
             .map(Action.toastMessageApplied)
         },
         .publisher {
-          tokenManager.$failReissue
+          tokenManager.failReissuePublisher
             .receive(on: DispatchQueue.main)
-            .map(Action.goToLogin)
+            .map { _ in
+              Action.goToLogin
+            }
         }
       )
 
@@ -229,18 +231,16 @@ struct RootCore: Reducer {
       state.path = rootState
       return .none
 
-    case let .goToLogin(isFail):
-      if isFail == true {
-        userData.reset()
-        state.path = .login(.init())
-      }
+    case .goToLogin:
+      userData.reset()
+      state.path = .login(.init())
       return .none
-      
+
     default:
       return .none
     }
   }
-  
+
   // MARK: - Private Methods
 
   private func switchState(with profile: Profile?) -> Path.State {

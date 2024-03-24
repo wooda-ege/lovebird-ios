@@ -12,4 +12,7 @@ enum LovebirdError: Error {
   case decodeError
   case internalServerError
   case unknownError
+  case invalidHTTPResponseError
+  case noReceivedDataError
+  case unableToCreateURLError
 }
