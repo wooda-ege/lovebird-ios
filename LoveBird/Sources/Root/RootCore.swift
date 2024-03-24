@@ -37,6 +37,7 @@ struct RootCore: Reducer {
     case toastMessageApplied(String?)
     case negativeTapped
     case positiveTapped
+    case goToLogin
   }
 
   // MARK: - Path
@@ -88,7 +89,7 @@ struct RootCore: Reducer {
   @Dependency(\.loadingController) var loadingController
   @Dependency(\.alertController) var alertController
   @Dependency(\.toastController) var toastController
-
+  @Dependency(\.tokenManager) var tokenManager
   @Dependency(\.continuousClock) var continuousClock
 
   // MARK: - Body
@@ -169,8 +170,7 @@ struct RootCore: Reducer {
     case let .path(.mainTab(.path(.element(id: _, action: .myPageProfileEdit(.delegate(action)))))):
       switch action {
       case .logout, .withdrawal:
-        userData.reset()
-        return .send(.switchPath(.login(.init())))
+        return .send(.goToLogin)
       }
 
     case .path(.mainTab(.myPage(.mypageLink(.successToLink)))):
@@ -195,6 +195,13 @@ struct RootCore: Reducer {
           toastController.$message
             .receive(on: DispatchQueue.main)
             .map(Action.toastMessageApplied)
+        },
+        .publisher {
+          tokenManager.failReissueSubject
+            .receive(on: DispatchQueue.main)
+            .map {
+              Action.goToLogin
+            }
         }
       )
 
@@ -224,11 +231,16 @@ struct RootCore: Reducer {
       state.path = rootState
       return .none
 
+    case .goToLogin:
+      userData.reset()
+      state.path = .login(.init())
+      return .none
+
     default:
       return .none
     }
   }
-  
+
   // MARK: - Private Methods
 
   private func switchState(with profile: Profile?) -> Path.State {

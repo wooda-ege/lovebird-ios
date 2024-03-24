@@ -12,6 +12,7 @@ import Dependencies
 import Alamofire
 import UIKit
 import SwiftUI
+import Foundation
 
 public enum APIClient {
 
@@ -72,6 +73,10 @@ public enum APIClient {
 extension APIClient: TargetType {
 
   // MARK: - Properties
+
+  public var validationType: ValidationType {
+    return .successCodes
+  }
 
   public var userData: UserData {
     @Dependency(\.userData) var userData
@@ -137,7 +142,7 @@ extension APIClient: TargetType {
 
     case .presignDiaryImages:
       return "/presigned-urls/diary"
-
+      
     case .preuploadDiaryImages:
       return "/images/diary"
 
@@ -209,10 +214,13 @@ extension APIClient: TargetType {
     if case .searchPlaces = self {
       return ["Authorization" : Config.kakaoMapKey]
     }
-    if accessToken.isNotEmpty, refreshToken.isNotEmpty  {
-      return ["Authorization": "Bearer \(accessToken)", "Refresh": "Bearer \(refreshToken)"]
+
+    if case .authenticate = self,
+       case .signUp = self {
+      return nil
     }
-    return nil
+
+    return ["Authorization": "Bearer \(accessToken)"]
   }
 
   private var multiparts: [Moya.MultipartFormData] {
@@ -248,6 +256,11 @@ extension APIClient: TargetType {
 
 
 extension MoyaProvider {
+  var userData: UserData {
+    @Dependency(\.userData) var userData
+    return userData
+  }
+
   func request<T: Decodable>(_ target: Target) async throws -> T? {
     return try await withCheckedThrowingContinuation { continuation in
       self.request(target) { response in

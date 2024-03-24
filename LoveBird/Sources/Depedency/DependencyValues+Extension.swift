@@ -48,6 +48,11 @@ extension DependencyValues {
     get { self[AppleLoginUtil.self] }
     set { self[AppleLoginUtil.self] = newValue }
   }
+
+  var tokenManager: TokenManager {
+    get { self[TokenManager.self] }
+    set { self[TokenManager.self] = newValue }
+  }
 }
 
 // MARK: - `DependencyKey` Implementation
@@ -57,7 +62,7 @@ extension UserData: DependencyKey {
 }
 
 extension LovebirdAPI: DependencyKey {
-  public static let liveValue = LovebirdAPI(apiClient: MoyaProvider<APIClient>(requestClosure: APIClient.requestClosure))
+  public static let liveValue = LovebirdAPI(apiClient: MoyaProvider<APIClient>(session: Session(interceptor: AuthInterceptor.shared)))
 }
 
 extension AppConfiguration: DependencyKey {
@@ -82,4 +87,8 @@ extension KakaoLoginUtil: DependencyKey {
 
 extension AppleLoginUtil: DependencyKey {
   public static let liveValue = AppleLoginUtil()
+}
+
+extension TokenManager: DependencyKey {
+  public static let liveValue = TokenManager()
 }

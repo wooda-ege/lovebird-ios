@@ -49,7 +49,7 @@ struct LovebirdAPI: LovebirdAPIProtocol {
   @Dependency(\.toastController) var toastController
 
   let apiClient: MoyaProvider<APIClient>
-
+  
   func authenticate(auth: Authenticate) async throws -> Token {
     try await fetchOrThrow {
       return try await apiClient.request(.authenticate(auth: auth)) as Token?
