@@ -6,8 +6,8 @@
 //
 
 import SwiftUI
-import _PhotosUI_SwiftUI
 import ComposableArchitecture
+import Kingfisher
 
 struct DiaryView: View {
   let store: StoreOf<DiaryCore>
@@ -138,14 +138,18 @@ extension DiaryView {
                   image
                     .resizable()
                     .scaledToFill()
-                    .frame(width: 64, height: 64)
-                    .cornerRadius(10)
-                    .clipped()
-                } else {
+                } else if let image = viewStore.prevImageURLs.first {
+                  KFImage(urlString: image)
+                    .resizable()
+                    .scaledToFill()
+                }
+                else {
                   Image(asset: LoveBirdAsset.imgAddImage)
-                    .frame(width: 64, height: 64)
                 }
               }
+              .frame(width: 64, height: 64)
+              .cornerRadius(10)
+              .clipped()
 
               Spacer()
             }

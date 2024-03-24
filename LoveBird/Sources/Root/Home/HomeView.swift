@@ -12,8 +12,6 @@ struct HomeView: View {
   private let store: StoreOf<HomeCore>
   @ObservedObject var viewStore: ViewStoreOf<HomeCore>
 
-  @State private var isRefreshing = false
-
   init(store: StoreOf<HomeCore>) {
     self.store = store
     self.viewStore = ViewStoreOf<HomeCore>(store, observe: { $0 })
@@ -70,36 +68,24 @@ extension HomeView {
   }
 
   var timeLineView: some View {
-    GeometryReader { proxy in
-      TimelineScrollView {
-        VStack(spacing: 0) {
-          LeftAlignedHStack {
-            VLine(property: .timeline)
-              .frame(maxHeight: .infinity)
-              .padding(.leading, 22)
-          }
-          .frame(maxHeight: .infinity)
+    TimelineScrollView {
+      VStack(spacing: 0) {
+        LeftAlignedHStack {
+          VLine(property: .timeline)
+            .frame(maxHeight: .infinity)
+            .padding(.leading, 22)
+        }
+        .frame(maxHeight: .infinity)
 
-          LazyVGrid(columns: [GridItem(.flexible())], spacing: 0) {
-            ForEach(viewStore.diaries, id: \.diaryId) { diary in
-              HomeItem(store: store, diary: diary)
-            }
+        VStack(spacing: 0) {
+          ForEach(viewStore.diaries, id: \.diaryId) { diary in
+            HomeItem(store: store, diary: diary)
           }
         }
-        .frame(height: proxy.size.height)
       }
-      .overlay(
-        VStack {
-          if isRefreshing {
-            ProgressView()
-              .progressViewStyle(CircularProgressViewStyle())
-              .frame(alignment: .top)
-          }
-        }, alignment: .bottom
-      )
-      .refreshable {
-        viewStore.send(.refresh)
-      }
+    }
+    .refreshable {
+      viewStore.send(.refresh)
     }
   }
 }

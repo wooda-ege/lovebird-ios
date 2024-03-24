@@ -27,6 +27,7 @@ struct DiaryCore: Reducer {
       self.content = diary.content
       self.place = diary.place ?? ""
       self.date = diary.memoryDate.toDate()
+      self.prevImageURLs = diary.imageUrls
     }
 
     let type: `Type`
@@ -36,6 +37,7 @@ struct DiaryCore: Reducer {
     var content: String = ""
     var place: String = ""
     var date = Date()
+    var prevImageURLs: [String] = []
 
     var isPresented = false
 
@@ -122,24 +124,22 @@ struct DiaryCore: Reducer {
         if state.title.isEmpty || state.content.isEmpty { return .none }
         return .run(isLoading: true) { [state] send in
           do {
-            var presign: PresignImagesResponse?
+            var imageURLs = [String]()
             if let image = state.selectedImage {
-              presign = try await lovebirdApi.presignDiaryImages(
-                presigned: .init(
-                  diaryId: nil,
-                  fileNames: ["image.png"]
-                )
-              )
-
-              guard let presigned = presign?.presignedURLs.first else { return }
-              _ = try await AWSS3Uploader.upload(image, toPresignedURLString: presigned.presignedURL, fileName: presigned.fileName)
+              let result = try await lovebirdApi.preuploadDiaryImages(images: [image])
+              if let url = result.fileUrls.first?.fileUrl {
+                imageURLs.append(url)
+              }
+            } else {
+              imageURLs = state.prevImageURLs
             }
+
             let diary = AddDiaryRequest(
               title: state.title,
               memoryDate: state.date.to(format: .YMDDivided),
               place: state.place.isEmpty ? nil : state.place,
               content: state.content,
-              imageURLs: presign?.presignedURLs.map { $0.presignedURL }
+              imageURLs: imageURLs
             )
 
             if state.type == .add {

@@ -8,9 +8,6 @@
 import UIKit
 import ComposableArchitecture
 
-typealias MyPageProfileEditState = MyPageProfileEditCore.State
-typealias MyPageProfileEditAction = MyPageProfileEditCore.Action
-
 struct MyPageProfileEditCore: Reducer {
 
   enum FocusedType {
@@ -21,6 +18,7 @@ struct MyPageProfileEditCore: Reducer {
   
   struct State: Equatable {
     var profile: Profile
+    var selectedImage: Data?
     var nickname = ""
     var email = ""
     var nicknameTextFieldState: TextFieldState = .none
@@ -29,7 +27,7 @@ struct MyPageProfileEditCore: Reducer {
     var birthdate: SimpleDate = .init()
     var isNicknameFocused = false
     var isEmailFocused = false
-
+    var isImagePickerPresented = false
   }
   
   enum Action: Equatable {
@@ -37,9 +35,11 @@ struct MyPageProfileEditCore: Reducer {
     case backTapped
     case isFocused(FocusedType)
     
+    case setImagePickerPresented(Bool)
+    case selectImage(Data?)
     case nicknameEdited(String)
     case emailEdited(String)
-    
+
     case profileEditTapped
     case annivarsaryEditTapped
     case logoutTapped
@@ -76,6 +76,14 @@ struct MyPageProfileEditCore: Reducer {
         state.isEmailFocused = type == .email
         return .none
 
+      case .setImagePickerPresented(let isPresented):
+        state.isImagePickerPresented = isPresented
+        return .none
+
+      case .selectImage(let image):
+        state.selectedImage = image
+        return .none
+
       case .nicknameEdited(let nickname):
         let nickname = String(nickname.prefix(13))
         state.nickname = nickname
@@ -88,20 +96,30 @@ struct MyPageProfileEditCore: Reducer {
         return .none
 
       case .profileEditTapped:
-        let nickname: String?
-        if case .correct = state.nicknameTextFieldState { nickname = state.nickname }
-        else if state.nickname.isEmpty { nickname = state.profile.nickname }
-        else { nickname = nil }
+        return .run(isLoading: true) { [state] send in
+          var imageURL: String?
+          if let image = state.selectedImage {
+            let result = try await lovebirdApi.preuploadProfileImage(image: image)
+            imageURL = result.fileUrl
+          }
 
-        let email: String?
-        if case .correct = state.emailTextFieldState { email = state.email }
-        else if state.email.isEmpty { email = state.profile.email }
-        else { email = nil }
+          let nickname: String?
+          if case .correct = state.nicknameTextFieldState { nickname = state.nickname }
+          else if state.nickname.isEmpty { nickname = state.profile.nickname }
+          else { nickname = nil }
 
-        guard let nickname, let email else { return .none }
-        let request = EditProfileRequest(nickname: nickname, email: email)
+          let email: String?
+          if case .correct = state.emailTextFieldState { email = state.email }
+          else if state.email.isEmpty { email = state.profile.email }
+          else { email = nil }
 
-        return .run { send in
+          guard let nickname, let email else { return }
+          let request = EditProfileRequest(
+            imageUrl: imageURL ?? state.profile.profileImageUrl,
+            nickname: nickname,
+            email: email
+          )
+
           await send(
             .editProfileResponse(
               await TaskResult {
@@ -152,7 +170,11 @@ struct MyPageProfileEditCore: Reducer {
         }
 
       case .editProfileResponse(.success):
-        return .run { _ in await dismiss() }
+        return .run { send in
+          let profile = try await lovebirdApi.fetchProfile()
+          userData.profile.value = profile
+          await dismiss()
+        }
 
       case .withdrawalResponse(.success):
         return .send(.delegate(.withdrawal))
@@ -163,3 +185,6 @@ struct MyPageProfileEditCore: Reducer {
     }
   }
 }
+
+typealias MyPageProfileEditState = MyPageProfileEditCore.State
+typealias MyPageProfileEditAction = MyPageProfileEditCore.Action

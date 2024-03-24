@@ -78,6 +78,7 @@ extension RootView {
             .playing(loopMode: .loop)
             .frame(size: 72)
         }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(Color.touchable)
       }
     }

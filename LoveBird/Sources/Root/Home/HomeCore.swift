@@ -156,7 +156,6 @@ struct HomeCore: Reducer {
         diaryUpdated.isTimelineDateShown = false
       }
 
-
       if diary.memoryDate.toDate().isToday {
         shouldNeedTodoDiary = false
 

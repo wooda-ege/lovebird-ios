@@ -20,6 +20,7 @@ protocol LovebirdAPIProtocol {
   func fetchProfile() async throws -> Profile
   func editProfile(profile: EditProfileRequest) async throws -> Empty
   func presignProfileImage(presigned: PresignProfileImageRequest) async throws -> PresignImageResponse
+  func preuploadProfileImage(image: Data) async throws -> PreuploadImageResponse
 
   // coupleLink
   func linkCouple(linkCouple: LinkCoupleRequest) async throws -> LinkCoupleResponse
@@ -33,7 +34,7 @@ protocol LovebirdAPIProtocol {
   func deleteDiary(id: Int) async throws -> Empty
   func fetchPlaces(places: FetchPlacesRequest) async throws -> [Place]
   func presignDiaryImages(presigned: PresignDiaryImagesRequest) async throws -> PresignImagesResponse
-
+  func preuploadDiaryImages(images: [Data]) async throws -> PreuploadImagesResponse
 
   // schedule
   func fetchCalendars(date: FetchSchedulesRequest) async throws -> [Schedule]
@@ -44,6 +45,9 @@ protocol LovebirdAPIProtocol {
 }
 
 struct LovebirdAPI: LovebirdAPIProtocol {
+
+  @Dependency(\.toastController) var toastController
+
   let apiClient: MoyaProvider<APIClient>
   
   func authenticate(auth: Authenticate) async throws -> Token {
@@ -169,9 +173,21 @@ struct LovebirdAPI: LovebirdAPIProtocol {
     }
   }
 
+  func preuploadProfileImage(image: Data) async throws -> PreuploadImageResponse {
+    try await fetchOrThrow {
+      try await apiClient.request(.preuploadProfileImage(image: image))
+    }
+  }
+
   func presignDiaryImages(presigned: PresignDiaryImagesRequest) async throws -> PresignImagesResponse {
     try await fetchOrThrow {
       try await apiClient.request(.presignDiaryImages(presigned: presigned))
+    }
+  }
+
+  func preuploadDiaryImages(images: [Data]) async throws -> PreuploadImagesResponse {
+    try await fetchOrThrow {
+      try await apiClient.request(.preuploadDiaryImages(images: images))
     }
   }
 }
@@ -180,14 +196,34 @@ struct LovebirdAPI: LovebirdAPIProtocol {
 
 extension LovebirdAPI {
   private func fetchOrThrow<T>(apiCall: @escaping () async throws -> T?) async throws -> T {
-    guard let result = try await apiCall() else {
-      throw LovebirdAPIError.emptyData
+    do {
+      guard let result = try await apiCall() else {
+        throw LovebirdAPIError.emptyData
+      }
+      return result
+    } 
+    catch {
+      await handleNetworkErrorIfNeeded(error: error)
+      throw error
     }
-    return result
   }
 
   private func performTaskWithoutResult(apiCall: @escaping () async throws -> Empty?) async throws -> Empty {
-    _ = try await apiCall()
-    return Empty()
+    do {
+      _ = try await apiCall()
+      return Empty()
+    }
+    catch {
+      await handleNetworkErrorIfNeeded(error: error)
+      throw error
+    }
+  }
+
+  private func handleNetworkErrorIfNeeded(error: Error) async {
+    if let error = error as? MoyaError, case let .underlying(error, _) = error {
+      if error.asAFError?.isSessionTaskError == true {
+        await toastController.showToast(message: "네트워크가 불안정합니다. 다시 시도해주세요")
+      }
+    }
   }
 }
