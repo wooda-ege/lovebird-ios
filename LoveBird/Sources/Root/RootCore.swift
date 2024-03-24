@@ -197,9 +197,9 @@ struct RootCore: Reducer {
             .map(Action.toastMessageApplied)
         },
         .publisher {
-          tokenManager.failReissuePublisher
+          tokenManager.failReissueSubject
             .receive(on: DispatchQueue.main)
-            .map { _ in
+            .map {
               Action.goToLogin
             }
         }

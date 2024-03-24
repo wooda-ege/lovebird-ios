@@ -43,7 +43,7 @@ class AuthInterceptor: RequestInterceptor {
 
         completion(.retry)
       case .failure(let error):
-        self.tokenManager.failReissue.toggle()
+        self.tokenManager.failReissueSubject.send()
 
         completion(.doNotRetryWithError(error))
       }
