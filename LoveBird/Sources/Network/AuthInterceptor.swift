@@ -62,8 +62,8 @@ class AuthInterceptor: RequestInterceptor {
     var request = URLRequest(url: url)
     request.httpMethod = "POST"
     request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
-    request.setValue(accessToken, forHTTPHeaderField: "Bearer Authorization")
-    request.setValue(refreshToken, forHTTPHeaderField: "Bearer Refresh")
+    request.setValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
+    request.setValue("Bearer \(refreshToken)", forHTTPHeaderField: "Refresh")
 
     URLSession.shared.dataTask(with: request) { data, response, error in
       if let error = error {

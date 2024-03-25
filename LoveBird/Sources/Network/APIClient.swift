@@ -215,8 +215,11 @@ extension APIClient: TargetType {
       return ["Authorization" : Config.kakaoMapKey]
     }
 
-    if case .authenticate = self,
-       case .signUp = self {
+    if case .authenticate = self {
+      return nil
+    }
+
+    if case .signUp = self {
       return nil
     }
 
