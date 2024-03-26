@@ -22,3 +22,9 @@ struct GetHeightModifier: ViewModifier {
       )
   }
 }
+
+extension View {
+  func onChangeHeight(_ height: Binding<CGFloat>) -> some View {
+    self.modifier(GetHeightModifier(height: height))
+  }
+}

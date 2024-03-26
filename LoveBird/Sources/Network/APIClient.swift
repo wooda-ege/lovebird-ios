@@ -208,22 +208,16 @@ extension APIClient: TargetType {
 
   public var headers: [String: String]? {
     let accessToken = userData.accessToken.value
-    let refreshToken =  userData.refreshToken.value
-    print("Access Token is \(accessToken)")
-    print("Refresh Token is \(refreshToken)")
+    print("Access Token : \(accessToken)")
     if case .searchPlaces = self {
       return ["Authorization" : Config.kakaoMapKey]
     }
 
-    if case .authenticate = self {
+    if accessToken.isNotEmpty {
+      return ["Authorization": "Bearer \(accessToken)"]
+    } else {
       return nil
     }
-
-    if case .signUp = self {
-      return nil
-    }
-
-    return ["Authorization": "Bearer \(accessToken)"]
   }
 
   private var multiparts: [Moya.MultipartFormData] {

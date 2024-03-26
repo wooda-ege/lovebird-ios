@@ -74,20 +74,28 @@ private extension MyPageView {
               .changeSize(to: .init(width: 24, height: 24))
               .changeColor(to: Color(asset: LoveBirdAsset.gray04))
 
-            KFImage(urlString: viewStore.profile?.partnerImageUrl)
-              .placeholder {
-                Button { viewStore.send(.partnerProfileTapped) } label: {
-                  Image(asset: LoveBirdAsset.icBirdProfileEmpty)
-                    .resizable()
-                    .background(Color(asset: LoveBirdAsset.gray02))
-                    .border(Color(asset: LoveBirdAsset.gray05), width: 1)
-                    .clipShape(Circle())
-                }
+            if let imageURL = viewStore.profile?.partnerImageUrl {
+              KFImage(urlString: viewStore.profile?.partnerImageUrl)
+                .resizable()
+                .aspectRatio(contentMode: .fill)
+                .frame(size: 80)
+                .clipShape(Circle())
+            } else {
+              Button { viewStore.send(.partnerProfileTapped) } label: {
+                Image(asset: LoveBirdAsset.icBirdProfileEmpty)
+                  .resizable()
+                  .frame(size: 80)
+                  .background(
+                    Circle()
+                      .fill(Color(asset: LoveBirdAsset.gray02))
+                  )
+                  .overlay(
+                    Image(asset: LoveBirdAsset.icProfilePlus),
+                    alignment: .bottomTrailing
+                  )
               }
-              .resizable()
-              .aspectRatio(contentMode: .fill)
-              .frame(size: 80)
-              .clipShape(Circle())
+              .buttonStyle(PlainButtonStyle())
+            }
           }
         }
 

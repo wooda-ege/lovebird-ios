@@ -68,24 +68,27 @@ extension HomeView {
   }
 
   var timeLineView: some View {
-    TimelineScrollView {
-      VStack(spacing: 0) {
-        LeftAlignedHStack {
-          VLine(property: .timeline)
-            .frame(maxHeight: .infinity)
-            .padding(.leading, 22)
+    GeometryReader { proxy in
+      TimelineScrollView {
+        VStack(spacing: 0) {
+          LeftAlignedHStack {
+            VLine(property: .timeline)
+              .padding(.leading, 22)
+              .frame(height: proxy.size.height - viewStore.contentHeight)
+          }
+
+          VStack(spacing: 0) {
+            ForEach(viewStore.diaries, id: \.diaryId) { diary in
+              HomeItem(store: store, diary: diary)
+            }
+          }
+          .onChangeHeight(viewStore.binding(get: \.contentHeight, send: HomeAction.contentHeightChanged))
         }
         .frame(maxHeight: .infinity)
-
-        VStack(spacing: 0) {
-          ForEach(viewStore.diaries, id: \.diaryId) { diary in
-            HomeItem(store: store, diary: diary)
-          }
-        }
       }
-    }
-    .refreshable {
-      viewStore.send(.refresh)
+      .refreshable {
+        viewStore.send(.refresh)
+      }
     }
   }
 }

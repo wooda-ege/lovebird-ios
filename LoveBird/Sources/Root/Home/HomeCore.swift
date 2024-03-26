@@ -60,7 +60,7 @@ struct HomeCore: Reducer {
             userData.profile.value = profile
 
             await send(.configureUI(profile, diaries))
-            if userData.shouldShowLinkSuccessPopup.value {
+            if userData.shouldShowLinkSuccessPopup.value, profile.isLinked {
               await send(.showLinkSuccessView)
             }
           }
