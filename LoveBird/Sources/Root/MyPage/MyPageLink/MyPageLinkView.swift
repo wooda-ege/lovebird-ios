@@ -43,7 +43,7 @@ struct MyPageLinkView: View {
             
             Spacer()
             
-            Button { viewStore.send(.shareTapped) } label: {
+            Button { viewStore.send(.shareVisible(true)) } label: {
               Text("공유")
                 .font(.pretendard(size: 14, weight: .bold))
                 .foregroundColor(.white)
@@ -94,8 +94,11 @@ struct MyPageLinkView: View {
         .frame(maxWidth: .infinity)
         .padding(.horizontal, 16)
         .background(.white)
-        .sheet(isPresented: viewStore.binding(get: \.isShareSheetShown, send: MyPageLinkAction.shareTapped)) {
-          ActivityViewController(activityItems: [viewStore.invitationCode])
+        .sheet(isPresented: viewStore.binding(get: \.isShareSheetShown, send: MyPageLinkAction.shareVisible)) {
+          ActivityViewController(
+            isPresented: viewStore.binding(get: \.isShareSheetShown, send: MyPageLinkAction.shareVisible),
+            activityItems: [viewStore.invitationCode]
+          )
         }
         .onAppear {
           viewStore.send(.viewAppear)

@@ -108,7 +108,10 @@ struct CoupleLinkView: View {
       }
       .background(.white)
       .sheet(isPresented: viewStore.binding(get: \.isShareSheetShown, send: CoupleLinkAction.shareTapped)) {
-        ActivityViewController(activityItems: [viewStore.invitationCode])
+        ActivityViewController(
+          isPresented: viewStore.binding(get: \.isShareSheetShown, send: CoupleLinkAction.shareTapped),
+          activityItems: [viewStore.invitationCode]
+        )
       }
       .onAppear {
         viewStore.send(.viewAppear)
@@ -130,6 +133,7 @@ struct CoupleLinkView: View {
 }
 
 struct ActivityViewController: UIViewControllerRepresentable {
+  @Binding var isPresented: Bool
   var activityItems: [Any]
   var applicationActivities: [UIActivity]? = nil
   @Environment(\.presentationMode) var presentationMode
@@ -141,6 +145,7 @@ struct ActivityViewController: UIViewControllerRepresentable {
       applicationActivities: applicationActivities
     )
     controller.completionWithItemsHandler = { (activityType, completed, returnedItems, error) in
+      isPresented = false
       presentationMode.wrappedValue.dismiss()
     }
     return controller

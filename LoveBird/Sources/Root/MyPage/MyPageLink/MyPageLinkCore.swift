@@ -25,7 +25,6 @@ struct MyPageLinkCore: Reducer {
     case initialInvitationCode(String)
     case invitationCodeEdited(String)
     case shareVisible(Bool)
-    case shareTapped
     case confirmButtonTapped
   }
   
@@ -59,10 +58,6 @@ struct MyPageLinkCore: Reducer {
 
       case .invitationCodeEdited(let code):
         state.invitationInputCode = code
-        return .none
-
-      case .shareTapped:
-        state.isShareSheetShown = true
         return .none
 
       case let .shareVisible(visible):
