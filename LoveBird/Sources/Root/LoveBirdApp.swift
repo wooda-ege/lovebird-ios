@@ -24,7 +24,7 @@ struct LoveBirdApp: App {
       RootView(
         store: Store(
           initialState: RootCore.State(),
-          reducer: { RootCore()._printChanges(.lovebirdDump) }
+          reducer: { RootCore() }
         )
       )
       .accentColor(.black)

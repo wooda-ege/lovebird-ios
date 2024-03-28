@@ -11,7 +11,7 @@ public struct AddScheduleRequest: Codable {
   let title: String
   let memo: String?
   let color: ScheduleColor
-  let alarm: ScheduleAlarm?
+  let alarm: ScheduleAlarm
   let startDate: String
   let endDate: String?
   let startTime: String?

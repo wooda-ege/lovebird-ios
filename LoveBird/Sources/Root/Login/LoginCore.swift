@@ -44,7 +44,7 @@ struct LoginCore: Reducer {
         return .none
 
       case .login(let auth):
-        return .run { send in
+        return .run(isLoading: true) { send in
           do {
             let token = try await lovebirdApi.authenticate(auth: auth)
             await send(.loginResponse(.success(token), auth))

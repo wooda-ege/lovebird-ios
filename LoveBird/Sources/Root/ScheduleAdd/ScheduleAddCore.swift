@@ -51,8 +51,8 @@ struct ScheduleAddCore: Reducer {
     var isTimeActive = false
     var isAlarmActive = false
     var focusedType: ScheduleAddFocusedType = .title
-    var alarm: ScheduleAlarm = .typeD
-    
+    var alarm: ScheduleAlarm = .none
+
     // Bottom Sheet
     var showColorBottomSheet = false
     var showDateBottomSheet = false
@@ -426,7 +426,7 @@ struct ScheduleAddCore: Reducer {
       title: state.title,
       memo: state.memo.isEmpty ? nil : state.memo,
       color: state.color,
-      alarm: state.isAlarmActive ? state.alarm : nil,
+      alarm: state.alarm,
       startDate: state.startDate.to(format: .YMDDivided),
       endDate: state.isEndDateActive ? state.endDate.to(format: .YMDDivided) : nil,
       startTime: state.isTimeActive ? state.startTime.toHMS() : nil,
